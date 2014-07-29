@@ -32,7 +32,7 @@ define([
         ];
 
         this.SERVER_COLUMNS = [
-            { id: "server_id", field: "server_id", name:"Hostname", width:80, minWidth: 15 },
+            { id: "server_id", field: "server_id", name:"Hostname", width:100, minWidth: 15 },
             { id: "vns_id", field: "vns_id", name:"VNS", width:120, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
                 onClick: function(e, dc) {
                     loadFeature({p:'setting_sm_servers', q: {'vns_id': dc['vns_id']}});
@@ -117,7 +117,7 @@ define([
         this.VNS_COLUMNS = [
             { id: "vns_id", field: "vns_id", name:"Name", width:120, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
                 onClick: function(e, dc) {
-                    loadFeature({p:'setting_dir_servers', q: {'vns_id': dc['vns_id']}});
+                    loadFeature({p:'setting_sm_servers', q: {'vns_id': dc['vns_id']}});
                 }
             }},
             { id: "email", field: "email", name:"Email", width:120, minWidth: 15 }
