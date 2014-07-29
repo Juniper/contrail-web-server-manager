@@ -1,0 +1,18 @@
+<!-- Copyright (c) 2014 Juniper Networks, Inc. All rights reserved. -->
+
+<featureLists>
+    <require>
+        <define>smConfig</define>
+        <path>../api/sm.config</path>
+    </require>
+    <require>
+        <define>rbac</define>
+        <path>smConfig.core_path + '/src/serverroot/web/core/rbac.api'</path>
+    </require>
+    <item>
+        <feature>sm</feature>
+    </item>
+    <item>
+        <feature>monitoring</feature>
+    </item>
+</featureLists>
