@@ -4,10 +4,10 @@
 
 var config = {};
 
-config.core_path = '/Users/absingla/Work/oc-sm/contrail-web-core';
+config.core_path = '/usr/src/contrail/contrail-web-core';
 
 config.sm = {};
-config.sm.server_ip = '10.204.216.51';
+config.sm.server_ip = '127.0.0.1';
 config.sm.server_port = 9001;
 
 config.DFLT_SERVER_IP = '127.0.0.1';
