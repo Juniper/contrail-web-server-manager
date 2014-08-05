@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
+-->
+<script type="text/x-handlebars-template" id="sm-template">
+    <div id="{{name}}-container" class="row-fluid ">
+        <div id="{{name}}-results" class="row-fluid"></div>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-edit-layout-template">
+    <form id="sm-{{prefixId}}-edit-form" onsubmit="return false;" class="">
+        <div id="sm-{{prefixId}}-accordion">
+            {{#each groups}}
+                <h3>{{this.title}}</h3>
+                <div id="sm-{{prefixId}}-{{this.title}}">
+                    {{#each this.rows}}
+                        <div class="row-fluid margin-0-0-5">
+                            {{#each this.elements}}
+                                <div id="{{this.id}}" class="{{this.class}}"></div>
+                            {{/each}}
+                        </div>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    </form>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-form-input-template">
+    <label>{{label}}</label>
+    <div class="row-fluid">
+        <input id="{{id}}" name="{{name}}" class="{{class}}" value="{{value}}"/>
+    </div>
+</script>
