@@ -32,31 +32,19 @@
                     <iconClass>icon-cogs</iconClass>
                     <resources>
                         <resource>
-                            <rootDir>/common</rootDir>
+                            <rootDir>/common/ui</rootDir>
                             <js>sm.app.js</js>
                         </resource>
                     </resources>
                     <items>
-                        <!--
-                        <item>
-                            <hash>setting_sm_clusters</hash>
-                            <label>Clusters</label>
-                            <resources>
-                                <resource>
-                                    <rootDir>/setting/sm</rootDir>
-                                    <js>sm.main.js</js>
-                                    <class>clustersPageLoader</class>
-                                </resource>
-                            </resources>
-                        </item>
-                        -->
                         <item>
                             <hash>setting_sm_vns</hash>
                             <label>VNS</label>
                             <resources>
                                 <resource>
-                                    <rootDir>/setting/sm</rootDir>
+                                    <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
+                                    <view>sm.view</view>
                                     <class>vnsPageLoader</class>
                                 </resource>
                             </resources>
@@ -66,8 +54,9 @@
                             <label>Servers</label>
                             <resources>
                                 <resource>
-                                    <rootDir>/setting/sm</rootDir>
+                                    <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
+                                    <view>sm.view</view>
                                     <class>serversPageLoader</class>
                                 </resource>
                             </resources>
@@ -77,8 +66,9 @@
                             <label>Images</label>
                             <resources>
                                 <resource>
-                                    <rootDir>/setting/sm</rootDir>
+                                    <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
+                                    <view>sm.view</view>
                                     <class>imagesPageLoader</class>
                                 </resource>
                             </resources>
@@ -88,8 +78,9 @@
                             <label>Repos</label>
                             <resources>
                                 <resource>
-                                    <rootDir>/setting/sm</rootDir>
+                                    <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
+                                    <view>sm.view</view>
                                     <class>reposPageLoader</class>
                                 </resource>
                             </resources>

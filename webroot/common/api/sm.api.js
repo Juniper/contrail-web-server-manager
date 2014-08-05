@@ -93,6 +93,8 @@ function getObjectsDetails(req, res) {
             resultJSON = fieldName != null ? resultJSON[fieldName] : resultJSON;
             if(objectName == 'vns') {
                 parseStr2JSON(resultJSON, ['vns_params']);
+            } else if (objectName == 'server') {
+                parseStr2JSON(resultJSON, ['server_params']);
             }
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
