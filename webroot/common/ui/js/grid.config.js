@@ -11,6 +11,9 @@ define([
         this.IMAGES_GRID_TITLE = 'Images';
         this.REPOS_GRID_TITLE = 'Repos';
 
+        this.GRID_HEADER_ACTION_TYPE_ACTION = 'action';
+        this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
+
         this.SERVER_COLUMNS = [
             { id: "server_id", field: "server_id", name:"Hostname", width:100, minWidth: 15 },
             { id: "vns_id", field: "vns_id", name:"VNS", width:120, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
@@ -83,6 +86,24 @@ define([
             return {
                 title: 'Provision',
                 iconClass: 'icon-cloud-upload',
+                width:80,
+                onClick: onClickFunction
+            };
+        }
+
+        this.getTagAction = function(onClickFunction) {
+            return {
+                title: 'Tag',
+                iconClass: 'icon-tags',
+                width:80,
+                onClick: onClickFunction
+            };
+        }
+
+        this.getDeleteAction = function(onClickFunction) {
+            return {
+                title: 'Delete',
+                iconClass: 'icon-trash',
                 width:80,
                 onClick: onClickFunction
             };

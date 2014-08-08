@@ -36,10 +36,11 @@ define([
             "analytics_data_ttl": "Analytics Data TTL",
             "ext_bgp": "External BGP",
             "openstack_mgmt_ip": "Openstack Management IP",
-            "openstack_passwd": "Openstack Password"
-
-
-
+            "openstack_passwd": "Openstack Password",
+            "ks_tenant": "Tenant",
+            "mask": "Mask",
+            "router_asn": "Router ASN",
+            "multi_tenancy": "Multi Tenancy"
         };
     }
     return Labels;

@@ -15,7 +15,7 @@ define([
             var pathArray = path.split('.');
             while (pathArray.length) {
                 var property = pathArray.shift();
-                if (property in obj) {
+                if (obj != null && property in obj) {
                     obj = obj[property];
                 } else {
                     return;

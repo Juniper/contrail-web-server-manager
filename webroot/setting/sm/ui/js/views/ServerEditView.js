@@ -9,7 +9,7 @@ define([
 
     var ServerEditView = Backbone.View.extend({
 
-        render: function () {
+        render: function (options) {
             var prefixId = smConstants.SERVER_PREFIX_ID,
                 modalId = 'configure-' + prefixId,
                 editTemplate = contrail.getTemplate4Id("sm-edit-layout-template"),
@@ -17,7 +17,7 @@ define([
 
             var that = this;
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': "Configure Server", 'body': editLayout, 'onSave': function () {
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 var serverForm = $('#' + modalId).find('#sm-server-edit-form').serializeObject();
                 that.model.saveConfig(serverForm);
             }});

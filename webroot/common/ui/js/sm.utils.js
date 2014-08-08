@@ -17,8 +17,10 @@ define([
                         iconCssClass: 'blue'
                     },
                     customControls: options['customControls'],
+                    advanceControls: options['advanceControls'],
                     defaultControls: {
-                        refreshable: false
+                        refreshable: false,
+                        collapseable: false
                     }
                 },
                 columnHeader: {

@@ -14,6 +14,7 @@ define([
         render: function (options) {
             var smTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
                 gridElId = '#' + smConstants.SERVER_PREFIX_ID + '-results',
+                headerActionsTemplate = contrail.getTemplate4Id("sm-actions-template"),
                 options;
 
             this.$el.html(smTemplate({name: smConstants.SERVER_PREFIX_ID}));
@@ -28,21 +29,46 @@ define([
                         serverModel = new ServerModel(dataItem),
                         serverEditView = new ServerEditView({'model': serverModel});
 
-                    serverEditView.render();
+                    serverEditView.render({"title": "Configure Server"});
                 }),
                 smGridConfig.getReimageAction(function(rowIndex) {
                     console.log(rowIndex);
                 }),
                 smGridConfig.getProvisionAction(function(rowIndex) {
                     console.log(rowIndex);
+                }),
+                smGridConfig.getTagAction(function(rowIndex) {
+                    console.log(rowIndex);
                 })
             ];
-            options['customControls'] = [
-                '<a title="Actions"><i class="icon-cog"></i></a>'
-            ];
+
+            options['advanceControls'] = headerControlConfig;
 
             smUtils.renderGrid(options);
         }
     });
+
+    var headerControlConfig = [
+        {
+            "type": "dropdown",
+            "iconClass": "icon-cog",
+            "actions": [
+                {
+                    "iconClass": "icon-upload-alt",
+                    "title": "Reimage",
+                    "onClick": function() {}
+                },
+                {
+                    "iconClass": "icon-tags",
+                    "title": "Tag"
+                },
+                {
+                    "iconClass": "icon-trash",
+                    "title": "Delete"
+                }
+            ]
+        }
+    ];
+
     return ServersView;
 });

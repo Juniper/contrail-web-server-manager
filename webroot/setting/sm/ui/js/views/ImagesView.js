@@ -13,6 +13,7 @@ define([
         render: function () {
             var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
                 gridElId = '#' + smConstants.IMAGE_PREFIX_ID + '-results',
+                headerActionsTemplate = contrail.getTemplate4Id("sm-actions-template"),
                 options;
 
             this.$el.html(directoryTemplate({name: smConstants.IMAGE_PREFIX_ID}));
@@ -31,13 +32,32 @@ define([
                     }});
                 })
             ];
-            options['customControls'] = [
-                '<a title="Add Image"><i class="icon-plus"></i></a>',
-                '<a title="Actions"><i class="icon-cog"></i></a>'
-            ];
+
+            options['advanceControls'] = headerControlConfig;
 
             smUtils.renderGrid(options);
         }
     });
+
+    var headerControlConfig = [
+        {
+            "type": "link",
+            "title": "Add Image",
+            "iconClass": "icon-plus",
+            "onClick": function() {}
+        },
+        {
+            "type": "dropdown",
+            "iconClass": "icon-cog",
+            "actions": [
+                {
+                    "iconClass": "icon-trash",
+                    "title": "Delete",
+                    "onClick": function() {}
+                }
+            ]
+        }
+    ];
+
     return ImagesView;
 });
