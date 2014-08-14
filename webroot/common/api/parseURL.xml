@@ -1,0 +1,52 @@
+<!-- Copyright (c) 2014 Juniper Networks, Inc. All rights reserved. -->
+
+<urlLists>
+    <require>
+        <define>parseURLReq</define>
+        <path>process.mainModule.exports["corePath"] + '/src/serverroot/common/parseURLRequire'</path>
+    </require>
+     <require>
+        <define>smConfig</define>
+        <path>../api/sm.config</path>
+     </require>
+     <require>
+        <define>longPoll</define>
+        <path>smConfig.core_path + '/src/serverroot/web/core/longPolling.api'</path>
+     </require>
+     <require>
+        <define>cacheApi</define>
+        <path>smConfig.core_path + '/src/serverroot/web/core/cache.api'</path>
+    </require>
+    <require>
+        <define>rbac</define>
+        <path>smConfig.core_path + '/src/serverroot/web/core/rbac.api'</path>
+    </require>
+    <require>
+        <define>timeout</define>
+        <path>request-timeout</path>
+    </require>
+    <require>
+        <define>smapi</define>
+        <path>../api/sm.api</path>
+    </require>
+    <require>
+        <define>commonUtils</define>
+        <path>smConfig.core_path + '/src/serverroot/utils/common.utils'</path>
+    </require>
+    <require>
+        <define>handler</define>
+        <path>smConfig.core_path + '/src/serverroot/web/routes/handler'</path>
+    </require>
+    <item>
+        <url>/sm/objects/:name</url>
+        <method>get</method>
+        <feature>sm</feature>
+        <callback>smapi.getObjects</callback>
+    </item>
+    <item>
+        <url>/sm/objects/details/:name</url>
+        <method>get</method>
+        <feature>sm</feature>
+        <callback>smapi.getObjectsDetails</callback>
+    </item>
+</urlLists>
