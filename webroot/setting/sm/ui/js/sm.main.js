@@ -2,20 +2,20 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var vnsPageLoader = new VNSPageLoader(),
+var clusterPageLoader = new ClusterPageLoader(),
     serversPageLoader = new ServersPageLoader(),
     imagesPageLoader = new ImagesPageLoader(),
     reposPageLoader = new ReposPageLoader();
 
-function VNSPageLoader() {
+function ClusterPageLoader() {
     this.load = function(hashParams) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathVNSView = rootDir + '/js/views/VNSView.js';
+            pathClusterView = rootDir + '/js/views/ClusterView.js';
 
-        requirejs([pathVNSView], function(VNSView){
-            var vnsView = new VNSView();
-            vnsView.render();
+        requirejs([pathClusterView], function(ClusterView){
+            var clusterView = new ClusterView();
+            clusterView.render();
         });
     };
     this.destroy = function() {};
@@ -28,15 +28,17 @@ function ServersPageLoader() {
             pathServersView = rootDir + '/js/views/ServersView.js';
 
         var hashParams = paramObject['hashParams'],
-            queryString = '';
-
+            queryString = '', tagKey, tagQueryArray = [];
 
         if(hashParams['cluster_id'] != null) {
             queryString += '&cluster_id=' + hashParams['cluster_id'];
         }
 
-        if(hashParams['vns_id'] != null) {
-            queryString += '&vns_id=' + hashParams['vns_id'];
+        if(hashParams['tag'] != null) {
+            for(tagKey in hashParams['tag']) {
+                tagQueryArray.push(tagKey + "=" + hashParams['tag'][tagKey]);
+            }
+            queryString += '&tag=' + tagQueryArray.join(',');
         }
 
         requirejs([pathServersView], function(ServersView){

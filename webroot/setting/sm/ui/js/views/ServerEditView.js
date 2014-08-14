@@ -38,20 +38,20 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'ip', path: "ip", class: "span6", view: "FormInputView"},
+                            {id: 'ip_address', path: "ip_address", class: "span6", view: "FormInputView"},
                             {id: 'power_address', path: 'power_address', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'compute_non_mgmt_ip', path: 'server_params.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
-                            {id: 'compute_non_mgmt_gway', path: 'server_params.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
+                            {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
+                            {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
                         elements: [
                             {id: 'mac', path: 'mac', class: "span6", view: "FormInputView"},
-                            {id: 'ifname', path:'server_params.ifname', class: "span6", view: "FormInputView"}
+                            {id: 'ifname', path:'parameters.ifname', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -67,7 +67,7 @@ define([
                     },
                     {
                         elements: [
-                            {id: 'vns_id', path: 'vns_id', class: "span6", view: "FormInputView"}
+                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]

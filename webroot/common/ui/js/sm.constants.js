@@ -8,7 +8,7 @@ define([
     var SMConstants = function() {
         this.IMAGE_PREFIX_ID = 'image';
         this.REPO_PREFIX_ID = 'repo';
-        this.VNS_PREFIX_ID = 'vns';
+        this.CLUSTER_PREFIX_ID = 'cluster';
         this.SERVER_PREFIX_ID = 'server';
         this.SM_PREFIX_ID = 'sm';
 

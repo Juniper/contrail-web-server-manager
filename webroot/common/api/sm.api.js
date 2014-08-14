@@ -81,6 +81,8 @@ function getObjectsDetails(req, res) {
         objectUrl = '/' + objectName,
         qsObj = urlParts.query;
 
+    console.log("## qsObj:: " + JSON.stringify(qsObj));
+
     delete qsObj['field'];
     delete qsObj['_'];
 
@@ -91,11 +93,6 @@ function getObjectsDetails(req, res) {
             commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
         } else {
             resultJSON = fieldName != null ? resultJSON[fieldName] : resultJSON;
-            if(objectName == 'vns') {
-                parseStr2JSON(resultJSON, ['vns_params']);
-            } else if (objectName == 'server') {
-                parseStr2JSON(resultJSON, ['server_params']);
-            }
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
     });

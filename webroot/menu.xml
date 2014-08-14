@@ -34,18 +34,19 @@
                         <resource>
                             <rootDir>/common/ui</rootDir>
                             <js>sm.app.js</js>
+                            <js>handlebars.helpers.js</js>
                         </resource>
                     </resources>
                     <items>
                         <item>
-                            <hash>setting_sm_vns</hash>
-                            <label>VNS</label>
+                            <hash>setting_sm_cluster</hash>
+                            <label>Clusters</label>
                             <resources>
                                 <resource>
                                     <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
                                     <view>sm.view</view>
-                                    <class>vnsPageLoader</class>
+                                    <class>clusterPageLoader</class>
                                 </resource>
                             </resources>
                         </item>

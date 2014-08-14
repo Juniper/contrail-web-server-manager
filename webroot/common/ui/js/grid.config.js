@@ -6,7 +6,7 @@ define([
     'underscore'
 ], function(_) {
     var GridConfig = function() {
-        this.VNS_GRID_TITLE = 'VNS';
+        this.CLUSTER_GRID_TITLE = 'Cluster';
         this.SERVERS_GRID_TITLE = 'Servers';
         this.IMAGES_GRID_TITLE = 'Images';
         this.REPOS_GRID_TITLE = 'Repos';
@@ -15,41 +15,42 @@ define([
         this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
 
         this.SERVER_COLUMNS = [
-            { id: "server_id", field: "server_id", name:"Hostname", width:100, minWidth: 15 },
-            { id: "vns_id", field: "vns_id", name:"VNS", width:120, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
-                onClick: function(e, dc) {
-                    loadFeature({p:'setting_sm_servers', q: {'vns_id': dc['vns_id']}});
-                }
-            }},
-            { id: "cluster_id", field: "cluster_id", name:"Tags", width:120, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
+            { id: "server_id", field: "id", name:"Hostname", width:100, minWidth: 15 },
+            { id: "cluster_id", field: "cluster_id", name:"Cluster", width:100, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
                 onClick: function(e, dc) {
                     loadFeature({p:'setting_sm_servers', q: {'cluster_id': dc['cluster_id']}});
                 }
             }},
-            { id: "ip", field: "ip", name:"IP", width:120, minWidth: 15 },
+            { id: "tag", field: "tag", name:"Tags", width:250, minWidth: 15, formatter: function(r, c, v, cd, dc) {
+                var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
+                    tagHTML = tagTemplate(dc.tag);
+                return tagHTML;
+            }},
+            { id: "ip_address", field: "ip_address", name:"IP", width:120, minWidth: 15 },
             { id: "power_address", field: "power_address", name:"Power IP", width:120, minWidth: 15 },
-            { id: "package_image_id", field: "package_image_id", name:"Package Image", width:150, minWidth: 15 },
             { id: "static_ip", field: "static_ip", name:"Static IP", width:80, minWidth: 15 },
-            { id: "disc_flag", field: "disc_flag", name:"Discovered", width:80, minWidth: 15 },
-            { id: "status", field: "status", name:"Status", width:80, minWidth: 15 }
+            { id: "discovered", field: "discovered", name:"Discovered", width:80, minWidth: 15 },
+            { id: "status", field: "status", name:"Status", width:120, minWidth: 15 }
         ];
 
         this.IMAGE_COLUMNS = [
-            { id: "image_id", field: "image_id", name:"Name", width:120, minWidth: 15 },
-            { id: "image_type", field: "image_type", name:"Type", width:120, minWidth: 15 },
-            { id: "image_version", field: "image_version", name:"Version", width:120, minWidth: 15 }
+            { id: "image_id", field: "id", name:"Name", width:120, minWidth: 15 },
+            { id: "image_type", field: "type", name:"Type", width:120, minWidth: 15 },
+            { id: "image_version", field: "version", name:"Version", width:120, minWidth: 15 },
+            { id: "image_path", field: "path", name:"Path", width:300, minWidth: 15 }
         ];
 
         this.REPO_COLUMNS = [
-            { id: "image_id", field: "image_id", name:"Name", width:120, minWidth: 15 },
-            { id: "image_type", field: "image_type", name:"Type", width:120, minWidth: 15 },
-            { id: "image_version", field: "image_version", name:"Version", width:120, minWidth: 15 }
+            { id: "repo_id", field: "id", name:"Name", width:120, minWidth: 15 },
+            { id: "repo_type", field: "type", name:"Type", width:120, minWidth: 15 },
+            { id: "repo_version", field: "version", name:"Version", width:120, minWidth: 15 },
+            { id: "repo_path", field: "path", name:"Path", width:300, minWidth: 15 }
         ];
 
-        this.VNS_COLUMNS = [
-            { id: "vns_id", field: "vns_id", name:"Name", width:120, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
+        this.CLUSTER_COLUMNS = [
+            { id: "cluster_id", field: "id", name:"Name", width:120, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
                 onClick: function(e, dc) {
-                    loadFeature({p:'setting_sm_servers', q: {'vns_id': dc['vns_id']}});
+                    loadFeature({p:'setting_sm_servers', q: {'cluster_id': dc['id']}});
                 }
             }},
             { id: "email", field: "email", name:"Email", width:120, minWidth: 15 }

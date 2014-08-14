@@ -18,8 +18,8 @@ define([
             //General
             'email': 'Email',
             "domain": "Domain",
-            "gway": "Gateway",
-            "ip": "IP Address",
+            "gateway": "Gateway",
+            "ip_address": "IP Address",
 
             //Server
             "power_address": "Power Address",
@@ -31,14 +31,14 @@ define([
             "compute_non_mgmt_ip": "Compute Non-Management IP",
             "compute_non_mgmt_gway": "Compute Non-Management Gateway",
 
-            // VNS
-            "vns_id": "VNS",
+            // Cluster
+            "cluster_id": "Cluster",
             "analytics_data_ttl": "Analytics Data TTL",
             "ext_bgp": "External BGP",
             "openstack_mgmt_ip": "Openstack Management IP",
             "openstack_passwd": "Openstack Password",
-            "ks_tenant": "Tenant",
-            "mask": "Mask",
+            "keystone_tenant": "Keystone Tenant",
+            "subnet_mask": "Subnet Mask",
             "router_asn": "Router ASN",
             "multi_tenancy": "Multi Tenancy"
         };
