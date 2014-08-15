@@ -81,8 +81,6 @@ function getObjectsDetails(req, res) {
         objectUrl = '/' + objectName,
         qsObj = urlParts.query;
 
-    console.log("## qsObj:: " + JSON.stringify(qsObj));
-
     delete qsObj['field'];
     delete qsObj['_'];
 

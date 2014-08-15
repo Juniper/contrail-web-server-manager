@@ -21,15 +21,21 @@ define([
                     loadFeature({p:'setting_sm_servers', q: {'cluster_id': dc['cluster_id']}});
                 }
             }},
-            { id: "tag", field: "tag", name:"Tags", width:250, minWidth: 15, formatter: function(r, c, v, cd, dc) {
+            { id: "tag", field: "tag", name:"Tags", width:150, minWidth: 15, formatter: function(r, c, v, cd, dc) {
                 var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
                     tagHTML = tagTemplate(dc.tag);
                 return tagHTML;
             }},
             { id: "ip_address", field: "ip_address", name:"IP", width:120, minWidth: 15 },
             { id: "power_address", field: "power_address", name:"Power IP", width:120, minWidth: 15 },
-            { id: "static_ip", field: "static_ip", name:"Static IP", width:80, minWidth: 15 },
             { id: "discovered", field: "discovered", name:"Discovered", width:80, minWidth: 15 },
+            { id: "roles", field: "roles", name:"Roles", width:200, minWidth: 15, formatter: function(r, c, v, cd, dc) {
+                var rolesStr = ''
+                if(dc.roles != null) {
+                    rolesStr = dc.roles.join(', ');
+                }
+                return rolesStr;
+            }},
             { id: "status", field: "status", name:"Status", width:120, minWidth: 15 }
         ];
 
@@ -52,6 +58,15 @@ define([
                 onClick: function(e, dc) {
                     loadFeature({p:'setting_sm_servers', q: {'cluster_id': dc['id']}});
                 }
+            }},
+            { id: "domain", name:"Domain", width:120, minWidth: 15, formatter: function(r, c, v, cd, dc) {
+                return dc['parameters']['domain'];
+            }},
+            { id: "domain", name:"Gateway", width:120, minWidth: 15, formatter: function(r, c, v, cd, dc) {
+                return dc['parameters']['gateway'];
+            }},
+            { id: "domain", name:"Subnet Mask", width:120, minWidth: 15, formatter: function(r, c, v, cd, dc) {
+                return dc['parameters']['subnet_mask'];
             }},
             { id: "email", field: "email", name:"Email", width:120, minWidth: 15 }
         ];
