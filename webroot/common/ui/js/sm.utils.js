@@ -9,34 +9,23 @@ define([
     var SMUtils = function() {
         var self = this;
         this.renderGrid = function(options) {
-            $(options.elementId).contrailGrid({
+        	$(options.elementId).contrailGrid($.extend(true,{
                 header: {
                     title:{
-                        text: options.titleText,
                         cssClass: 'blue',
                         iconCssClass: 'blue'
                     },
-                    customControls: options['customControls'],
-                    advanceControls: options['advanceControls'],
                     defaultControls: {
                         refreshable: false,
                         collapseable: false
                     }
                 },
                 columnHeader: {
-                    columns: options.columns
                 },
                 body: {
                     options: {
                         autoRefresh: 600,
                         forceFitColumns: true,
-                        checkboxSelectable: {
-                            onNothingChecked: function(e){
-                            },
-                            onSomethingChecked: function(e){
-                            }
-                        },
-                        actionCell:options['actions'],
                         detail: {
                             template: '<pre>{{{formatJSON2HTML this}}}</pre>'
                         }
@@ -44,7 +33,6 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: options.url
                             },
                             serverSidePagination: false
                         }
@@ -58,7 +46,7 @@ define([
                         }
                     }
                 }
-            });
+            },options.gridConfig));
         },
         this.renderJSONEditor = function(options) {
             var modalId = 'configure-' + options['prefixId'];

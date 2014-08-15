@@ -19,22 +19,42 @@ define([
             this.$el.html(directoryTemplate({name: smConstants.REPO_PREFIX_ID}));
 
             options = {elementId: gridElId, data: [], url:'/sm/objects/details/image?field=image'};
-            options['titleText'] = smGridConfig.REPOS_GRID_TITLE;
-            options['columns'] = smGridConfig.REPO_COLUMNS;
-            options['actions'] = [
-                smGridConfig.getConfigureAction(function(rowIndex){
-                    var prefixId = smConstants.REPO_PREFIX_ID,
-                        dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                        repoModel = new RepoModel(dataItem);
+            
+            options.gridConfig = {
+        		header: {
+                    title:{
+                        text: smGridConfig.REPOS_GRID_TITLE,
+                    },
+                    customControls: options['customControls'],
+                    advanceControls: headerControlConfig,
+                },
+                columnHeader: {
+                    columns: smGridConfig.REPO_COLUMNS
+                },
+                body: {
+                    options: {
+                        actionCell: [
+                             smGridConfig.getConfigureAction(function(rowIndex){
+                                 var prefixId = smConstants.REPO_PREFIX_ID,
+                                     dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                                     repoModel = new RepoModel(dataItem);
 
-                    smUtils.renderJSONEditor({'prefixId': prefixId, 'className': 'modal-700', 'title': "Configure Repo", 'model': repoModel, 'onSave': function() {
-                        repoModel.saveConfig();
-                    }});
-                })
-            ];
-
-            options['advanceControls'] = headerControlConfig;
-
+                                 smUtils.renderJSONEditor({'prefixId': prefixId, 'className': 'modal-700', 'title': "Configure Repo", 'model': repoModel, 'onSave': function() {
+                                     repoModel.saveConfig();
+                                 }});
+                             })
+                         ]
+                    },
+                    dataSource: {
+                        remote: {
+                            ajaxConfig: {
+                                url: options.url
+                            },
+                        }
+                    }
+                }
+            };
+            
             smUtils.renderGrid(options);
         }
     });

@@ -20,29 +20,71 @@ define([
             this.$el.html(smTemplate({name: smConstants.SERVER_PREFIX_ID}));
 
             options = {elementId: gridElId, data: [], url:'/sm/objects/details/server?field=server' + options['queryString']};
-            options['titleText'] = smGridConfig.SERVERS_GRID_TITLE;;
-            options['columns'] = smGridConfig.SERVER_COLUMNS;
-            options['actions'] = [
-                smGridConfig.getConfigureAction(function(rowIndex){
-                    var prefixId = smConstants.SERVER_PREFIX_ID,
-                        dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                        serverModel = new ServerModel(dataItem),
-                        serverEditView = new ServerEditView({'model': serverModel});
+            
+            options.gridConfig = {
+        		header: {
+                    title:{
+                        text: smGridConfig.SERVERS_GRID_TITLE,
+                    },
+                    customControls: options['customControls'],
+                    advanceControls: headerControlConfig,
+                },
+                columnHeader: {
+                    columns: smGridConfig.SERVER_COLUMNS
+                },
+                body: {
+                    options: {
+                        actionCell: [
+                             smGridConfig.getConfigureAction(function(rowIndex){
+                                 var prefixId = smConstants.SERVER_PREFIX_ID,
+                                     dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                                     serverModel = new ServerModel(dataItem),
+                                     serverEditView = new ServerEditView({'model': serverModel});
 
-                    serverEditView.render({"title": "Configure Server"});
-                }),
-                smGridConfig.getReimageAction(function(rowIndex) {
-                    console.log(rowIndex);
-                }),
-                smGridConfig.getProvisionAction(function(rowIndex) {
-                    console.log(rowIndex);
-                }),
-                smGridConfig.getTagAction(function(rowIndex) {
-                    console.log(rowIndex);
-                })
-            ];
+                                 serverEditView.render({"title": "Configure Server"});
+                             }),
+                             smGridConfig.getReimageAction(function(rowIndex) {
+                                 console.log(rowIndex);
+                             }),
+                             smGridConfig.getProvisionAction(function(rowIndex) {
+                                 console.log(rowIndex);
+                             }),
+                             smGridConfig.getTagAction(function(rowIndex) {
+                                 console.log(rowIndex);
+                             })
+                        ],
+                        detail: {
+                            template: $('#sm-grid-2-row-group-detail-template').html(),
+                            templateConfig: [
+                            	[
+                            	       {
+                            	    	   title: 'Group 3',
+                            	    	   keys: ['domain','host_name','power_address']
+                            	       },
+                            	       {
+                            	    	   title: 'Group 1',
+                            	    	   keys: ['domain','host_name','power_address']
+                            	       }
+                            	],
+                            	[
+                            	 	{
+                            	    	   title: 'Group 2',
+                            	    	   keys: ['domain','host_name','power_address']
+                            	       }
 
-            options['advanceControls'] = headerControlConfig;
+                                ]
+                            ]
+                        }
+                    },
+                    dataSource: {
+                        remote: {
+                            ajaxConfig: {
+                                url: options.url
+                            },
+                        }
+                    }
+                }
+            };
 
             smUtils.renderGrid(options);
         }

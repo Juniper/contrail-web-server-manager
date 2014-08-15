@@ -20,29 +20,49 @@ define([
             this.$el.html(directoryTemplate({name: smConstants.CLUSTER_PREFIX_ID}));
 
             options = {elementId: gridElId, data: [], url:'/sm/objects/details/cluster?field=cluster'};
-            options['titleText'] = smGridConfig.CLUSTER_GRID_TITLE;
-            options['columns'] = smGridConfig.CLUSTER_COLUMNS;
-            options['actions'] = [
-                smGridConfig.getConfigureAction(function(rowIndex){
-                    var prefixId = smConstants.CLUSTER_PREFIX_ID,
-                        dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                        clusterModel = new ClusterModel(dataItem),
-                        clusterEditView = new ClusterEditView({'model': clusterModel});
+            
+            options.gridConfig = {
+        		header: {
+                    title:{
+                        text: smGridConfig.CLUSTER_GRID_TITLE,
+                    },
+                    customControls: options['customControls'],
+                    advanceControls: headerControlConfig,
+                },
+                columnHeader: {
+                    columns: smGridConfig.CLUSTER_COLUMNS
+                },
+                body: {
+                    options: {
+                        actionCell: [
+                             smGridConfig.getConfigureAction(function(rowIndex){
+                                 var prefixId = smConstants.CLUSTER_PREFIX_ID,
+                                     dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                                     clusterModel = new ClusterModel(dataItem),
+                                     clusterEditView = new ClusterEditView({'model': clusterModel});
 
-                    clusterEditView.render({"title": "Configure Cluster"});
-                }),
-                smGridConfig.getAddServersAction(function(rowIndex) {
-                    console.log(rowIndex);
-                }),
-                smGridConfig.getReimageAction(function(rowIndex) {
-                    console.log(rowIndex);
-                }),
-                smGridConfig.getProvisionAction(function(rowIndex) {
-                    console.log(rowIndex);
-                })
-            ];
-
-            options['advanceControls'] = headerControlConfig;
+                                 clusterEditView.render({"title": "Configure Cluster"});
+                             }),
+                             smGridConfig.getAddServersAction(function(rowIndex) {
+                                 console.log(rowIndex);
+                             }),
+                             smGridConfig.getReimageAction(function(rowIndex) {
+                                 console.log(rowIndex);
+                             }),
+                             smGridConfig.getProvisionAction(function(rowIndex) {
+                                 console.log(rowIndex);
+                             })
+                         ]
+                    },
+                    dataSource: {
+                        remote: {
+                            ajaxConfig: {
+                                url: options.url
+                            },
+                        }
+                    }
+                }
+            };
 
             smUtils.renderGrid(options);
         }

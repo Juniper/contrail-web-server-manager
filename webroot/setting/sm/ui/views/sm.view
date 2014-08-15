@@ -55,4 +55,24 @@
     {{/each}}
 </script>
 
-
+<script type="text/x-handlebars-template" id="sm-grid-2-row-group-detail-template">
+	<div class="row-fluid">
+	{{#each templateConfig}}
+  		<div class="span6">
+		{{#each this}}
+  			<h5>{{title}}</h5>
+			<ul class="item-list">
+       		{{#each keys}}
+           		<li>
+               		<label class="inline">
+                   		<span class="key"> {{this}} </span>
+                   		<span class="value"> {{{getJSONValueByPath this ../../../dc}}} </span>
+               		</label>
+           		</li>
+       		{{/each}}
+   			</ul>
+ 		{{/each}}
+		</div>
+  	{{/each}}
+	</div>
+</script>

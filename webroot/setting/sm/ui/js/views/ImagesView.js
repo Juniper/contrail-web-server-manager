@@ -19,22 +19,42 @@ define([
             this.$el.html(directoryTemplate({name: smConstants.IMAGE_PREFIX_ID}));
 
             options = {elementId: gridElId, data: [], url:'/sm/objects/details/image?field=image'};
-            options['titleText'] = smGridConfig.IMAGES_GRID_TITLE;
-            options['columns'] = smGridConfig.IMAGE_COLUMNS;
-            options['actions'] = [
-                smGridConfig.getConfigureAction(function(rowIndex){
-                    var prefixId = smConstants.IMAGE_PREFIX_ID,
-                        dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                        imageModel = new ImageModel(dataItem);
+            
+            options.gridConfig = {
+        		header: {
+                    title:{
+                        text: smGridConfig.IMAGES_GRID_TITLE,
+                    },
+                    customControls: options['customControls'],
+                    advanceControls: headerControlConfig,
+                },
+                columnHeader: {
+                    columns: smGridConfig.IMAGE_COLUMNS
+                },
+                body: {
+                    options: {
+                        actionCell: [
+                             smGridConfig.getConfigureAction(function(rowIndex){
+                                 var prefixId = smConstants.IMAGE_PREFIX_ID,
+                                     dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                                     imageModel = new ImageModel(dataItem);
 
-                    smUtils.renderJSONEditor({'prefixId': prefixId, 'className': 'modal-700', 'title': "Configure Image", 'model': imageModel, 'onSave': function() {
-                        imageModel.saveConfig();
-                    }});
-                })
-            ];
-
-            options['advanceControls'] = headerControlConfig;
-
+                                 smUtils.renderJSONEditor({'prefixId': prefixId, 'className': 'modal-700', 'title': "Configure Image", 'model': imageModel, 'onSave': function() {
+                                     imageModel.saveConfig();
+                                 }});
+                             })
+                         ]
+                    },
+                    dataSource: {
+                        remote: {
+                            ajaxConfig: {
+                                url: options.url
+                            },
+                        }
+                    }
+                }
+            };
+            
             smUtils.renderGrid(options);
         }
     });
