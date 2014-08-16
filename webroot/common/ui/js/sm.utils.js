@@ -5,13 +5,13 @@
 define([
     'underscore',
     'common/ui/js/views/FormInputView'
-], function(_, FormInputView) {
-    var SMUtils = function() {
+], function (_, FormInputView) {
+    var SMUtils = function () {
         var self = this;
-        this.renderGrid = function(options) {
-        	$(options.elementId).contrailGrid($.extend(true,{
+        this.renderGrid = function (options) {
+            $(options.elementId).contrailGrid($.extend(true, {
                 header: {
-                    title:{
+                    title: {
                         cssClass: 'blue',
                         iconCssClass: 'blue'
                     },
@@ -26,6 +26,7 @@ define([
                     options: {
                         autoRefresh: 600,
                         forceFitColumns: true,
+                        checkboxSelectable: true,
                         detail: {
                             template: '<pre>{{{formatJSON2HTML this}}}</pre>'
                         }
@@ -41,80 +42,80 @@ define([
                 footer: {
                     pager: {
                         options: {
-                            pageSize:50,
-                            pageSizeSelect: [10,50,100]
+                            pageSize: 50,
+                            pageSizeSelect: [10, 50, 100]
                         }
                     }
                 }
-            },options.gridConfig));
+            }, options.gridConfig));
         },
-        this.renderJSONEditor = function(options) {
-            var modalId = 'configure-' + options['prefixId'];
-            $.contrailBootstrapModal({
-                id: modalId,
-                className: options['className'],
-                title: options['title'],
-                body: '<div id="' + options['prefixId'] + '-pane-container"><pre>' + JSON.stringify(options['model'].attributes, null, " ") + '</pre></div>',
-                footer: [
-                    {
-                        id: 'cancelBtn',
-                        title: 'Cancel',
-                        onclick: 'close'
-                    },
-                    {
-                        className: 'btn-primary',
-                        title: 'Save',
-                        onclick: function() {
-                            $("#" + modalId).modal('hide');
-                            options['onSave']();
+            this.renderJSONEditor = function (options) {
+                var modalId = 'configure-' + options['prefixId'];
+                $.contrailBootstrapModal({
+                    id: modalId,
+                    className: options['className'],
+                    title: options['title'],
+                    body: '<div id="' + options['prefixId'] + '-pane-container"><pre>' + JSON.stringify(options['model'].attributes, null, " ") + '</pre></div>',
+                    footer: [
+                        {
+                            id: 'cancelBtn',
+                            title: 'Cancel',
+                            onclick: 'close'
+                        },
+                        {
+                            className: 'btn-primary',
+                            title: 'Save',
+                            onclick: function () {
+                                $("#" + modalId).modal('hide');
+                                options['onSave']();
+                            }
                         }
+                    ],
+                    onEnter: function () {
+                        console.log("onEnter");
+                        $("#" + modalId).modal('hide');
                     }
-                ],
-                onEnter: function() {
-                    console.log("onEnter");
-                    $("#" + modalId).modal('hide');
-                }
-            });
-        },
-        this.createModal = function(options) {
-            var modalId = options['modalId'];
-            $.contrailBootstrapModal({
-                id: modalId,
-                className: options['className'],
-                title: options['title'],
-                body: options['body'],
-                footer: [
-                    {
-                        id: 'cancelBtn',
-                        title: 'Cancel',
-                        onclick: 'close'
-                    },
-                    {
-                        className: 'btn-primary',
-                        title: 'Save',
-                        onclick: function() {
-                            $("#" + modalId).modal('hide');
-                            options['onSave']();
+                });
+            },
+            this.createModal = function (options) {
+                var modalId = options['modalId'];
+                $.contrailBootstrapModal({
+                    id: modalId,
+                    className: options['className'],
+                    title: options['title'],
+                    body: options['body'],
+                    footer: [
+                        {
+                            id: 'cancelBtn',
+                            title: 'Cancel',
+                            onclick: 'close'
+                        },
+                        {
+                            className: 'btn-primary',
+                            title: 'Save',
+                            onclick: function () {
+                                $("#" + modalId).modal('hide');
+                                options['onSave']();
+                            }
                         }
+                    ],
+                    onEnter: function () {
+                        console.log("onEnter");
+                        $("#" + modalId).modal('hide');
                     }
-                ],
-                onEnter: function() {
-                    console.log("onEnter");
-                    $("#" + modalId).modal('hide');
+                });
+            },
+            this.createColumns4Grid = function (fieldsObj) {
+                var key, columns = [];
+                for (key in fieldsObj) {
+                    columns.push({ id: key, field: key, name: self.getGridTitle4Field(key), width: 150, minWidth: 15 });
                 }
-            });
-        },
-        this.createColumns4Grid = function(fieldsObj) {
-            var key, columns = [];
-            for (key in fieldsObj) {
-                columns.push({ id: key, field: key, name: self.getGridTitle4Field(key), width:150, minWidth: 15 });
             }
-        }
-        this.getGridTitle4Field = function(field) {
+        this.getGridTitle4Field = function (field) {
             var title = field;
             return title;
         },
-        this.generateEditFormHTML = function(modalId, formModel, formConfig) {
+        this.generateEditFormHTML = function (modalId, formModel, formConfig) {
             for (var k = 0; k < formConfig['groups'].length; k++) {
                 var rows = formConfig['groups'][k]['rows'];
                 for (var i = 0; i < rows.length; i++) {
@@ -126,7 +127,7 @@ define([
                             viewName = elements[j]['view'],
                             elementView;
 
-                        switch(viewName) {
+                        switch (viewName) {
                             case "FormInputView":
                                 var elementView = new FormInputView({el: el, attributes: {label: smLabels.get(elementId), id: elementId, name: elementId, value: formModel.getValueByPath(path)}});
                                 elementView.render();

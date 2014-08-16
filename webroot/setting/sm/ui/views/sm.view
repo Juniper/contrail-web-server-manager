@@ -2,7 +2,7 @@
 <!--
  Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
 -->
-<script type="text/x-handlebars-template" id="sm-template">
+<script type="text/x-handlebars-template" id="sm-template" xmlns="http://www.w3.org/1999/html">
     <div id="{{name}}-container" class="row-fluid ">
         <div id="{{name}}-results" class="row-fluid"></div>
     </div>
@@ -60,17 +60,18 @@
 	{{#each templateConfig}}
   		<div class="span6">
 		{{#each this}}
-  			<h5>{{title}}</h5>
+  			<h6>{{title}}</h6>
 			<ul class="item-list">
        		{{#each keys}}
            		<li>
                		<label class="inline">
-                   		<span class="key"> {{this}} </span>
+                   		<span class="key"> {{getSMLabel this}} </span>
                    		<span class="value"> {{{getJSONValueByPath this ../../../dc}}} </span>
                		</label>
            		</li>
        		{{/each}}
    			</ul>
+            <br>
  		{{/each}}
 		</div>
   	{{/each}}

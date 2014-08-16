@@ -19,46 +19,28 @@ define([
 
             this.$el.html(directoryTemplate({name: smConstants.CLUSTER_PREFIX_ID}));
 
-            options = {elementId: gridElId, data: [], url:'/sm/objects/details/cluster?field=cluster'};
-            
+            options = {elementId: gridElId, data: [], url: '/sm/objects/details/cluster?field=cluster'};
+
             options.gridConfig = {
-        		header: {
-                    title:{
-                        text: smGridConfig.CLUSTER_GRID_TITLE,
+                header: {
+                    title: {
+                        text: smGridConfig.CLUSTER_GRID_TITLE
                     },
                     customControls: options['customControls'],
-                    advanceControls: headerControlConfig,
+                    advanceControls: headerControlConfig
                 },
                 columnHeader: {
                     columns: smGridConfig.CLUSTER_COLUMNS
                 },
                 body: {
                     options: {
-                        actionCell: [
-                             smGridConfig.getConfigureAction(function(rowIndex){
-                                 var prefixId = smConstants.CLUSTER_PREFIX_ID,
-                                     dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                                     clusterModel = new ClusterModel(dataItem),
-                                     clusterEditView = new ClusterEditView({'model': clusterModel});
-
-                                 clusterEditView.render({"title": "Configure Cluster"});
-                             }),
-                             smGridConfig.getAddServersAction(function(rowIndex) {
-                                 console.log(rowIndex);
-                             }),
-                             smGridConfig.getReimageAction(function(rowIndex) {
-                                 console.log(rowIndex);
-                             }),
-                             smGridConfig.getProvisionAction(function(rowIndex) {
-                                 console.log(rowIndex);
-                             })
-                         ]
+                        actionCell: gridActionCellConfig
                     },
                     dataSource: {
                         remote: {
                             ajaxConfig: {
                                 url: options.url
-                            },
+                            }
                         }
                     }
                 }
@@ -68,11 +50,31 @@ define([
         }
     });
 
+    var gridActionCellConfig = [
+        smGridConfig.getConfigureAction(function (rowIndex) {
+            var prefixId = smConstants.CLUSTER_PREFIX_ID,
+                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
+                clusterEditView = new ClusterEditView({'model': clusterModel});
+
+            clusterEditView.render({"title": "Configure Cluster"});
+        }),
+        smGridConfig.getAddServersAction(function (rowIndex) {
+            console.log(rowIndex);
+        }),
+        smGridConfig.getReimageAction(function (rowIndex) {
+            console.log(rowIndex);
+        }),
+        smGridConfig.getProvisionAction(function (rowIndex) {
+            console.log(rowIndex);
+        })
+    ];
+
     var headerControlConfig = [
         {
             "type": "link",
             "iconClass": "icon-plus",
-            "onClick": function() {
+            "onClick": function () {
                 var clusterModel = new ClusterModel(),
                     clusterEditView = new ClusterEditView({'model': clusterModel});
 
@@ -86,12 +88,14 @@ define([
                 {
                     "iconClass": "icon-upload-alt",
                     "title": "Reimage",
-                    "onClick": function() {}
+                    "onClick": function () {
+                    }
                 },
                 {
                     "iconClass": "icon-trash",
                     "title": "Delete",
-                    "onClick": function() {}
+                    "onClick": function () {
+                    }
                 }
             ]
         }

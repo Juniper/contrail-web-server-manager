@@ -5,8 +5,9 @@
 define([
     'underscore',
     'backbone',
-    'setting/sm/ui/js/models/ImageModel'
-], function (_, Backbone, ImageModel) {
+    'setting/sm/ui/js/models/ImageModel',
+    'setting/sm/ui/js/views/ImageEditView'
+], function (_, Backbone, ImageModel, ImageEditView) {
     var ImagesView = Backbone.View.extend({
         el: $(contentContainer),
 
@@ -18,53 +19,59 @@ define([
 
             this.$el.html(directoryTemplate({name: smConstants.IMAGE_PREFIX_ID}));
 
-            options = {elementId: gridElId, data: [], url:'/sm/objects/details/image?field=image'};
-            
+            options = {elementId: gridElId, data: [], url: '/sm/objects/details/image?field=image'};
+
             options.gridConfig = {
-        		header: {
-                    title:{
-                        text: smGridConfig.IMAGES_GRID_TITLE,
+                header: {
+                    title: {
+                        text: smGridConfig.IMAGES_GRID_TITLE
                     },
                     customControls: options['customControls'],
-                    advanceControls: headerControlConfig,
+                    advanceControls: headerControlConfig
                 },
                 columnHeader: {
                     columns: smGridConfig.IMAGE_COLUMNS
                 },
                 body: {
                     options: {
-                        actionCell: [
-                             smGridConfig.getConfigureAction(function(rowIndex){
-                                 var prefixId = smConstants.IMAGE_PREFIX_ID,
-                                     dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                                     imageModel = new ImageModel(dataItem);
-
-                                 smUtils.renderJSONEditor({'prefixId': prefixId, 'className': 'modal-700', 'title': "Configure Image", 'model': imageModel, 'onSave': function() {
-                                     imageModel.saveConfig();
-                                 }});
-                             })
-                         ]
+                        actionCell: gridActionCellConfig
                     },
                     dataSource: {
                         remote: {
                             ajaxConfig: {
                                 url: options.url
-                            },
+                            }
                         }
                     }
                 }
             };
-            
+
             smUtils.renderGrid(options);
         }
     });
+
+    var gridActionCellConfig = [
+        smGridConfig.getConfigureAction(function (rowIndex) {
+            var prefixId = smConstants.IMAGE_PREFIX_ID,
+                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                imageModel = new ImageModel(dataItem),
+                imageEditView = new ImageEditView({'model': imageModel});
+
+            imageEditView.render({"title": "Configure Image"});
+        })
+    ];
 
     var headerControlConfig = [
         {
             "type": "link",
             "title": "Add Image",
             "iconClass": "icon-plus",
-            "onClick": function() {}
+            "onClick": function () {
+                var imageModel = new ImageModel(),
+                    imageEditView = new ImageEditView({'model': imageModel});
+
+                imageEditView.render({"title": "Add Image"});
+            }
         },
         {
             "type": "dropdown",
@@ -73,7 +80,8 @@ define([
                 {
                     "iconClass": "icon-trash",
                     "title": "Delete",
-                    "onClick": function() {}
+                    "onClick": function () {
+                    }
                 }
             ]
         }

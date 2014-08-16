@@ -13,7 +13,7 @@ define([
             var prefixId = smConstants.SERVER_PREFIX_ID,
                 modalId = 'configure-' + prefixId,
                 editTemplate = contrail.getTemplate4Id("sm-edit-layout-template"),
-                editLayout = editTemplate(serverEditLayoutConfig);
+                editLayout = editTemplate(editLayoutConfig);
 
             var that = this;
 
@@ -22,7 +22,7 @@ define([
                 that.model.saveConfig(serverForm);
             }});
 
-            smUtils.generateEditFormHTML(modalId, this.model, serverEditLayoutConfig)
+            smUtils.generateEditFormHTML(modalId, this.model, editLayoutConfig)
 
             $('#sm-server-accordion').accordion({
                 heightStyle: "content"
@@ -30,7 +30,7 @@ define([
         }
     });
 
-    var serverEditLayoutConfig = {
+    var editLayoutConfig = {
         prefixId: 'server',
         groups: [
             {
