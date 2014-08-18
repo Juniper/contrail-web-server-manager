@@ -26,7 +26,6 @@ define([
                         text: smGridConfig.SERVERS_GRID_TITLE
                     },
                     customControls: ['<i class="icon-filter"></i>'],
-  //                  customControls: options['customControls'],
                     advanceControls: headerControlConfig
                 },
                 columnHeader: {
@@ -61,7 +60,7 @@ define([
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.render({"title": "Configure Server"});
+            serverEditView.renderConfigureServer({"title": "Configure Server"});
         }),
         smGridConfig.getReimageAction(function (rowIndex) {
             console.log(rowIndex);
@@ -111,7 +110,13 @@ define([
                 },
                 {
                     "iconClass": "icon-tags",
-                    "title": "Tag"
+                    "title": "Tag",
+                    "onClick": function () {
+                        var prefixId = smConstants.SERVER_PREFIX_ID,
+                            serverEditView = new ServerEditView();
+
+                        serverEditView.renderTagServers({"title": "Tag Servers"});
+                    }
                 },
                 {
                     "iconClass": "icon-trash",

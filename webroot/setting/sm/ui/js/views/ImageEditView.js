@@ -44,7 +44,7 @@ define([
                     },
                     {
                         elements: [
-                            {id: 'path', path: "path", class: "span6", view: "FormInputView"}
+                            {id: 'path', path: "path", class: "span12", view: "FormInputView"}
                         ]
                     }
                 ]

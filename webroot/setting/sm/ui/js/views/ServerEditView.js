@@ -7,30 +7,62 @@ define([
     'backbone'
 ], function (_, Backbone) {
 
+    var prefixId = smConstants.SERVER_PREFIX_ID,
+        modalId = 'configure-' + prefixId,
+        editTemplate = contrail.getTemplate4Id("sm-edit-layout-template");
+
     var ServerEditView = Backbone.View.extend({
 
-        render: function (options) {
-            var prefixId = smConstants.SERVER_PREFIX_ID,
-                modalId = 'configure-' + prefixId,
-                editTemplate = contrail.getTemplate4Id("sm-edit-layout-template"),
-                editLayout = editTemplate(editLayoutConfig);
-
-            var that = this;
+        renderConfigureServer: function (options) {
+            var editLayout = editTemplate(configureLayoutConfig),
+                that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 var serverForm = $('#' + modalId).find('#sm-server-edit-form').serializeObject();
                 that.model.saveConfig(serverForm);
             }});
 
-            smUtils.generateEditFormHTML(modalId, this.model, editLayoutConfig)
+            smUtils.generateEditFormHTML(modalId, this.model, configureLayoutConfig);
 
             $('#sm-server-accordion').accordion({
                 heightStyle: "content"
             });
+        },
+
+        renderTagServers: function (options) {
+            var tagServersConfig = {prefixId: 'server', groups: [{rows: editTagLayoutRows}]},
+                editLayout = editTemplate(tagServersConfig),
+                that = this;
+
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+
+            }});
+
+            smUtils.generateEditFormHTML(modalId, this.model, tagServersConfig);
         }
     });
 
-    var editLayoutConfig = {
+    var editTagLayoutRows = [
+        {
+            elements: [
+                {id: 'datacenter', path: "tag.datacenter", class: "span6", view: "FormInputView"},
+                {id: 'floor', path: 'tag.floor', class: "span6", view: "FormInputView"}
+            ]
+        },
+        {
+            elements: [
+                {id: 'hall', path: "tag.hall", class: "span6", view: "FormInputView"},
+                {id: 'rack', path: 'tag.rack', class: "span6", view: "FormInputView"}
+            ]
+        },
+        {
+            elements: [
+                {id: 'user_tag', path: "tag.user_tag", class: "span6", view: "FormInputView"}
+            ]
+        }
+    ];
+
+    var configureLayoutConfig = {
         prefixId: 'server',
         groups: [
             {
@@ -68,7 +100,7 @@ define([
                     {
                         elements: [
                             {id: 'mac', path: 'mac', class: "span6", view: "FormInputView"},
-                            {id: 'ifname', path:'parameters.ifname', class: "span6", view: "FormInputView"}
+                            {id: 'ifname', path: 'parameters.ifname', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
@@ -80,25 +112,7 @@ define([
             },
             {
                 title: "Tags",
-                rows: [
-                    {
-                        elements: [
-                            {id: 'datacenter', path: "tag.datacenter", class: "span6", view: "FormInputView"},
-                            {id: 'floor', path: 'tag.floor', class: "span6", view: "FormInputView"}
-                        ]
-                    },
-                    {
-                        elements: [
-                            {id: 'hall', path: "tag.hall", class: "span6", view: "FormInputView"},
-                            {id: 'rack', path: 'tag.rack', class: "span6", view: "FormInputView"}
-                        ]
-                    },
-                    {
-                        elements: [
-                            {id: 'user_tag', path: "tag.user_tag", class: "span6", view: "FormInputView"}
-                        ]
-                    }
-                ]
+                rows: editTagLayoutRows
             },
             {
                 title: "Configurations",
@@ -114,11 +128,16 @@ define([
                             {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
                             {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
                         ]
+                    },
+                    {
+                        elements: [
+                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
+                        ]
                     }
                 ]
             }
-    ]
-  };
+        ]
+    };
 
-  return ServerEditView;
+    return ServerEditView;
 });

@@ -12,10 +12,12 @@
     <form id="sm-{{prefixId}}-edit-form" onsubmit="return false;" class="">
         <div id="sm-{{prefixId}}-accordion">
             {{#each groups}}
-                <h3>{{this.title}}</h3>
+                {{#if this.title}}
+                   <h3>{{this.title}}</h3>
+                {{/if}}
                 <div id="sm-{{prefixId}}-{{this.title}}">
                     {{#each this.rows}}
-                        <div class="row-fluid margin-0-0-5">
+                        <div class="row-fluid margin-0-0-5 span12">
                             {{#each this.elements}}
                                 <div id="{{this.id}}" class="{{this.class}}"></div>
                             {{/each}}

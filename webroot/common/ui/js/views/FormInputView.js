@@ -10,9 +10,6 @@ define([
         render: function() {
             var inputTemplate = contrail.getTemplate4Id("sm-form-input-template");
             this.$el.html(inputTemplate(this.attributes));
-        },
-        attributes: {
-            class: "span12"
         }
     });
 

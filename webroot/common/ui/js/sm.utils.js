@@ -129,12 +129,14 @@ define([
 
                         switch (viewName) {
                             case "FormInputView":
-                                var elementView = new FormInputView({el: el, attributes: {label: smLabels.get(elementId), id: elementId, name: elementId, value: formModel.getValueByPath(path)}});
+                                var elementValue = (formModel != null) ? formModel.getValueByPath(path) : '',
+                                    elementView = new FormInputView({el: el, attributes: {label: smLabels.get(elementId), id: elementId, name: elementId, value: elementValue, class: "span12"}});
                                 elementView.render();
                                 break;
 
                             default:
-                                var elementView = new FormInputView({el: el, attributes: {label: smLabels.get(elementId), id: elementId, name: elementId, value: formModel.getValueByPath(path)}});
+                                var elementValue = (formModel != null) ? formModel.getValueByPath(path) : '',
+                                    elementView = new FormInputView({el: el, attributes: {label: smLabels.get(elementId), id: elementId, name: elementId, value: elementValue, class: "span12"}});
                                 elementView.render();
                         }
                     }
