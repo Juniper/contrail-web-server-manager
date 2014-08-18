@@ -25,7 +25,8 @@ define([
                     title: {
                         text: smGridConfig.SERVERS_GRID_TITLE
                     },
-                    customControls: options['customControls'],
+                    customControls: ['<i class="icon-filter"></i>'],
+  //                  customControls: options['customControls'],
                     advanceControls: headerControlConfig
                 },
                 columnHeader: {
