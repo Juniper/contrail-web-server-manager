@@ -34,6 +34,7 @@ define([
             "compute_non_mgmt_ip": "Compute Non-Management IP",
             "compute_non_mgmt_gway": "Compute Non-Management Gateway",
             "static_ip": "Static IP",
+            "host_name": "Host Name",
 
             //Tags
             "datacenter": "Datacenter",
@@ -53,6 +54,10 @@ define([
             "subnet_mask": "Subnet Mask",
             "router_asn": "Router ASN",
             "multi_tenancy": "Multi Tenancy",
+            "uuid": "UUID",
+            "use_certificates": "Use Certificates",
+            "haproxy": "HA Proxy",
+            "encapsulation_priority": "Encapsulation Priority"
         };
     }
     return Labels;

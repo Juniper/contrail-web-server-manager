@@ -34,8 +34,14 @@ define([
         prefixId: 'cluster',
         groups: [
             {
-                title: "Openstack",
+                title: "Details",
                 rows: [
+                    {
+                        elements: [
+                            {id: 'id', path: 'parameters.id', class: "span6", view: "FormInputView"},
+                            {id: 'email', path: 'parameters.email', class: "span6", view: "FormInputView"}
+                        ]
+                    },
                     {
                         elements: [
                             {id: 'domain', path: 'parameters.domain', class: "span6", view: "FormInputView"},
@@ -53,17 +59,11 @@ define([
                             {id: 'openstack_mgmt_ip', path: 'parameters.openstack_mgmt_ip', class: "span6", view: "FormInputView"},
                             {id: 'openstack_passwd', path: 'parameters.openstack_passwd', class: "span6", view: "FormInputView"}
                         ]
-                    },
-                    {
-                        elements: [
-                            {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
-                            {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
-                        ]
                     }
                 ]
             },
             {
-                title: "Contrail",
+                title: "Configurations",
                 rows: [
                     {
                         elements: [
@@ -75,6 +75,18 @@ define([
                         elements: [
                             {id: 'router_asn', path: 'parameters.router_asn', class: "span6", view: "FormInputView"},
                             {id: 'multi_tenancy', path: 'parameters.multi_tenancy', class: "span6", view: "FormInputView"}
+                        ]
+                    },
+                    {
+                        elements: [
+                            {id: 'haproxy', path: 'parameters.haproxy', class: "span6", view: "FormInputView"},
+                            {id: 'use_certificates', path: 'parameters.use_certificates', class: "span6", view: "FormInputView"}
+                        ]
+                    },
+                    {
+                        elements: [
+                            {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
+                            {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]

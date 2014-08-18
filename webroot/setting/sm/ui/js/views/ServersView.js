@@ -68,17 +68,18 @@ define([
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             console.log(rowIndex);
-        }),
-        smGridConfig.getTagAction(function (rowIndex) {
-            console.log(rowIndex);
         })
     ];
 
     var gridTemplateConfig = [
         [
             {
+                title: 'Details',
+                keys: ['id', 'cluster_id', 'host_name', 'email']
+            },
+            {
                 title: 'System',
-                keys: ['id', 'domain', 'ip_address', 'gateway', 'subnet_mask', 'mac_address']
+                keys: ['domain', 'ip_address', 'power_address', 'gateway', 'subnet_mask', 'mac_address', 'parameters.interface_name']
             },
             {
                 title: 'Tags',
@@ -87,12 +88,12 @@ define([
         ],
         [
             {
-                title: 'Configuration',
-                keys: ['parameters.interface_name', 'base_image_id', 'package_image_id', 'roles', 'static_ip']
-            },
-            {
                 title: 'Status',
                 keys: ['status', 'last_update']
+            },
+            {
+                title: 'Configurations',
+                keys: ['base_image_id', 'package_image_id', 'roles', 'static_ip', 'parameters.compute_non_mgmt_ip', 'parameters.compute_non_mgmt_gway']
             }
         ]
     ];

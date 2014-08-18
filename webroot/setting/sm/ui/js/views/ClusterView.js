@@ -34,7 +34,11 @@ define([
                 },
                 body: {
                     options: {
-                        actionCell: gridActionCellConfig
+                        actionCell: gridActionCellConfig,
+                        detail: {
+                            template: $('#sm-grid-2-row-group-detail-template').html(),
+                            templateConfig: gridTemplateConfig
+                        }
                     },
                     dataSource: {
                         remote: {
@@ -68,6 +72,21 @@ define([
         smGridConfig.getProvisionAction(function (rowIndex) {
             console.log(rowIndex);
         })
+    ];
+
+    var gridTemplateConfig = [
+        [
+            {
+                title: 'Details',
+                keys: ['id', 'parameters.uuid', 'parameters.domain', 'email', 'parameters.openstack_mgmt_ip', 'parameters.gateway', 'parameters.subnet_mask']
+            }
+        ],
+        [
+            {
+                title: 'Configurations',
+                keys: ['parameters.keystone_tenant', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates' ]
+            }
+        ]
     ];
 
     var headerControlConfig = [

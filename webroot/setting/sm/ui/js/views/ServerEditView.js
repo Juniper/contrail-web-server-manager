@@ -34,6 +34,23 @@ define([
         prefixId: 'server',
         groups: [
             {
+                title: "Details",
+                rows: [
+                    {
+                        elements: [
+                            {id: 'id', path: "id", class: "span6", view: "FormInputView"},
+                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormInputView"}
+                        ]
+                    },
+                    {
+                        elements: [
+                            {id: 'host_name', path: "host_name", class: "span6", view: "FormInputView"},
+                            {id: 'email', path: 'email', class: "span6", view: "FormInputView"}
+                        ]
+                    }
+                ]
+            },
+            {
                 title: "System",
                 rows: [
                     {
@@ -44,8 +61,8 @@ define([
                     },
                     {
                         elements: [
-                            {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
-                            {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
+                            {id: 'gateway', path: "gateway", class: "span6", view: "FormInputView"},
+                            {id: 'subnet_mask', path: 'subnet_mask', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
@@ -53,11 +70,38 @@ define([
                             {id: 'mac', path: 'mac', class: "span6", view: "FormInputView"},
                             {id: 'ifname', path:'parameters.ifname', class: "span6", view: "FormInputView"}
                         ]
+                    },
+                    {
+                        elements: [
+                            {id: 'domain', path: "domain", class: "span6", view: "FormInputView"}
+                        ]
                     }
                 ]
             },
             {
-                title: "Software",
+                title: "Tags",
+                rows: [
+                    {
+                        elements: [
+                            {id: 'datacenter', path: "tag.datacenter", class: "span6", view: "FormInputView"},
+                            {id: 'floor', path: 'tag.floor', class: "span6", view: "FormInputView"}
+                        ]
+                    },
+                    {
+                        elements: [
+                            {id: 'hall', path: "tag.hall", class: "span6", view: "FormInputView"},
+                            {id: 'rack', path: 'tag.rack', class: "span6", view: "FormInputView"}
+                        ]
+                    },
+                    {
+                        elements: [
+                            {id: 'user_tag', path: "tag.user_tag", class: "span6", view: "FormInputView"}
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Configurations",
                 rows: [
                     {
                         elements: [
@@ -67,7 +111,8 @@ define([
                     },
                     {
                         elements: [
-                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormInputView"}
+                            {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
+                            {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]

@@ -15,6 +15,13 @@ define([
         this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
 
         this.SERVER_COLUMNS = [
+            { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
+              searchable: false, exportConfig: { allow: false }, formatter: function(r, c, v, cd, dc) {
+                    if(dc['discovered'] == "true") {
+                        return '<div class="padding-2-0;"><i class="icon-plus-sign-alt"></i></div>';
+                    }
+                }
+            },
             { id: "server_id", field: "id", name:"Hostname", width:100, minWidth: 15 },
             { id: "cluster_id", field: "cluster_id", name:"Cluster", width:100, minWidth: 15, cssClass:'cell-hyperlink-blue', events: {
                 onClick: function(e, dc) {
@@ -26,16 +33,15 @@ define([
                     tagHTML = tagTemplate(dc.tag);
                 return tagHTML;
             }},
-            { id: "ip_address", field: "ip_address", name:"IP", width:120, minWidth: 15 },
-            { id: "power_address", field: "power_address", name:"Power IP", width:120, minWidth: 15 },
-            { id: "discovered", field: "discovered", name:"Discovered", width:80, minWidth: 15 },
-            { id: "roles", field: "roles", name:"Roles", width:200, minWidth: 15, formatter: function(r, c, v, cd, dc) {
+            { id: "roles", field: "roles", name:"Roles", width:300, minWidth: 15, formatter: function(r, c, v, cd, dc) {
                 var rolesStr = ''
                 if(dc.roles != null) {
                     rolesStr = dc.roles.join(', ');
                 }
                 return rolesStr;
             }},
+            { id: "ip_address", field: "ip_address", name:"IP", width:120, minWidth: 15 },
+            { id: "power_address", field: "power_address", name:"Power IP", width:120, minWidth: 15 },
             { id: "status", field: "status", name:"Status", width:120, minWidth: 15 }
         ];
 
