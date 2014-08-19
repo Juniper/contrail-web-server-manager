@@ -109,6 +109,12 @@ define([
                     }
                 },
                 {
+                    "iconClass": "icon-cloud-upload",
+                    "title": "Provision",
+                    "onClick": function () {
+                    }
+                },
+                {
                     "iconClass": "icon-tags",
                     "title": "Tag",
                     "onClick": function () {

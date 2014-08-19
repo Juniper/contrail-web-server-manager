@@ -111,6 +111,12 @@ define([
                     }
                 },
                 {
+                    "iconClass": "icon-cloud-upload",
+                    "title": "Provision",
+                    "onClick": function () {
+                    }
+                },
+                {
                     "iconClass": "icon-trash",
                     "title": "Delete",
                     "onClick": function () {
