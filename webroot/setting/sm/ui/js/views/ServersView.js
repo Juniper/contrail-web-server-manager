@@ -62,10 +62,15 @@ define([
 
             serverEditView.renderConfigureServer({"title": "Configure Server"});
         }),
-        smGridConfig.getReimageAction(function (rowIndex) {
-            console.log(rowIndex);
-        }),
         smGridConfig.getProvisionAction(function (rowIndex) {
+            var prefixId = smConstants.SERVER_PREFIX_ID,
+                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                serverModel = new ServerModel(dataItem),
+                serverEditView = new ServerEditView({'model': serverModel});
+
+            serverEditView.renderProvisionServers({"title": "Provision Server"});
+        }),
+        smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);
         })
     ];
@@ -103,15 +108,23 @@ define([
             "iconClass": "icon-cog",
             "actions": [
                 {
-                    "iconClass": "icon-upload-alt",
-                    "title": "Reimage",
+                    "iconClass": "icon-cogs",
+                    "title": "Configure",
                     "onClick": function () {
+                        var prefixId = smConstants.SERVER_PREFIX_ID,
+                            serverEditView = new ServerEditView();
+
+                        serverEditView.renderConfigureServerCollection({"title": "Configure Servers"});
                     }
                 },
                 {
                     "iconClass": "icon-cloud-upload",
                     "title": "Provision",
                     "onClick": function () {
+                        var prefixId = smConstants.SERVER_PREFIX_ID,
+                            serverEditView = new ServerEditView();
+
+                        serverEditView.renderProvisionServers({"title": "Provision Servers"});
                     }
                 },
                 {

@@ -66,10 +66,10 @@ define([
         smGridConfig.getAddServersAction(function (rowIndex) {
             console.log(rowIndex);
         }),
-        smGridConfig.getReimageAction(function (rowIndex) {
+        smGridConfig.getProvisionAction(function (rowIndex) {
             console.log(rowIndex);
         }),
-        smGridConfig.getProvisionAction(function (rowIndex) {
+        smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);
         })
     ];
@@ -104,12 +104,6 @@ define([
             "type": "dropdown",
             "iconClass": "icon-cog",
             "actions": [
-                {
-                    "iconClass": "icon-upload-alt",
-                    "title": "Reimage",
-                    "onClick": function () {
-                    }
-                },
                 {
                     "iconClass": "icon-cloud-upload",
                     "title": "Provision",

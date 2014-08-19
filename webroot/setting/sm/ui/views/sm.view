@@ -53,7 +53,7 @@
 
 <script type="text/x-handlebars-template" id="sm-tags-template">
     {{#each this}}
-        <a href="/#p=setting_sm_servers&q[tag][{{@key}}]={{this}}"><span class="badge badge-color-{{@index}}">{{this}}</span></a>
+        <a onclick="loadFeature({{filterServerByTagParams @key this}});"><span class="badge badge-color-{{@index}}">{{this}}</span></a>
     {{/each}}
 </script>
 
