@@ -6,23 +6,34 @@ define([
     'underscore',
     'backbone'
 ], function (_, Backbone) {
+    var prefixId = smConstants.CLUSTER_PREFIX_ID,
+        modalId = 'configure-' + prefixId,
+        editTemplate = contrail.getTemplate4Id("sm-edit-layout-template");
 
     var ClusterEditView = Backbone.View.extend({
-
-        render: function (options) {
-            var prefixId = smConstants.CLUSTER_PREFIX_ID,
-                modalId = 'configure-' + prefixId,
-                editTemplate = contrail.getTemplate4Id("sm-edit-layout-template"),
-                editLayout = editTemplate(editLayoutConfig);
-
-            var that = this;
+        renderConfigure: function (options) {
+            var editLayout = editTemplate(configureLayoutConfig),
+                that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                var vnsForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
-                that.model.saveConfig(vnsForm);
+                var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
+                that.model.saveConfig(clusterForm);
             }});
 
-            smUtils.generateEditFormHTML(modalId, this.model, editLayoutConfig);
+            smUtils.generateEditFormHTML(modalId, this.model, configureLayoutConfig);
+
+            $('#sm-cluster-accordion').accordion({
+                heightStyle: "content"
+            });
+        },
+        renderProvision: function (options) {
+            var editLayout = editTemplate(provisionLayoutConfig),
+                that = this;
+
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            }});
+
+            smUtils.generateEditFormHTML(modalId, this.model, provisionLayoutConfig);
 
             $('#sm-cluster-accordion').accordion({
                 heightStyle: "content"
@@ -30,11 +41,11 @@ define([
         }
     });
 
-    var editLayoutConfig = {
-        prefixId: 'cluster',
+    var configureLayoutConfig = {
+        prefixId: prefixId,
         groups: [
             {
-                title: "Details",
+                title: smLabels.TITLE_DETAILS,
                 rows: [
                     {
                         elements: [
@@ -63,7 +74,7 @@ define([
                 ]
             },
             {
-                title: "Configurations",
+                title: smLabels.TITLE_CONFIGURATIONS,
                 rows: [
                     {
                         elements: [
@@ -87,6 +98,33 @@ define([
                         elements: [
                             {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
                             {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+
+    var provisionLayoutConfig = {
+        prefixId: prefixId,
+        groups: [
+            {
+                title: "Roles Configurations",
+                rows: [
+                    {
+                        elements: [
+                            {id: 'roles-configuration', path: 'id', class: "span12", view: "FormGridView"}
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Image Configurations",
+                rows: [
+                    {
+                        elements: [
+                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormInputView"},
+                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]

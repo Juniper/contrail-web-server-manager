@@ -6,15 +6,22 @@ define([
     'underscore'
 ], function(_) {
     var Labels = function() {
-        var labelMap;
         this.get = function(key) {
+            var keyArray, newKey;
             if(_.has(labelMap, key)){
                 return labelMap[key];
             } else {
-                return key.charAt(0).toUpperCase() + key.slice(1);
+                keyArray = key.split('.');
+                newKey = keyArray[keyArray.length - 1];
+                if(keyArray.length > 1 && _.has(labelMap, newKey)) {
+                    return labelMap[newKey];
+                } else {
+                    return newKey.charAt(0).toUpperCase() + newKey.slice(1);
+                }
             }
-        }
-        labelMap = {
+        };
+
+        var labelMap = {
             //General
             "id": "ID",
             'email': 'Email',
@@ -57,8 +64,37 @@ define([
             "uuid": "UUID",
             "use_certificates": "Use Certificates",
             "haproxy": "HA Proxy",
-            "encapsulation_priority": "Encapsulation Priority"
+            "encapsulation_priority": "Encapsulation Priority",
+
+            //Roles
+            "config": "Config Node",
+            "openstack": "Openstack Node",
+            "control": "Control Node",
+            "compute": "Compute Node",
+            "collector": "Collector Node",
+            "webui": "Webui Node",
+            "database": "Database Node"
         };
-    }
+
+        this.TITLE_DETAILS = "Details";
+        this.TITLE_SYSTEM = "System";
+        this.TITLE_TAGS = "Tags";
+        this.TITLE_CONFIGURATIONS = "Configurations";
+        this.TITLE_STATUS = "Status";
+        this.TITLE_CONFIGURE = "Configure";
+        this.TITLE_ADD = "Add";
+        this.TITLE_PROVISION = "Provision";
+        this.TITLE_TAG = "Tag";
+        this.TITLE_DELETE = "Delete";
+
+        this.TITLE_CLUSTERS = 'Clusters';
+        this.TITLE_CLUSTER = 'Cluster';
+        this.TITLE_SERVERS = 'Servers';
+        this.TITLE_SERVER = 'Server';
+        this.TITLE_IMAGES = 'Images';
+        this.TITLE_IMAGE = 'Image';
+        this.TITLE_REPOS = 'Repos';
+        this.TITLE_REPO = 'Repo';
+    };
     return Labels;
 });

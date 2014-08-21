@@ -3,8 +3,7 @@
  */
 
 Handlebars.registerHelper('getSMLabel', function(labelKey){
-    var keyArray = labelKey.split('.');
-    return smLabels.get(keyArray[keyArray.length - 1]);
+    return smLabels.get(labelKey);
 });
 
 Handlebars.registerHelper('getJSONValueByPath', function(path, obj) {

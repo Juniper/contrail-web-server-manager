@@ -14,13 +14,13 @@ require.config({
 });
 
 require([
-    'common/ui/js/sm.constants',
+    'common/ui/js/constants',
     'common/ui/js/grid.config',
-    'common/ui/js/sm.utils',
+    'common/ui/js/utils',
     "common/ui/js/labels"
-], function(SMConstants, GridConfig, SMUtils, Labels) {
-    smConstants = new SMConstants();
-    smUtils = new SMUtils();
+], function(Constants, GridConfig, Utils, Labels) {
+    smConstants = new Constants();
+    smUtils = new Utils();
     smGridConfig = new GridConfig();
     smLabels = new Labels();
 });

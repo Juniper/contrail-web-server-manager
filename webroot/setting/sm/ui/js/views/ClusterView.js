@@ -8,25 +8,22 @@ define([
     'setting/sm/ui/js/models/ClusterModel',
     'setting/sm/ui/js/views/ClusterEditView'
 ], function (_, Backbone, ClusterModel, ClusterEditView) {
+    var prefixId = smConstants.CLUSTER_PREFIX_ID;
+
     var ClusterView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
             var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + smConstants.CLUSTER_PREFIX_ID + '-results',
-                headerActionsTemplate = contrail.getTemplate4Id("sm-actions-template"),
-                options;
+                gridElId = '#' + prefixId + '-results';
 
-            this.$el.html(directoryTemplate({name: smConstants.CLUSTER_PREFIX_ID}));
+            this.$el.html(directoryTemplate({name: prefixId}));
 
-            options = {elementId: gridElId, data: [], url: '/sm/objects/details/cluster?field=cluster'};
-
-            options.gridConfig = {
+            var gridConfig = {
                 header: {
                     title: {
-                        text: smGridConfig.CLUSTER_GRID_TITLE
+                        text: smLabels.TITLE_CLUSTERS
                     },
-                    customControls: options['customControls'],
                     advanceControls: headerControlConfig
                 },
                 columnHeader: {
@@ -43,31 +40,34 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: options.url
+                                url: smUtils.getObjectUrl(prefixId, prefixId)
                             }
                         }
                     }
                 }
             };
 
-            smUtils.renderGrid(options);
+            smUtils.renderGrid(gridElId, gridConfig);
         }
     });
 
     var gridActionCellConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
-            var prefixId = smConstants.CLUSTER_PREFIX_ID,
-                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 clusterEditView = new ClusterEditView({'model': clusterModel});
 
-            clusterEditView.render({"title": "Configure Cluster"});
+            clusterEditView.renderConfigure({"title": "Configure Cluster"});
         }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             console.log(rowIndex);
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
-            console.log(rowIndex);
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
+                clusterEditView = new ClusterEditView({'model': clusterModel});
+
+            clusterEditView.renderProvision({"title": "Provision Cluster"});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);
@@ -77,13 +77,13 @@ define([
     var gridTemplateConfig = [
         [
             {
-                title: 'Details',
+                title: smLabels.TITLE_DETAILS,
                 keys: ['id', 'parameters.uuid', 'parameters.domain', 'email', 'parameters.openstack_mgmt_ip', 'parameters.gateway', 'parameters.subnet_mask']
             }
         ],
         [
             {
-                title: 'Configurations',
+                title: smLabels.TITLE_CONFIGURATIONS,
                 keys: ['parameters.keystone_tenant', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates' ]
             }
         ]
@@ -97,7 +97,7 @@ define([
                 var clusterModel = new ClusterModel(),
                     clusterEditView = new ClusterEditView({'model': clusterModel});
 
-                clusterEditView.render({"title": "Add Cluster"});
+                clusterEditView.renderConfigure({"title": "Add Cluster"});
             }
         },
         {
@@ -106,13 +106,15 @@ define([
             "actions": [
                 {
                     "iconClass": "icon-cloud-upload",
-                    "title": "Provision",
+                    "title": smLabels.TITLE_PROVISION,
                     "onClick": function () {
+                        var clusterModel, clusterEditView = new ClusterEditView({'model': clusterModel});
+                        clusterEditView.renderProvision({"title": "Provision Clusters"});
                     }
                 },
                 {
                     "iconClass": "icon-trash",
-                    "title": "Delete",
+                    "title": smLabels.TITLE_DELETE,
                     "onClick": function () {
                     }
                 }

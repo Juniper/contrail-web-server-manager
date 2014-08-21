@@ -8,25 +8,22 @@ define([
     'setting/sm/ui/js/models/RepoModel',
     'setting/sm/ui/js/views/RepoEditView'
 ], function (_, Backbone, RepoModel, RepoEditView) {
+    var prefixId = smConstants.REPO_PREFIX_ID;
+
     var ImagesView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
             var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + smConstants.REPO_PREFIX_ID + '-results',
-                headerActionsTemplate = contrail.getTemplate4Id("sm-actions-template"),
-                options;
+                gridElId = '#' + prefixId + '-results';
 
-            this.$el.html(directoryTemplate({name: smConstants.REPO_PREFIX_ID}));
+            this.$el.html(directoryTemplate({name: prefixId}));
 
-            options = {elementId: gridElId, data: [], url:'/sm/objects/details/image?field=image'};
-            
-            options.gridConfig = {
-        		header: {
-                    title:{
-                        text: smGridConfig.REPOS_GRID_TITLE
+            var gridConfig = {
+                header: {
+                    title: {
+                        text: smLabels.TITLE_REPOS
                     },
-                    customControls: options['customControls'],
                     advanceControls: headerControlConfig
                 },
                 columnHeader: {
@@ -39,21 +36,20 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: options.url
+                                url: smUtils.getObjectUrl("image", "image")
                             }
                         }
                     }
                 }
             };
-            
-            smUtils.renderGrid(options);
+
+            smUtils.renderGrid(gridElId, gridConfig);
         }
     });
 
     var gridActionCellConfig = [
-        smGridConfig.getConfigureAction(function(rowIndex){
-            var prefixId = smConstants.REPO_PREFIX_ID,
-                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+        smGridConfig.getConfigureAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 repoModel = new RepoModel(dataItem),
                 repoEditView = new RepoEditView({'model': repoModel});
 
@@ -79,8 +75,9 @@ define([
             "actions": [
                 {
                     "iconClass": "icon-trash",
-                    "title": "Delete",
-                    "onClick": function() {}
+                    "title": smLabels.TITLE_DELETE,
+                    "onClick": function () {
+                    }
                 }
             ]
         }

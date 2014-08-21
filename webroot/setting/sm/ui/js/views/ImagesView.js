@@ -8,25 +8,22 @@ define([
     'setting/sm/ui/js/models/ImageModel',
     'setting/sm/ui/js/views/ImageEditView'
 ], function (_, Backbone, ImageModel, ImageEditView) {
+    var prefixId = smConstants.IMAGE_PREFIX_ID;
+
     var ImagesView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
             var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + smConstants.IMAGE_PREFIX_ID + '-results',
-                headerActionsTemplate = contrail.getTemplate4Id("sm-actions-template"),
-                options;
+                gridElId = '#' + prefixId + '-results';
 
-            this.$el.html(directoryTemplate({name: smConstants.IMAGE_PREFIX_ID}));
+            this.$el.html(directoryTemplate({name: prefixId}));
 
-            options = {elementId: gridElId, data: [], url: '/sm/objects/details/image?field=image'};
-
-            options.gridConfig = {
+            var gridConfig = {
                 header: {
                     title: {
-                        text: smGridConfig.IMAGES_GRID_TITLE
+                        text: smLabels.TITLE_IMAGES
                     },
-                    customControls: options['customControls'],
                     advanceControls: headerControlConfig
                 },
                 columnHeader: {
@@ -39,21 +36,20 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: options.url
+                                url: smUtils.getObjectUrl(prefixId, prefixId)
                             }
                         }
                     }
                 }
             };
 
-            smUtils.renderGrid(options);
+            smUtils.renderGrid(gridElId, gridConfig);
         }
     });
 
     var gridActionCellConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
-            var prefixId = smConstants.IMAGE_PREFIX_ID,
-                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 imageModel = new ImageModel(dataItem),
                 imageEditView = new ImageEditView({'model': imageModel});
 
@@ -79,7 +75,7 @@ define([
             "actions": [
                 {
                     "iconClass": "icon-trash",
-                    "title": "Delete",
+                    "title": smLabels.TITLE_DELETE,
                     "onClick": function () {
                     }
                 }

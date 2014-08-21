@@ -8,22 +8,21 @@ define([
     'setting/sm/ui/js/models/ServerModel',
     'setting/sm/ui/js/views/ServerEditView'
 ], function (_, Backbone, ServerModel, ServerEditView) {
+    var prefixId = smConstants.SERVER_PREFIX_ID;
+
     var ServersView = Backbone.View.extend({
         el: $(contentContainer),
 
-        render: function (options) {
+        render: function (viewConfig) {
             var smTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + smConstants.SERVER_PREFIX_ID + '-results',
-                options;
+                gridElId = '#' + prefixId + '-results';
 
-            this.$el.html(smTemplate({name: smConstants.SERVER_PREFIX_ID}));
+            this.$el.html(smTemplate({name: prefixId}));
 
-            options = {elementId: gridElId, data: [], url: '/sm/objects/details/server?field=server' + options['queryString']};
-
-            options.gridConfig = {
+            var gridConfig = {
                 header: {
                     title: {
-                        text: smGridConfig.SERVERS_GRID_TITLE
+                        text: smLabels.TITLE_SERVERS
                     },
                     customControls: ['<i class="icon-filter"></i>'],
                     advanceControls: headerControlConfig
@@ -42,29 +41,27 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: options.url
+                                url: smUtils.getObjectUrl(prefixId, prefixId) + viewConfig['queryString']
                             }
                         }
                     }
                 }
             };
 
-            smUtils.renderGrid(options);
+            smUtils.renderGrid(gridElId, gridConfig);
         }
     });
 
     var gridActionCellConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
-            var prefixId = smConstants.SERVER_PREFIX_ID,
-                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderConfigureServer({"title": "Configure Server"});
+            serverEditView.renderConfigure({"title": "Configure Server"});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
-            var prefixId = smConstants.SERVER_PREFIX_ID,
-                dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
@@ -78,25 +75,25 @@ define([
     var gridTemplateConfig = [
         [
             {
-                title: 'Details',
+                title: smLabels.TITLE_DETAILS,
                 keys: ['id', 'cluster_id', 'host_name', 'email']
             },
             {
-                title: 'System',
+                title: smLabels.TITLE_SYSTEM,
                 keys: ['domain', 'ip_address', 'power_address', 'gateway', 'subnet_mask', 'mac_address', 'parameters.interface_name']
             },
             {
-                title: 'Tags',
+                title: smLabels.TITLE_TAGS,
                 keys: ['tag.datacenter', 'tag.floor', 'tag.hall', 'tag.rack', 'tag.user_tag']
             }
         ],
         [
             {
-                title: 'Status',
+                title: smLabels.TITLE_STATUS,
                 keys: ['status', 'last_update']
             },
             {
-                title: 'Configurations',
+                title: smLabels.TITLE_CONFIGURATIONS,
                 keys: ['base_image_id', 'package_image_id', 'roles', 'static_ip', 'parameters.compute_non_mgmt_ip', 'parameters.compute_non_mgmt_gway']
             }
         ]
@@ -109,37 +106,34 @@ define([
             "actions": [
                 {
                     "iconClass": "icon-cogs",
-                    "title": "Configure",
+                    "title": smLabels.TITLE_CONFIGURE,
                     "onClick": function () {
-                        var prefixId = smConstants.SERVER_PREFIX_ID,
-                            serverEditView = new ServerEditView();
+                        var serverEditView = new ServerEditView();
 
-                        serverEditView.renderConfigureServerCollection({"title": "Configure Servers"});
+                        serverEditView.renderConfigureServers({"title": "Configure Servers"});
                     }
                 },
                 {
                     "iconClass": "icon-cloud-upload",
-                    "title": "Provision",
+                    "title": smLabels.TITLE_PROVISION,
                     "onClick": function () {
-                        var prefixId = smConstants.SERVER_PREFIX_ID,
-                            serverEditView = new ServerEditView();
+                        var serverEditView = new ServerEditView();
 
                         serverEditView.renderProvisionServers({"title": "Provision Servers"});
                     }
                 },
                 {
                     "iconClass": "icon-tags",
-                    "title": "Tag",
+                    "title": smLabels.TITLE_TAG,
                     "onClick": function () {
-                        var prefixId = smConstants.SERVER_PREFIX_ID,
-                            serverEditView = new ServerEditView();
+                        var serverEditView = new ServerEditView();
 
                         serverEditView.renderTagServers({"title": "Tag Servers"});
                     }
                 },
                 {
                     "iconClass": "icon-trash",
-                    "title": "Delete"
+                    "title": smLabels.TITLE_DELETE
                 }
             ]
         }

@@ -13,7 +13,7 @@ define([
 
     var ServerEditView = Backbone.View.extend({
 
-        renderConfigureServer: function (options) {
+        renderConfigure: function (options) {
             var editLayout = editTemplate(configureServerLayoutConfig),
                 that = this;
 
@@ -29,7 +29,7 @@ define([
             });
         },
 
-        renderConfigureServerCollection: function (options) {
+        renderConfigureServers: function (options) {
             var editLayout = editTemplate(configureServerCollectionLayoutConfig),
                 that = this;
 
@@ -170,10 +170,10 @@ define([
     };
 
     var configureServerCollectionLayoutConfig = {
-        prefixId: 'server',
+        prefixId: prefixId,
         groups: [
             {
-                title: "Details",
+                title: smLabels.TITLE_DETAILS,
                 rows: [
                     {
                         elements: [
@@ -184,7 +184,7 @@ define([
                 ]
             },
             {
-                title: "System",
+                title: smLabels.TITLE_SYSTEM,
                 rows: [
                     {
                         elements: [
@@ -201,11 +201,11 @@ define([
                 ]
             },
             {
-                title: "Tags",
+                title: smLabels.TITLE_TAGS,
                 rows: editTagLayoutRows
             },
             {
-                title: "Configurations",
+                title: smLabels.TITLE_CONFIGURATIONS,
                 rows: [
                     {
                         elements: [
@@ -224,7 +224,7 @@ define([
     };
 
     var provisionServersLayoutConfig = {
-        prefixId: 'server',
+        prefixId: prefixId,
         groups: [
             {
                 title: "Provision Configurations",

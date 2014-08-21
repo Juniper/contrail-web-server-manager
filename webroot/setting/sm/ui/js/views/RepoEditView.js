@@ -6,12 +6,12 @@ define([
     'underscore',
     'backbone'
 ], function (_, Backbone) {
+    var prefixId = smConstants.REPO_PREFIX_ID;
 
     var RepoEditView = Backbone.View.extend({
 
         render: function (options) {
-            var prefixId = smConstants.REPO_PREFIX_ID,
-                modalId = 'configure-' + prefixId,
+            var modalId = 'configure-' + prefixId,
                 editTemplate = contrail.getTemplate4Id("sm-edit-layout-template"),
                 editLayout = editTemplate(editLayoutConfig);
 
@@ -31,10 +31,10 @@ define([
     });
 
     var editLayoutConfig = {
-        prefixId: smConstants.REPO_PREFIX_ID,
+        prefixId: prefixId,
         groups: [
             {
-                title: "Details",
+                title: smLabels.TITLE_DETAILS,
                 rows: [
                     {
                         elements: [

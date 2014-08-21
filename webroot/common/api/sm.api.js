@@ -11,7 +11,7 @@ var smapi = module.exports,
     qs = require('querystring');
 
 var smServerIP = smConfig.DFLT_SERVER_IP;
-var smServerPort = '9001';
+var smServerPort = smConfig.DFLT_SERVER_PORT;
 
 if (smConfig.sm) {
     if (smConfig.sm.server_ip) {
