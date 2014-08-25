@@ -59,17 +59,6 @@ define([
 
     var headerControlConfig = [
         {
-            "type": "link",
-            "title": "Add Image",
-            "iconClass": "icon-plus",
-            "onClick": function () {
-                var imageModel = new ImageModel(),
-                    imageEditView = new ImageEditView({'model': imageModel});
-
-                imageEditView.render({"title": "Add Image"});
-            }
-        },
-        {
             "type": "dropdown",
             "iconClass": "icon-cog",
             "actions": [
@@ -80,6 +69,17 @@ define([
                     }
                 }
             ]
+        },
+        {
+            "type": "link",
+            "title": "Add Image",
+            "iconClass": "icon-plus",
+            "onClick": function () {
+                var imageModel = new ImageModel(),
+                    imageEditView = new ImageEditView({'model': imageModel});
+
+                imageEditView.render({"title": "Add Image"});
+            }
         }
     ];
 

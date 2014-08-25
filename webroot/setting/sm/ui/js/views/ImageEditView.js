@@ -23,10 +23,6 @@ define([
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, editLayoutConfig);
-
-            $('#sm-image-accordion').accordion({
-                heightStyle: "content"
-            });
         }
     });
 
@@ -34,7 +30,6 @@ define([
         prefixId: prefixId,
         groups: [
             {
-                title: smLabels.TITLE_DETAILS,
                 rows: [
                     {
                         elements: [

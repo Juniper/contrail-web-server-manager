@@ -109,7 +109,7 @@ define([
         prefixId: prefixId,
         groups: [
             {
-                title: "Roles Configurations",
+                title: "Roles",
                 rows: [
                     {
                         elements: [

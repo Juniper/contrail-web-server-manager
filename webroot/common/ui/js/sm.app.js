@@ -21,6 +21,6 @@ require([
 ], function(Constants, GridConfig, Utils, Labels) {
     smConstants = new Constants();
     smUtils = new Utils();
-    smGridConfig = new GridConfig();
     smLabels = new Labels();
+    smGridConfig = new GridConfig();
 });

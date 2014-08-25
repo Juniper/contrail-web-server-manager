@@ -32,7 +32,7 @@ define([
             "last_update": "Last Updated",
 
             //Server
-            "power_address": "Power Address",
+            "power_address": "IPMI",
             "base_image_id": "Base Image",
             "package_image_id": "Package Image",
             "roles": "Roles",
@@ -67,13 +67,13 @@ define([
             "encapsulation_priority": "Encapsulation Priority",
 
             //Roles
-            "config": "Config Node",
-            "openstack": "Openstack Node",
-            "control": "Control Node",
-            "compute": "Compute Node",
-            "collector": "Collector Node",
-            "webui": "Webui Node",
-            "database": "Database Node"
+            "config": "Config",
+            "openstack": "Openstack",
+            "control": "Control",
+            "compute": "Compute",
+            "collector": "Collector",
+            "webui": "Webui",
+            "database": "Database"
         };
 
         this.TITLE_DETAILS = "Details";
@@ -85,11 +85,15 @@ define([
         this.TITLE_ADD = "Add";
         this.TITLE_PROVISION = "Provision";
         this.TITLE_TAG = "Tag";
+        this.TITLE_TAGS = "Tags";
+        this.TITLE_ROLE = "Role";
+        this.TITLE_ROLES = "Roles";
         this.TITLE_DELETE = "Delete";
 
         this.TITLE_CLUSTERS = 'Clusters';
         this.TITLE_CLUSTER = 'Cluster';
         this.TITLE_SERVERS = 'Servers';
+        this.TITLE_ALL_SERVERS = 'All Servers';
         this.TITLE_SERVER = 'Server';
         this.TITLE_IMAGES = 'Images';
         this.TITLE_IMAGE = 'Image';

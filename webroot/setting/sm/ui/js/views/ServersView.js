@@ -17,14 +17,15 @@ define([
             var smTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
                 gridElId = '#' + prefixId + '-results';
 
+            var queryString = getQueryString4ServersUrl(viewConfig['hashParams'])
+
             this.$el.html(smTemplate({name: prefixId}));
 
             var gridConfig = {
                 header: {
                     title: {
-                        text: smLabels.TITLE_SERVERS
+                        text: smLabels.TITLE_SERVERS + getServerTitleSuffix(viewConfig['hashParams'])
                     },
-                    customControls: ['<i class="icon-filter"></i>'],
                     advanceControls: headerControlConfig
                 },
                 columnHeader: {
@@ -41,7 +42,7 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectUrl(prefixId, prefixId) + viewConfig['queryString']
+                                url: smUtils.getObjectUrl(prefixId, prefixId) + queryString
                             }
                         }
                     }
@@ -66,6 +67,20 @@ define([
                 serverEditView = new ServerEditView({'model': serverModel});
 
             serverEditView.renderProvisionServers({"title": "Provision Server"});
+        }),
+        smGridConfig.getTagAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                serverModel = new ServerModel(dataItem),
+                serverEditView = new ServerEditView({'model': serverModel});
+
+            serverEditView.renderTagServers({"title": "Add Tags"});
+        }),
+        smGridConfig.getRoleAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                serverModel = new ServerModel(dataItem),
+                serverEditView = new ServerEditView({'model': serverModel});
+
+            serverEditView.renderEditRoles({"title": "Edit Roles"});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);
@@ -124,11 +139,18 @@ define([
                 },
                 {
                     "iconClass": "icon-tags",
-                    "title": smLabels.TITLE_TAG,
+                    "title": 'Edit ' + smLabels.TITLE_TAGS,
                     "onClick": function () {
                         var serverEditView = new ServerEditView();
-
-                        serverEditView.renderTagServers({"title": "Tag Servers"});
+                        serverEditView.renderTagServers({"title": "Add Tags"});
+                    }
+                },
+                {
+                    "iconClass": "icon-check",
+                    "title": 'Edit ' + smLabels.TITLE_ROLES,
+                    "onClick": function () {
+                        var serverEditView = new ServerEditView();
+                        serverEditView.renderEditRoles({"title": "Edit Roles"});
                     }
                 },
                 {
@@ -136,8 +158,43 @@ define([
                     "title": smLabels.TITLE_DELETE
                 }
             ]
+        },
+        {
+            "type": "link",
+            "iconClass": "icon-filter",
+            "onClick": function () {
+            }
         }
     ];
 
     return ServersView;
+
+    function getQueryString4ServersUrl(hashParams) {
+        var queryString = '', tagKey, tagQueryArray = [];;
+        if(hashParams['cluster_id'] != null) {
+            queryString += '&cluster_id=' + hashParams['cluster_id'];
+        }
+
+        if(hashParams['tag'] != null) {
+            for(tagKey in hashParams['tag']) {
+                tagQueryArray.push(tagKey + "=" + hashParams['tag'][tagKey]);
+            }
+            queryString += '&tag=' + tagQueryArray.join(',');
+        }
+        return queryString;
+    };
+
+    function getServerTitleSuffix(hashParams) {
+        var titleSuffixArray = [], tagKey;
+        if(hashParams['cluster_id'] != null) {
+            titleSuffixArray.push(smLabels.TITLE_CLUSTER + ': ' + hashParams['cluster_id']);
+        }
+
+        if(hashParams['tag'] != null) {
+            for(tagKey in hashParams['tag']) {
+                titleSuffixArray.push(smLabels.get(tagKey) + ": " + hashParams['tag'][tagKey]);
+            }
+        }
+        return (titleSuffixArray.length > 0) ? (' (' + titleSuffixArray.join(',') + ') ') : '';
+    };
 });

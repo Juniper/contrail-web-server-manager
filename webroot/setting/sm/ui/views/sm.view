@@ -79,3 +79,10 @@
   	{{/each}}
 	</div>
 </script>
+
+<script type="text/x-handlebars-template" id="cluster-template">
+    <div id="cluster-details">
+    </div>
+    <div id="cluster-server-list">
+    </div>
+</script>

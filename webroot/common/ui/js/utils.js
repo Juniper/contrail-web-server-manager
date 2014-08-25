@@ -166,6 +166,7 @@ define([
                 return '-';
             }
         };
+
         this.getObjectUrl = function(objectName, objectField) {
             return '/sm/objects/details/' + objectName + '?field=' + objectField;
         };

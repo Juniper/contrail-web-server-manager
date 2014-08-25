@@ -39,14 +39,14 @@
                     </resources>
                     <items>
                         <item>
-                            <hash>setting_sm_cluster</hash>
+                            <hash>setting_sm_clusters</hash>
                             <label>Clusters</label>
                             <resources>
                                 <resource>
                                     <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
                                     <view>sm.view</view>
-                                    <class>clusterPageLoader</class>
+                                    <class>clustersPageLoader</class>
                                 </resource>
                             </resources>
                         </item>

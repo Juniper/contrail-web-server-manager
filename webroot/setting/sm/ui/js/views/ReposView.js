@@ -59,17 +59,6 @@ define([
 
     var headerControlConfig = [
         {
-            "type": "link",
-            "title": "Add Repo",
-            "iconClass": "icon-plus",
-            "onClick": function () {
-                var repoModel = new RepoModel(),
-                    repoEditView = new RepoEditView({'model': repoModel});
-
-                repoEditView.render({"title": "Add Repo"});
-            }
-        },
-        {
             "type": "dropdown",
             "iconClass": "icon-cog",
             "actions": [
@@ -80,6 +69,17 @@ define([
                     }
                 }
             ]
+        },
+        {
+            "type": "link",
+            "title": "Add Repo",
+            "iconClass": "icon-plus",
+            "onClick": function () {
+                var repoModel = new RepoModel(),
+                    repoEditView = new RepoEditView({'model': repoModel});
+
+                repoEditView.render({"title": "Add Repo"});
+            }
         }
     ];
 

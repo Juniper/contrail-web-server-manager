@@ -2,20 +2,21 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var clusterPageLoader = new ClusterPageLoader(),
+var clustersPageLoader = new ClustersPageLoader(),
     serversPageLoader = new ServersPageLoader(),
     imagesPageLoader = new ImagesPageLoader(),
     reposPageLoader = new ReposPageLoader();
 
-function ClusterPageLoader() {
-    this.load = function(hashParams) {
+function ClustersPageLoader() {
+    this.load = function(paramObject) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathClusterView = rootDir + '/js/views/ClusterView.js';
+            pathClustersView = rootDir + '/js/views/ClustersView.js',
+            hashParams = paramObject['hashParams'];;
 
-        requirejs([pathClusterView], function(ClusterView){
-            var clusterView = new ClusterView();
-            clusterView.render();
+        requirejs([pathClustersView], function(ClustersView){
+            var clustersView = new ClustersView();
+            clustersView.render({hashParams: hashParams});
         });
     };
     this.destroy = function() {};
@@ -25,25 +26,12 @@ function ServersPageLoader() {
     this.load = function(paramObject) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathServersView = rootDir + '/js/views/ServersView.js';
-
-        var hashParams = paramObject['hashParams'],
-            queryString = '', tagKey, tagQueryArray = [];
-
-        if(hashParams['cluster_id'] != null) {
-            queryString += '&cluster_id=' + hashParams['cluster_id'];
-        }
-
-        if(hashParams['tag'] != null) {
-            for(tagKey in hashParams['tag']) {
-                tagQueryArray.push(tagKey + "=" + hashParams['tag'][tagKey]);
-            }
-            queryString += '&tag=' + tagQueryArray.join(',');
-        }
+            pathServersView = rootDir + '/js/views/ServersView.js',
+            hashParams = paramObject['hashParams'];
 
         requirejs([pathServersView], function(ServersView){
-            var serverView = new ServersView();
-            serverView.render({queryString: queryString});
+            var serversView = new ServersView();
+            serversView.render({hashParams: hashParams});
         });
     };
     this.destroy = function() {};
@@ -56,8 +44,8 @@ function ImagesPageLoader() {
             pathImagesView = rootDir + '/js/views/ImagesView.js';
 
         requirejs([pathImagesView], function(ImagesView){
-            var imageView = new ImagesView();
-            imageView.render();
+            var imagesView = new ImagesView();
+            imagesView.render();
         });
     };
     this.destroy = function() {};

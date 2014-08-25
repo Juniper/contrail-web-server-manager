@@ -69,6 +69,17 @@ define([
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, tagServersConfig);
+        },
+
+        renderEditRoles: function (options) {
+            var editLayout = editTemplate(editRolesLayoutConfig),
+                that = this;
+
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+
+            }});
+
+            smUtils.generateEditFormHTML(modalId, this.model, editRolesLayoutConfig);
         }
     });
 
@@ -235,6 +246,21 @@ define([
                             {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormInputView"}
                         ]
                     },
+                    {
+                        elements: [
+                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+
+    var editRolesLayoutConfig = {
+        prefixId: prefixId,
+        groups: [
+            {
+                rows: [
                     {
                         elements: [
                             {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}

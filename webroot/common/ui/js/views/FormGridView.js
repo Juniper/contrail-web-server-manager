@@ -25,7 +25,8 @@ define([
                         exportable: false,
                         refreshable: false,
                         searchable: true
-                    }
+                    },
+                    customControls: ['<i class="icon-filter"></i>']
                 },
                 columnHeader: {
                     columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
