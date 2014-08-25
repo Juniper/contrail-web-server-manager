@@ -108,8 +108,12 @@ define([
                 keys: ['status', 'last_update']
             },
             {
+                title: smLabels.TITLE_ROLES,
+                keys: ['roles']
+            },
+            {
                 title: smLabels.TITLE_CONFIGURATIONS,
-                keys: ['base_image_id', 'package_image_id', 'roles', 'static_ip', 'parameters.compute_non_mgmt_ip', 'parameters.compute_non_mgmt_gway']
+                keys: ['base_image_id', 'package_image_id', 'static_ip', 'parameters.compute_non_mgmt_ip', 'parameters.compute_non_mgmt_gway']
             }
         ]
     ];

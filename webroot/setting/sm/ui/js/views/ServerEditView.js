@@ -53,10 +53,6 @@ define([
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, provisionServersLayoutConfig);
-
-            $('#sm-server-accordion').accordion({
-                heightStyle: "content"
-            });
         },
 
         renderTagServers: function (options) {
@@ -156,6 +152,16 @@ define([
                 rows: editTagLayoutRows
             },
             {
+                title: "Roles",
+                rows: [
+                    {
+                        elements: [
+                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
+                        ]
+                    }
+                ]
+            },
+            {
                 title: "Configurations",
                 rows: [
                     {
@@ -168,11 +174,6 @@ define([
                         elements: [
                             {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
                             {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
-                        ]
-                    },
-                    {
-                        elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -238,17 +239,11 @@ define([
         prefixId: prefixId,
         groups: [
             {
-                title: "Provision Configurations",
                 rows: [
                     {
                         elements: [
                             {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormInputView"},
                             {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormInputView"}
-                        ]
-                    },
-                    {
-                        elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
                         ]
                     }
                 ]

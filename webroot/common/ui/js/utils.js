@@ -148,7 +148,7 @@ define([
                 }
             }
         };
-        this.getJSONValueByPath = function(path,obj) {
+        this.getJSONValueByPath = function(path, obj) {
         	path = path.replace(/\[(\w+)\]/g, '.$1');
             path = path.replace(/^\./, '');
             var pathArray = path.split('.');

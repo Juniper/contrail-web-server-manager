@@ -112,7 +112,7 @@ define([
         [
             {
                 title: smLabels.TITLE_CONFIGURATIONS,
-                keys: ['parameters.keystone_tenant', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates' ]
+                keys: ['parameters.analytics_data_ttl', 'parameters.keystone_tenant', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates' ]
             }
         ]
     ];
@@ -147,7 +147,7 @@ define([
 
                 clusterEditView.renderConfigure({"title": "Add Cluster"});
             }
-        },
+        }
     ];
     return ClusterView;
 });
