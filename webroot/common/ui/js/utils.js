@@ -5,8 +5,9 @@
 define([
     'underscore',
     'common/ui/js/views/FormInputView',
-    'common/ui/js/views/FormGridView'
-], function (_, FormInputView, FormGridView) {
+    'common/ui/js/views/FormGridView',
+    'common/ui/js/views/FormMultiselectView'
+], function (_, FormInputView, FormGridView, FormMultiselectView) {
     var Utils = function () {
         var self = this;
         this.renderGrid = function (elementId, gridConfig) {
@@ -127,21 +128,27 @@ define([
                             el = $('#' + modalId).find('#' + elementId),
                             viewName = elements[j]['view'],
                             elementValue = (formModel != null) ? formModel.getValueByPath(path) : '',
-                            labelValue = (elementId != null) ? smLabels.get(elementId) : smLabels.get(path);
+                            labelValue = (elementId != null) ? smLabels.get(elementId) : smLabels.get(path),
+                            elementConfig = elements[j]['elementConfig'],
+                            elementView;
 
                         switch (viewName) {
+                            case "FormMultiselectView":
+                                elementView = new FormMultiselectView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12", elementConfig: elementConfig}});
+                                elementView.render();
+                                break;
                             case "FormInputView":
-                                var elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12"}});
+                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12"}});
                                 elementView.render();
                                 break;
 
                             case "FormGridView":
-                                var elementView = new FormGridView({el: el, attributes: {class: "span12", clusterId: elementValue}});
+                                elementView = new FormGridView({el: el, attributes: {class: "span12", clusterId: elementValue}});
                                 elementView.render();
                                 break;
 
                             default:
-                                var elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12"}});
+                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12"}});
                                 elementView.render();
                         }
                     }

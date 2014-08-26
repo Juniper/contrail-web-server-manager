@@ -106,8 +106,8 @@ define([
 
         this.getGridColumns4Roles = function() {
             var columns = [];
-            for (var i = 0; i < smConstants.ROLES.length; i++) {
-                var role = smConstants.ROLES[i];
+            for (var i = 0; i < smConstants.ROLES_ARRAY.length; i++) {
+                var role = smConstants.ROLES_ARRAY[i];
                 columns.push({
                     id: role, field: "roles", name: smLabels.get(role), width: 60, minWidth: 15, cssClass: "slick-cell-checkboxsel", formatter: function (r, c, v, cd, dc) {
                         var checked = dc.roles.indexOf(role) != -1 ? true : false;

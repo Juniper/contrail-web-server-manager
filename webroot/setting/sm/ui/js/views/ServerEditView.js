@@ -156,7 +156,7 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
+                            {id: 'roles', path: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
                         ]
                     }
                 ]
@@ -217,17 +217,22 @@ define([
                 rows: editTagLayoutRows
             },
             {
+                title: "Roles",
+                rows: [
+                    {
+                        elements: [
+                            {id: 'roles', path: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
+                        ]
+                    }
+                ]
+            },
+            {
                 title: smLabels.TITLE_CONFIGURATIONS,
                 rows: [
                     {
                         elements: [
                             {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormInputView"},
                             {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormInputView"}
-                        ]
-                    },
-                    {
-                        elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -258,7 +263,7 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormInputView"}
+                            {id: 'roles', path: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
                         ]
                     }
                 ]

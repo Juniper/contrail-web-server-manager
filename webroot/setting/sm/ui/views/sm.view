@@ -36,6 +36,13 @@
     </div>
 </script>
 
+<script type="text/x-handlebars-template" id="sm-form-multiselect-template">
+    <label>{{label}}</label>
+    <div class="row-fluid">
+        <input id="{{id}}" name="{{name}}" class="{{class}}"/>
+    </div>
+</script>
+
 <script type="text/x-handlebars-template" id="sm-actions-template">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         <i class="icon-cog"></i>
