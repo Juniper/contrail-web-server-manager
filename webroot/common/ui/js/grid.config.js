@@ -30,13 +30,13 @@ define([
                 }
             }},
             { id: "domain", name: "Domain", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return dc['parameters']['domain'];
+                return (dc['parameters'] != null) ? dc['parameters']['domain'] : '';
             }},
-            { id: "domain", name: "Gateway", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return dc['parameters']['gateway'];
+            { id: "gateway", name: "Gateway", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return (dc['parameters'] != null) ? dc['parameters']['gateway'] : '';
             }},
-            { id: "domain", name: "Subnet Mask", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return dc['parameters']['subnet_mask'];
+            { id: "subnet_mask", name: "Subnet Mask", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return (dc['parameters'] != null) ? dc['parameters']['subnet_mask'] : '';
             }},
             { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 }
         ];
@@ -132,8 +132,8 @@ define([
                 }
             }
             },
-            { id: "server_id", field: "id", name: "Hostname", width: 100, minWidth: 15 },
-            { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 100, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+            { id: "server_id", field: "id", name: "Hostname", width: 80, minWidth: 15 },
+            { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
                 onClick: function (e, dc) {
                     loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['cluster_id']}});
                 }
@@ -145,9 +145,7 @@ define([
             }},
             { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
             { id: "power_address", field: "power_address", name: "IPMI", width: 80, minWidth: 15 }
-        ].concat(this.getGridColumns4Roles()).concat([
-            { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
-        ]);
+        ].concat(this.getGridColumns4Roles()).concat([{ id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }]);
     }
 
     return GridConfig;
