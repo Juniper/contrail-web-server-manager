@@ -10,12 +10,12 @@
 
 <script type="text/x-handlebars-template" id="sm-edit-layout-template">
     <form id="sm-{{prefixId}}-edit-form" onsubmit="return false;" class="">
-        <div id="sm-{{prefixId}}-accordion">
+        <div id="sm-{{prefixId}}-accordion" class="ui-accordion">
             {{#each groups}}
                 {{#if this.title}}
                    <h3>{{this.title}}</h3>
                 {{/if}}
-                <div id="sm-{{prefixId}}-{{this.title}}">
+                <div id="sm-{{prefixId}}-{{this.title}}" class="ui-accordion-content">
                     {{#each this.rows}}
                         <div class="row-fluid margin-0-0-5 span12">
                             {{#each this.elements}}
@@ -72,11 +72,11 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-grid-2-row-group-detail-template">
-	<div class="row-fluid">
+	<div class="row-fluid group-detail-container">
 	{{#each templateConfig}}
   		<div class="span6">
 		{{#each this}}
-  			<h4 class="smaller" style="padding: 0 5px;">{{title}}</h4>
+  			<h6>{{title}}</h6>
 			<ul class="item-list">
        		{{#each keys}}
            		<li>
