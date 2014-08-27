@@ -6,8 +6,9 @@ define([
     'underscore',
     'common/ui/js/views/FormInputView',
     'common/ui/js/views/FormGridView',
-    'common/ui/js/views/FormMultiselectView'
-], function (_, FormInputView, FormGridView, FormMultiselectView) {
+    'common/ui/js/views/FormMultiselectView',
+    'common/ui/js/views/FormDropdownView'
+], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView) {
     var Utils = function () {
         var self = this;
         this.renderGrid = function (elementId, gridConfig) {
@@ -133,6 +134,10 @@ define([
                             elementView;
 
                         switch (viewName) {
+                            case "FormDropdownView":
+                                elementView = new FormDropdownView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12", elementConfig: elementConfig}});
+                                elementView.render();
+                                break;
                             case "FormMultiselectView":
                                 elementView = new FormMultiselectView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12", elementConfig: elementConfig}});
                                 elementView.render();

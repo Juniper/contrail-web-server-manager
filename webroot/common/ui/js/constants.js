@@ -24,6 +24,16 @@ define([
             {'id': 'webui', 'text': 'Webui'},
             {'id': 'database', 'text': 'Database'}
         ];
+        this.STATES = [
+            {'id': 'disable', 'text': 'Disable'},
+            {'id': 'enable', 'text': 'Enable'}
+        ];
+        this.FLAGS = [
+            {'id': 'False', 'text': 'False'},
+            {'id': 'True', 'text': 'True'}
+        ];
+        this.GET_CLUSTER_LIST = '/sm/objects/cluster?field=cluster';
+        this.GET_IMAGE_LIST = '/sm/objects/image?field=image';
     }
     return Constants;
 });

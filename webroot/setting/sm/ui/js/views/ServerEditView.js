@@ -108,7 +108,14 @@ define([
                     {
                         elements: [
                             {id: 'id', path: "id", class: "span6", view: "FormInputView"},
-                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormInputView"}
+                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_CLUSTER_LIST
+                                }
+                            }}
                         ]
                     },
                     {
@@ -166,8 +173,22 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormInputView"},
-                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormInputView"}
+                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_IMAGE_LIST
+                                }
+                            }},
+                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_IMAGE_LIST
+                                }
+                            }}
                         ]
                     },
                     {
@@ -189,7 +210,14 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormInputView"},
+                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_CLUSTER_LIST
+                                }
+                            }},
                             {id: 'email', path: 'email', class: "span6", view: "FormInputView"}
                         ]
                     }
@@ -231,8 +259,24 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormInputView"},
-                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormInputView"}
+                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_IMAGE_LIST
+                                }
+                            }},
+                            {
+                                id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_IMAGE_LIST
+                                    }
+                                }
+                            }
                         ]
                     }
                 ]

@@ -49,7 +49,19 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'id', path: 'parameters.id', class: "span6", view: "FormInputView"},
+                            {
+                                id: 'id',
+                                path: 'parameters.id',
+                                class: "span6",
+                                view: "FormDropdownView",
+                                elementConfig: {
+                                                dataTextField:"id",
+                                                dataValueField: "id",
+                                                dataSource:{
+                                                    type: 'remote',
+                                                    url: smConstants.GET_CLUSTER_LIST
+                                                }
+                                }},
                             {id: 'email', path: 'parameters.email', class: "span6", view: "FormInputView"}
                         ]
                     },
@@ -85,13 +97,13 @@ define([
                     {
                         elements: [
                             {id: 'router_asn', path: 'parameters.router_asn', class: "span6", view: "FormInputView"},
-                            {id: 'multi_tenancy', path: 'parameters.multi_tenancy', class: "span6", view: "FormInputView"}
+                            {id: 'multi_tenancy', path: 'parameters.multi_tenancy', class: "span6", view: "FormDropdownView", elementConfig: {data: smConstants.FLAGS}}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'haproxy', path: 'parameters.haproxy', class: "span6", view: "FormInputView"},
-                            {id: 'use_certificates', path: 'parameters.use_certificates', class: "span6", view: "FormInputView"}
+                            {id: 'haproxy', path: 'parameters.haproxy', class: "span6", view: "FormDropdownView", elementConfig: {data: smConstants.STATES}},
+                            {id: 'use_certificates', path: 'parameters.use_certificates', class: "span6", view: "FormDropdownView", elementConfig: {data: smConstants.FLAGS}}
                         ]
                     },
                     {
@@ -123,8 +135,22 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormInputView"},
-                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormInputView"}
+                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_IMAGE_LIST
+                                }
+                            }},
+                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField:"id",
+                                dataValueField: "id",
+                                dataSource:{
+                                    type: 'remote',
+                                    url: smConstants.GET_IMAGE_LIST
+                                }
+                            }}
                         ]
                     }
                 ]
