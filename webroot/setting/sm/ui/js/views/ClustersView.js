@@ -65,7 +65,7 @@ define([
                 ajaxConfig = {}, that = this;
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
-            ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID) + "&id=" + clusterId;
+            ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID) + "&id=" + clusterId;
             that.$el.html(clusterTemplate());
             contrail.ajaxHandler(ajaxConfig, function() {}, function(response){
                 that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: gridTemplateConfig}));
