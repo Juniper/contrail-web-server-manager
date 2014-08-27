@@ -59,7 +59,7 @@ define([
                                                 dataValueField: "id",
                                                 dataSource:{
                                                     type: 'remote',
-                                                    url: smConstants.GET_CLUSTER_LIST
+                                                    url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
                                                 }
                                 }},
                             {id: 'email', path: 'parameters.email', class: "span6", view: "FormInputView"}
@@ -140,7 +140,7 @@ define([
                                 dataValueField: "id",
                                 dataSource:{
                                     type: 'remote',
-                                    url: smConstants.GET_IMAGE_LIST
+                                    url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
                                 }
                             }},
                             {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
@@ -148,7 +148,7 @@ define([
                                 dataValueField: "id",
                                 dataSource:{
                                     type: 'remote',
-                                    url: smConstants.GET_IMAGE_LIST
+                                    url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
                                 }
                             }}
                         ]

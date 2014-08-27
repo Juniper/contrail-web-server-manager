@@ -179,8 +179,12 @@ define([
             }
         };
 
-        this.getObjectUrl = function(objectName, objectField) {
+        this.getObjectDetailUrl = function(objectName, objectField) {
             return '/sm/objects/details/' + objectName + '?field=' + objectField;
+        };
+
+        this.getObjectUrl = function(objectName, objectField) {
+            return '/sm/objects/' + objectName + '?field=' + objectField;
         };
     };
     return Utils;

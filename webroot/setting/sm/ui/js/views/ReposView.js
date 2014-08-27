@@ -36,7 +36,7 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectUrl("image", "image")
+                                url: smUtils.getObjectDetailUrl("image", "image")
                             }
                         }
                     }

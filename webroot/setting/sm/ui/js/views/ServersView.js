@@ -42,7 +42,7 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectUrl(prefixId, prefixId) + queryString
+                                url: smUtils.getObjectDetailUrl(prefixId, prefixId) + queryString
                             }
                         }
                     }

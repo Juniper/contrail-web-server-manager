@@ -9,7 +9,7 @@ define([
     //TODO: Make it generic for any kind of form edit.
     var FormGridView = Backbone.View.extend({
         render: function (viewConfig) {
-            var baseUrl = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID, smConstants.SERVER_PREFIX_ID),
+            var baseUrl = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID, smConstants.SERVER_PREFIX_ID),
                 clusterId = this.attributes['clusterId'],
                 params = clusterId != '' ? ('&cluster_id=' + clusterId) : '',
                 url = baseUrl + params;

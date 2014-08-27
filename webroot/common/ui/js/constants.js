@@ -25,8 +25,8 @@ define([
             {'id': 'database', 'text': 'Database'}
         ];
         this.STATES = [
-            {'id': 'disable', 'text': 'Disable'},
-            {'id': 'enable', 'text': 'Enable'}
+            {'id': 'Disable', 'text': 'Disable'},
+            {'id': 'Enable', 'text': 'Enable'}
         ];
         this.FLAGS = [
             {'id': 'False', 'text': 'False'},
