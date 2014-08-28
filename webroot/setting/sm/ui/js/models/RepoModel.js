@@ -7,8 +7,9 @@ define([
     'common/ui/js/models/ContrailModel'
 ], function (_, ContrailModel) {
     var RepoModel = ContrailModel.extend({
-        saveConfig: function () {
-            console.log(this.attributes);
+        saveConfig: function (form) {
+            console.log(this.model().attributes);
+            console.log(form);
         }
     });
 

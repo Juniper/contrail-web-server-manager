@@ -14,8 +14,6 @@ define([
                 params = clusterId != '' ? ('&cluster_id=' + clusterId) : '',
                 url = baseUrl + params;
 
-            console.log("Url:: " + url);
-
             var gridConfig = {
                 header: {
                     title: {

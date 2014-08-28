@@ -4,12 +4,20 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var ContrailModel = Backbone.Model.extend({
+    'backbone',
+    'knockout',
+    'knockback'
+], function (_, Backbone, Knockout, Knockback) {
+    var ContrailViewModel = Knockback.ViewModel.extend({
+
+        constructor: function(modelConfig) {
+            var model = new Backbone.Model(modelConfig);
+            Knockback.ViewModel.prototype.constructor.call(this, model);
+            return this;
+        },
 
         getValueByPath: function(path) {
-            var obj = this.attributes;
+            var obj = this.model().attributes;
             path = path.replace(/\[(\w+)\]/g, '.$1');
             path = path.replace(/^\./, '');
             var pathArray = path.split('.');
@@ -25,5 +33,5 @@ define([
         }
     });
 
-    return ContrailModel;
+    return ContrailViewModel;
 });

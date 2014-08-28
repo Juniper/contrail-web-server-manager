@@ -8,7 +8,7 @@ define([
 ], function (_, ContrailModel) {
     var ServerModel = ContrailModel.extend({
         saveConfig: function (form) {
-            console.log(this.attributes);
+            console.log(this.model().attributes);
             console.log(form);
         }
     });

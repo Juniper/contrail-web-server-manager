@@ -126,6 +126,7 @@ define([
                     for (var j = 0; j < elements.length; j++) {
                         var elementId = elements[j]['id'],
                             path = elements[j]['path'],
+                            dataBindValue = elements[j]['dataBindValue'],
                             el = $('#' + modalId).find('#' + elementId),
                             viewName = elements[j]['view'],
                             elementValue = (formModel != null) ? formModel.getValueByPath(path) : '',
@@ -143,7 +144,7 @@ define([
                                 elementView.render();
                                 break;
                             case "FormInputView":
-                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12"}});
+                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, dataBindValue: dataBindValue, value: elementValue, class: "span12"}});
                                 elementView.render();
                                 break;
 

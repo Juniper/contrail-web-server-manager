@@ -4,8 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'knockback'
+], function (_, Backbone, Knockback) {
 
     var prefixId = smConstants.SERVER_PREFIX_ID,
         modalId = 'configure-' + prefixId,
@@ -24,6 +25,8 @@ define([
 
             smUtils.generateEditFormHTML(modalId, this.model, configureServerLayoutConfig);
 
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+
             $('#sm-server-accordion').accordion({
                 heightStyle: "content"
             });
@@ -39,6 +42,8 @@ define([
 
             smUtils.generateEditFormHTML(modalId, this.model, configureServerCollectionLayoutConfig);
 
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+
             $('#sm-server-accordion').accordion({
                 heightStyle: "content"
             });
@@ -53,10 +58,14 @@ define([
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, provisionServersLayoutConfig);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
         },
 
         renderTagServers: function (options) {
-            var tagServersConfig = {prefixId: 'server', groups: [{rows: editTagLayoutRows}]},
+            var tagServersConfig = {prefixId: 'server', groups: [
+                    {rows: editTagLayoutRows}
+                ]},
                 editLayout = editTemplate(tagServersConfig),
                 that = this;
 
@@ -65,6 +74,8 @@ define([
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, tagServersConfig);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
         },
 
         renderEditRoles: function (options) {
@@ -76,25 +87,27 @@ define([
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, editRolesLayoutConfig);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
         }
     });
 
     var editTagLayoutRows = [
         {
             elements: [
-                {id: 'datacenter', path: "tag.datacenter", class: "span6", view: "FormInputView"},
-                {id: 'floor', path: 'tag.floor', class: "span6", view: "FormInputView"}
+                {id: 'datacenter', path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", view: "FormInputView"},
+                {id: 'floor', path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", view: "FormInputView"}
             ]
         },
         {
             elements: [
-                {id: 'hall', path: "tag.hall", class: "span6", view: "FormInputView"},
-                {id: 'rack', path: 'tag.rack', class: "span6", view: "FormInputView"}
+                {id: 'hall', path: "tag.hall", dataBindValue: "tag().hall", class: "span6", view: "FormInputView"},
+                {id: 'rack', path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", view: "FormInputView"}
             ]
         },
         {
             elements: [
-                {id: 'user_tag', path: "tag.user_tag", class: "span6", view: "FormInputView"}
+                {id: 'user_tag', path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", view: "FormInputView"}
             ]
         }
     ];
@@ -107,11 +120,11 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'id', path: "id", class: "span6", view: "FormInputView"},
+                            {id: 'id', path: "id", dataBindValue: "id", class: "span6", view: "FormInputView"},
                             {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
                                 }
@@ -120,8 +133,8 @@ define([
                     },
                     {
                         elements: [
-                            {id: 'host_name', path: "host_name", class: "span6", view: "FormInputView"},
-                            {id: 'email', path: 'email', class: "span6", view: "FormInputView"}
+                            {id: 'host_name', path: "host_name", dataBindValue: "host_name", class: "span6", view: "FormInputView"},
+                            {id: 'email', path: 'email', dataBindValue: 'email', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -131,25 +144,25 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'ip_address', path: "ip_address", class: "span6", view: "FormInputView"},
-                            {id: 'power_address', path: 'power_address', class: "span6", view: "FormInputView"}
+                            {id: 'ip_address', path: "ip_address", dataBindValue: "ip_address", class: "span6", view: "FormInputView"},
+                            {id: 'power_address', path: 'power_address', dataBindValue: 'power_address', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'gateway', path: "gateway", class: "span6", view: "FormInputView"},
-                            {id: 'subnet_mask', path: 'subnet_mask', class: "span6", view: "FormInputView"}
+                            {id: 'gateway', path: "gateway", dataBindValue: "gateway", class: "span6", view: "FormInputView"},
+                            {id: 'subnet_mask', path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'mac', path: 'mac', class: "span6", view: "FormInputView"},
-                            {id: 'ifname', path: 'parameters.ifname', class: "span6", view: "FormInputView"}
+                            {id: 'mac_address', path: 'mac_address', dataBindValue: 'mac_address', class: "span6", view: "FormInputView"},
+                            {id: 'interface_name', path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'domain', path: "domain", class: "span6", view: "FormInputView"}
+                            {id: 'domain', path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -163,7 +176,7 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
+                            {id: 'roles', path: 'roles', dataBindValue: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
                         ]
                     }
                 ]
@@ -173,18 +186,18 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                            {id: 'base_image_id', path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
                                 }
                             }},
-                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                            {id: 'package_image_id', path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
                                 }
@@ -193,8 +206,8 @@ define([
                     },
                     {
                         elements: [
-                            {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
-                            {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
+                            {id: 'compute_non_mgmt_ip', path: 'parameters.compute_non_mgmt_ip', dataBindValue: 'parameters().compute_non_mgmt_ip', class: "span6", view: "FormInputView"},
+                            {id: 'compute_non_mgmt_gway', path: 'parameters.compute_non_mgmt_gway', dataBindValue: 'parameters().compute_non_mgmt_gway', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -210,15 +223,15 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                            {id: 'cluster_id', path: 'cluster_id', dataBindValue: 'cluster_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
                                 }
                             }},
-                            {id: 'email', path: 'email', class: "span6", view: "FormInputView"}
+                            {id: 'email', path: 'email', dataBindValue: 'email', class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -228,14 +241,14 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'gateway', path: "gateway", class: "span6", view: "FormInputView"},
-                            {id: 'subnet_mask', path: 'subnet_mask', class: "span6", view: "FormInputView"}
+                            {id: 'gateway', path: "gateway", dataBindValue: "gateway", class: "span6", view: "FormInputView"},
+                            {id: 'subnet_mask', path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'interface_name', path: 'parameters.interface_name', class: "span6", view: "FormInputView"},
-                            {id: 'domain', path: "domain", class: "span6", view: "FormInputView"}
+                            {id: 'interface_name', path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6", view: "FormInputView"},
+                            {id: 'domain', path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
                         ]
                     }
                 ]
@@ -249,7 +262,7 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
+                            {id: 'roles', path: 'roles', dataBindValue: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
                         ]
                     }
                 ]
@@ -259,23 +272,23 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                            {id: 'base_image_id', path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
                                 }
                             }},
                             {
-                                id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                                id: 'package_image_id', path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
-                                    }
                                 }
+                            }
                             }
                         ]
                     }
@@ -291,18 +304,18 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                            {id: 'base_image_id', path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
                                 }
                             }},
-                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
-                                dataTextField:"id",
+                            {id: 'package_image_id', path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                                dataTextField: "id",
                                 dataValueField: "id",
-                                dataSource:{
+                                dataSource: {
                                     type: 'remote',
                                     url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
                                 }
@@ -321,7 +334,7 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'roles', path: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
+                            {id: 'roles', path: 'roles', dataBindValue: 'roles', class: "span12", view: "FormMultiselectView", elementConfig: {data: smConstants.ROLES_OBJECTS}}
                         ]
                     }
                 ]

@@ -9,7 +9,9 @@ require.config({
   paths: {
     underscore: 'assets/underscore/underscore-min',
     backbone: 'assets/backbone/backbone-min',
-    text: 'assets/requirejs/text'
+    text: 'assets/requirejs/text',
+    knockout: 'assets/knockout/knockout-3.0.0',
+    knockback: 'assets/backbone/knockback.min'
   }
 });
 

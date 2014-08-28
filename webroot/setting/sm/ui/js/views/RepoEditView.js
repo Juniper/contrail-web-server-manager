@@ -4,8 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
+    'backbone',
+    'knockback'
+], function (_, Backbone, Knockback) {
     var prefixId = smConstants.REPO_PREFIX_ID;
 
     var RepoEditView = Backbone.View.extend({
@@ -23,6 +24,8 @@ define([
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, editLayoutConfig);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
         }
     });
 
@@ -33,13 +36,13 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'type', path: "type", class: "span6", view: "FormInputView"},
-                            {id: 'version', path: 'version', class: "span6", view: "FormInputView"}
+                            {id: 'type', path: "type", dataBindValue: "type", class: "span6", view: "FormInputView"},
+                            {id: 'version', path: 'version', dataBindValue: "version", class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'path', path: "path", class: "span12", view: "FormInputView"}
+                            {id: 'path', path: "path", dataBindValue: "path", class: "span12", view: "FormInputView"}
                         ]
                     }
                 ]

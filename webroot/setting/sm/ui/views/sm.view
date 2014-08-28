@@ -32,7 +32,7 @@
 <script type="text/x-handlebars-template" id="sm-form-input-template">
     <label>{{label}}</label>
     <div class="row-fluid">
-        <input id="{{id}}" type="text" name="{{name}}" class="{{class}}" value="{{value}}"/>
+        <input type="text" class="{{class}}" data-bind="value: {{dataBindValue}}"/>
     </div>
 </script>
 
