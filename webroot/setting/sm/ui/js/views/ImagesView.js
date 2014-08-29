@@ -53,7 +53,7 @@ define([
                 imageModel = new ImageModel(dataItem),
                 imageEditView = new ImageEditView({'model': imageModel});
 
-            imageEditView.render({"title": "Configure Image"});
+            imageEditView.render({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_IMAGE});
         })
     ];
 
@@ -72,13 +72,13 @@ define([
         },
         {
             "type": "link",
-            "title": "Add Image",
+            "title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_IMAGE,
             "iconClass": "icon-plus",
             "onClick": function () {
                 var imageModel = new ImageModel(),
                     imageEditView = new ImageEditView({'model': imageModel});
 
-                imageEditView.render({"title": "Add Image"});
+                imageEditView.render({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_IMAGE});
             }
         }
     ];

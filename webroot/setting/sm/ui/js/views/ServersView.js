@@ -59,28 +59,28 @@ define([
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderConfigure({"title": "Configure Server"});
+            serverEditView.renderConfigure({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_SERVER});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderProvisionServers({"title": "Provision Server"});
+            serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_SERVER});
         }),
         smGridConfig.getTagAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderTagServers({"title": "Add Tags"});
+            serverEditView.renderTagServers({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_TAGS});
         }),
         smGridConfig.getRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderEditRoles({"title": "Edit Roles"});
+            serverEditView.renderEditRoles({"title": smLabels.TITLE_EDIT + ' ' + smLabels.TITLE_ROLES});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);

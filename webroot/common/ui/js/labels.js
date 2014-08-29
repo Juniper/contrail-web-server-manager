@@ -83,6 +83,7 @@ define([
         this.TITLE_STATUS = "Status";
         this.TITLE_CONFIGURE = "Configure";
         this.TITLE_ADD = "Add";
+        this.TITLE_EDIT = "Edit";
         this.TITLE_PROVISION = "Provision";
         this.TITLE_TAG = "Tag";
         this.TITLE_TAGS = "Tags";

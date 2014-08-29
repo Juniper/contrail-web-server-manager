@@ -116,7 +116,7 @@ define([
         prefixId: 'server',
         groups: [
             {
-                title: "Details",
+                title: smLabels.TITLE_DETAILS,
                 rows: [
                     {
                         elements: [
@@ -140,7 +140,7 @@ define([
                 ]
             },
             {
-                title: "System",
+                title: smLabels.TITLE_SYSTEM,
                 rows: [
                     {
                         elements: [
@@ -168,11 +168,11 @@ define([
                 ]
             },
             {
-                title: "Tags",
+                title: smLabels.TITLE_TAGS,
                 rows: editTagLayoutRows
             },
             {
-                title: "Roles",
+                title: smLabels.TITLE_ROLES,
                 rows: [
                     {
                         elements: [
@@ -182,7 +182,7 @@ define([
                 ]
             },
             {
-                title: "Configurations",
+                title: smLabels.TITLE_CONFIGURATIONS,
                 rows: [
                     {
                         elements: [
@@ -258,7 +258,7 @@ define([
                 rows: editTagLayoutRows
             },
             {
-                title: "Roles",
+                title: smLabels.TITLE_ROLES,
                 rows: [
                     {
                         elements: [

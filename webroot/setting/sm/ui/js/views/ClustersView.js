@@ -85,7 +85,7 @@ define([
                 clusterModel = new ClusterModel(dataItem),
                 clusterEditView = new ClusterEditView({'model': clusterModel});
 
-            clusterEditView.renderConfigure({"title": "Configure Cluster"});
+            clusterEditView.renderConfigure({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_CLUSTER});
         }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             console.log(rowIndex);
@@ -95,7 +95,7 @@ define([
                 clusterModel = new ClusterModel(dataItem),
                 clusterEditView = new ClusterEditView({'model': clusterModel});
 
-            clusterEditView.renderProvision({"title": "Provision Cluster"});
+            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION + ' ' +smLabels.TITLE_CLUSTER});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);
@@ -145,7 +145,7 @@ define([
                 var clusterModel = new ClusterModel(),
                     clusterEditView = new ClusterEditView({'model': clusterModel});
 
-                clusterEditView.renderConfigure({"title": "Add Cluster"});
+                clusterEditView.renderConfigure({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_CLUSTER});
             }
         }
     ];

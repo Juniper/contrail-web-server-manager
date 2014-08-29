@@ -125,7 +125,7 @@ define([
         prefixId: prefixId,
         groups: [
             {
-                title: "Roles",
+                title: smLabels.TITLE_ROLES,
                 rows: [
                     {
                         elements: [
@@ -135,7 +135,7 @@ define([
                 ]
             },
             {
-                title: "Image Configurations",
+                title: smLabels.TITLE_IMAGE + ' ' + smLabels.TITLE_CONFIGURATIONS,
                 rows: [
                     {
                         elements: [
