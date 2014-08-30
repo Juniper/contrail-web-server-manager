@@ -91,20 +91,20 @@ define([
                     {
                         id: 'cancelBtn',
                         title: 'Cancel',
-                        onclick: 'close'
+                        onclick: function () {
+                            options['onCancel']();
+                        }
                     },
                     {
                         className: 'btn-primary',
                         title: 'Save',
                         onclick: function () {
-                            $("#" + modalId).modal('hide');
                             options['onSave']();
                         }
                     }
                 ],
                 onEnter: function () {
-                    console.log("onEnter");
-                    $("#" + modalId).modal('hide');
+                    options['onCancel']();
                 }
             });
         };
@@ -144,7 +144,7 @@ define([
                                 elementView.render();
                                 break;
                             case "FormInputView":
-                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, dataBindValue: dataBindValue, value: elementValue, class: "span12"}});
+                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, dataBindValue: dataBindValue, class: "span12", path: path}});
                                 elementView.render();
                                 break;
 
@@ -161,8 +161,8 @@ define([
                 }
             }
         };
-        this.getJSONValueByPath = function(path, obj) {
-        	path = path.replace(/\[(\w+)\]/g, '.$1');
+        this.getJSONValueByPath = function (path, obj) {
+            path = path.replace(/\[(\w+)\]/g, '.$1');
             path = path.replace(/^\./, '');
             var pathArray = path.split('.');
             while (pathArray.length) {
@@ -173,19 +173,37 @@ define([
                     return '-';
                 }
             }
-            if(contrail.checkIfExist(obj) && obj != '') {
+            if (contrail.checkIfExist(obj) && obj != '') {
                 return obj;
             } else {
                 return '-';
             }
         };
 
-        this.getObjectDetailUrl = function(objectName, objectField) {
+        this.getObjectDetailUrl = function (objectName, objectField) {
             return '/sm/objects/details/' + objectName + '?field=' + objectField;
         };
 
-        this.getObjectUrl = function(objectName, objectField) {
+        this.getObjectUrl = function (objectName, objectField) {
             return '/sm/objects/' + objectName + '?field=' + objectField;
+        };
+
+        this.flattenObject = function (object, intoObject, prefix) {
+            var self = this;
+            intoObject = intoObject || {};
+            prefix = prefix || '';
+
+            _.each(object, function (value, key) {
+                if (object.hasOwnProperty(key)) {
+                    if (value && typeof value === 'object' && !(value instanceof Array || value instanceof Date || value instanceof RegExp || value instanceof Backbone.Model || value instanceof Backbone.Collection)) {
+                        self.flattenObject(value, intoObject, prefix + key + '.');
+                    } else {
+                        intoObject[prefix + key] = value;
+                    }
+                }
+            });
+
+            return intoObject;
         };
     };
     return Utils;

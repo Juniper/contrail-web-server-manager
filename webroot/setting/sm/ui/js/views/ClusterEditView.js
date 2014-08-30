@@ -12,16 +12,24 @@ define([
         editTemplate = contrail.getTemplate4Id("sm-edit-layout-template");
 
     var ClusterEditView = Backbone.View.extend({
+        modalElementId: '#' + modalId,
         renderConfigure: function (options) {
             var editLayout = editTemplate(configureLayoutConfig),
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
-                that.model.saveConfig(clusterForm);
+                that.model.configure(modalId);
+                // TODO: Release binding on successful configure
+            }, 'onCancel': function() {
+                Knockback.release(that.model, document.getElementById(modalId)); //TODO: Release of binding not working
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, configureLayoutConfig);
+
+            smValidation.bind(this);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
 

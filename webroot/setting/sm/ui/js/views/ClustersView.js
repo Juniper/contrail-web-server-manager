@@ -126,7 +126,8 @@ define([
                     "iconClass": "icon-cloud-upload",
                     "title": smLabels.TITLE_PROVISION,
                     "onClick": function () {
-                        var clusterModel, clusterEditView = new ClusterEditView({'model': clusterModel});
+                        var clusterModel = new ClusterModel(),
+                            clusterEditView = new ClusterEditView({'model': clusterModel});
                         clusterEditView.renderProvision({"title": "Provision Clusters"});
                     }
                 },

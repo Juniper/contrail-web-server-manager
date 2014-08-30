@@ -150,7 +150,7 @@
           // validators as the context to the validator
           var ctx = _.extend({}, formatFunctions, defaultValidators),
               result = validator.fn.call(ctx, value, attr, validator.val, model, computed);
-  
+
           if(result === false || memo === false) {
             return false;
           }
@@ -170,7 +170,7 @@
             isValid = true,
             computed = _.clone(attrs),
             flattened = flatten(attrs);
-  
+
         _.each(flattened, function(val, attr) {
           error = validateAttr(model, attr, val, computed);
           if (error) {
@@ -218,7 +218,7 @@
             var flattened = flatten(this.attributes);
   
             if(_.isString(option)){
-              return !validateAttr(this, option, flattened[option], _.extend({}, this.attributes));
+              return validateAttr(this, option, flattened[option], _.extend({}, this.attributes));
             }
             if(_.isArray(option)){
               return _.reduce(option, function(memo, attr) {
@@ -243,7 +243,7 @@
                 changedAttrs = flatten(attrs || allAttrs),
   
                 result = validateModel(model, allAttrs);
-  
+
             model._isValid = result.isValid;
   
             // After validation is performed, loop through all validated attributes
@@ -324,10 +324,10 @@
         bind: function(view, options) {
           options = _.extend({}, defaultOptions, defaultCallbacks, options);
   
-          var model = options.model || view.model,
+          var model = view.model.model(),
               collection = options.collection || view.collection;
-  
-          if(typeof model === 'undefined' && typeof collection === 'undefined'){
+
+          if(typeof view.model === 'undefined' && typeof collection === 'undefined'){
             throw 'Before you execute the binding your view must have a model or a collection.\n' +
                   'See http://thedersen.com/projects/backbone-validation/#using-form-model-validation for more information.';
           }
