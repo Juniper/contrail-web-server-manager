@@ -132,6 +132,7 @@ define([
                             elementValue = (formModel != null) ? formModel.getValueByPath(path) : '',
                             labelValue = (elementId != null) ? smLabels.get(elementId) : smLabels.get(path),
                             elementConfig = elements[j]['elementConfig'],
+                            validation = formConfig['validation'] ? formConfig['validation']: 'validation',
                             elementView;
 
                         switch (viewName) {
@@ -144,7 +145,7 @@ define([
                                 elementView.render();
                                 break;
                             case "FormInputView":
-                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, dataBindValue: dataBindValue, class: "span12", path: path}});
+                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, dataBindValue: dataBindValue, class: "span12", path: path, validation: validation}});
                                 elementView.render();
                                 break;
 
