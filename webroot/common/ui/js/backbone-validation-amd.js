@@ -97,8 +97,8 @@
       // Returns an object with undefined properties for all
       // attributes on the model that has defined one or more
       // validation rules.
-      var getValidatedAttrs = function(model) {
-        return _.reduce(_.keys(_.result(model, 'validation') || {}), function(memo, key) {
+      var getValidatedAttrs = function(model, validationName) {
+        return _.reduce(_.keys(_.result(model, validationName) || {}), function(memo, key) {
           memo[key] = void 0;
           return memo;
         }, {});
@@ -240,7 +240,7 @@
             var model = this,
                 validateAll = !attrs,
                 opt = _.extend({}, options, setOptions),
-                validatedAttrs = getValidatedAttrs(model),
+                validatedAttrs = getValidatedAttrs(model, validationName),
                 allAttrs = _.extend({}, validatedAttrs, model.attributes, attrs),
                 changedAttrs = flatten(attrs || allAttrs),
                 validation = validationName == null ? 'validation' : validationName,
@@ -265,7 +265,7 @@
                   changed = changedAttrs.hasOwnProperty(attr);
   
               if(invalid && (changed || validateAll)){
-                opt.invalid(view, attr, result.invalidAttrs[attr], opt.selector);
+                opt.invalid(view, attr, result.invalidAttrs[attr], opt.selector, validation);
               }
             });
   

@@ -39,9 +39,9 @@ require([
              $group.find('.help-block').html('').addClass('hidden');
              */
         },
-        invalid: function (view, attr, error, selector) {
+        invalid: function (view, attr, error, selector, validation) {
             var model = view.model;
-            model.validateAttr(attr);
+            model.validateAttr(attr, validation);
             /*
              var $el = $(view.modalElementId).find('[name=' + attr + ']'),
              $group = $el.closest('.form-element');
