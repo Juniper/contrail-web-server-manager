@@ -31,7 +31,11 @@ define([
                 },
                 body: {
                     options: {
-                        actionCell: gridActionCellConfig
+                        actionCell: gridActionCellConfig,
+                        detail: {
+                            template: $('#sm-grid-2-row-group-detail-template').html(),
+                            templateConfig: gridTemplateConfig
+                        }
                     },
                     dataSource: {
                         remote: {
@@ -81,6 +85,15 @@ define([
                 repoEditView.render({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_REPO});
             }
         }
+    ];
+
+    var gridTemplateConfig = [
+        [
+            {
+                title: smLabels.TITLE_DETAILS,
+                keys: ['id', 'type', 'version', 'path']
+            }
+        ]
     ];
 
     return ImagesView;

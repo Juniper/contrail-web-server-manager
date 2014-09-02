@@ -10,24 +10,22 @@ define([
 ], function (_, Backbone, Knockout, Knockback) {
     var ContrailViewModel = Knockback.ViewModel.extend({
 
-        constructor: function(modelConfig) {
+        constructor: function (modelConfig) {
             var model, errorAttributes, _this = this;
 
             errorAttributes = getErrorAttributes(modelConfig);
-            modelConfig = _.extend(this.defaultConfig, modelConfig, errorAttributes);
+            modelConfig = _.extend({}, this.defaultConfig, modelConfig, errorAttributes);
 
             model = new Backbone.Model(modelConfig);
-            model = _.extend(model, {
-                validation: this.validation
-            });
+            model = _.extend(model, this.validations);
 
             Knockback.ViewModel.prototype.constructor.call(this, model);
 
-            delete this.validation;
+            delete this.validations;
             return this;
         },
 
-        getValueByPath: function(path) {
+        getValueByPath: function (path) {
             var obj = this.model().attributes;
             path = path.replace(/\[(\w+)\]/g, '.$1');
             path = path.replace(/^\./, '');
@@ -43,18 +41,18 @@ define([
             return obj;
         },
 
-        validate: function(attributePath) {
+        validateAttr: function (attributePath, validation) {
             var attrObj = getAttributeFromPath(attributePath),
                 attrError = attrObj['attr_error'],
                 attr = attrObj['attr'],
                 attrErrorObj = {}, isValid;
-            isValid = this.model().isValid(attr);
+            isValid = this.model().isValid(attributePath, validation);
             attrErrorObj[attrError] = isValid == true ? false : isValid;
             this.model().set(attrErrorObj);
         }
     });
 
-    var getErrorAttributes = function(attributes) {
+    var getErrorAttributes = function (attributes) {
         var flattenAttributes = smUtils.flattenObject(attributes),
             errorAttributes = {};
 
@@ -66,7 +64,7 @@ define([
         return errorAttributes;
     };
 
-    var getAttributeFromPath = function(attributePath) {
+    var getAttributeFromPath = function (attributePath) {
         var attributePathArray = attributePath.split('.'),
             attribute = attributePathArray[attributePathArray.length - 1];
         return {

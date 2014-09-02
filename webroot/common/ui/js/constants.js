@@ -4,8 +4,8 @@
 
 define([
     'underscore'
-], function(_) {
-    var Constants = function() {
+], function (_) {
+    var Constants = function () {
         this.IMAGE_PREFIX_ID = 'image';
         this.REPO_PREFIX_ID = 'repo';
         this.CLUSTER_PREFIX_ID = 'cluster';
@@ -25,8 +25,8 @@ define([
             {'id': 'database', 'text': 'Database'}
         ];
         this.STATES = [
-            {'id': 'Disable', 'text': 'Disable'},
-            {'id': 'Enable', 'text': 'Enable'}
+            {'id': 'disable', 'text': 'Disable'},
+            {'id': 'enable', 'text': 'Enable'}
         ];
         this.FLAGS = [
             {'id': 'False', 'text': 'False'},

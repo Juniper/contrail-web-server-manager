@@ -7,9 +7,22 @@ define([
     'common/ui/js/models/ContrailModel'
 ], function (_, ContrailModel) {
     var RepoModel = ContrailModel.extend({
-        saveConfig: function (form) {
-            console.log(this.model().attributes);
-            console.log(form);
+        defaultConfig: {
+            'version': null,
+            'path': null,
+            'type': null,
+            'parameters': {}
+        },
+        configure: function (modalId) {
+            if (this.model().isValid(true)) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    console.log(this.model().attributes);
+                    $("#" + modalId).modal('hide');
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
         }
     });
 

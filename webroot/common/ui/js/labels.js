@@ -4,16 +4,16 @@
 
 define([
     'underscore'
-], function(_) {
-    var Labels = function() {
-        this.get = function(key) {
+], function (_) {
+    var Labels = function () {
+        this.get = function (key) {
             var keyArray, newKey;
-            if(_.has(labelMap, key)){
+            if (_.has(labelMap, key)) {
                 return labelMap[key];
             } else {
                 keyArray = key.split('.');
                 newKey = keyArray[keyArray.length - 1];
-                if(keyArray.length > 1 && _.has(labelMap, newKey)) {
+                if (keyArray.length > 1 && _.has(labelMap, newKey)) {
                     return labelMap[newKey];
                 } else {
                     return newKey.charAt(0).toUpperCase() + newKey.slice(1);
@@ -32,7 +32,7 @@ define([
             "last_update": "Last Updated",
 
             //Server
-            "power_address": "IPMI",
+            "ipmi_address": "IPMI",
             "base_image_id": "Base Image",
             "package_image_id": "Package Image",
             "roles": "Roles",

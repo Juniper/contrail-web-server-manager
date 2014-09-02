@@ -10,34 +10,45 @@ define([
 ], function (_, Knockback, Knockout, ContrailModel) {
     var ClusterModel = ContrailModel.extend({
         defaultConfig: {
-            email: '',
+            email: null,
             parameters: {
-                domain: '',
-                keystone_tenant: '',
-                gateway: '',
-                subnet_mask: '',
-                openstack_mgmt_ip: '',
-                openstack_passwd: '',
-                analytics_data_ttl: '',
-                router_asn: '',
+                domain: null,
+                keystone_tenant: null,
+                gateway: null,
+                subnet_mask: null,
+                openstack_mgmt_ip: null,
+                openstack_passwd: null,
+                analytics_data_ttl: null,
+                router_asn: null,
                 multi_tenancy: 'False',
-                haproxy: 'Disable',
+                haproxy: 'disable',
                 use_certificates: 'False',
-                compute_non_mgmt_ip: '',
-                compute_non_mgmt_gway: ''
+                compute_non_mgmt_ip: null,
+                compute_non_mgmt_gway: null
             }
         },
         configure: function (modalId) {
-            if(this.model().isValid(true)) {
-                console.log(this.model().attributes);
-                $("#" + modalId).modal('hide');
+            if (this.model().isValid(true, 'configureValidation')) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    console.log(this.model().attributes);
+                    $("#" + modalId).modal('hide');
+                } else {
+                    // TODO: Show form-level error message if any
+                }
             }
         },
-        validation: {
-            email: {
-                required: true,
-                pattern: 'email',
-                msg: 'Please enter a valid email'
+        validations: {
+            configureValidation: {
+                'email': {
+                    required: false,
+                    pattern: 'email',
+                    msg: 'Please enter a valid ' + smLabels.get('email')
+                },
+                'parameters.compute_non_mgmt_ip': {
+                    required: true,
+                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                }
             }
         }
     });

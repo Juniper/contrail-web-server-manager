@@ -12,18 +12,18 @@
     <form name="{{prefixId}}Form" id="sm-{{prefixId}}-edit-form" onsubmit="return false;" class="">
         <div id="sm-{{prefixId}}-accordion" class="ui-accordion">
             {{#each groups}}
-                {{#if this.title}}
-                   <h3>{{this.title}}</h3>
-                {{/if}}
-                <div id="sm-{{prefixId}}-{{this.title}}" class="ui-accordion-content">
-                    {{#each this.rows}}
-                        <div class="row-fluid margin-0-0-5 span12">
-                            {{#each this.elements}}
-                                <div id="{{this.id}}" class="{{this.class}}"></div>
-                            {{/each}}
-                        </div>
+            {{#if this.title}}
+            <h3>{{this.title}}</h3>
+            {{/if}}
+            <div id="sm-{{prefixId}}-{{this.title}}" class="ui-accordion-content">
+                {{#each this.rows}}
+                <div class="row-fluid margin-0-0-5 span12">
+                    {{#each this.elements}}
+                    <div id="{{this.id}}" class="{{this.class}}"></div>
                     {{/each}}
                 </div>
+                {{/each}}
+            </div>
             {{/each}}
         </div>
     </form>
@@ -31,14 +31,16 @@
 
 <script type="text/x-handlebars-template" id="sm-form-input-template">
     <label>{{label}}</label>
+
     <div class="row-fluid form-element">
-        <input type="text" name="{{id}}" class="{{class}}" data-bind="value: {{dataBindValue}}, event: { focusout: validate('{{path}}') }"/>
+        <input type="text" name="{{id}}" class="{{class}}" data-bind="value: {{dataBindValue}}, event: { focusout: validateAttr('{{path}}', '{{validation}}') }"/>
         <span class="help-block red" data-bind="visible: {{name}}_error, text: {{name}}_error"></span>
     </div>
 </script>
 
 <script type="text/x-handlebars-template" id="sm-form-dropdown-template">
     <label>{{label}}</label>
+
     <div class="row-fluid">
         <input id="{{id}}" name="{{name}}" class="{{class}}"/>
     </div>
@@ -46,6 +48,7 @@
 
 <script type="text/x-handlebars-template" id="sm-form-multiselect-template">
     <label>{{label}}</label>
+
     <div class="row-fluid">
         <input id="{{id}}" name="{{name}}" class="{{class}}"/>
     </div>
@@ -57,42 +60,43 @@
     </a>
     <ul class="pull-right dropdown-menu dropdown-caret">
         {{#each actions}}
-            <li>
-                <a onclick="">
-                    <i class="{{this.iconClass}}"></i>  &nbsp; {{this.label}}
-                </a>
-            </li>
+        <li>
+            <a onclick="">
+                <i class="{{this.iconClass}}"></i> &nbsp; {{this.label}}
+            </a>
+        </li>
         {{/each}}
     </ul>
 </script>
 
 <script type="text/x-handlebars-template" id="sm-tags-template">
     {{#each this}}
-        <a onclick="loadFeature({{filterServerByTagParams @key this}});"><span class="badge badge-color-{{@index}}">{{this}}</span></a>
+    <a onclick="loadFeature({{filterServerByTagParams @key this}});"><span
+            class="badge badge-color-{{@index}}">{{this}}</span></a>
     {{/each}}
 </script>
 
 <script type="text/x-handlebars-template" id="sm-grid-2-row-group-detail-template">
-	<div class="row-fluid group-detail-container">
-	{{#each templateConfig}}
-  		<div class="span6">
-		{{#each this}}
-  			<h6>{{title}}</h6>
-			<ul class="item-list">
-       		{{#each keys}}
-           		<li>
-               		<label class="inline">
-                   		<span class="key"> {{getSMLabel this}} </span>
-                   		<span class="value"> {{{getJSONValueByPath this ../../../dc}}} </span>
-               		</label>
-           		</li>
-       		{{/each}}
-   			</ul>
+    <div class="row-fluid group-detail-container">
+        {{#each templateConfig}}
+        <div class="span6">
+            {{#each this}}
+            <h6>{{title}}</h6>
+            <ul class="item-list">
+                {{#each keys}}
+                <li>
+                    <label class="inline">
+                        <span class="key"> {{getSMLabel this}} </span>
+                        <span class="value"> {{{getJSONValueByPath this ../../../dc}}} </span>
+                    </label>
+                </li>
+                {{/each}}
+            </ul>
             <br>
- 		{{/each}}
-		</div>
-  	{{/each}}
-	</div>
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
 </script>
 
 <script type="text/x-handlebars-template" id="cluster-template">

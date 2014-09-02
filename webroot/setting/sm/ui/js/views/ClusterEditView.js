@@ -18,20 +18,18 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
-                that.model.configure(modalId);
-                // TODO: Release binding on successful configure
-            }, 'onCancel': function() {
-                Knockback.release(that.model, document.getElementById(modalId)); //TODO: Release of binding not working
+                //var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
+                that.model.configure(modalId); // TODO: Release binding on successful configure
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, configureLayoutConfig);
 
-            smValidation.bind(this);
-
             Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
 
             $('#sm-cluster-accordion').accordion({
                 heightStyle: "content"
@@ -42,6 +40,8 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, provisionLayoutConfig);
@@ -54,6 +54,7 @@ define([
 
     var configureLayoutConfig = {
         prefixId: prefixId,
+        validation: "configureValidation",
         groups: [
             {
                 title: smLabels.TITLE_DETAILS,

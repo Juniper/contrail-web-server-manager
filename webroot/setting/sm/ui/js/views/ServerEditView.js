@@ -19,13 +19,17 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                var serverForm = $('#' + modalId).find('#sm-server-edit-form').serializeObject();
-                that.model.saveConfig(serverForm);
+                that.model.configure(modalId); // TODO: Release binding on successful configure
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, configureServerLayoutConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
 
             $('#sm-server-accordion').accordion({
                 heightStyle: "content"
@@ -38,11 +42,14 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
 
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, configureServerCollectionLayoutConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
 
             $('#sm-server-accordion').accordion({
                 heightStyle: "content"
@@ -55,6 +62,8 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
 
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, provisionServersLayoutConfig);
@@ -71,6 +80,8 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
 
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, tagServersConfig);
@@ -84,6 +95,8 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
 
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, editRolesLayoutConfig);
@@ -114,6 +127,7 @@ define([
 
     var configureServerLayoutConfig = {
         prefixId: 'server',
+        validation: 'configureValidation',
         groups: [
             {
                 title: smLabels.TITLE_DETAILS,
@@ -145,7 +159,7 @@ define([
                     {
                         elements: [
                             {id: 'ip_address', path: "ip_address", dataBindValue: "ip_address", class: "span6", view: "FormInputView"},
-                            {id: 'power_address', path: 'power_address', dataBindValue: 'power_address', class: "span6", view: "FormInputView"}
+                            {id: 'ipmi_address', path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "span6", view: "FormInputView"}
                         ]
                     },
                     {
@@ -217,6 +231,7 @@ define([
 
     var configureServerCollectionLayoutConfig = {
         prefixId: prefixId,
+        validation: 'configureValidation',
         groups: [
             {
                 title: smLabels.TITLE_DETAILS,

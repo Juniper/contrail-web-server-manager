@@ -19,13 +19,17 @@ define([
             var that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                var repoForm = $('#' + modalId).find('#sm-repo-edit-form').serializeObject();
-                that.model.saveConfig(repoForm);
+                that.model.configure(modalId); // TODO: Release binding on successful configure
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, editLayoutConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
         }
     });
 

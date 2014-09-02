@@ -7,7 +7,7 @@ define([
     'backbone'
 ], function (_, Backbone) {
     var FormInputView = Backbone.View.extend({
-        render: function() {
+        render: function () {
             var inputTemplate = contrail.getTemplate4Id("sm-form-input-template");
             this.$el.html(inputTemplate(this.attributes));
         }

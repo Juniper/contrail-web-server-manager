@@ -104,7 +104,7 @@ define([
             };
         };
 
-        this.getGridColumns4Roles = function() {
+        this.getGridColumns4Roles = function () {
             var columns = [];
             for (var i = 0; i < smConstants.ROLES_ARRAY.length; i++) {
                 var role = smConstants.ROLES_ARRAY[i];
@@ -145,7 +145,9 @@ define([
             }},
             { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
             { id: "power_address", field: "power_address", name: "IPMI", width: 80, minWidth: 15 }
-        ].concat(this.getGridColumns4Roles()).concat([{ id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }]);
+        ].concat(this.getGridColumns4Roles()).concat([
+                { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+            ]);
     }
 
     return GridConfig;

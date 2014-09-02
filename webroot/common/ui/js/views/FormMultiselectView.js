@@ -7,7 +7,7 @@ define([
     'backbone'
 ], function (_, Backbone) {
     var FormMultiselectView = Backbone.View.extend({
-        render: function() {
+        render: function () {
             var multiselectTemplate = contrail.getTemplate4Id("sm-form-multiselect-template"),
                 elementConfig = this.attributes.elementConfig,
                 elementId = "#" + this.attributes.id,

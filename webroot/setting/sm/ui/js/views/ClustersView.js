@@ -15,7 +15,7 @@ define([
 
         render: function (viewConfig) {
             var hashParams = viewConfig['hashParams']
-            if(hashParams['cluster_id'] != null) {
+            if (hashParams['cluster_id'] != null) {
                 this.renderCluster(hashParams['cluster_id']);
             } else {
                 this.renderClustersList();
@@ -67,15 +67,17 @@ define([
             ajaxConfig.cache = "true";
             ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID) + "&id=" + clusterId;
             that.$el.html(clusterTemplate());
-            contrail.ajaxHandler(ajaxConfig, function() {}, function(response){
+            contrail.ajaxHandler(ajaxConfig, function () {
+            }, function (response) {
                 that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: gridTemplateConfig}));
-                requirejs(["/setting/sm/ui/js/views/ServersView.js"], function(ServersView){
+                requirejs(["/setting/sm/ui/js/views/ServersView.js"], function (ServersView) {
                     var serversView = new ServersView({
                         el: that.$el.find("#cluster-server-list")
                     });
                     serversView.render({hashParams: {"cluster_id": clusterId}});
                 });
-            }, function(){});
+            }, function () {
+            });
         }
     });
 
@@ -95,7 +97,7 @@ define([
                 clusterModel = new ClusterModel(dataItem),
                 clusterEditView = new ClusterEditView({'model': clusterModel});
 
-            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION + ' ' +smLabels.TITLE_CLUSTER});
+            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_CLUSTER});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);

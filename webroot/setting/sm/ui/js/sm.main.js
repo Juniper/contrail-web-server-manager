@@ -8,59 +8,64 @@ var clustersPageLoader = new ClustersPageLoader(),
     reposPageLoader = new ReposPageLoader();
 
 function ClustersPageLoader() {
-    this.load = function(paramObject) {
+    this.load = function (paramObject) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathClustersView = rootDir + '/js/views/ClustersView.js',
-            hashParams = paramObject['hashParams'];;
+            hashParams = paramObject['hashParams'];
+        ;
 
-        requirejs([pathClustersView], function(ClustersView){
+        requirejs([pathClustersView], function (ClustersView) {
             var clustersView = new ClustersView();
             clustersView.render({hashParams: hashParams});
         });
     };
-    this.destroy = function() {};
+    this.destroy = function () {
+    };
 };
 
 function ServersPageLoader() {
-    this.load = function(paramObject) {
+    this.load = function (paramObject) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathServersView = rootDir + '/js/views/ServersView.js',
             hashParams = paramObject['hashParams'];
 
-        requirejs([pathServersView], function(ServersView){
+        requirejs([pathServersView], function (ServersView) {
             var serversView = new ServersView();
             serversView.render({hashParams: hashParams});
         });
     };
-    this.destroy = function() {};
+    this.destroy = function () {
+    };
 };
 
 function ImagesPageLoader() {
-    this.load = function(hashParams) {
+    this.load = function (hashParams) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathImagesView = rootDir + '/js/views/ImagesView.js';
 
-        requirejs([pathImagesView], function(ImagesView){
+        requirejs([pathImagesView], function (ImagesView) {
             var imagesView = new ImagesView();
             imagesView.render();
         });
     };
-    this.destroy = function() {};
+    this.destroy = function () {
+    };
 };
 
 function ReposPageLoader() {
-    this.load = function(hashParams) {
+    this.load = function (hashParams) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathReposView = rootDir + '/js/views/ReposView.js';
 
-        requirejs([pathReposView], function(ReposView){
+        requirejs([pathReposView], function (ReposView) {
             var reposView = new ReposView();
             reposView.render();
         });
     };
-    this.destroy = function() {};
+    this.destroy = function () {
+    };
 };

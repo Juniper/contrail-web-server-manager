@@ -107,8 +107,8 @@
       // Looks on the model for validations for a specified
       // attribute. Returns an array of any validators defined,
       // or an empty array if none is defined.
-      var getValidators = function(model, attr) {
-        var attrValidationSet = model.validation ? _.result(model, 'validation')[attr] || {} : {};
+      var getValidators = function(model, attr, validation) {
+        var attrValidationSet = _.result(model, validation) ? _.result(model, validation)[attr] || {} : {};
   
         // If the validator is a function or a string, wrap it in a function validator
         if (_.isFunction(attrValidationSet) || _.isString(attrValidationSet)) {
@@ -141,11 +141,11 @@
       // for that attribute. If one or more errors are found,
       // the first error message is returned.
       // If the attribute is valid, an empty string is returned.
-      var validateAttr = function(model, attr, value, computed) {
+      var validateAttr = function(model, attr, value, computed, validation) {
         // Reduces the array of validators to an error message by
         // applying all the validators and returning the first error
         // message, if any.
-        return _.reduce(getValidators(model, attr), function(memo, validator){
+        return _.reduce(getValidators(model, attr, validation), function(memo, validator){
           // Pass the format functions plus the default
           // validators as the context to the validator
           var ctx = _.extend({}, formatFunctions, defaultValidators),
@@ -164,7 +164,7 @@
       // Loops through the model's attributes and validates them all.
       // Returns and object containing names of invalid attributes
       // as well as error messages.
-      var validateModel = function(model, attrs) {
+      var validateModel = function(model, attrs, validation) {
         var error,
             invalidAttrs = {},
             isValid = true,
@@ -172,7 +172,7 @@
             flattened = flatten(attrs);
 
         _.each(flattened, function(val, attr) {
-          error = validateAttr(model, attr, val, computed);
+          error = validateAttr(model, attr, val, computed, validation);
           if (error) {
             invalidAttrs[attr] = error;
             isValid = false;
@@ -191,9 +191,10 @@
   
           // Check whether or not a value, or a hash of values
           // passes validation without updating the model
-          preValidate: function(attr, value) {
+          preValidate: function(attr, value, validationName) {
             var self = this,
                 result = {},
+                validation = validationName == null ? 'validation' : validationName,
                 error;
   
             if(_.isObject(attr)){
@@ -207,42 +208,44 @@
               return _.isEmpty(result) ? undefined : result;
             }
             else {
-              return validateAttr(this, attr, value, _.extend({}, this.attributes));
+              return validateAttr(this, attr, value, _.extend({}, this.attributes), validation);
             }
           },
   
           // Check to see if an attribute, an array of attributes or the
           // entire model is valid. Passing true will force a validation
           // of the model.
-          isValid: function(option) {
-            var flattened = flatten(this.attributes);
-  
+          isValid: function(option, validationName) {
+            var flattened = flatten(this.attributes),
+                validation = validationName == null ? 'validation' : validationName;
+
             if(_.isString(option)){
-              return validateAttr(this, option, flattened[option], _.extend({}, this.attributes));
+              return validateAttr(this, option, flattened[option], _.extend({}, this.attributes), validation);
             }
             if(_.isArray(option)){
               return _.reduce(option, function(memo, attr) {
-                return memo && !validateAttr(this, attr, flattened[attr], _.extend({}, this.attributes));
+                return memo && !validateAttr(this, attr, flattened[attr], _.extend({}, this.attributes), validation);
               }, true, this);
             }
             if(option === true) {
-              this.validate();
+              this.validate(null, null, validationName);
             }
-            return this.validation ? this._isValid : true;
+            return  _.result(this, validation) ? this._isValid : true;
           },
   
           // This is called by Backbone when it needs to perform validation.
           // You can call it manually without any parameters to validate the
           // entire model.
-          validate: function(attrs, setOptions){
+          validate: function(attrs, setOptions, validationName){
             var model = this,
                 validateAll = !attrs,
                 opt = _.extend({}, options, setOptions),
                 validatedAttrs = getValidatedAttrs(model),
                 allAttrs = _.extend({}, validatedAttrs, model.attributes, attrs),
                 changedAttrs = flatten(attrs || allAttrs),
+                validation = validationName == null ? 'validation' : validationName,
   
-                result = validateModel(model, allAttrs);
+                result = validateModel(model, allAttrs, validation);
 
             model._isValid = result.isValid;
   
