@@ -24,7 +24,7 @@ define([
             var gridConfig = {
                 header: {
                     title: {
-                        text: smLabels.TITLE_SERVERS + getServerTitleSuffix(viewConfig['hashParams'])
+                        text: smLabels.TITLE_SERVERS
                     },
                     advanceControls: getHeaderControlConfig(viewConfig)
                 },
@@ -150,12 +150,14 @@ define([
                     {id: 'b1s6', text: 'b1s6'},
                     {id: 'b1s7', text: 'b1s7'},
                     {id: 'b1s8', text: 'b1s8'},
-                    {id: 'b1s9', text: 'b1s9'}
+                    {id: 'b1s9', text: 'b1s9'},
+                    {id: 'b2s1', text: 'b2s1'},
+                    {id: 'a3s15', text: 'a3s15'}
                 ]
             }
         ];
 
-        if (contrail.checkIfExist(viewconfig.hashParams) && !$.isEmptyObject(viewconfig.hashParams)) {
+        if (contrail.checkIfExist(viewconfig.hashParams) && contrail.checkIfExist(viewconfig.hashParams.tag) && !$.isEmptyObject(viewconfig.hashParams)) {
             $.each(filterServerData, function (filterServerDataKey, filterServerDataValue) {
                 var filterServerDataMapValue = {key: filterServerDataKey, children: {}},
                     filterServerDataMapChildrenValue = {};
@@ -275,17 +277,17 @@ define([
         return queryString;
     };
 
-    function getServerTitleSuffix(hashParams) {
-        var titleSuffixArray = [], tagKey;
-        if (hashParams['cluster_id'] != null) {
-            titleSuffixArray.push(smLabels.TITLE_CLUSTER + ': ' + hashParams['cluster_id']);
-        }
-
-        if (hashParams['tag'] != null) {
-            for (tagKey in hashParams['tag']) {
-                titleSuffixArray.push(smLabels.get(tagKey) + ": " + hashParams['tag'][tagKey]);
-            }
-        }
-        return (titleSuffixArray.length > 0) ? (' (' + titleSuffixArray.join(',') + ') ') : '';
-    };
+//    function getServerTitleSuffix(hashParams) {
+//        var titleSuffixArray = [], tagKey;
+//        if (hashParams['cluster_id'] != null) {
+//            titleSuffixArray.push(smLabels.TITLE_CLUSTER + ': ' + hashParams['cluster_id']);
+//        }
+//
+//        if (hashParams['tag'] != null) {
+//            for (tagKey in hashParams['tag']) {
+//                titleSuffixArray.push(smLabels.get(tagKey) + ": " + hashParams['tag'][tagKey]);
+//            }
+//        }
+//        return (titleSuffixArray.length > 0) ? (' (' + titleSuffixArray.join(',') + ') ') : '';
+//    };
 });
