@@ -21,6 +21,16 @@ define([
             }
         };
 
+        this.getInLowerCase = function (key) {
+            var label = this.get(key);
+            return label.toLowerCase();
+        };
+
+        this.getInUpperCase = function (key) {
+            var label = this.get(key);
+            return label.toUpperCase();
+        };
+
         var labelMap = {
             //General
             "id": "ID",

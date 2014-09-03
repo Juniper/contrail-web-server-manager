@@ -2,7 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var smConstants, smGridConfig, smUtils, smLabels, smValidation;
+var smConstants, smGridConfig, smUtils, smLabels, smValidation, smMessages;
 
 require.config({
     baseUrl: '/',
@@ -23,11 +23,13 @@ require([
     'common/ui/js/grid.config',
     'common/ui/js/utils',
     'common/ui/js/labels',
+    'common/ui/js/messages',
     'knockout'
-], function (_, validation, Constants, GridConfig, Utils, Labels, Knockout) {
+], function (_, validation, Constants, GridConfig, Utils, Labels, Messages, Knockout) {
     smConstants = new Constants();
     smUtils = new Utils();
     smLabels = new Labels();
+    smMessages = new Messages();
     smGridConfig = new GridConfig();
     smValidation = validation;
     initBackboneValidation(_);

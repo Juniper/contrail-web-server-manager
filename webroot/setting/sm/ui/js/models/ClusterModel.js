@@ -45,42 +45,42 @@ define([
                 'email': {
                     required: false,
                     pattern: 'email',
-                    msg: 'Please enter a valid ' + smLabels.get('email')
+                    msg: smMessages.getInvalidErrorMessage('email')
                 },
                 'parameters.gateway': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('gateway')
+                    msg: smMessages.getInvalidErrorMessage('gateway')
                 },
                 'parameters.subnet_mask': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('subnet_mask')
+                    msg: smMessages.getInvalidErrorMessage('subnet_mask')
                 },
                 'parameters.openstack_mgmt_ip': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_ip')
                 },
                 'parameters.router_asn': {
                     required: false,
                     pattern: 'number',
-                    msg: 'Please enter a valid ' + smLabels.get('router_asn')
+                    msg: smMessages.getInvalidErrorMessage('router_asn')
                 },
                 'parameters.analytics_data_ttl': {
                     required: false,
                     pattern: 'number',
-                    msg: 'Please enter a valid no. for ' + smLabels.get('analytics_data_ttl')
+                    msg: smMessages.getInvalidErrorMessage('analytics_data_ttl')
                 },
                 'parameters.compute_non_mgmt_ip': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_ip')
                 },
                 'parameters.compute_non_mgmt_gway': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_gway')
                 }
             }
         }

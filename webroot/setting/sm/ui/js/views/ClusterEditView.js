@@ -41,10 +41,15 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
             smUtils.generateEditFormHTML(modalId, this.model, provisionLayoutConfig);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
 
             $('#sm-cluster-accordion').accordion({
                 heightStyle: "content"
@@ -153,7 +158,7 @@ define([
                                 dataValueField: "id",
                                 dataSource: {
                                     type: 'remote',
-                                    url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
+                                    url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)
                                 }
                             }},
                             {id: 'package_image_id', path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', view: "FormDropdownView", elementConfig: {

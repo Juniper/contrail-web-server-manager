@@ -37,27 +37,27 @@ define([
                 'email': {
                     required: false,
                     pattern: 'email',
-                    msg: 'Please enter a valid ' + smLabels.get('email')
+                    msg: smMessages.getInvalidErrorMessage('email')
                 },
                 'gateway': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('gateway')
+                    msg: smMessages.getInvalidErrorMessage('gateway')
                 },
                 'mac_address': {
                     required: true,
                     pattern:  smConstants.PATTERN_MAC_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('mac_address')
+                    msg: smMessages.getInvalidErrorMessage('mac_address')
                 },
                 'parameters.compute_non_mgmt_ip': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_ip')
                 },
                 'parameters.compute_non_mgmt_gway': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_gway')
                 }
             }
         }
