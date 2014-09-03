@@ -148,7 +148,7 @@ define([
                 rows: [
                     {
                         elements: [
-                            {id: 'base_image_id', path: 'base_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                            {id: 'base_image_id', path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', view: "FormDropdownView", elementConfig: {
                                 dataTextField: "id",
                                 dataValueField: "id",
                                 dataSource: {
@@ -156,7 +156,7 @@ define([
                                     url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
                                 }
                             }},
-                            {id: 'package_image_id', path: 'package_image_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                            {id: 'package_image_id', path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', view: "FormDropdownView", elementConfig: {
                                 dataTextField: "id",
                                 dataValueField: "id",
                                 dataSource: {

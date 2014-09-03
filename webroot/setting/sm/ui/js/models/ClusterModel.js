@@ -11,6 +11,8 @@ define([
     var ClusterModel = ContrailModel.extend({
         defaultConfig: {
             email: null,
+            base_image_id: null,
+            package_image_id: null,
             parameters: {
                 domain: null,
                 keystone_tenant: null,

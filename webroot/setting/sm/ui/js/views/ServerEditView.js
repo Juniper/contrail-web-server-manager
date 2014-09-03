@@ -135,7 +135,7 @@ define([
                     {
                         elements: [
                             {id: 'id', path: "id", dataBindValue: "id", class: "span6", view: "FormInputView"},
-                            {id: 'cluster_id', path: 'cluster_id', class: "span6", view: "FormDropdownView", elementConfig: {
+                            {id: 'cluster_id', path: 'cluster_id', dataBindValue: "cluster_id", class: "span6", view: "FormDropdownView", elementConfig: {
                                 dataTextField: "id",
                                 dataValueField: "id",
                                 dataSource: {

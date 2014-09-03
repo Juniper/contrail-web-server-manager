@@ -16,3 +16,7 @@ Handlebars.registerHelper('filterServerByTagParams', function (queryKey, queryVa
     return JSON.stringify({p: 'setting_sm_servers', q: queryParams});
 });
 
+Handlebars.registerHelper('printJSON', function(jsonObject) {
+    return JSON.stringify(jsonObject);
+});
+

@@ -137,7 +137,7 @@ define([
 
                         switch (viewName) {
                             case "FormDropdownView":
-                                elementView = new FormDropdownView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12", elementConfig: elementConfig}});
+                                elementView = new FormDropdownView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, dataBindValue: dataBindValue, class: "span12", elementConfig: elementConfig}});
                                 elementView.render();
                                 break;
                             case "FormMultiselectView":

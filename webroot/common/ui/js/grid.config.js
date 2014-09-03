@@ -144,7 +144,7 @@ define([
                 return tagHTML;
             }},
             { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
-            { id: "power_address", field: "power_address", name: "IPMI", width: 80, minWidth: 15 }
+            { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15 }
         ].concat(this.getGridColumns4Roles()).concat([
                 { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
             ]);

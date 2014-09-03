@@ -42,7 +42,7 @@
     <label>{{label}}</label>
 
     <div class="row-fluid">
-        <input id="{{id}}" name="{{name}}" class="{{class}}"/>
+        <input id="{{id}}" name="{{name}}" class="{{class}}" data-bind="value: {{dataBindValue}}, contrailDropdown: {{printJSON elementConfig}}" />
     </div>
 </script>
 
