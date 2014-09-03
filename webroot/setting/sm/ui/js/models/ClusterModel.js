@@ -45,8 +45,39 @@ define([
                     pattern: 'email',
                     msg: 'Please enter a valid ' + smLabels.get('email')
                 },
+                'parameters.gateway': {
+                    required: false,
+                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    msg: 'Please enter a valid ' + smLabels.get('gateway')
+                },
+                'parameters.subnet_mask': {
+                    required: false,
+                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    msg: 'Please enter a valid ' + smLabels.get('subnet_mask')
+                },
+                'parameters.openstack_mgmt_ip': {
+                    required: false,
+                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                },
+                'parameters.router_asn': {
+                    required: false,
+                    pattern: 'number',
+                    msg: 'Please enter a valid ' + smLabels.get('router_asn')
+                },
+                'parameters.analytics_data_ttl': {
+                    required: false,
+                    pattern: 'number',
+                    msg: 'Please enter a valid no. for ' + smLabels.get('analytics_data_ttl')
+                },
                 'parameters.compute_non_mgmt_ip': {
-                    required: true,
+                    required: false,
+                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
+                },
+                'parameters.compute_non_mgmt_gway': {
+                    required: false,
+                    pattern: smConstants.PATTERN_IP_ADDRESS,
                     msg: 'Please enter a valid ' + smLabels.get('compute_non_mgmt_ip')
                 }
             }
