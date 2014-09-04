@@ -2,55 +2,25 @@
  Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var smapi = module.exports,
-    smConfig = require('../../common/api/sm.config'),
-    rest = require(smConfig.core_path + '/src/serverroot/common/rest.api'),
-    commonUtils = require(smConfig.core_path + '/src/serverroot/utils/common.utils'),
-    assert = require('assert'),
+var commonUtils = require(process.mainModule.exports["corePath"] + '/src/serverroot/utils/common.utils'),
+    config = require(process.mainModule.exports["corePath"] + '/config/config.global.js'),
+    logutils = require(process.mainModule.exports["corePath"] + '/src/serverroot/utils/log.utils'),
+    global = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/global');
+
+var sm = require('../../common/api/sm'),
     url = require('url'),
     qs = require('querystring');
 
-var smServerIP = smConfig.DFLT_SERVER_IP;
-var smServerPort = smConfig.DFLT_SERVER_PORT;
+var redis = require("redis"),
+    redisServerPort = (config.redis_server_port) ? config.redis_server_port : global.DFLT_REDIS_SERVER_PORT,
+    redisServerIP = (config.redis_server_ip) ? config.redis_server_ip : global.DFLT_REDIS_SERVER_IP,
+    redisClient = redis.createClient(redisServerPort, redisServerIP);
 
-if (smConfig.sm) {
-    if (smConfig.sm.server_ip) {
-        smServerIP = smConfig.sm.server_ip;
+redisClient.select(global.SM_DFLT_REDIS_DB, function(error) {
+    if (error) {
+        logutils.logger.error('Redis DB ' + global.SM_DFLT_REDIS_DB + ' Select Error:' + error);
     }
-    if (smConfig.sm.server_port) {
-        smServerPort = smConfig.sm.server_port;
-    }
-}
-
-var sm = rest.getAPIServer({
-    apiName:smConfig.SM_API_SERVER,
-    server: smServerIP,
-    port: smServerPort
 });
-
-function apiGet(url, callback) {
-    sm.api.get(url, function (err, data) {
-        callback(err, data);
-    });
-}
-
-function apiPut(url, putData, appData, callback) {
-    sm.api.get(url, putData, function (err, data) {
-        callback(err, data);
-    });
-}
-
-function apiPost(url, postData, appData, callback) {
-    sm.api.post(url, postData, function (err, data) {
-        callback(err, data);
-    });
-}
-
-function apiDelete(url, appData, callback) {
-    sm.api.delete(url, function (err, data) {
-        callback(err, data);
-    });
-}
 
 function getObjects(req, res) {
     var objectName = req.param('name'),
@@ -64,7 +34,7 @@ function getObjects(req, res) {
 
     objectUrl += '?' + qs.stringify(qsObj);
 
-    sm.api.get(objectUrl, function(error, resultJSON) {
+    sm.get(objectUrl, function(error, resultJSON) {
         if(error != null) {
             commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
         } else {
@@ -86,7 +56,7 @@ function getObjectsDetails(req, res) {
 
     objectUrl += '?detail&' + qs.stringify(qsObj);
 
-    sm.api.get(objectUrl, function(error, resultJSON) {
+    sm.get(objectUrl, function(error, resultJSON) {
         if(error != null) {
             commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
         } else {
@@ -96,30 +66,5 @@ function getObjectsDetails(req, res) {
     });
 };
 
-function parseStr2JSON(resultJSON, paramNames) {
-    var paramName;
-    for(var j = 0 ; j < paramNames.length; j++) {
-        paramName = paramNames[j];
-        for (var i = 0; i < resultJSON.length; i++) {
-            if (resultJSON[i][paramName] != null) {
-                var paramValue = resultJSON[i][paramName];
-                try {
-                    paramValue = paramValue.replace(new RegExp("u'", 'g'), "\"");
-                    paramValue = paramValue.replace(new RegExp("'", 'g'), "\"")
-                    resultJSON[i][paramName] = JSON.parse(paramValue);
-                } catch (error) {
-                    resultJSON[i][paramName] = paramValue.replace(new RegExp("u'", 'g'), "'");
-                }
-            }
-        }
-    }
-}
-
-exports.apiGet = apiGet;
-exports.apiPut = apiPut;
-exports.apiPost = apiPost;
-exports.apiDelete = apiDelete;
 exports.getObjects = getObjects;
 exports.getObjectsDetails = getObjectsDetails;
-
-
