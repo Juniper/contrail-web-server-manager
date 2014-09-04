@@ -25,4 +25,16 @@
         <feature>smConfigure</feature>
         <callback>smapi.getObjectsDetails</callback>
     </item>
+    <item>
+        <url>/sm/tags/values</url>
+        <method>get</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.getTagValues</callback>
+    </item>
+    <item>
+        <url>/sm/tags/values/:name</url>
+        <method>get</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.getTagValues</callback>
+    </item>
 </urlLists>
