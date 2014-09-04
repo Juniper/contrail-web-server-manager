@@ -65,14 +65,15 @@ function initCustomKOBindings(Knockout) {
         init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
             var valueObj = valueAccessor(),
                 allBindings = allBindingsAccessor(),
-                lookupKey = allBindings.lookupKey;
+                dropDown = $(element).contrailDropdown(valueObj).data('contrailDropdown');
 
-            var dropDown = $(element).contrailDropdown(valueObj).data('contrailDropdown');
-
-            if (lookupKey) {
+            if (allBindings.value) {
                 var value = ko.utils.unwrapObservable(allBindings.value);
-                console.log(value);
-                dropDown.val(value);
+                if(typeof value === 'function') {
+                    dropDown.value(value());
+                } else {
+                    dropDown.value(value);
+                }
             }
 
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {

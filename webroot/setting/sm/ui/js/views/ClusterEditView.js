@@ -72,14 +72,10 @@ define([
                                 dataBindValue: 'id',
                                 class: "span6",
                                 view: "FormDropdownView",
-                                elementConfig: {
-                                    dataTextField: "id",
-                                    dataValueField: "id",
-                                    dataSource: {
-                                        type: 'remote',
-                                        url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
-                                    }
-                                }},
+                                elementConfig: { dataTextField: "id", dataValueField: "id", dataSource: {
+                                    type: 'remote',
+                                    url: smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID)
+                                }}},
                             {id: 'email', path: 'email', dataBindValue: 'email', class: "span6", view: "FormInputView"}
                         ]
                     },
@@ -115,13 +111,13 @@ define([
                     {
                         elements: [
                             {id: 'router_asn', path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6", view: "FormInputView"},
-                            {id: 'multi_tenancy', path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", view: "FormDropdownView", elementConfig: {data: smConstants.FLAGS}}
+                            {id: 'multi_tenancy', path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", view: "FormDropdownView", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}
                         ]
                     },
                     {
                         elements: [
-                            {id: 'haproxy', path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", view: "FormDropdownView", elementConfig: {data: smConstants.STATES}},
-                            {id: 'use_certificates', path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", view: "FormDropdownView", elementConfig: {data: smConstants.FLAGS}}
+                            {id: 'haproxy', path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", view: "FormDropdownView", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.STATES}},
+                            {id: 'use_certificates', path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", view: "FormDropdownView", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}
                         ]
                     },
                     {

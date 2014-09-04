@@ -14,7 +14,7 @@ define([
             var model, errorAttributes, _this = this;
 
             errorAttributes = getErrorAttributes(modelConfig);
-            modelConfig = _.extend({}, this.defaultConfig, modelConfig, errorAttributes);
+            modelConfig = $.extend(true, {}, this.defaultConfig, modelConfig, {errors: new Backbone.Model(errorAttributes)});
 
             model = new Backbone.Model(modelConfig);
             model = _.extend(model, this.validations);
@@ -47,8 +47,8 @@ define([
                 attr = attrObj['attr'],
                 attrErrorObj = {}, isValid;
             isValid = this.model().isValid(attributePath, validation);
-            attrErrorObj[attrError] = isValid == true ? false : isValid;
-            this.model().set(attrErrorObj);
+            attrErrorObj[attrError] = (isValid == true) ? false : isValid;
+            this.model().get("errors").set(attrErrorObj);
         }
     });
 

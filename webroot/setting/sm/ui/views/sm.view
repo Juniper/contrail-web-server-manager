@@ -34,7 +34,7 @@
 
     <div class="row-fluid form-element">
         <input type="text" name="{{id}}" class="{{class}}" data-bind="value: {{dataBindValue}}, event: { focusout: validateAttr('{{path}}', '{{validation}}') }"/>
-        <span class="help-block red" data-bind="visible: {{name}}_error, text: {{name}}_error"></span>
+        <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
     </div>
 </script>
 
@@ -43,6 +43,7 @@
 
     <div class="row-fluid">
         <input id="{{id}}" name="{{name}}" class="{{class}}" data-bind="value: {{dataBindValue}}, contrailDropdown: {{printJSON elementConfig}}" />
+        <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
     </div>
 </script>
 
