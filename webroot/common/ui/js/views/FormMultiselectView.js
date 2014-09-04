@@ -8,15 +8,8 @@ define([
 ], function (_, Backbone) {
     var FormMultiselectView = Backbone.View.extend({
         render: function () {
-            var multiselectTemplate = contrail.getTemplate4Id("sm-form-multiselect-template"),
-                elementConfig = this.attributes.elementConfig,
-                elementId = "#" + this.attributes.id,
-                elementValue = this.attributes.value,
-                multiSelect;
-
+            var multiselectTemplate = contrail.getTemplate4Id("sm-form-multiselect-template");
             this.$el.html(multiselectTemplate(this.attributes));
-            multiSelect = this.$el.find(elementId).contrailMultiselect(elementConfig).data('contrailMultiselect');
-            multiSelect.value(elementValue);
         }
     });
 

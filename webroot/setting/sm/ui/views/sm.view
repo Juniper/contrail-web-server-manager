@@ -51,7 +51,8 @@
     <label>{{label}}</label>
 
     <div class="row-fluid">
-        <input id="{{id}}" name="{{name}}" class="{{class}}"/>
+       <input id="{{id}}" name="{{name}}" class="{{class}}" data-bind="value: {{dataBindValue}}, contrailMultiselect: {{printJSON elementConfig}}"/>
+       <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
     </div>
 </script>
 

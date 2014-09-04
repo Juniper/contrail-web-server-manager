@@ -85,6 +85,31 @@ function initCustomKOBindings(Knockout) {
         }
     };
 
+    Knockout.bindingHandlers.contrailMultiselect = {
+        init  : function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+            var valueObj = valueAccessor(),
+                allBindings = allBindingsAccessor(),
+                lookupKey = allBindings.lookupKey,
+                multiselect = $(element).contrailMultiselect(valueObj).data('contrailMultiselect');
+
+            if (allBindings.value) {
+                var value = ko.utils.unwrapObservable(allBindings.value);
+                if (typeof value === 'function') {
+                    multiselect.value(value());
+                } else {
+                    multiselect.value(value);
+                }
+            }
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).select2('destroy');
+            });
+        },
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            $(element).trigger('change');
+        }
+    };
+
     var updateSelect2 = function (element) {
         var el = $(element);
         if (el.data('select2')) {
