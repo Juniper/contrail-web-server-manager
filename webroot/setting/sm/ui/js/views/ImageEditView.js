@@ -7,16 +7,14 @@ define([
     'backbone',
     'knockback'
 ], function (_, Backbone, Knockback) {
-    var prefixId = smConstants.IMAGE_PREFIX_ID;
+    var prefixId = smConstants.IMAGE_PREFIX_ID,
+        editTemplate = contrail.getTemplate4Id("sm-edit-layout-template");
 
     var ImageEditView = Backbone.View.extend({
-
         render: function (options) {
             var modalId = 'configure-' + prefixId,
-                editTemplate = contrail.getTemplate4Id("sm-edit-layout-template"),
-                editLayout = editTemplate(editLayoutConfig);
-
-            var that = this;
+                editLayout = editTemplate({prefixId: prefixId}),
+                that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.configure(modalId); // TODO: Release binding on successful configure
@@ -26,32 +24,31 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.generateEditFormHTML(modalId, this.model, editLayoutConfig);
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
         }
     });
 
-    var editLayoutConfig = {
+    var configureViewConfig = {
         prefixId: prefixId,
-        groups: [
-            {
-                rows: [
-                    {
-                        elements: [
-                            {id: 'type', path: "type", dataBindValue: "type", class: "span6", view: "FormInputView"},
-                            {id: 'version', path: 'version', dataBindValue: "version", class: "span6", view: "FormInputView"}
-                        ]
-                    },
-                    {
-                        elements: [
-                            {id: 'path', path: "path", dataBindValue: "path", class: "span12", view: "FormInputView"}
-                        ]
-                    }
-                ]
-            }
-        ]
+        view: "SectionView",
+        viewConfig: {
+            rows: [
+                {
+                    columns: [
+                        {elementId: 'type', view: "FormInputView", viewConfig: {path: "type", dataBindValue: "type", class: "span6"}},
+                        {elementId: 'version', view: "FormInputView", viewConfig: {path: 'version', dataBindValue: "version", class: "span6"}}
+                    ]
+                },
+                {
+                    columns: [
+                        {elementId: 'path', view: "FormInputView", viewConfig: {path: "path", dataBindValue: "path", class: "span12"}}
+                    ]
+                }
+            ]
+        }
     };
 
     return ImageEditView;

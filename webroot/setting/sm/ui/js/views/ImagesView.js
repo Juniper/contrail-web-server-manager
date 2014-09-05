@@ -24,17 +24,17 @@ define([
                     title: {
                         text: smLabels.TITLE_IMAGES
                     },
-                    advanceControls: headerControlConfig
+                    advanceControls: headerActionConfig
                 },
                 columnHeader: {
                     columns: smGridConfig.IMAGE_COLUMNS
                 },
                 body: {
                     options: {
-                        actionCell: gridActionCellConfig,
+                        actionCell: rowActionConfig,
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
-                            templateConfig: gridTemplateConfig
+                            templateConfig: detailTemplateConfig
                         }
                     },
                     dataSource: {
@@ -51,7 +51,7 @@ define([
         }
     });
 
-    var gridActionCellConfig = [
+    var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 imageModel = new ImageModel(dataItem),
@@ -61,7 +61,7 @@ define([
         })
     ];
 
-    var headerControlConfig = [
+    var headerActionConfig = [
         {
             "type": "dropdown",
             "iconClass": "icon-cog",
@@ -87,7 +87,7 @@ define([
         }
     ];
 
-    var gridTemplateConfig = [
+    var detailTemplateConfig = [
         [
             {
                 title: smLabels.TITLE_DETAILS,

@@ -33,17 +33,17 @@ define([
                     title: {
                         text: smLabels.TITLE_CLUSTERS
                     },
-                    advanceControls: headerControlConfig
+                    advanceControls: headerActionConfig
                 },
                 columnHeader: {
                     columns: smGridConfig.CLUSTER_COLUMNS
                 },
                 body: {
                     options: {
-                        actionCell: gridActionCellConfig,
+                        actionCell: rowActionConfig,
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
-                            templateConfig: gridTemplateConfig
+                            templateConfig: detailTemplateConfig
                         }
                     },
                     dataSource: {
@@ -69,7 +69,7 @@ define([
             that.$el.html(clusterTemplate());
             contrail.ajaxHandler(ajaxConfig, function () {
             }, function (response) {
-                that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: gridTemplateConfig}));
+                that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig}));
                 requirejs(["/setting/sm/ui/js/views/ServersView.js"], function (ServersView) {
                     var serversView = new ServersView({
                         el: that.$el.find("#cluster-server-list")
@@ -81,7 +81,7 @@ define([
         }
     });
 
-    var gridActionCellConfig = [
+    var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
@@ -104,7 +104,7 @@ define([
         })
     ];
 
-    var gridTemplateConfig = [
+    var detailTemplateConfig = [
         [
             {
                 title: smLabels.TITLE_DETAILS,
@@ -119,7 +119,7 @@ define([
         ]
     ];
 
-    var headerControlConfig = [
+    var headerActionConfig = [
         {
             "type": "dropdown",
             "iconClass": "icon-cog",

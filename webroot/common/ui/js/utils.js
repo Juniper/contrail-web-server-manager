@@ -7,8 +7,10 @@ define([
     'common/ui/js/views/FormInputView',
     'common/ui/js/views/FormGridView',
     'common/ui/js/views/FormMultiselectView',
-    'common/ui/js/views/FormDropdownView'
-], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView) {
+    'common/ui/js/views/FormDropdownView',
+    'common/ui/js/views/AccordianView',
+    'common/ui/js/views/SectionView'
+], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, AccordianView, SectionView) {
     var Utils = function () {
         var self = this;
         this.renderGrid = function (elementId, gridConfig) {
@@ -118,50 +120,6 @@ define([
             var title = field;
             return title;
         };
-        this.generateEditFormHTML = function (modalId, formModel, formConfig) {
-            for (var k = 0; k < formConfig['groups'].length; k++) {
-                var rows = formConfig['groups'][k]['rows'];
-                for (var i = 0; i < rows.length; i++) {
-                    var elements = rows[i]['elements'];
-                    for (var j = 0; j < elements.length; j++) {
-                        var elementId = elements[j]['id'],
-                            path = elements[j]['path'],
-                            dataBindValue = elements[j]['dataBindValue'],
-                            el = $('#' + modalId).find('#' + elementId),
-                            viewName = elements[j]['view'],
-                            elementValue = (formModel != null) ? formModel.getValueByPath(path) : '',
-                            labelValue = (elementId != null) ? smLabels.get(elementId) : smLabels.get(path),
-                            elementConfig = elements[j]['elementConfig'],
-                            validation = formConfig['validation'] ? formConfig['validation']: 'validation',
-                            elementView;
-
-                        switch (viewName) {
-                            case "FormDropdownView":
-                                elementView = new FormDropdownView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, dataBindValue: dataBindValue, class: "span12", elementConfig: elementConfig}});
-                                elementView.render();
-                                break;
-                            case "FormMultiselectView":
-                                elementView = new FormMultiselectView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, dataBindValue: dataBindValue, class: "span12", elementConfig: elementConfig}});
-                                elementView.render();
-                                break;
-                            case "FormInputView":
-                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, dataBindValue: dataBindValue, class: "span12", path: path, validation: validation}});
-                                elementView.render();
-                                break;
-
-                            case "FormGridView":
-                                elementView = new FormGridView({el: el, attributes: {class: "span12", clusterId: elementValue}});
-                                elementView.render();
-                                break;
-
-                            default:
-                                elementView = new FormInputView({el: el, attributes: {label: labelValue, id: elementId, name: elementId, value: elementValue, class: "span12"}});
-                                elementView.render();
-                        }
-                    }
-                }
-            }
-        };
         this.getJSONValueByPath = function (path, obj) {
             path = path.replace(/\[(\w+)\]/g, '.$1');
             path = path.replace(/^\./, '');
@@ -205,6 +163,47 @@ define([
             });
 
             return intoObject;
+        };
+
+        this.renderView4Config = function (parentElement, model, viewObj, validation) {
+            var viewName = viewObj['view'],
+                elementId = viewObj['elementId'],
+                validation = (validation != null) ? validation : 'validation',
+                viewAttributes = {viewConfig: viewObj['viewConfig'], elementId: elementId, validation: validation},
+                elementView;
+
+            switch (viewName) {
+                case "AccordianView":
+                    elementView = new AccordianView({el: parentElement, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "SectionView":
+                    elementView = new SectionView({el: parentElement, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "FormDropdownView":
+                    elementView = new FormDropdownView({el: parentElement, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "FormInputView":
+                    elementView = new FormInputView({el: parentElement, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "FormMultiselectView":
+                    elementView = new FormMultiselectView({el: parentElement, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "FormGridView":
+                    elementView = new FormGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+            }
         };
     };
     return Utils;

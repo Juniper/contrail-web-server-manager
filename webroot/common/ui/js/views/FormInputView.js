@@ -8,8 +8,16 @@ define([
 ], function (_, Backbone) {
     var FormInputView = Backbone.View.extend({
         render: function () {
-            var inputTemplate = contrail.getTemplate4Id("sm-form-input-template");
-            this.$el.html(inputTemplate(this.attributes));
+            var inputTemplate = contrail.getTemplate4Id("sm-form-input-template"),
+                viewConfig = this.attributes.viewConfig,
+                elId = this.attributes.elementId,
+                validation = this.attributes.validation,
+                path = viewConfig['path'],
+                labelValue = (elId != null) ? smLabels.get(elId) : smLabels.get(path);
+
+            var tmplParameters = {label: labelValue, id: elId, name: elId, dataBindValue: viewConfig['dataBindValue'], class: "span12", path: path, validation: validation};
+
+            this.$el.html(inputTemplate(tmplParameters));
         }
     });
 

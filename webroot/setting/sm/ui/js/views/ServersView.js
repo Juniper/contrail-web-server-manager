@@ -26,17 +26,17 @@ define([
                     title: {
                         text: smLabels.TITLE_SERVERS
                     },
-                    advanceControls: getHeaderControlConfig(viewConfig)
+                    advanceControls: getHeaderActionConfig(viewConfig)
                 },
                 columnHeader: {
                     columns: smGridConfig.SERVER_COLUMNS
                 },
                 body: {
                     options: {
-                        actionCell: gridActionCellConfig,
+                        actionCell: rowActionConfig,
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
-                            templateConfig: gridTemplateConfig
+                            templateConfig: detailTemplateConfig
                         }
                     },
                     dataSource: {
@@ -53,7 +53,7 @@ define([
         }
     });
 
-    var gridActionCellConfig = [
+    var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
@@ -87,7 +87,7 @@ define([
         })
     ];
 
-    var gridTemplateConfig = [
+    var detailTemplateConfig = [
         [
             {
                 title: smLabels.TITLE_DETAILS,
@@ -181,7 +181,7 @@ define([
         return filterServerData;
     };
 
-    function getHeaderControlConfig(viewconfig) {
+    function getHeaderActionConfig(viewconfig) {
         return [
             {
                 "type": "dropdown",
@@ -276,18 +276,4 @@ define([
         }
         return queryString;
     };
-
-//    function getServerTitleSuffix(hashParams) {
-//        var titleSuffixArray = [], tagKey;
-//        if (hashParams['cluster_id'] != null) {
-//            titleSuffixArray.push(smLabels.TITLE_CLUSTER + ': ' + hashParams['cluster_id']);
-//        }
-//
-//        if (hashParams['tag'] != null) {
-//            for (tagKey in hashParams['tag']) {
-//                titleSuffixArray.push(smLabels.get(tagKey) + ": " + hashParams['tag'][tagKey]);
-//            }
-//        }
-//        return (titleSuffixArray.length > 0) ? (' (' + titleSuffixArray.join(',') + ') ') : '';
-//    };
 });
