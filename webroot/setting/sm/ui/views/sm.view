@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
+-->
+<script type="text/x-handlebars-template" id="sm-template" xmlns="http://www.w3.org/1999/html">
+    <div id="{{name}}-container" class="row-fluid ">
+        <div id="{{name}}-results" class="row-fluid"></div>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-edit-layout-template">
+    <form name="{{prefixId}}Form" id="sm-{{prefixId}}-form" onsubmit="return false;" class="">
+    </form>
+</script>
+
+<script type="text/x-handlebars-template" id="accordian-view-template">
+    <div id="{{elementId}}">
+        {{#each viewConfig}}
+        {{#if this.title}}
+        <h3>{{this.title}}</h3>
+        {{/if}}
+        <div id="{{this.elementId}}">
+        </div>
+        {{/each}}
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="section-view-template">
+    {{#each rows}}
+    <div class="row-fluid margin-0-0-5 span12">
+        {{#each this.columns}}
+        <div id="{{this.elementId}}" class="{{this.viewConfig.class}}"></div>
+        {{/each}}
+    </div>
+    {{/each}}
+</script>
+
+<script type="text/x-handlebars-template" id="sm-form-input-template">
+    <label>{{label}}</label>
+
+    <div class="row-fluid form-element">
+        <input type="text" name="{{id}}" class="{{class}}"
+               data-bind="value: {{dataBindValue}}, event: { focusout: validateAttr('{{path}}', '{{validation}}') }"/>
+        <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-form-dropdown-template">
+    <label>{{label}}</label>
+
+    <div class="row-fluid">
+        <input id="{{id}}" name="{{name}}" class="{{class}}"
+               data-bind="value: {{dataBindValue}}, contrailDropdown: {{printJSON elementConfig}}"/>
+        <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-form-multiselect-template">
+    <label>{{label}}</label>
+
+    <div class="row-fluid">
+        <input id="{{id}}" name="{{name}}" class="{{class}}"
+               data-bind="value: {{dataBindValue}}, contrailMultiselect: {{printJSON elementConfig}}"/>
+        <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-actions-template">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="icon-cog"></i>
+    </a>
+    <ul class="pull-right dropdown-menu dropdown-caret">
+        {{#each actions}}
+        <li>
+            <a onclick="">
+                <i class="{{this.iconClass}}"></i> &nbsp; {{this.label}}
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-tags-template">
+    {{#each this}}
+    <a onclick="loadFeature({{filterServerByTagParams @key this}});"><span
+            class="badge badge-color-{{@index}}">{{this}}</span></a>
+    {{/each}}
+</script>
+
+<script type="text/x-handlebars-template" id="sm-grid-2-row-group-detail-template">
+    <div class="row-fluid group-detail-container">
+        {{#each templateConfig}}
+        <div class="span6">
+            {{#each this}}
+            <h6>{{title}}</h6>
+            <ul class="item-list">
+                {{#each keys}}
+                <li>
+                    <label class="inline">
+                        <span class="key"> {{getSMLabel this}} </span>
+                        <span class="value"> {{{getJSONValueByPath this ../../../dc}}} </span>
+                    </label>
+                </li>
+                {{/each}}
+            </ul>
+            <br>
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="cluster-template">
+    <div id="cluster-details">
+    </div>
+    <div id="cluster-server-list">
+    </div>
+</script>
