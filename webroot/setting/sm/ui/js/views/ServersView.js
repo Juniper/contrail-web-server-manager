@@ -37,6 +37,12 @@ define([
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
                             templateConfig: detailTemplateConfig
+                        },
+                        sortable: {
+                            defaultSortCols: {
+                                'discovered': {sortAsc: false},
+                                'status': {sortAsc: true}
+                            }
                         }
                     },
                     dataSource: {
