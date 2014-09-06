@@ -126,65 +126,38 @@ define([
 
     return ServersView;
 
-    function getFilterServerData(viewconfig) {
-        var filterServerDataMap = {}, filterServerData = [
-            {
-                id: 'datacenter',
-                text: 'Data Center',
-                children: [
-                    {id: 'dc1', text: 'dc1'},
-                    {id: 'dc2223', text: 'dc2223'},
-                ]
-            },
-            {
-                id: 'hall',
-                text: 'Hall',
-                children: [
-                    {id: 'hall1', text: 'hall1'},
-                    {id: 'hall2', text: 'hall2'}
-                ]
-            },
-            {
-                id: 'user_tag',
-                text: 'User Tag',
-                children: [
-                    {id: 'b1s1', text: 'b1s1'},
-                    {id: 'b1s2', text: 'b1s2'},
-                    {id: 'b1s3', text: 'b1s3'},
-                    {id: 'b1s4', text: 'b1s4'},
-                    {id: 'b1s5', text: 'b1s5'},
-                    {id: 'b1s6', text: 'b1s6'},
-                    {id: 'b1s7', text: 'b1s7'},
-                    {id: 'b1s8', text: 'b1s8'},
-                    {id: 'b1s9', text: 'b1s9'},
-                    {id: 'b2s1', text: 'b2s1'},
-                    {id: 'a3s15', text: 'a3s15'}
-                ]
-            }
-        ];
-
-        if (contrail.checkIfExist(viewconfig.hashParams) && contrail.checkIfExist(viewconfig.hashParams.tag) && !$.isEmptyObject(viewconfig.hashParams)) {
-            $.each(filterServerData, function (filterServerDataKey, filterServerDataValue) {
-                var filterServerDataMapValue = {key: filterServerDataKey, children: {}},
-                    filterServerDataMapChildrenValue = {};
-
-                $.each(filterServerData[filterServerDataKey].children, function (filterServerDataChildrenKey, filterServerDataChildrenValue) {
-                    filterServerDataMapChildrenValue[filterServerDataChildrenValue.id] = {key: filterServerDataChildrenKey};
-                });
-
-                filterServerDataMapValue.children = filterServerDataMapChildrenValue;
-                filterServerDataMap[filterServerDataValue.id] = filterServerDataMapValue;
+    function formatData4Ajax(response){
+        var filterServerData = [];
+        $.each(response, function( key, value ){
+            var childrenData = [],
+                children = value;
+            $.each(children, function(k, v){
+                childrenData.push({'id': v, 'text': v});
             });
+            filterServerData.push({'id': key, 'text': smLabels.get(key), children: childrenData});
+        });
 
-            $.each(viewconfig.hashParams.tag, function (hashParamKey, hashParamValue) {
-                var parentKey = filterServerDataMap[hashParamKey].key,
-                    childrenKey = filterServerDataMap[hashParamKey].children[hashParamValue].key;
+        /*if (contrail.checkIfExist(viewconfig.hashParams) && contrail.checkIfExist(viewconfig.hashParams.tag) && !$.isEmptyObject(viewconfig.hashParams)) {
+         $.each(filterServerData, function (filterServerDataKey, filterServerDataValue) {
+         var filterServerDataMapValue = {key: filterServerDataKey, children: {}},
+         filterServerDataMapChildrenValue = {};
 
-                filterServerData[parentKey].children[childrenKey]['selected'] = true;
-            });
-        }
+         $.each(filterServerData[filterServerDataKey].children, function (filterServerDataChildrenKey, filterServerDataChildrenValue) {
+         filterServerDataMapChildrenValue[filterServerDataChildrenValue.id] = {key: filterServerDataChildrenKey};
+         });
 
-        return filterServerData;
+         filterServerDataMapValue.children = filterServerDataMapChildrenValue;
+         filterServerDataMap[filterServerDataValue.id] = filterServerDataMapValue;
+         });
+
+         $.each(viewconfig.hashParams.tag, function (hashParamKey, hashParamValue) {
+         var parentKey = filterServerDataMap[hashParamKey].key,
+         childrenKey = filterServerDataMap[hashParamKey].children[hashParamValue].key;
+
+         filterServerData[parentKey].children[childrenKey]['selected'] = true;
+         });
+         }*/
+        return filterServerData ;
     };
 
     function getHeaderActionConfig(viewconfig) {
@@ -242,7 +215,12 @@ define([
                 elementConfig: {
                     dataTextField: 'text',
                     dataValueField: 'id',
+                    parse: formatData4Ajax,
                     minWidth: 150,
+                    dataSource: {
+                        type: 'GET',
+                        url: smUtils.getTagsUrl()
+                    },
                     control: {
                         apply: {
                             click: function (self, checkedRows) {
@@ -260,8 +238,8 @@ define([
                                 self.data('contrailCheckedMultiselect').setChecked(preChecked);
                             }
                         }
-                    },
-                    data: getFilterServerData(viewconfig)
+                    }
+                    //data: getFilterServerData(viewconfig)
                 }
             }
         ];
