@@ -10,6 +10,7 @@ define([
 ], function (_, Knockback, Knockout, ContrailModel) {
     var ClusterModel = ContrailModel.extend({
         defaultConfig: {
+            id: null,
             email: null,
             base_image_id: null,
             package_image_id: null,

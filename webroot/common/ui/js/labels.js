@@ -110,6 +110,11 @@ define([
         this.TITLE_IMAGE = 'Image';
         this.TITLE_REPOS = 'Repos';
         this.TITLE_REPO = 'Repo';
+
+        this.SELECT_CLUSTER = 'Select Cluster';
+        this.SELECT_IMAGE = 'Select Image';
+        this.SELECT_PACKAGE = 'Select Package';
+        this.SELECT_ROLES = 'Select Roles';
     };
     return Labels;
 });
