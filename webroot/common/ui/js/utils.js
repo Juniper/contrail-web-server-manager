@@ -147,6 +147,14 @@ define([
             return '/sm/objects/' + objectName + '?field=' + objectField;
         };
 
+        this.getTagsUrl = function () {
+            return '/sm/tags/values/';
+        };
+
+        this.getTagValueUrl = function (value) {
+            return '/sm/tags/values/' + value;
+        };
+
         this.flattenObject = function (object, intoObject, prefix) {
             var self = this;
             intoObject = intoObject || {};
