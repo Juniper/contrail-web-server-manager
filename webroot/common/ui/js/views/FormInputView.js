@@ -8,7 +8,7 @@ define([
 ], function (_, Backbone) {
     var FormInputView = Backbone.View.extend({
         render: function () {
-            var inputTemplate = contrail.getTemplate4Id("sm-form-input-template"),
+            var inputTemplate = contrail.getTemplate4Id("sm-input-view-template"),
                 viewConfig = this.attributes.viewConfig,
                 elId = this.attributes.elementId,
                 validation = this.attributes.validation,
