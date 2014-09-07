@@ -71,9 +71,9 @@ function getTagValues(req, res) {
     var tagName = req.param('name'),
         objectUrl = '/server?detail',
         responseJSON = {}, tagValues = {},
-        tags, servers, key, redisKey;
+        redisKey;
 
-    redisKey = (tagName != null) ? (constants.REDIS_TAG_VALUES + ':' + tagName) : constants.REDIS_TAG_VALUES;
+    redisKey = constants.REDIS_TAG_VALUES;
 
     redisClient.get(redisKey, function (error, tagValuesStr) {
         if (error) {
@@ -81,6 +81,7 @@ function getTagValues(req, res) {
             commonUtils.handleJSONResponse(error, res, null);
         } else if (tagValuesStr == null) {
             sm.get(objectUrl, function (error, resultJSON) {
+                var keyValue, key, tags, servers;
                 if (error != null) {
                     commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
                 } else {
@@ -88,20 +89,19 @@ function getTagValues(req, res) {
                     for (var i = 0; i < servers.length; i++) {
                         tags = servers[i]['tag'];
                         for (key in tags) {
-                            if (tagName == null || tagName == key) {
-                                if (tagValues[key] == null) {
-                                    tagValues[key] = [];
-                                }
-                                if (tagValues[key].indexOf(tags[key]) == -1) {
-                                    tagValues[key].push(tags[key]);
-                                }
+                            if (tagValues[key] == null) {
+                                tagValues[key] = [];
+                            }
+                            keyValue = tags[key];
+                            if (tagValues[key].indexOf(keyValue) == -1) {
+                                tagValues[key].push(keyValue);
                             }
                         }
                     }
                 }
                 responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
                 commonUtils.handleJSONResponse(null, res, responseJSON);
-                redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(responseJSON));
+                redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(tagValues));
 
             });
         } else {
