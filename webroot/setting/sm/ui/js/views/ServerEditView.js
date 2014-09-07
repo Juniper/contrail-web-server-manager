@@ -10,7 +10,7 @@ define([
 
     var prefixId = smConstants.SERVER_PREFIX_ID,
         modalId = 'configure-' + prefixId,
-        editTemplate = contrail.getTemplate4Id("sm-edit-layout-template");
+        editTemplate = contrail.getTemplate4Id("sm-edit-form-template");
 
     var ServerEditView = Backbone.View.extend({
 

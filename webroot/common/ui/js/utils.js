@@ -9,8 +9,9 @@ define([
     'common/ui/js/views/FormMultiselectView',
     'common/ui/js/views/FormDropdownView',
     'common/ui/js/views/AccordianView',
-    'common/ui/js/views/SectionView'
-], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, AccordianView, SectionView) {
+    'common/ui/js/views/SectionView',
+    'common/ui/js/views/WizardView'
+], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, AccordianView, SectionView, WizardView) {
     var Utils = function () {
         var self = this;
         this.renderGrid = function (elementId, gridConfig) {
@@ -110,6 +111,21 @@ define([
                 }
             });
         };
+
+        this.createWizardModal = function (options) {
+            var modalId = options['modalId'];
+            $.contrailBootstrapModal({
+                id: modalId,
+                className: options['className'],
+                title: options['title'],
+                body: options['body'],
+                footer: false,
+                onEnter: function () {
+                    options['onCancel']();
+                }
+            });
+        };
+
         this.createColumns4Grid = function (fieldsObj) {
             var key, columns = [];
             for (key in fieldsObj) {
@@ -187,7 +203,7 @@ define([
                     break;
 
                 case "SectionView":
-                    elementView = new SectionView({el: parentElement, attributes: viewAttributes});
+                    elementView = new SectionView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 
@@ -208,6 +224,11 @@ define([
 
                 case "FormGridView":
                     elementView = new FormGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "WizardView":
+                    elementView = new WizardView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 

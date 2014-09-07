@@ -61,7 +61,7 @@ define([
 
         renderCluster: function (clusterId) {
             var detailTemplate = contrail.getTemplate4Id("sm-grid-2-row-group-detail-template"),
-                clusterTemplate = contrail.getTemplate4Id("cluster-template"),
+                clusterTemplate = contrail.getTemplate4Id("sm-cluster-template"),
                 ajaxConfig = {}, that = this;
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
@@ -90,7 +90,11 @@ define([
             clusterEditView.renderConfigure({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_CLUSTER});
         }),
         smGridConfig.getAddServersAction(function (rowIndex) {
-            console.log(rowIndex);
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
+                clusterEditView = new ClusterEditView({'model': clusterModel});
+
+            clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),

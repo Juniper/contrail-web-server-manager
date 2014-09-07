@@ -58,7 +58,7 @@ define([
             "floor": "Floor",
             "hall": "Hall",
             "rack": "Rack",
-            "user_tag": "User-Defined Tag",
+            "user_tag": "User Defined Tag",
 
 
             //Cluster
@@ -94,6 +94,9 @@ define([
         this.TITLE_CONFIGURE = "Configure";
         this.TITLE_ADD = "Add";
         this.TITLE_EDIT = "Edit";
+        this.TITLE_FILTER = "Filter";
+        this.TITLE_SELECT = "Select";
+        this.TITLE_CONFIRM = 'Confirm';
         this.TITLE_PROVISION = "Provision";
         this.TITLE_TAG = "Tag";
         this.TITLE_TAGS = "Tags";
@@ -104,17 +107,20 @@ define([
         this.TITLE_CLUSTERS = 'Clusters';
         this.TITLE_CLUSTER = 'Cluster';
         this.TITLE_SERVERS = 'Servers';
-        this.TITLE_ALL_SERVERS = 'All Servers';
         this.TITLE_SERVER = 'Server';
         this.TITLE_IMAGES = 'Images';
         this.TITLE_IMAGE = 'Image';
         this.TITLE_REPOS = 'Repos';
         this.TITLE_REPO = 'Repo';
 
+        this.TITLE_ADD_SERVERS = 'Add Servers';
+        this.TITLE_FILTER_SERVERS = 'Filter Servers';
+
         this.SELECT_CLUSTER = 'Select Cluster';
         this.SELECT_IMAGE = 'Select Image';
         this.SELECT_PACKAGE = 'Select Package';
         this.SELECT_ROLES = 'Select Roles';
+        this.SELECT_TAGS = 'Select Tags';
     };
     return Labels;
 });

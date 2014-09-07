@@ -8,12 +8,12 @@
     </div>
 </script>
 
-<script type="text/x-handlebars-template" id="sm-edit-layout-template">
+<script type="text/x-handlebars-template" id="sm-edit-form-template">
     <form name="{{prefixId}}Form" id="sm-{{prefixId}}-form" onsubmit="return false;" class="">
     </form>
 </script>
 
-<script type="text/x-handlebars-template" id="accordian-view-template">
+<script type="text/x-handlebars-template" id="sm-accordian-view-template">
     <div id="{{elementId}}">
         {{#each viewConfig}}
         {{#if this.title}}
@@ -25,7 +25,7 @@
     </div>
 </script>
 
-<script type="text/x-handlebars-template" id="section-view-template">
+<script type="text/x-handlebars-template" id="sm-section-view-template">
     {{#each rows}}
     <div class="row-fluid margin-0-0-5 span12">
         {{#each this.columns}}
@@ -35,32 +35,38 @@
     {{/each}}
 </script>
 
-<script type="text/x-handlebars-template" id="sm-form-input-template">
+<script type="text/x-handlebars-template" id="sm-wizard-view-template">
+    <div id="{{elementId}}">
+        {{#each viewConfig.steps}}
+            <h2>{{this.title}}</h2>
+            <section id="{{this.elementId}}"></section>
+        {{/each}}
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-input-view-template">
     <label>{{label}}</label>
 
     <div class="row-fluid form-element">
-        <input type="text" name="{{id}}" class="{{class}}"
-               data-bind="value: {{dataBindValue}}, event: { focusout: validateAttr('{{path}}', '{{validation}}') }"/>
+        <input type="text" name="{{id}}" class="{{class}}" data-bind="value: {{dataBindValue}}, event: { focusout: validateAttr('{{path}}', '{{validation}}') }"/>
         <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
     </div>
 </script>
 
-<script type="text/x-handlebars-template" id="sm-form-dropdown-template">
+<script type="text/x-handlebars-template" id="sm-dropdown-view-template">
     <label>{{label}}</label>
 
     <div class="row-fluid">
-        <input id="{{id}}" name="{{name}}" class="{{class}}"
-               data-bind="value: {{dataBindValue}}, contrailDropdown: {{printJSON elementConfig}}"/>
+        <input id="{{id}}" name="{{name}}" class="{{class}}" data-bind="value: {{dataBindValue}}, contrailDropdown: {{printJSON elementConfig}}"/>
         <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
     </div>
 </script>
 
-<script type="text/x-handlebars-template" id="sm-form-multiselect-template">
+<script type="text/x-handlebars-template" id="sm-multiselect-view-template">
     <label>{{label}}</label>
 
     <div class="row-fluid">
-        <input id="{{id}}" name="{{name}}" class="{{class}}"
-               data-bind="value: {{dataBindValue}}, contrailMultiselect: {{printJSON elementConfig}}"/>
+        <input id="{{id}}" name="{{name}}" class="{{class}}" data-bind="value: {{dataBindValue}}, contrailMultiselect: {{printJSON elementConfig}}"/>
         <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
     </div>
 </script>
@@ -110,7 +116,7 @@
     </div>
 </script>
 
-<script type="text/x-handlebars-template" id="cluster-template">
+<script type="text/x-handlebars-template" id="sm-cluster-template">
     <div id="cluster-details">
     </div>
     <div id="cluster-server-list">

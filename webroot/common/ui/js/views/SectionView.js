@@ -8,7 +8,7 @@ define([
 ], function (_, Backbone) {
     var SectionView = Backbone.View.extend({
         render: function () {
-            var sectionTempl = contrail.getTemplate4Id("section-view-template"),
+            var sectionTempl = contrail.getTemplate4Id("sm-section-view-template"),
                 viewConfig = this.attributes.viewConfig,
                 validation = this.attributes.validation,
                 childElId;

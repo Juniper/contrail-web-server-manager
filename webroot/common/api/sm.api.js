@@ -99,17 +99,15 @@ function getTagValues(req, res) {
                         }
                     }
                 }
-                commonUtils.handleJSONResponse(null, res, tagValues);
-                redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(tagValues));
+                responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
+                commonUtils.handleJSONResponse(null, res, responseJSON);
+                redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(responseJSON));
+
             });
         } else {
             tagValues = JSON.parse(tagValuesStr);
-            if (tagName != null) {
-                responseJSON[tagName] = tagValues[tagName];
-                commonUtils.handleJSONResponse(null, res, responseJSON);
-            } else {
-                commonUtils.handleJSONResponse(null, res, tagValues);
-            }
+            responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
+            commonUtils.handleJSONResponse(null, res, responseJSON);
         }
     });
 };

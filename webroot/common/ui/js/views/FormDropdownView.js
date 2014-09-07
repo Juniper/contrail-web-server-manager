@@ -8,7 +8,7 @@ define([
 ], function (_, Backbone) {
     var FormDropdownView = Backbone.View.extend({
         render: function () {
-            var dropdownTemplate = contrail.getTemplate4Id("sm-form-dropdown-template"),
+            var dropdownTemplate = contrail.getTemplate4Id("sm-dropdown-view-template"),
                 viewConfig = this.attributes.viewConfig,
                 elId = this.attributes.elementId,
                 elementConfig = viewConfig['elementConfig'],

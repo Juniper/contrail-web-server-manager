@@ -13,9 +13,12 @@ define([
                 viewConfig = this.attributes.viewConfig,
                 path = viewConfig['path'],
                 model = this.model,
+                elId = this.attributes.elementId,
                 clusterId = (model != null) ? model.getValueByPath(path) : '',
                 params = clusterId != '' ? ('&cluster_id=' + clusterId) : '',
                 url = baseUrl + params;
+
+            console.log('## clusterId:: ' + clusterId);
 
             var gridConfig = {
                 header: {

@@ -8,7 +8,7 @@ define([
 ], function (_, Backbone) {
     var AccordianView = Backbone.View.extend({
         render: function () {
-            var accordianTempl = contrail.getTemplate4Id("accordian-view-template"),
+            var accordianTempl = contrail.getTemplate4Id("sm-accordian-view-template"),
                 viewConfig = this.attributes.viewConfig,
                 elId = this.attributes.elementId,
                 validation = this.attributes.validation,

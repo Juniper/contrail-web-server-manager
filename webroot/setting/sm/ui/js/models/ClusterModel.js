@@ -28,6 +28,9 @@ define([
                 use_certificates: 'False',
                 compute_non_mgmt_ip: null,
                 compute_non_mgmt_gway: null
+            },
+            tag: {
+                datacenter: ''
             }
         },
         configure: function (modalId) {

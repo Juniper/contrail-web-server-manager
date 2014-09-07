@@ -8,7 +8,7 @@ define([
     'knockback'
 ], function (_, Backbone, Knockback) {
     var prefixId = smConstants.IMAGE_PREFIX_ID,
-        editTemplate = contrail.getTemplate4Id("sm-edit-layout-template");
+        editTemplate = contrail.getTemplate4Id("sm-edit-form-template");
 
     var ImageEditView = Backbone.View.extend({
         render: function (options) {
