@@ -182,28 +182,6 @@ define([
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_TAG).toLowerCase(),
-                view: "SectionView",
-                title: smLabels.TITLE_TAG,
-                viewConfig: {
-                    rows: editTagViewConfigRows
-                }
-            },
-            {
-                elementId: (prefixId + '_' + smLabels.TITLE_ROLES).toLowerCase(),
-                title: smLabels.TITLE_ROLES,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'roles', view: "FormMultiselectView", viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smLabels.SELECT_ROLES, data: smConstants.ROLES_OBJECTS}}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
                 elementId: (prefixId + '_' + smLabels.TITLE_CONFIGURATIONS).toLowerCase(),
                 title: smLabels.TITLE_CONFIGURATIONS,
                 view: "SectionView",
@@ -274,28 +252,6 @@ define([
                             columns: [
                                 {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}},
                                 {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: (prefixId + '_' + smLabels.TITLE_TAG).toLowerCase(),
-                view: "SectionView",
-                title: smLabels.TITLE_TAG,
-                viewConfig: {
-                    rows: editTagViewConfigRows
-                }
-            },
-            {
-                elementId: (prefixId + '_' + smLabels.TITLE_ROLES).toLowerCase(),
-                title: smLabels.TITLE_ROLES,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'roles', view: "FormMultiselectView", viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smLabels.SELECT_ROLES, data: smConstants.ROLES_OBJECTS}}}
                             ]
                         }
                     ]

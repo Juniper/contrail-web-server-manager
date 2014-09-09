@@ -91,9 +91,9 @@ define([
         this.TITLE_TAGS = "Tags";
         this.TITLE_CONFIGURATIONS = "Configurations";
         this.TITLE_STATUS = "Status";
-        this.TITLE_CONFIGURE = "Configure";
+        this.TITLE_EDIT_CONFIG = "Edit Config";
         this.TITLE_ADD = "Add";
-        this.TITLE_EDIT = "Edit";
+        this.TITLE_REIMAGE = "Reimage";
         this.TITLE_FILTER = "Filter";
         this.TITLE_SELECT = "Select";
         this.TITLE_CONFIRM = 'Confirm';
@@ -113,14 +113,24 @@ define([
         this.TITLE_REPOS = 'Repos';
         this.TITLE_REPO = 'Repo';
 
+        this.SELECT_CLUSTER = 'Select Cluster';
+        this.TITLE_ADD_CLUSTER = 'Add Cluster';
+        this.TITLE_DEL_CLUSTERS = 'Delete Clusters';
         this.TITLE_ADD_SERVERS = 'Add Servers';
+        this.TITLE_ADD_TAGS = 'Add Tags';
+
+        this.TITLE_REG_2_COBBLER = 'Register';
+        this.TITLE_CONFIGURE_SERVER = 'Configure Server';
+        this.TITLE_CONFIGURE_SERVERS = 'Configure Servers';
+        this.TITLE_EDIT_TAGS = 'Edit Tags';
+        this.TITLE_ASSIGN_ROLES = 'Assign Roles';
+        this.TITLE_PROVISION_SERVER = 'Provision Server';
+        this.TITLE_PROVISION_SERVERS = 'Provision Servers';
         this.TITLE_FILTER_SERVERS = 'Filter Servers';
 
-        this.SELECT_CLUSTER = 'Select Cluster';
         this.SELECT_IMAGE = 'Select Image';
         this.SELECT_PACKAGE = 'Select Package';
         this.SELECT_ROLES = 'Select Roles';
-        this.SELECT_TAGS = 'Select Tags';
     };
     return Labels;
 });

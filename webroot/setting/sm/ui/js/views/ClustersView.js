@@ -74,7 +74,7 @@ define([
                     var serversView = new ServersView({
                         el: that.$el.find("#cluster-server-list")
                     });
-                    serversView.render({hashParams: {"cluster_id": clusterId}});
+                    serversView.render({serverColumnsType: smConstants.CLUSTER_PREFIX_ID, hashParams: {"cluster_id": clusterId}});
                 });
             }, function () {
             });
@@ -87,7 +87,7 @@ define([
                 clusterModel = new ClusterModel(dataItem),
                 clusterEditView = new ClusterEditView({'model': clusterModel});
 
-            clusterEditView.renderConfigure({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_CLUSTER});
+            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG + ' ' + smLabels.TITLE_CLUSTER});
         }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -96,6 +96,7 @@ define([
 
             clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
         }),
+        smGridConfig.getRoleAction(function (rowIndex) {}),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
@@ -124,6 +125,7 @@ define([
     ];
 
     var headerActionConfig = [
+        /*
         {
             "type": "dropdown",
             "iconClass": "icon-cog",
@@ -136,17 +138,18 @@ define([
                             clusterEditView = new ClusterEditView({'model': clusterModel});
                         clusterEditView.renderProvision({"title": "Provision Clusters"});
                     }
-                },
-                {
-                    "iconClass": "icon-trash",
-                    "title": smLabels.TITLE_DELETE,
-                    "onClick": function () {
-                    }
                 }
             ]
+        }*/
+        {
+            "type": "link",
+            "title": smLabels.TITLE_DEL_CLUSTERS,
+            "iconClass": "icon-trash",
+            "onClick": function () {}
         },
         {
             "type": "link",
+            "title": smLabels.TITLE_ADD_CLUSTER,
             "iconClass": "icon-plus",
             "onClick": function () {
                 var clusterModel = new ClusterModel(),

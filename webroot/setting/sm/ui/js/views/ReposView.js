@@ -57,22 +57,16 @@ define([
                 repoModel = new RepoModel(dataItem),
                 repoEditView = new RepoEditView({'model': repoModel});
 
-            repoEditView.render({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_REPO});
+            repoEditView.render({"title": smLabels.TITLE_EDIT_CONFIG + ' ' + smLabels.TITLE_REPO});
         })
     ];
 
     var headerActionConfig = [
         {
-            "type": "dropdown",
-            "iconClass": "icon-cog",
-            "actions": [
-                {
-                    "iconClass": "icon-trash",
-                    "title": smLabels.TITLE_DELETE,
-                    "onClick": function () {
-                    }
-                }
-            ]
+            "type": "link",
+            "title": smLabels.TITLE_DELETE,
+            "iconClass": "icon-trash",
+            "onClick": function () {}
         },
         {
             "type": "link",

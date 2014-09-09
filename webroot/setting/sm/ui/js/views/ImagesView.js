@@ -57,22 +57,16 @@ define([
                 imageModel = new ImageModel(dataItem),
                 imageEditView = new ImageEditView({'model': imageModel});
 
-            imageEditView.render({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_IMAGE});
+            imageEditView.render({"title": smLabels.TITLE_EDIT_CONFIG + ' ' + smLabels.TITLE_IMAGE});
         })
     ];
 
     var headerActionConfig = [
         {
-            "type": "dropdown",
-            "iconClass": "icon-cog",
-            "actions": [
-                {
-                    "iconClass": "icon-trash",
-                    "title": smLabels.TITLE_DELETE,
-                    "onClick": function () {
-                    }
-                }
-            ]
+            "type": "link",
+            "title": smLabels.TITLE_DELETE,
+            "iconClass": "icon-trash",
+            "onClick": function () {}
         },
         {
             "type": "link",

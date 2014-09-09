@@ -29,22 +29,28 @@ define([
                     loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['id']}});
                 }
             }},
-            { id: "domain", name: "Domain", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return (dc['parameters'] != null) ? dc['parameters']['domain'] : '';
-            }},
-            { id: "gateway", name: "Gateway", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return (dc['parameters'] != null) ? dc['parameters']['gateway'] : '';
-            }},
-            { id: "subnet_mask", name: "Subnet Mask", width: 120, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return (dc['parameters'] != null) ? dc['parameters']['subnet_mask'] : '';
-            }},
-            { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 }
+            { id: "domain", field: "domain", name: "Domain", width: 120, minWidth: 15 },
+            { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 },
+            { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15 },
+            { id: "cobbler-servers", field: "", name: "Cobbler Servers", width: 120, minWidth: 15 },
+            { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15 },
+            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15 }
+
         ];
+
+        this.getRegister2CobblerAction = function (onClickFunction) {
+            return {
+                title: smLabels.TITLE_REG_2_COBBLER,
+                iconClass: 'icon-signin',
+                width: 80,
+                onClick: onClickFunction
+            };
+        };
 
         this.getConfigureAction = function (onClickFunction) {
             return {
-                title: 'Configure',
-                iconClass: 'icon-cogs',
+                title: smLabels.TITLE_EDIT_CONFIG,
+                iconClass: 'icon-edit',
                 width: 80,
                 onClick: onClickFunction
             };
@@ -52,7 +58,7 @@ define([
 
         this.getAddServersAction = function (onClickFunction) {
             return {
-                title: 'Add Servers',
+                title: smLabels.TITLE_ADD_SERVERS,
                 iconClass: 'icon-plus',
                 width: 80,
                 onClick: onClickFunction
@@ -61,7 +67,7 @@ define([
 
         this.getReimageAction = function (onClickFunction) {
             return {
-                title: 'Reimage',
+                title: smLabels.TITLE_REIMAGE,
                 iconClass: 'icon-upload-alt',
                 width: 80,
                 onClick: onClickFunction
@@ -70,7 +76,7 @@ define([
 
         this.getProvisionAction = function (onClickFunction) {
             return {
-                title: 'Provision',
+                title: smLabels.TITLE_PROVISION,
                 iconClass: 'icon-cloud-upload',
                 width: 80,
                 onClick: onClickFunction
@@ -79,7 +85,7 @@ define([
 
         this.getTagAction = function (onClickFunction) {
             return {
-                title: 'Edit Tags',
+                title: smLabels.TITLE_EDIT_TAGS,
                 iconClass: 'icon-tags',
                 width: 80,
                 onClick: onClickFunction
@@ -88,7 +94,7 @@ define([
 
         this.getRoleAction = function (onClickFunction) {
             return {
-                title: 'Edit Roles',
+                title: smLabels.TITLE_ASSIGN_ROLES,
                 iconClass: 'icon-check',
                 width: 80,
                 onClick: onClickFunction
@@ -97,7 +103,7 @@ define([
 
         this.getDeleteAction = function (onClickFunction) {
             return {
-                title: 'Delete',
+                title: smLabels.TITLE_DELETE,
                 iconClass: 'icon-trash',
                 width: 80,
                 onClick: onClickFunction
@@ -124,30 +130,42 @@ define([
             { id: "ip_address", field: "ip_address", name: "IP", width: 120, minWidth: 15 }
         ]).concat(this.getGridColumns4Roles());
 
-        this.SERVER_COLUMNS = [
-            { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
-                searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
-                if (dc['discovered'] == true) {
-                    return '<div class="padding-2-0;"><i class="icon-star"></i></div>';
+        this.getServerColumns = function(serverColumnsType) {
+            var serverColumns,
+                commonColumnsSet1 = [
+                { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
+                    searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
+                    if (dc['discovered'] == true) {
+                        return '<div class="padding-2-0;"><i class="icon-circle blue"></i></div>';
+                    }
                 }
+                },
+                { id: "server_id", field: "id", name: "Hostname", width: 80, minWidth: 15 }
+                ],
+                commonColumnsSet2 = [
+                { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, formatter: function (r, c, v, cd, dc) {
+                    var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
+                        tagHTML = tagTemplate(dc.tag);
+                    return tagHTML;
+                }},
+                { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
+                { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15 }
+                ];
+
+            if(serverColumnsType == smConstants.SERVER_PREFIX_ID) {
+                serverColumns = commonColumnsSet1.concat([{ id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+                    onClick: function (e, dc) {
+                        loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['cluster_id']}});
+                    }
+                }}]);
+                serverColumns = serverColumns.concat(commonColumnsSet2);
+            } else if (serverColumnsType == smConstants.CLUSTER_PREFIX_ID) {
+                serverColumns = commonColumnsSet1.concat(commonColumnsSet2).concat(this.getGridColumns4Roles());
             }
-            },
-            { id: "server_id", field: "id", name: "Hostname", width: 80, minWidth: 15 },
-            { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
-                onClick: function (e, dc) {
-                    loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['cluster_id']}});
-                }
-            }},
-            { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, formatter: function (r, c, v, cd, dc) {
-                var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                    tagHTML = tagTemplate(dc.tag);
-                return tagHTML;
-            }},
-            { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
-            { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15 }
-        ].concat(this.getGridColumns4Roles()).concat([
-                { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
-            ]);
+            serverColumns = serverColumns.concat([{ id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }]);
+
+            return serverColumns;
+        };
     }
 
     return GridConfig;

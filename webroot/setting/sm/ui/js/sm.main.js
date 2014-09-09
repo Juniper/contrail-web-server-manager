@@ -33,7 +33,7 @@ function ServersPageLoader() {
 
         requirejs([pathServersView], function (ServersView) {
             var serversView = new ServersView();
-            serversView.render({hashParams: hashParams});
+            serversView.render({serverColumnsType: smConstants.SERVER_PREFIX_ID, hashParams: hashParams});
         });
     };
     this.destroy = function () {

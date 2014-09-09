@@ -15,7 +15,8 @@ define([
 
         render: function (viewConfig) {
             var smTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + prefixId + '-results';
+                gridElId = '#' + prefixId + '-results',
+                serverColumnsType = viewConfig['serverColumnsType'];
 
             var queryString = getQueryString4ServersUrl(viewConfig['hashParams']);
 
@@ -29,7 +30,7 @@ define([
                     advanceControls: getHeaderActionConfig(viewConfig)
                 },
                 columnHeader: {
-                    columns: smGridConfig.SERVER_COLUMNS
+                    columns: smGridConfig.getServerColumns(serverColumnsType)
                 },
                 body: {
                     options: {
@@ -60,12 +61,28 @@ define([
     });
 
     var rowActionConfig = [
+        smGridConfig.getRegister2CobblerAction(function (rowIndex) {
+        }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderConfigure({"title": smLabels.TITLE_CONFIGURE + ' ' + smLabels.TITLE_SERVER});
+            serverEditView.renderConfigure({"title": smLabels.TITLE_CONFIGURE_SERVER});
+        }),
+        smGridConfig.getTagAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                serverModel = new ServerModel(dataItem),
+                serverEditView = new ServerEditView({'model': serverModel});
+
+            serverEditView.renderTagServers({"title":  smLabels.TITLE_EDIT_TAGS});
+        }),
+        smGridConfig.getRoleAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                serverModel = new ServerModel(dataItem),
+                serverEditView = new ServerEditView({'model': serverModel});
+
+            serverEditView.renderEditRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -73,23 +90,6 @@ define([
                 serverEditView = new ServerEditView({'model': serverModel});
 
             serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_SERVER});
-        }),
-        smGridConfig.getTagAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel});
-
-            serverEditView.renderTagServers({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_TAGS});
-        }),
-        smGridConfig.getRoleAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel});
-
-            serverEditView.renderEditRoles({"title": smLabels.TITLE_EDIT + ' ' + smLabels.TITLE_ROLES});
-        }),
-        smGridConfig.getDeleteAction(function (rowIndex) {
-            console.log(rowIndex);
         })
     ];
 
@@ -167,12 +167,35 @@ define([
                 "iconClass": "icon-cog",
                 "actions": [
                     {
-                        "iconClass": "icon-cogs",
-                        "title": smLabels.TITLE_CONFIGURE,
+                        "iconClass": "icon-signin",
+                        "title": smLabels.TITLE_REG_2_COBBLER,
+                        "onClick": function () {}
+                    },
+                    {
+                        "iconClass": "icon-edit",
+                        "title": smLabels.TITLE_EDIT_CONFIG,
                         "onClick": function () {
                             var serverModel = new ServerModel(),
                                 serverEditView = new ServerEditView({'model': serverModel});
-                            serverEditView.renderConfigureServers({"title": "Configure Servers"});
+                            serverEditView.renderConfigureServers({"title": smLabels.TITLE_CONFIGURE_SERVERS});
+                        }
+                    },
+                    {
+                        "iconClass": "icon-tags",
+                        "title": smLabels.TITLE_EDIT_TAGS,
+                        "onClick": function () {
+                            var serverModel = new ServerModel(),
+                                serverEditView = new ServerEditView({'model': serverModel});
+                            serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS});
+                        }
+                    },
+                    {
+                        "iconClass": "icon-check",
+                        "title": smLabels.TITLE_ASSIGN_ROLES,
+                        "onClick": function () {
+                            var serverModel = new ServerModel(),
+                                serverEditView = new ServerEditView({'model': serverModel});
+                            serverEditView.renderEditRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
                         }
                     },
                     {
@@ -181,30 +204,8 @@ define([
                         "onClick": function () {
                             var serverModel = new ServerModel(),
                                 serverEditView = new ServerEditView({'model': serverModel});
-                            serverEditView.renderProvisionServers({"title": "Provision Servers"});
+                            serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVERS});
                         }
-                    },
-                    {
-                        "iconClass": "icon-tags",
-                        "title": 'Edit ' + smLabels.TITLE_TAGS,
-                        "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel});
-                            serverEditView.renderTagServers({"title": "Add Tags"});
-                        }
-                    },
-                    {
-                        "iconClass": "icon-check",
-                        "title": 'Edit ' + smLabels.TITLE_ROLES,
-                        "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel});
-                            serverEditView.renderEditRoles({"title": "Edit Roles"});
-                        }
-                    },
-                    {
-                        "iconClass": "icon-trash",
-                        "title": smLabels.TITLE_DELETE
                     }
                 ]
             },
