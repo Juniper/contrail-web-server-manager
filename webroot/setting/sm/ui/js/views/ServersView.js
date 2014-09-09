@@ -42,6 +42,7 @@ define([
                         sortable: {
                             defaultSortCols: {
                                 'discovered': {sortAsc: false},
+                                'tag': {sortAsc: true},
                                 'status': {sortAsc: true}
                             }
                         }
@@ -210,40 +211,56 @@ define([
                 ]
             },
             {
-                "type": "checked-multiselect",
-                "iconClass": "icon-filter",
+                type: 'checked-multiselect',
+                iconClass: 'icon-filter',
                 placeholder: 'Filter Servers',
                 elementConfig: {
+                    elementId: 'tagsCheckedMultiselect',
                     dataTextField: 'text',
                     dataValueField: 'id',
+                    filterConfig: {
+                        placeholder: 'Search Tags'
+                    },
                     parse: formatData4Ajax,
-                    minWidth: 150,
+                    minWidth: 200,
                     dataSource: {
                         type: 'GET',
                         url: smUtils.getTagsUrl()
                     },
-                    control: {
-                        apply: {
-                            click: function (self, checkedRows) {
-                                var q = {'tag': {}};
-                                $.each(checkedRows, function (checkedRowKey, checkedRowValue) {
-                                    var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
-                                    q.tag[checkedRowValueObj.parent] = checkedRowValueObj.value;
-                                });
-                                loadFeature({p: 'setting_sm_servers', q: q});
-                            }
-                        },
-                        cancel: {
-                            click: function (self, checkedRows) {
-                                var preChecked = self.data('contrailCheckedMultiselect').getPreChecked();
-                                self.data('contrailCheckedMultiselect').setChecked(preChecked);
-                            }
-                        }
-                    }
-                    //data: getFilterServerData(viewconfig)
+                    click: applyServerTagFilter,
+                    optgrouptoggle: applyServerTagFilter,
+                    control: false
                 }
             }
         ];
+    };
+
+    function applyServerTagFilter(event, ui){
+        var checkedRows = $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').getChecked();
+        $('#' + prefixId + '-results').data('contrailGrid')._dataView.setFilterArgs({
+            checkedRows: checkedRows
+        });
+        $('#' + prefixId + '-results').data('contrailGrid')._dataView.setFilter(serverTagGridFilter);
+    };
+
+    function serverTagGridFilter(item, args) {
+
+        if(args.checkedRows.length == 0){
+            return true;
+        }
+        else{
+            var returnFlag = true;
+            $.each(args.checkedRows, function(checkedRowKey, checkedRowValue){
+                var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
+                if(item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value){
+                    returnFlag = returnFlag && true;
+                }
+                else{
+                    returnFlag = false;
+                }
+            });
+            return returnFlag;
+        }
     };
 
     function getQueryString4ServersUrl(hashParams) {
