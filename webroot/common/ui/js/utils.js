@@ -171,6 +171,15 @@ define([
             return '/sm/tags/values/' + value;
         };
 
+        this.formatElementId = function (strArray) {
+            var elId = '',
+                str = strArray.join('_');
+            elId = str.split(" ").join("_");
+            return elId.toLowerCase();
+
+        };
+
+
         this.flattenObject = function (object, intoObject, prefix) {
             var self = this;
             intoObject = intoObject || {};

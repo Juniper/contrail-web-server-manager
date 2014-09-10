@@ -69,7 +69,7 @@ define([
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderConfigure({"title": smLabels.TITLE_CONFIGURE_SERVER});
+            serverEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG});
         }),
         smGridConfig.getTagAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -98,29 +98,29 @@ define([
         [
             {
                 title: smLabels.TITLE_DETAILS,
-                keys: ['id', 'cluster_id', 'host_name', 'email']
+                keys: ['id', 'cluster_id', 'email']
             },
             {
                 title: smLabels.TITLE_SYSTEM,
-                keys: ['domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'mac_address', 'parameters.interface_name']
-            },
-            {
-                title: smLabels.TITLE_TAGS,
-                keys: ['tag.datacenter', 'tag.floor', 'tag.hall', 'tag.rack', 'tag.user_tag']
+                keys: ['host_name', 'domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'mac_address', 'static_ip', 'parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control', 'parameters.partition']
             }
         ],
         [
             {
                 title: smLabels.TITLE_STATUS,
-                keys: ['status', 'last_update']
+                keys: ['status', 'last_update', 'state']
             },
             {
                 title: smLabels.TITLE_ROLES,
                 keys: ['roles']
             },
             {
-                title: smLabels.TITLE_CONFIGURATIONS,
-                keys: ['base_image_id', 'package_image_id', 'static_ip', 'parameters.compute_non_mgmt_ip', 'parameters.compute_non_mgmt_gway']
+                title: smLabels.TITLE_TAGS,
+                keys: ['tag.datacenter', 'tag.floor', 'tag.hall', 'tag.rack', 'tag.user_tag']
+            },
+            {
+                title: smLabels.TITLE_PROVISIONING,
+                keys: ['base_image_id', 'package_image_id']
             }
         ]
     ];
@@ -178,7 +178,7 @@ define([
                         "onClick": function () {
                             var serverModel = new ServerModel(),
                                 serverEditView = new ServerEditView({'model': serverModel});
-                            serverEditView.renderConfigureServers({"title": smLabels.TITLE_CONFIGURE_SERVERS});
+                            serverEditView.renderConfigureServers({"title": smLabels.TITLE_EDIT_CONFIG});
                         }
                     },
                     {

@@ -57,7 +57,7 @@ define([
                 repoModel = new RepoModel(dataItem),
                 repoEditView = new RepoEditView({'model': repoModel});
 
-            repoEditView.render({"title": smLabels.TITLE_EDIT_CONFIG + ' ' + smLabels.TITLE_REPO});
+            repoEditView.render({"title": smLabels.TITLE_EDIT_CONFIG});
         })
     ];
 
@@ -70,13 +70,13 @@ define([
         },
         {
             "type": "link",
-            "title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_REPO,
+            "title": smLabels.TITLE_ADD_REPO,
             "iconClass": "icon-plus",
             "onClick": function () {
                 var repoModel = new RepoModel(),
                     repoEditView = new RepoEditView({'model': repoModel});
 
-                repoEditView.render({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_REPO});
+                repoEditView.render({"title": smLabels.TITLE_ADD_REPO});
             }
         }
     ];

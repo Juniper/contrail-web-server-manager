@@ -43,11 +43,16 @@ define([
 
             //Server
             "ipmi_address": "IPMI",
+            "ipmi_username": "IPMI Username",
+            "ipmi_password": "IPMI Password",
             "base_image_id": "Base Image",
-            "package_image_id": "Package Image",
+            "package_image_id": "Package",
             "roles": "Roles",
             "mac_address": "MAC Address",
             "interface_name": "Interface Name",
+            "intf_bond": "Interface Bond",
+            "intf_control": "Interface Control",
+            "intf_data": "Interface Data",
             "compute_non_mgmt_ip": "Compute Non-Management IP",
             "compute_non_mgmt_gway": "Compute Non-Management Gateway",
             "static_ip": "Static IP",
@@ -59,7 +64,6 @@ define([
             "hall": "Hall",
             "rack": "Rack",
             "user_tag": "User Defined Tag",
-
 
             //Cluster
             "cluster_id": "Cluster",
@@ -75,6 +79,17 @@ define([
             "use_certificates": "Use Certificates",
             "haproxy": "HA Proxy",
             "encapsulation_priority": "Encapsulation Priority",
+            "keystone_username": "Keystone Username",
+            "storage_virsh_uuid": "Storage Virsh UUID",
+            "storage_fsid": "Storage FSID",
+            "new_servers": "New Servers",
+            "registered_servers": "Registered Servers",
+            "configured_servers": "Configured Servers",
+            "provisioned_servers": "Provisioned Servers",
+            "total_servers": "Total Servers",
+            "external_bgp": "External BGP",
+            "database_dir": "Database Dir",
+            "database_token": "Database Token",
 
             //Roles
             "config": "Config",
@@ -87,9 +102,14 @@ define([
         };
 
         this.TITLE_DETAILS = "Details";
+        this.TITLE_SERVERS_CONFIG = "Servers Config";
+        this.TITLE_CONTRAIL = "Contrail";
+        this.TITLE_STORAGE = "Storage";
+        this.TITLE_OPENSTACK = "Openstack";
         this.TITLE_SYSTEM = "System";
         this.TITLE_TAGS = "Tags";
         this.TITLE_CONFIGURATIONS = "Configurations";
+        this.TITLE_SERVER_STATUS = "Server Status";
         this.TITLE_STATUS = "Status";
         this.TITLE_EDIT_CONFIG = "Edit Config";
         this.TITLE_ADD = "Add";
@@ -98,6 +118,7 @@ define([
         this.TITLE_SELECT = "Select";
         this.TITLE_CONFIRM = 'Confirm';
         this.TITLE_PROVISION = "Provision";
+        this.TITLE_PROVISIONING = "Provisioning";
         this.TITLE_TAG = "Tag";
         this.TITLE_TAGS = "Tags";
         this.TITLE_ROLE = "Role";
@@ -118,6 +139,10 @@ define([
         this.TITLE_DEL_CLUSTERS = 'Delete Clusters';
         this.TITLE_ADD_SERVERS = 'Add Servers';
         this.TITLE_ADD_TAGS = 'Add Tags';
+        this.TITLE_ADD_IMAGE = 'Add Image';
+        this.TITLE_ADD_REPO = 'Add Repo';
+        this.TITLE_PROVISION_CLUSTER = 'Provision Cluster';
+
 
         this.TITLE_REG_2_COBBLER = 'Register';
         this.TITLE_CONFIGURE_SERVER = 'Configure Server';

@@ -74,7 +74,7 @@ define([
         view: "AccordianView",
         viewConfig: [
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_DETAILS).toLowerCase(),
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]).toLowerCase(),
                 title: smLabels.TITLE_DETAILS,
                 view: "SectionView",
                 viewConfig: {
@@ -85,11 +85,20 @@ define([
                                 {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
 
                             ]
-                        },
+                        }
+                    ]
+                }
+            },
+            {
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_OPENSTACK]),
+                title: smLabels.TITLE_OPENSTACK,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
                         {
                             columns: [
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: 'parameters.domain', dataBindValue: 'parameters().domain', class: "span6"}},
-                                {elementId: 'keystone_tenant', view: "FormInputView", viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}}
+                                {elementId: 'openstack_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}},
+                                {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
                             ]
                         },
                         {
@@ -100,16 +109,21 @@ define([
                         },
                         {
                             columns: [
-                                {elementId: 'openstack_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}},
-                                {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
+                                {elementId: 'keystone_username', view: "FormInputView", viewConfig: {path: 'parameters.keystone_username', dataBindValue: 'parameters().keystone_username', class: "span6"}},
+                                {elementId: 'keystone_password', view: "FormInputView", viewConfig: {path: 'parameters.keystone_password', dataBindValue: 'parameters().keystone_password', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'keystone_tenant', view: "FormInputView", viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}}
                             ]
                         }
                     ]
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_CONFIGURATIONS).toLowerCase(),
-                title: smLabels.TITLE_CONFIGURATIONS,
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CONTRAIL]),
+                title: smLabels.TITLE_CONTRAIL,
                 view: "SectionView",
                 viewConfig: {
                     rows: [
@@ -133,8 +147,43 @@ define([
                         },
                         {
                             columns: [
-                                {elementId: 'compute_non_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.compute_non_mgmt_ip', dataBindValue: 'parameters().compute_non_mgmt_ip', class: "span6"}},
-                                {elementId: 'compute_non_mgmt_gway', view: "FormInputView", viewConfig: {path: 'parameters.compute_non_mgmt_gway', dataBindValue: 'parameters().compute_non_mgmt_gway', class: "span6"}}
+                                {elementId: 'database_dir', view: "FormInputView", viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}},
+                                {elementId: 'database_token', view: "FormInputView", viewConfig: {path: 'parameters.database_token', dataBindValue: 'parameters().database_token', class: "span6"}}
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SERVERS_CONFIG]),
+                title: smLabels.TITLE_SERVERS_CONFIG,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: 'parameters.domain', dataBindValue: 'parameters().domain', class: "span6"}},
+                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'parameters.password', dataBindValue: 'parameters().password', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
+                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {
+                                    elementId: 'base_image_id',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                                },
+                                {
+                                    elementId: 'package_image_id',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                                }
                             ]
                         }
                     ]

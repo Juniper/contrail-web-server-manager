@@ -142,7 +142,6 @@ define([
                         },
                         {
                             columns: [
-                                {elementId: 'host_name', view: "FormInputView", viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}},
                                 {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
                             ]
                         }
@@ -150,40 +149,8 @@ define([
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_SYSTEM).toLowerCase(),
-                title: smLabels.TITLE_SYSTEM,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'ip_address', view: "FormInputView", viewConfig: {path: "ip_address", dataBindValue: "ip_address", class: "span6"}},
-                                {elementId: 'ipmi_address', view: "FormInputView", viewConfig: {path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
-                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'mac_address', view: "FormInputView", viewConfig: {path: 'mac_address', dataBindValue: 'mac_address', class: "span6"}},
-                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: (prefixId + '_' + smLabels.TITLE_CONFIGURATIONS).toLowerCase(),
-                title: smLabels.TITLE_CONFIGURATIONS,
+                elementId: (prefixId + '_' + smLabels.TITLE_PROVISIONING).toLowerCase(),
+                title: smLabels.TITLE_PROVISIONING,
                 view: "SectionView",
                 viewConfig: {
                     rows: [
@@ -200,11 +167,62 @@ define([
                                     viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
                                 }
                             ]
+                        }
+                    ]
+                }
+            },
+            {
+                elementId: (prefixId + '_' + smLabels.TITLE_SYSTEM).toLowerCase(),
+                title: smLabels.TITLE_SYSTEM,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+
+                                {elementId: 'host_name', view: "FormInputView", viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}},
+                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
+                            ]
                         },
                         {
                             columns: [
-                                {elementId: 'compute_non_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.compute_non_mgmt_ip', dataBindValue: 'parameters().compute_non_mgmt_ip', class: "span6"}},
-                                {elementId: 'compute_non_mgmt_gway', view: "FormInputView", viewConfig: {path: 'parameters.compute_non_mgmt_gway', dataBindValue: 'parameters().compute_non_mgmt_gway', class: "span6"}}
+                                {elementId: 'ip_address', view: "FormInputView", viewConfig: {path: "ip_address", dataBindValue: "ip_address", class: "span6"}},
+                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'password', dataBindValue: 'password', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'static_ip', view: "FormInputView", viewConfig: {path: 'static_ip', dataBindValue: 'static_ip', class: "span6"}},
+                                {elementId: 'ipmi_address', view: "FormInputView", viewConfig: {path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
+                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password', dataBindValue: 'ipmi_password', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
+                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'mac_address', view: "FormInputView", viewConfig: {path: 'mac_address', dataBindValue: 'mac_address', class: "span6"}},
+                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'intf_bond', view: "FormInputView", viewConfig: {path: 'intf_bond', dataBindValue: 'intf_bond', class: "span6"}},
+                                {elementId: 'intf_data', view: "FormInputView", viewConfig: {path: 'intf_data', dataBindValue: 'intf_data', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'intf_control', view: "FormInputView", viewConfig: {path: 'intf_control', dataBindValue: 'intf_control', class: "span6"}}
                             ]
                         }
                     ]
@@ -237,29 +255,8 @@ define([
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_SYSTEM).toLowerCase(),
-                title: smLabels.TITLE_SYSTEM,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
-                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}},
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: (prefixId + '_' + smLabels.TITLE_CONFIGURATIONS).toLowerCase(),
-                title: smLabels.TITLE_CONFIGURATIONS,
+                elementId: (prefixId + '_' + smLabels.TITLE_PROVISIONING).toLowerCase(),
+                title: smLabels.TITLE_PROVISIONING,
                 view: "SectionView",
                 viewConfig: {
                     rows: [
@@ -275,6 +272,46 @@ define([
                                     view: "FormDropdownView",
                                     viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
                                 }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                elementId: (prefixId + '_' + smLabels.TITLE_SYSTEM).toLowerCase(),
+                title: smLabels.TITLE_SYSTEM,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+
+                                {elementId: 'host_name', view: "FormInputView", viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}},
+                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
+                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password', dataBindValue: 'ipmi_password', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
+                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}},
+                                {elementId: 'intf_control', view: "FormInputView", viewConfig: {path: 'intf_control', dataBindValue: 'intf_control', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
+                                {elementId: 'intf_bond', view: "FormInputView", viewConfig: {path: 'intf_bond', dataBindValue: 'intf_bond', class: "span6"}},
+                                {elementId: 'intf_data', view: "FormInputView", viewConfig: {path: 'intf_data', dataBindValue: 'intf_data', class: "span6"}}
                             ]
                         }
                     ]

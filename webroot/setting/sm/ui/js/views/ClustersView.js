@@ -87,7 +87,7 @@ define([
                 clusterModel = new ClusterModel(dataItem),
                 clusterEditView = new ClusterEditView({'model': clusterModel});
 
-            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG + ' ' + smLabels.TITLE_CLUSTER});
+            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG});
         }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -96,13 +96,14 @@ define([
 
             clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
         }),
-        smGridConfig.getRoleAction(function (rowIndex) {}),
+        smGridConfig.getRoleAction(function (rowIndex) {
+        }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 clusterEditView = new ClusterEditView({'model': clusterModel});
 
-            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_CLUSTER});
+            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION_CLUSTER});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);
@@ -113,39 +114,40 @@ define([
         [
             {
                 title: smLabels.TITLE_DETAILS,
-                keys: ['id', 'parameters.uuid', 'parameters.domain', 'email', 'parameters.openstack_mgmt_ip', 'parameters.gateway', 'parameters.subnet_mask']
+                keys: ['id', 'email']
+            },
+            {
+                title: smLabels.TITLE_OPENSTACK,
+                keys: ['parameters.openstack_mgmt_ip', 'parameters.gateway', 'parameters.subnet_mask', 'parameters.keystone_tenant', 'parameters.keystone_username']
+            },
+            {
+                title: smLabels.TITLE_CONTRAIL,
+                keys: ['parameters.analytics_data_ttl', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates', 'parameters.external_bgp', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.database_dir']
             }
         ],
         [
             {
-                title: smLabels.TITLE_CONFIGURATIONS,
-                keys: ['parameters.analytics_data_ttl', 'parameters.keystone_tenant', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates' ]
+                title: smLabels.TITLE_SERVERS_CONFIG,
+                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'parameters.base_image_id', 'parameters.package_image_id']
+            },
+            {
+                title: smLabels.TITLE_STORAGE,
+                keys: ['parameters.uuid', 'parameters.storage_virsh_uuid', 'parameters.storage_fsid']
+            },
+            {
+                title: smLabels.TITLE_STATUS,
+                keys: ['status.new_servers', 'status.registered_servers', 'status.configured_servers', 'status.provisioned_servers', 'status.total_servers']
             }
         ]
     ];
 
     var headerActionConfig = [
-        /*
-        {
-            "type": "dropdown",
-            "iconClass": "icon-cog",
-            "actions": [
-                {
-                    "iconClass": "icon-cloud-upload",
-                    "title": smLabels.TITLE_PROVISION,
-                    "onClick": function () {
-                        var clusterModel = new ClusterModel(),
-                            clusterEditView = new ClusterEditView({'model': clusterModel});
-                        clusterEditView.renderProvision({"title": "Provision Clusters"});
-                    }
-                }
-            ]
-        }*/
         {
             "type": "link",
             "title": smLabels.TITLE_DEL_CLUSTERS,
             "iconClass": "icon-trash",
-            "onClick": function () {}
+            "onClick": function () {
+            }
         },
         {
             "type": "link",
