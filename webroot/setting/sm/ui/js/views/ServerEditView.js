@@ -14,6 +14,24 @@ define([
 
     var ServerEditView = Backbone.View.extend({
 
+        renderRegister: function (options) {
+            var editLayout = editTemplate({prefixId: prefixId}),
+                that = this;
+
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                that.model.configure(modalId); // TODO: Release binding on successful configure
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
+            }});
+
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, registerViewConfig);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
+        },
+
         renderConfigure: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
@@ -336,6 +354,24 @@ define([
                             elementId: 'package_image_id',
                             view: "FormDropdownView",
                             viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                        }
+                    ]
+                }
+            ]
+        }
+    };
+
+    var registerViewConfig = {
+        elementId: prefixId,
+        view: "SectionView",
+        viewConfig: {
+            rows: [
+                {
+                    columns: [
+                        {
+                            elementId: 'base_image_id',
+                            view: "FormDropdownView",
+                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
                         }
                     ]
                 }

@@ -38,9 +38,9 @@ define([
 
         ];
 
-        this.getRegister2CobblerAction = function (onClickFunction) {
+        this.getRegister = function (onClickFunction) {
             return {
-                title: smLabels.TITLE_REG_2_COBBLER,
+                title: smLabels.TITLE_REGISTER,
                 iconClass: 'icon-signin',
                 width: 80,
                 onClick: onClickFunction
@@ -92,7 +92,7 @@ define([
             };
         };
 
-        this.getRoleAction = function (onClickFunction) {
+        this.getAssignRoleAction = function (onClickFunction) {
             return {
                 title: smLabels.TITLE_ASSIGN_ROLES,
                 iconClass: 'icon-check',

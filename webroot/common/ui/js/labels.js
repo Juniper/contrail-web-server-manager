@@ -144,11 +144,13 @@ define([
         this.TITLE_PROVISION_CLUSTER = 'Provision Cluster';
 
 
-        this.TITLE_REG_2_COBBLER = 'Register';
+        this.TITLE_REGISTER = 'Register';
         this.TITLE_CONFIGURE_SERVER = 'Configure Server';
         this.TITLE_CONFIGURE_SERVERS = 'Configure Servers';
         this.TITLE_EDIT_TAGS = 'Edit Tags';
         this.TITLE_ASSIGN_ROLES = 'Assign Roles';
+        this.TITLE_REGISTER_SERVER = 'Register Server';
+        this.TITLE_REGISTER_SERVERS = 'Register Servers';
         this.TITLE_PROVISION_SERVER = 'Provision Server';
         this.TITLE_PROVISION_SERVERS = 'Provision Servers';
         this.TITLE_FILTER_SERVERS = 'Filter Servers';

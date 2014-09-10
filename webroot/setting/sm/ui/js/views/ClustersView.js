@@ -96,7 +96,12 @@ define([
 
             clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
         }),
-        smGridConfig.getRoleAction(function (rowIndex) {
+        smGridConfig.getAssignRoleAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
+                clusterEditView = new ClusterEditView({'model': clusterModel});
+
+            clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),

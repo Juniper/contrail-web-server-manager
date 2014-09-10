@@ -50,19 +50,34 @@ define([
         },
 
         renderAddServers: function (options) {
-            var wizardLayout = editTemplate({prefixId: prefixId}),
+            var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': wizardLayout, 'onSave': function () {
+            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            console.log(this.model);
-
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, addServerViewConfig);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
+        },
+
+        renderAssignRoles: function (options) {
+            var editLayout = editTemplate({prefixId: prefixId}),
+                that = this;
+
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
+            }});
+
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, assignRolesConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -197,20 +212,6 @@ define([
         view: "AccordianView",
         viewConfig: [
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_ROLES).toLowerCase(),
-                title: smLabels.TITLE_ROLES,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'roles-configuration', view: "FormGridView", viewConfig: {path: 'id', class: "span12"} }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
                 elementId: (prefixId + '_' + smLabels.TITLE_IMAGE + '-' + smLabels.TITLE_CONFIGURATIONS).toLowerCase(),
                 title: smLabels.TITLE_IMAGE + ' ' + smLabels.TITLE_CONFIGURATIONS,
                 view: "SectionView",
@@ -228,6 +229,27 @@ define([
                                     view: "FormDropdownView",
                                     viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
                                 }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    };
+
+    var assignRolesConfig = {
+        elementId: prefixId,
+        view: "AccordianView",
+        viewConfig: [
+            {
+                elementId: (prefixId + '_' + smLabels.TITLE_ROLES).toLowerCase(),
+                title: smLabels.TITLE_ROLES,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+                                {elementId: 'roles-configuration', view: "FormGridView", viewConfig: {path: 'id', class: "span12"} }
                             ]
                         }
                     ]

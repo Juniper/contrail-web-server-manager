@@ -62,7 +62,12 @@ define([
     });
 
     var rowActionConfig = [
-        smGridConfig.getRegister2CobblerAction(function (rowIndex) {
+        smGridConfig.getRegister(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                serverModel = new ServerModel(dataItem),
+                serverEditView = new ServerEditView({'model': serverModel});
+
+            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVER});
         }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -78,7 +83,7 @@ define([
 
             serverEditView.renderTagServers({"title":  smLabels.TITLE_EDIT_TAGS});
         }),
-        smGridConfig.getRoleAction(function (rowIndex) {
+        smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
@@ -169,8 +174,13 @@ define([
                 "actions": [
                     {
                         "iconClass": "icon-signin",
-                        "title": smLabels.TITLE_REG_2_COBBLER,
-                        "onClick": function () {}
+                        "title": smLabels.TITLE_REGISTER_SERVER,
+                        "onClick": function () {
+                            var serverModel = new ServerModel(),
+                                serverEditView = new ServerEditView({'model': serverModel});
+
+                            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVERS});
+                        }
                     },
                     {
                         "iconClass": "icon-edit",
