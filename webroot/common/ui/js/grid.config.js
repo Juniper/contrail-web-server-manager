@@ -135,7 +135,7 @@ define([
                 commonColumnsSet1 = [
                 { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
                     searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
-                    if (dc['discovered'] == true) {
+                    if (dc['discovered'] == "true") {
                         return '<div class="padding-2-0;"><i class="icon-circle blue"></i></div>';
                     }
                 }
