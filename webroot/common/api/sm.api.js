@@ -67,6 +67,35 @@ function getObjectsDetails(req, res) {
     });
 };
 
+function putObjects(req, res, appdata) {
+    var objectName = req.param('name'),
+        objectUrl = '/' + objectName,
+        postData = req.body;
+
+    sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
+        if (error != null) {
+            commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
+        } else {
+            ;
+            commonUtils.handleJSONResponse(null, res, resultJSON);
+        }
+    });
+};
+
+function postObjects(req, res, appdata) {
+    var objectName = req.param('name'),
+        objectUrl = '/' + objectName,
+        postData = req.body;
+
+    sm.post(objectUrl, postData, appdata, function (error, resultJSON) {
+        if (error != null) {
+            commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, resultJSON);
+        }
+    });
+};
+
 function getTagValues(req, res) {
     var tagName = req.param('name'),
         objectUrl = '/server?detail',
@@ -113,5 +142,7 @@ function getTagValues(req, res) {
 };
 
 exports.getObjects = getObjects;
+exports.putObjects = putObjects;
+exports.postObjects = postObjects;
 exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;

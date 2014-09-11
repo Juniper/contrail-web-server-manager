@@ -160,7 +160,9 @@ define([
         };
 
         this.getObjectUrl = function (objectName, objectField) {
-            return '/sm/objects/' + objectName + '?field=' + objectField;
+            var url = '/sm/objects/' + objectName;
+            url += (objectField != null) ? ('?field=' + objectField) : '';
+            return url;
         };
 
         this.getTagsUrl = function () {

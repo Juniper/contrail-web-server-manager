@@ -57,6 +57,8 @@ define([
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
 
             }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
@@ -73,6 +75,8 @@ define([
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
 
             }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
@@ -92,8 +96,10 @@ define([
                 }, that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-
+                that.model.editTags(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
@@ -109,6 +115,8 @@ define([
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
 
             }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 

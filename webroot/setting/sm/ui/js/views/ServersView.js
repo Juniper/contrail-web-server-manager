@@ -8,14 +8,14 @@ define([
     'setting/sm/ui/js/models/ServerModel',
     'setting/sm/ui/js/views/ServerEditView'
 ], function (_, Backbone, ServerModel, ServerEditView) {
-    var prefixId = smConstants.SERVER_PREFIX_ID;
+    var prefixId = smConstants.SERVER_PREFIX_ID,
+        gridElId = '#' + prefixId + '-results';
 
     var ServersView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function (viewConfig) {
             var smTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + prefixId + '-results',
                 serverColumnsType = viewConfig['serverColumnsType'];
 
             var queryString = getQueryString4ServersUrl(viewConfig['hashParams']);
@@ -79,9 +79,14 @@ define([
         smGridConfig.getTagAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel});
+                serverEditView = new ServerEditView({'model': serverModel}),
+                checkedRow = [dataItem];
 
-            serverEditView.renderTagServers({"title":  smLabels.TITLE_EDIT_TAGS});
+
+            serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }),
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -132,12 +137,12 @@ define([
 
     return ServersView;
 
-    function formatData4Ajax(response){
+    function formatData4Ajax(response) {
         var filterServerData = [];
-        $.each(response, function( key, value ){
+        $.each(response, function (key, value) {
             var childrenData = [],
                 children = value;
-            $.each(children, function(k, v){
+            $.each(children, function (k, v) {
                 childrenData.push({'id': v, 'text': v});
             });
             filterServerData.push({'id': key, 'text': smLabels.get(key), children: childrenData});
@@ -163,7 +168,7 @@ define([
          filterServerData[parentKey].children[childrenKey]['selected'] = true;
          });
          }*/
-        return filterServerData ;
+        return filterServerData;
     };
 
     function getHeaderActionConfig(viewconfig) {
@@ -174,7 +179,7 @@ define([
                 "actions": [
                     {
                         "iconClass": "icon-signin",
-                        "title": smLabels.TITLE_REGISTER_SERVER,
+                        "title": smLabels.TITLE_REGISTER_SERVERS,
                         "onClick": function () {
                             var serverModel = new ServerModel(),
                                 serverEditView = new ServerEditView({'model': serverModel});
@@ -196,8 +201,12 @@ define([
                         "title": smLabels.TITLE_EDIT_TAGS,
                         "onClick": function () {
                             var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel});
-                            serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS});
+                                serverEditView = new ServerEditView({'model': serverModel}),
+                                checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+                            serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, "checkedRows": checkedRows, callback: function () {
+                                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                                dataView.refreshData();
+                            }});
                         }
                     },
                     {
@@ -245,7 +254,7 @@ define([
         ];
     };
 
-    function applyServerTagFilter(event, ui){
+    function applyServerTagFilter(event, ui) {
         var checkedRows = $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').getChecked();
         $('#' + prefixId + '-results').data('contrailGrid')._dataView.setFilterArgs({
             checkedRows: checkedRows
@@ -255,17 +264,17 @@ define([
 
     function serverTagGridFilter(item, args) {
 
-        if(args.checkedRows.length == 0){
+        if (args.checkedRows.length == 0) {
             return true;
         }
-        else{
+        else {
             var returnFlag = true;
-            $.each(args.checkedRows, function(checkedRowKey, checkedRowValue){
+            $.each(args.checkedRows, function (checkedRowKey, checkedRowValue) {
                 var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
-                if(item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value){
+                if (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value) {
                     returnFlag = returnFlag && true;
                 }
-                else{
+                else {
                     returnFlag = false;
                 }
             });

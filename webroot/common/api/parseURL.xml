@@ -20,6 +20,18 @@
         <callback>smapi.getObjects</callback>
     </item>
     <item>
+        <url>/sm/objects/:name</url>
+        <method>put</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.putObjects</callback>
+    </item>
+    <item>
+        <url>/sm/objects/:name</url>
+        <method>post</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.postObjects</callback>
+    </item>
+    <item>
         <url>/sm/objects/details/:name</url>
         <method>get</method>
         <feature>smConfigure</feature>

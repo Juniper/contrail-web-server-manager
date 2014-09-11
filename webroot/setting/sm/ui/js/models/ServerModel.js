@@ -8,12 +8,14 @@ define([
 ], function (_, ContrailModel) {
     var ServerModel = ContrailModel.extend({
         defaultConfig: {
+            'cluster_id': null,
             'domain': null,
             'discovered': null,
             'gateway': null,
             'email': null,
             'subnet_mask': null,
             'base_image_id': null,
+            'package_image_id': null,
             'ip_address': null,
             'password': null,
             'ipmi_address': null,
@@ -38,6 +40,39 @@ define([
                 }
             }
         },
+        editTags: function (modalId, checkedRows, callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'configureValidation')) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    var serverAttrs = this.model().attributes,
+                        putData = {}, servers = [];
+
+                    for (var i = 0; i < checkedRows.length; i++) {
+                        servers.push({'id': checkedRows[i]['id'], 'tag': serverAttrs['tag']});
+                    }
+
+                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        $("#" + modalId).modal('hide');
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
+        },
         validations: {
             configureValidation: {
                 'email': {
@@ -52,7 +87,7 @@ define([
                 },
                 'mac_address': {
                     required: true,
-                    pattern:  smConstants.PATTERN_MAC_ADDRESS,
+                    pattern: smConstants.PATTERN_MAC_ADDRESS,
                     msg: smMessages.getInvalidErrorMessage('mac_address')
                 },
                 'parameters.compute_non_mgmt_ip': {

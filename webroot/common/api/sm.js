@@ -20,7 +20,7 @@ if (smConfig.sm) {
 }
 
 var smREST = rest.getAPIServer({
-    apiName:smConfig.SM_API_SERVER,
+    apiName: smConfig.SM_API_SERVER,
     server: smServerIP,
     port: smServerPort
 });
@@ -32,7 +32,7 @@ function get(url, callback) {
 }
 
 function put(url, putData, appData, callback) {
-    smREST.api.get(url, putData, function (err, data) {
+    smREST.api.put(url, putData, function (err, data) {
         callback(err, data);
     });
 }
