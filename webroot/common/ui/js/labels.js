@@ -124,6 +124,7 @@ define([
         this.TITLE_ROLE = "Role";
         this.TITLE_ROLES = "Roles";
         this.TITLE_DELETE = "Delete";
+        this.TITLE_CONFIGURE = 'Configure';
 
         this.TITLE_CLUSTERS = 'Clusters';
         this.TITLE_CLUSTER = 'Cluster';

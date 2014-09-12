@@ -102,11 +102,11 @@ define([
     });
 
     var configureViewConfig = {
-        elementId: prefixId,
+        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
         view: "AccordianView",
         viewConfig: [
             {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]).toLowerCase(),
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
                 title: smLabels.TITLE_DETAILS,
                 view: "SectionView",
                 viewConfig: {
@@ -225,42 +225,35 @@ define([
     };
 
     var provisionViewConfig = {
-        elementId: prefixId,
-        view: "AccordianView",
-        viewConfig: [
-            {
-                elementId: (prefixId + '_' + smLabels.TITLE_IMAGE + '-' + smLabels.TITLE_CONFIGURATIONS).toLowerCase(),
-                title: smLabels.TITLE_IMAGE + ' ' + smLabels.TITLE_CONFIGURATIONS,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
+        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_PROVISIONING]),
+        view: "SectionView",
+        viewConfig: {
+            rows: [
+                {
+                    columns: [
                         {
-                            columns: [
-                                {
-                                    elementId: 'base_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
-                                },
-                                {
-                                    elementId: 'package_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
-                                }
-                            ]
+                            elementId: 'base_image_id',
+                            view: "FormDropdownView",
+                            viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                        },
+                        {
+                            elementId: 'package_image_id',
+                            view: "FormDropdownView",
+                            viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
                         }
                     ]
                 }
-            }
-        ]
+            ]
+        }
     };
 
     var assignRolesViewConfig = {
-        elementId: prefixId + "-wizard",
+        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES]),
         view: "WizardView",
         viewConfig: {
             steps: [
                 {
-                    elementId: (prefixId + '_' + smLabels.TITLE_FILTER).toLowerCase(),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SEARCH_SERVERS]),
                     view: "SectionView",
                     title: smLabels.TITLE_SEARCH_SERVERS,
                     viewConfig: {
@@ -307,7 +300,7 @@ define([
                     stepType: 'step'
                 },
                 {
-                    elementId: (prefixId + '_' + smLabels.TITLE_SERVERS).toLowerCase(),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]),
                     title: smLabels.TITLE_SELECT_SERVERS,
                     view: "SectionView",
                     viewConfig: {
@@ -326,7 +319,7 @@ define([
                     }
                 },
                 {
-                    elementId: (prefixId + '_' + smLabels.TITLE_CONFIRM).toLowerCase(),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_CONFIRM]),
                     title: smLabels.TITLE_ASSIGN_ROLES,
                     view: "SectionView",
                     viewConfig: {
@@ -348,12 +341,12 @@ define([
     };
 
     var addServerViewConfig = {
-        elementId: prefixId + "-wizard",
+        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS]),
         view: "WizardView",
         viewConfig: {
             steps: [
                 {
-                    elementId: (prefixId + '_' + smLabels.TITLE_FILTER).toLowerCase(),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_SEARCH_SERVERS]),
                     view: "SectionView",
                     title: smLabels.TITLE_SEARCH_SERVERS,
                     viewConfig: {
@@ -400,7 +393,7 @@ define([
                     stepType: 'step'
                 },
                 {
-                    elementId: (prefixId + '_' + smLabels.TITLE_SERVERS).toLowerCase(),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
                     title: smLabels.TITLE_SELECT_SERVERS,
                     view: "SectionView",
                     viewConfig: {
@@ -418,7 +411,7 @@ define([
                     }
                 },
                 {
-                    elementId: (prefixId + '_' + smLabels.TITLE_CONFIRM).toLowerCase(),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
                     title: smLabels.TITLE_ADD_TO_CLUSTER,
                     view: "SectionView",
                     viewConfig: {
@@ -441,7 +434,7 @@ define([
 
     function getAddClusterViewConfig() {
         var addClusterViewConfig = {
-                elementId: prefixId + "-wizard",
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_CLUSTER]),
                 view: "WizardView",
                 viewConfig: {
                     steps: []
@@ -455,8 +448,8 @@ define([
 
 
         //Appending Configure Server Steps
-        configureStepViewConfig = $.extend(true, configureViewConfig, {
-            title: 'Configure',
+        configureStepViewConfig = $.extend(true, {}, configureViewConfig, {
+            title: smLabels.TITLE_CONFIGURE,
             stepType: 'step',
             onNext: function () {
                 console.log('Next : Step 1')
@@ -466,22 +459,22 @@ define([
         steps = steps.concat(configureStepViewConfig);
 
         //Appending Add Server Steps
-        addServerStepViewConfig = $.extend(true, addServerViewConfig.viewConfig.steps, {});
+        addServerStepViewConfig = $.extend(true, {}, addServerViewConfig.viewConfig).steps;
         addServerStepViewConfig[0].title = 'Add Server';
         addServerStepViewConfig[1].stepType = 'sub-step';
         addServerStepViewConfig[2].stepType = 'sub-step';
         steps = steps.concat(addServerStepViewConfig);
 
         //Appending Assign Roles Steps
-        assignRolesStepViewConfig = $.extend(true, assignRolesViewConfig.viewConfig.steps, {});
+        assignRolesStepViewConfig = $.extend(true, {}, assignRolesViewConfig.viewConfig).steps;
         assignRolesStepViewConfig[0].title = 'Assign Roles';
         assignRolesStepViewConfig[1].stepType = 'sub-step';
         assignRolesStepViewConfig[2].stepType = 'sub-step';
         steps = steps.concat(assignRolesStepViewConfig);
 
         //Appending Provision steps
-        provisionStepViewConfig = $.extend(true, provisionViewConfig, {
-            title: 'Provision',
+        provisionStepViewConfig = $.extend(true, {}, provisionViewConfig, {
+            title: smLabels.TITLE_PROVISION,
             stepType: 'step',
             onNext: function () {
                 console.log('Next : Step 1')
