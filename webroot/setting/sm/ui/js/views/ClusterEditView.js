@@ -28,8 +28,6 @@ define([
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, "configureValidation");
 
-            console.log(this.model.model().get("locks"));
-
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
         },

@@ -59,7 +59,6 @@ define([
                 lockObj = {};
 
             lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = false;
-            console.log(lockObj);
             locks.set(lockObj);
         }
     });
