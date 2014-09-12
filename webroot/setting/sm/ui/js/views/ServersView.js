@@ -93,7 +93,7 @@ define([
                 serverModel = new ServerModel(dataItem),
                 serverEditView = new ServerEditView({'model': serverModel});
 
-            serverEditView.renderEditRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
+            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -215,7 +215,7 @@ define([
                         "onClick": function () {
                             var serverModel = new ServerModel(),
                                 serverEditView = new ServerEditView({'model': serverModel});
-                            serverEditView.renderEditRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
+                            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
                         }
                     },
                     {
