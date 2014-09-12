@@ -103,12 +103,14 @@
             <h6>{{title}}</h6>
             <ul class="item-list">
                 {{#each keys}}
-                <li>
-                    <label class="inline">
-                        <span class="key"> {{getSMLabel this}} </span>
-                        <span class="value"> {{{getJSONValueByPath this ../../../dc}}} </span>
-                    </label>
-                </li>
+                    {{#IfValidJSONValueByPath this ../../../dc @index}}
+                        <li>
+                            <label class="inline">
+                                <span class="key"> {{getSMLabel this}} </span>
+                                <span class="value"> {{{getJSONValueByPath this ../../../../dc}}} </span>
+                            </label>
+                        </li>
+                    {{/IfValidJSONValueByPath}}
                 {{/each}}
             </ul>
             <br>

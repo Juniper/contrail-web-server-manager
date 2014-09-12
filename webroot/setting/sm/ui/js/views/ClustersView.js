@@ -141,7 +141,7 @@ define([
             },
             {
                 title: smLabels.TITLE_STATUS,
-                keys: ['status.new_servers', 'status.registered_servers', 'status.configured_servers', 'status.provisioned_servers', 'status.total_servers']
+                keys: ['status.total_servers', 'status.new_servers', 'status.registered_servers', 'status.configured_servers', 'status.provisioned_servers']
             }
         ]
     ];

@@ -10,6 +10,15 @@ Handlebars.registerHelper('getJSONValueByPath', function (path, obj) {
     return smUtils.getJSONValueByPath(path, obj);
 });
 
+Handlebars.registerHelper('IfValidJSONValueByPath', function (path, obj, index, options) {
+    var result = (smUtils.getJSONValueByPath(path, obj) != "-") ? true : false;
+    if(result || index == 0) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+
 Handlebars.registerHelper('filterServerByTagParams', function (queryKey, queryValue) {
     var queryParams = {'tag': {}};
     queryParams['tag'][queryKey] = queryValue;

@@ -136,10 +136,13 @@ define([
             var title = field;
             return title;
         };
-        this.getJSONValueByPath = function (path, obj) {
-            path = path.replace(/\[(\w+)\]/g, '.$1');
+        this.getJSONValueByPath = function (jsonPath, jsonObj) {
+            var path = jsonPath.replace(/\[(\w+)\]/g, '.$1');
             path = path.replace(/^\./, '');
-            var pathArray = path.split('.');
+
+            var pathArray = path.split('.'),
+                obj = jsonObj;
+
             while (pathArray.length) {
                 var property = pathArray.shift();
                 if (obj != null && property in obj) {
@@ -200,16 +203,16 @@ define([
             return intoObject;
         };
 
-        this.renderView4Config = function (parentElement, model, viewObj, validation) {
+        this.renderView4Config = function (parentElement, model, viewObj, validation, lockEditingByDefault) {
             var viewName = viewObj['view'],
                 elementId = viewObj['elementId'],
                 validation = (validation != null) ? validation : 'validation',
-                viewAttributes = {viewConfig: viewObj['viewConfig'], elementId: elementId, validation: validation},
+                viewAttributes = {viewConfig: viewObj['viewConfig'], elementId: elementId, validation: validation, lockEditingByDefault: lockEditingByDefault},
                 elementView;
 
             switch (viewName) {
                 case "AccordianView":
-                    elementView = new AccordianView({el: parentElement, attributes: viewAttributes});
+                    elementView = new AccordianView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 
@@ -219,17 +222,17 @@ define([
                     break;
 
                 case "FormDropdownView":
-                    elementView = new FormDropdownView({el: parentElement, attributes: viewAttributes});
+                    elementView = new FormDropdownView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 
                 case "FormInputView":
-                    elementView = new FormInputView({el: parentElement, attributes: viewAttributes});
+                    elementView = new FormInputView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 
                 case "FormMultiselectView":
-                    elementView = new FormMultiselectView({el: parentElement, attributes: viewAttributes});
+                    elementView = new FormMultiselectView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 

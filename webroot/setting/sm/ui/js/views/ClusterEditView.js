@@ -28,6 +28,8 @@ define([
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, "configureValidation");
 
+            console.log(this.model.model().get("locks"));
+
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
         },
@@ -94,7 +96,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, assignRolesConfig);
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, assignRolesViewConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -254,7 +256,7 @@ define([
         ]
     };
 
-    var assignRolesConfig = {
+    var assignRolesViewConfig = {
         elementId: prefixId + "-wizard",
         view: "WizardView",
         viewConfig: {
@@ -320,7 +322,7 @@ define([
                         ]
                     },
                     stepType: 'step',
-                    onLoad: function() {
+                    onLoad: function () {
 
                         $('#filtered-servers').data('contrailGrid').refreshView();
                     }
@@ -339,7 +341,7 @@ define([
                         ]
                     },
                     stepType: 'step',
-                    onLoad: function() {
+                    onLoad: function () {
                         $('#confirm-servers').data('contrailGrid').refreshView();
                     }
                 }
@@ -413,7 +415,7 @@ define([
                         ]
                     },
                     stepType: 'step',
-                    onLoad: function() {
+                    onLoad: function () {
                         $('#add-server-filtered-servers').data('contrailGrid').refreshView();
                     }
                 },
@@ -431,7 +433,7 @@ define([
                         ]
                     },
                     stepType: 'step',
-                    onLoad: function() {
+                    onLoad: function () {
                         $('#add-server-confirm-servers').data('contrailGrid').refreshView();
                     }
                 }
@@ -453,44 +455,37 @@ define([
             assignRolesStepViewConfig = null,
             provisionStepViewConfig;
 
-        /*
-         Appending Configure Server Steps
-         */
+
+        //Appending Configure Server Steps
         configureStepViewConfig = $.extend(true, configureViewConfig, {
             title: 'Configure',
             stepType: 'step',
-            onNext: function() {
+            onNext: function () {
                 console.log('Next : Step 1')
                 return true;
             }
         });
         steps = steps.concat(configureStepViewConfig);
 
-        /*
-         Appending Add Server Steps
-         */
+        //Appending Add Server Steps
         addServerStepViewConfig = $.extend(true, addServerViewConfig.viewConfig.steps, {});
         addServerStepViewConfig[0].title = 'Add Server';
         addServerStepViewConfig[1].stepType = 'sub-step';
         addServerStepViewConfig[2].stepType = 'sub-step';
         steps = steps.concat(addServerStepViewConfig);
 
-        /*
-         Appending Assign Roles Steps
-         */
-        assignRolesStepViewConfig = $.extend(true, assignRolesConfig.viewConfig.steps, {});
+        //Appending Assign Roles Steps
+        assignRolesStepViewConfig = $.extend(true, assignRolesViewConfig.viewConfig.steps, {});
         assignRolesStepViewConfig[0].title = 'Assign Roles';
         assignRolesStepViewConfig[1].stepType = 'sub-step';
         assignRolesStepViewConfig[2].stepType = 'sub-step';
         steps = steps.concat(assignRolesStepViewConfig);
 
-        /*
-         Appending Provision steps
-         */
+        //Appending Provision steps
         provisionStepViewConfig = $.extend(true, provisionViewConfig, {
             title: 'Provision',
             stepType: 'step',
-            onNext: function() {
+            onNext: function () {
                 console.log('Next : Step 1')
                 return true;
             }

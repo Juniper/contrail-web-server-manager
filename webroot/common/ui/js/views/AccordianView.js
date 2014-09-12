@@ -12,6 +12,7 @@ define([
                 viewConfig = this.attributes.viewConfig,
                 elId = this.attributes.elementId,
                 validation = this.attributes.validation,
+                lockEditingByDefault = this.attributes.lockEditingByDefault,
                 childViewObj, childElId;
 
             this.$el.html(accordianTempl({viewConfig: viewConfig, elementId: elId}));
@@ -19,7 +20,7 @@ define([
             for (var i = 0; i < viewConfig.length; i++) {
                 childViewObj = viewConfig[i];
                 childElId = childViewObj['elementId'];
-                smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation);
+                smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation, lockEditingByDefault);
             }
 
             this.$el.find("#" + elId).accordion({

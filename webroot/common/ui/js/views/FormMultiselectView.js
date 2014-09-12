@@ -13,9 +13,15 @@ define([
                 elId = this.attributes.elementId,
                 elementConfig = viewConfig['elementConfig'],
                 path = viewConfig['path'],
-                labelValue = (elId != null) ? smLabels.get(elId) : smLabels.get(path);
+                lockEditingByDefault = this.attributes.lockEditingByDefault,
+                labelValue = (elId != null) ? smLabels.get(elId) : smLabels.get(path),
+                tmplParameters;
 
-            var tmplParameters = {label: labelValue, id: elId, name: elId, dataBindValue: viewConfig['dataBindValue'], class: "span12", elementConfig: elementConfig};
+            if(lockEditingByDefault == null || !lockEditingByDefault) {
+                this.model.unlockAttr4Editing(path)
+            }
+
+            tmplParameters = {label: labelValue, id: elId, name: elId, dataBindValue: viewConfig['dataBindValue'], class: "span12", elementConfig: elementConfig};
 
             this.$el.html(multiselectTemplate(tmplParameters));
         }

@@ -11,10 +11,12 @@ define([
     var ContrailViewModel = Knockback.ViewModel.extend({
 
         constructor: function (modelConfig) {
-            var model, errorAttributes, _this = this;
+            var model, errorAttributes,
+                editingLockAttrs, _this = this;
 
-            errorAttributes = getErrorAttributes(modelConfig);
-            modelConfig = $.extend(true, {}, this.defaultConfig, modelConfig, {errors: new Backbone.Model(errorAttributes)});
+            errorAttributes = generateAttributes(modelConfig, smConstants.ERROR_SUFFIX_ID, false);
+            editingLockAttrs = generateAttributes(modelConfig, smConstants.LOCKED_SUFFIX_ID, true);
+            modelConfig = $.extend(true, {}, this.defaultConfig, modelConfig, {errors: new Backbone.Model(errorAttributes), locks: new Backbone.Model(editingLockAttrs)});
 
             model = new Backbone.Model(modelConfig);
             model = _.extend(model, this.validations);
@@ -42,23 +44,33 @@ define([
         },
 
         validateAttr: function (attributePath, validation) {
-            var attrObj = getAttributeFromPath(attributePath),
-                attrError = attrObj['attr_error'],
-                attr = attrObj['attr'],
+            var attr = getAttributeFromPath(attributePath),
+                errors = this.model().get("errors"),
                 attrErrorObj = {}, isValid;
+
             isValid = this.model().isValid(attributePath, validation);
-            attrErrorObj[attrError] = (isValid == true) ? false : isValid;
-            this.model().get("errors").set(attrErrorObj);
+            attrErrorObj[attr + smConstants.ERROR_SUFFIX_ID] = (isValid == true) ? false : isValid;
+            errors.set(attrErrorObj);
+        },
+
+        unlockAttr4Editing: function (attributePath) {
+            var attribute = getAttributeFromPath(attributePath),
+                locks = this.model().get("locks"),
+                lockObj = {};
+
+            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = false;
+            console.log(lockObj);
+            locks.set(lockObj);
         }
     });
 
-    var getErrorAttributes = function (attributes) {
+    var generateAttributes = function (attributes, suffix, defaultValue) {
         var flattenAttributes = smUtils.flattenObject(attributes),
             errorAttributes = {};
 
         _.each(flattenAttributes, function (value, key) {
             var keyArray = key.split('.');
-            errorAttributes[keyArray[keyArray.length - 1] + "_error"] = false;
+            errorAttributes[keyArray[keyArray.length - 1] + suffix] = defaultValue;
         });
 
         return errorAttributes;
@@ -67,10 +79,8 @@ define([
     var getAttributeFromPath = function (attributePath) {
         var attributePathArray = attributePath.split('.'),
             attribute = attributePathArray[attributePathArray.length - 1];
-        return {
-            'attr': attribute,
-            'attr_error': attribute + '_error'
-        };
+
+        return attribute;
     };
 
     return ContrailViewModel;

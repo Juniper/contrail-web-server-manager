@@ -12,6 +12,7 @@ define([
                 viewConfig = this.attributes.viewConfig,
                 elId = this.attributes.elementId,
                 validation = this.attributes.validation,
+                lockEditingByDefault = this.attributes.lockEditingByDefault,
                 childViewObj, childElId, steps;
 
             this.$el.html(wizardTempl({viewConfig: viewConfig, elementId: elId}));
@@ -27,7 +28,7 @@ define([
                     for (var i = 0; i < steps.length; i++) {
                         childViewObj = steps[i];
                         childElId = childViewObj['elementId'];
-                        smUtils.renderView4Config($("#" + childElId), this.model, childViewObj, validation);
+                        smUtils.renderView4Config($("#" + childElId), this.model, childViewObj, validation, lockEditingByDefault);
                     }
                 }
             });

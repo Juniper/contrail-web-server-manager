@@ -44,7 +44,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureServerViewConfig, "configureValidation");
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, "configureValidation");
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -62,7 +62,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureCollectionViewConfig, "configureValidation");
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureServersViewConfig, "configureValidation", true);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -91,7 +91,7 @@ define([
                     elementId: (prefixId + '_' + smLabels.TITLE_TAG).toLowerCase(),
                     view: "SectionView",
                     viewConfig: {
-                        rows: editTagViewConfigRows
+                        rows: tagServersViewConfigRows
                     }
                 }, that = this;
 
@@ -108,7 +108,7 @@ define([
             Knockback.applyBindings(this.model, document.getElementById(modalId));
         },
 
-        renderEditRoles: function (options) {
+        renderAssignRoles: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
@@ -120,13 +120,13 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, editRolesViewConfig);
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, assignRolesViewConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
         }
     });
 
-    var editTagViewConfigRows = [
+    var tagServersViewConfigRows = [
         {
             columns: [
                 {elementId: 'datacenter', view: "FormInputView", viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6"}},
@@ -146,7 +146,7 @@ define([
         }
     ];
 
-    var configureServerViewConfig = {
+    var configureViewConfig = {
         elementId: prefixId,
         view: "AccordianView",
         viewConfig: [
@@ -257,7 +257,7 @@ define([
         ]
     };
 
-    var configureCollectionViewConfig = {
+    var configureServersViewConfig = {
         elementId: prefixId,
         view: "AccordianView",
         viewConfig: [
@@ -311,8 +311,6 @@ define([
                     rows: [
                         {
                             columns: [
-
-                                {elementId: 'host_name', view: "FormInputView", viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}},
                                 {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
                             ]
                         },
@@ -387,7 +385,7 @@ define([
         }
     };
 
-    var editRolesViewConfig = {
+    var assignRolesViewConfig = {
         elementId: prefixId,
         view: "SectionView",
         viewConfig: {

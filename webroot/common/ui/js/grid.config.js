@@ -40,7 +40,7 @@ define([
 
         this.getRegister = function (onClickFunction) {
             return {
-                title: smLabels.TITLE_REGISTER,
+                title: smLabels.TITLE_REGISTER_SERVER,
                 iconClass: 'icon-signin',
                 width: 80,
                 onClick: onClickFunction

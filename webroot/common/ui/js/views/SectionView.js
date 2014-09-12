@@ -11,6 +11,7 @@ define([
             var sectionTempl = contrail.getTemplate4Id("sm-section-view-template"),
                 viewConfig = this.attributes.viewConfig,
                 validation = this.attributes.validation,
+                lockEditingByDefault = this.attributes.lockEditingByDefault,
                 childElId;
 
             this.$el.html(sectionTempl(viewConfig));
@@ -23,7 +24,7 @@ define([
                 for (var j = 0; j < columns.length; j++) {
                     childViewObj = columns[j];
                     childElId = childViewObj['elementId'];
-                    smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation);
+                    smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation, lockEditingByDefault);
                 }
             }
         }
