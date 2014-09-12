@@ -44,12 +44,16 @@ define([
                 'max-width': (100/steps.length) + '%'
             });
 
+            var stepIndex = 0;
             $('.wizard > .steps ul li').each(function(key, value){
                 if(steps[key].stepType == 'sub-step'){
                     $(this).addClass('subStep');
                     $(this).find('.number').text('');
                     $(this).find('.title').text('');
 
+                }
+                else {
+                    $(this).find('.number').text(++stepIndex);
                 }
             });
         }
