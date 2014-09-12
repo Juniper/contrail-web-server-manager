@@ -35,7 +35,7 @@ define([
                 },
                 body: {
                     options: {
-                        checkboxSelectable: false,
+                        checkboxSelectable: true,
                         detail: false
                     },
                     dataSource: {

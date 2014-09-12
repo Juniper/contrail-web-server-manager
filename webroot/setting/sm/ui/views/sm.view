@@ -39,7 +39,9 @@
     <div id="{{elementId}}">
         {{#each viewConfig.steps}}
             <h2>{{this.title}}</h2>
-            <section id="{{this.elementId}}"></section>
+            <section>
+                <div id="{{this.elementId}}"></div>
+            </section>
         {{/each}}
     </div>
 </script>

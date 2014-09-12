@@ -162,7 +162,7 @@ define([
                 var clusterModel = new ClusterModel(),
                     clusterEditView = new ClusterEditView({'model': clusterModel});
 
-                clusterEditView.renderConfigure({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_CLUSTER});
+                clusterEditView.renderAddCluster({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_CLUSTER});
             }
         }
     ];

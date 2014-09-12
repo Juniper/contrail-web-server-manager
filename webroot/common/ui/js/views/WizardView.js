@@ -6,7 +6,7 @@ define([
     'underscore',
     'backbone'
 ], function (_, Backbone) {
-    var SectionView = Backbone.View.extend({
+    var WizardView = Backbone.View.extend({
         render: function () {
             var wizardTempl = contrail.getTemplate4Id("sm-wizard-view-template"),
                 viewConfig = this.attributes.viewConfig,
@@ -17,19 +17,41 @@ define([
             this.$el.html(wizardTempl({viewConfig: viewConfig, elementId: elId}));
             steps = viewConfig['steps'];
 
-            for (var i = 0; i < steps.length; i++) {
-                childViewObj = steps[i];
-                childElId = childViewObj['elementId'];
-                smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation);
-            }
-
-            this.$el.find("#" + elId).steps({
+            this.$el.find("#" + elId).contrailWizard({
                 headerTag: "h2",
                 bodyTag: "section",
-                transitionEffect: "slideLeft"
+                transitionEffect: "slideLeft",
+                titleTemplate: '<span class="number">#index#</span><span class="title"> #title#</span>',
+                steps: steps,
+                onInit: function (event, currentIndex) {
+                    for (var i = 0; i < steps.length; i++) {
+                        childViewObj = steps[i];
+                        childElId = childViewObj['elementId'];
+                        smUtils.renderView4Config($("#" + childElId), this.model, childViewObj, validation);
+                    }
+                }
+            });
+
+            this.$el.parents('.modal-body').css({'padding': '0'});
+
+            this.$el.find('.actions').find('a').addClass('btn btn-mini')
+            this.$el.find('.actions').find('a[href="#next"]').addClass('btn-primary');
+            this.$el.find('.actions').find('a[href="#finish"]').addClass('btn-mini');
+
+            $('.wizard > .steps > ul > li').css({
+                'max-width': (100/steps.length) + '%'
+            });
+
+            $('.wizard > .steps ul li').each(function(key, value){
+                if(steps[key].stepType == 'sub-step'){
+                    $(this).addClass('subStep');
+                    $(this).find('.number').text('');
+                    $(this).find('.title').text('');
+
+                }
             });
         }
     });
 
-    return SectionView;
+    return WizardView;
 });
