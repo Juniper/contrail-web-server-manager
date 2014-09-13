@@ -38,6 +38,8 @@ define([
 
         this.ERROR_SUFFIX_ID = "_error";
         this.LOCKED_SUFFIX_ID = "_locked";
+
+        this.SERVERS_STATE_PROCESSOR = "computeServerStates";
     }
     return Constants;
 });

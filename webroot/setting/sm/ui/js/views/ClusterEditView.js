@@ -407,6 +407,7 @@ define([
                     },
                     stepType: 'step',
                     onLoad: function () {
+                        console.log(ko.dataFor(this));
                         $('#add-server-filtered-servers').data('contrailGrid').refreshView();
                     }
                 },

@@ -8,7 +8,8 @@ define([
     'setting/sm/ui/js/models/ImageModel',
     'setting/sm/ui/js/views/ImageEditView'
 ], function (_, Backbone, ImageModel, ImageEditView) {
-    var prefixId = smConstants.IMAGE_PREFIX_ID;
+    var prefixId = smConstants.IMAGE_PREFIX_ID,
+        imageEditView = new ImageEditView();
 
     var ImagesView = Backbone.View.extend({
         el: $(contentContainer),
@@ -54,9 +55,9 @@ define([
     var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                imageModel = new ImageModel(dataItem),
-                imageEditView = new ImageEditView({'model': imageModel});
+                imageModel = new ImageModel(dataItem);
 
+            imageEditView.model = imageModel;
             imageEditView.render({"title": smLabels.TITLE_EDIT_CONFIG});
         })
     ];
@@ -73,9 +74,9 @@ define([
             "title": smLabels.TITLE_ADD_IMAGE,
             "iconClass": "icon-plus",
             "onClick": function () {
-                var imageModel = new ImageModel(),
-                    imageEditView = new ImageEditView({'model': imageModel});
+                var imageModel = new ImageModel();
 
+                imageEditView.model = imageModel;
                 imageEditView.render({"title": smLabels.TITLE_ADD_IMAGE});
             }
         }

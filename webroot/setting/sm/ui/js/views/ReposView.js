@@ -8,7 +8,8 @@ define([
     'setting/sm/ui/js/models/RepoModel',
     'setting/sm/ui/js/views/RepoEditView'
 ], function (_, Backbone, RepoModel, RepoEditView) {
-    var prefixId = smConstants.REPO_PREFIX_ID;
+    var prefixId = smConstants.REPO_PREFIX_ID,
+        repoEditView = new RepoEditView();
 
     var ImagesView = Backbone.View.extend({
         el: $(contentContainer),
@@ -54,9 +55,9 @@ define([
     var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                repoModel = new RepoModel(dataItem),
-                repoEditView = new RepoEditView({'model': repoModel});
+                repoModel = new RepoModel(dataItem);
 
+            repoEditView.model = repoModel;
             repoEditView.render({"title": smLabels.TITLE_EDIT_CONFIG});
         })
     ];
@@ -73,9 +74,9 @@ define([
             "title": smLabels.TITLE_ADD_REPO,
             "iconClass": "icon-plus",
             "onClick": function () {
-                var repoModel = new RepoModel(),
-                    repoEditView = new RepoEditView({'model': repoModel});
+                var repoModel = new RepoModel();
 
+                repoEditView.model = repoModel;
                 repoEditView.render({"title": smLabels.TITLE_ADD_REPO});
             }
         }

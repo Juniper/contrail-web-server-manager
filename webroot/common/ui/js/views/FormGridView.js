@@ -15,7 +15,7 @@ define([
                 model = this.model,
                 elId = this.attributes.elementId,
                 clusterId = (model != null) ? model.getValueByPath(path) : '',
-                params = clusterId != '' ? ('&cluster_id=' + clusterId) : '',
+                params = clusterId != '' ? ('?cluster_id=' + clusterId) : '',
                 url = baseUrl + params;
 
             var gridConfig = {

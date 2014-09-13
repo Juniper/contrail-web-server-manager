@@ -9,7 +9,8 @@ define([
     'setting/sm/ui/js/views/ServerEditView'
 ], function (_, Backbone, ServerModel, ServerEditView) {
     var prefixId = smConstants.SERVER_PREFIX_ID,
-        gridElId = '#' + prefixId + '-results';
+        gridElId = '#' + prefixId + '-results',
+        serverEditView = new ServerEditView();
 
     var ServersView = Backbone.View.extend({
         el: $(contentContainer),
@@ -64,25 +65,24 @@ define([
     var rowActionConfig = [
         smGridConfig.getRegister(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel});
+                serverModel = new ServerModel(dataItem);
 
+            serverEditView.model = serverModel;
             serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVER});
         }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel});
+                serverModel = new ServerModel(dataItem);
 
+            serverEditView.model = serverModel;
             serverEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG});
         }),
         smGridConfig.getTagAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel}),
                 checkedRow = [dataItem];
 
-
+            serverEditView.model = serverModel;
             serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
@@ -90,16 +90,16 @@ define([
         }),
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel});
+                serverModel = new ServerModel(dataItem);
 
+            serverEditView.model = serverModel;
             serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                serverEditView = new ServerEditView({'model': serverModel});
+                serverModel = new ServerModel(dataItem);
 
+            serverEditView.model = serverModel;
             serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_SERVER});
         })
     ];
@@ -184,9 +184,9 @@ define([
                         "iconClass": "icon-signin",
                         "title": smLabels.TITLE_REGISTER_SERVERS,
                         "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel});
+                            var serverModel = new ServerModel();
 
+                            serverEditView.model = serverModel;
                             serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVERS});
                         }
                     },
@@ -194,8 +194,9 @@ define([
                         "iconClass": "icon-edit",
                         "title": smLabels.TITLE_EDIT_CONFIG,
                         "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel});
+                            var serverModel = new ServerModel();
+
+                            serverEditView.model = serverModel;
                             serverEditView.renderConfigureServers({"title": smLabels.TITLE_EDIT_CONFIG});
                         }
                     },
@@ -204,8 +205,9 @@ define([
                         "title": smLabels.TITLE_EDIT_TAGS,
                         "onClick": function () {
                             var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel}),
                                 checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+
+                            serverEditView.model = serverModel;
                             serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, "checkedRows": checkedRows, callback: function () {
                                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                                 dataView.refreshData();
@@ -216,8 +218,9 @@ define([
                         "iconClass": "icon-check",
                         "title": smLabels.TITLE_ASSIGN_ROLES,
                         "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel});
+                            var serverModel = new ServerModel();
+
+                            serverEditView.model = serverModel;
                             serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
                         }
                     },
@@ -225,8 +228,9 @@ define([
                         "iconClass": "icon-cloud-upload",
                         "title": smLabels.TITLE_PROVISION,
                         "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                serverEditView = new ServerEditView({'model': serverModel});
+                            var serverModel = new ServerModel();
+
+                            serverEditView.model = serverModel;
                             serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVERS});
                         }
                     }

@@ -34,8 +34,13 @@ define([
             { id: "registered-servers", field: "", name: "Registered Servers", width: 120, minWidth: 15 },
             { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15 },
             { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15 },
-            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15 }
-
+            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15,
+                formatter: function (r, c, v, cd, dc) {
+                    var uiParams = dc['ui_added_parameters'],
+                        serverStatus = uiParams['servers_status'];
+                    return serverStatus['total_servers'];
+                }
+            }
         ];
 
         this.getRegister = function (onClickFunction) {
@@ -130,39 +135,43 @@ define([
             { id: "ip_address", field: "ip_address", name: "IP", width: 120, minWidth: 15 }
         ]).concat(this.getGridColumns4Roles());
 
-        this.getServerColumns = function(serverColumnsType) {
+        this.getServerColumns = function (serverColumnsType) {
             var serverColumns,
                 commonColumnsSet1 = [
-                { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
-                    searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
-                    if (dc['discovered'] == "true") {
-                        return '<div class="padding-2-0;"><i class="icon-circle blue"></i></div>';
+                    { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
+                        searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
+                        if (dc['discovered'] == "true") {
+                            return '<div class="padding-2-0;"><i class="icon-circle blue"></i></div>';
+                        }
                     }
-                }
-                },
-                { id: "server_id", field: "id", name: "Hostname", width: 80, minWidth: 15 }
+                    },
+                    { id: "server_id", field: "id", name: "Hostname", width: 80, minWidth: 15 }
                 ],
                 commonColumnsSet2 = [
-                { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, formatter: function (r, c, v, cd, dc) {
-                    var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                        tagHTML = tagTemplate(dc.tag);
-                    return tagHTML;
-                }},
-                { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
-                { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15 }
+                    { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, formatter: function (r, c, v, cd, dc) {
+                        var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
+                            tagHTML = tagTemplate(dc.tag);
+                        return tagHTML;
+                    }},
+                    { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
+                    { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15 }
                 ];
 
-            if(serverColumnsType == smConstants.SERVER_PREFIX_ID) {
-                serverColumns = commonColumnsSet1.concat([{ id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
-                    onClick: function (e, dc) {
-                        loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['cluster_id']}});
-                    }
-                }}]);
+            if (serverColumnsType == smConstants.SERVER_PREFIX_ID) {
+                serverColumns = commonColumnsSet1.concat([
+                    { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+                        onClick: function (e, dc) {
+                            loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['cluster_id']}});
+                        }
+                    }}
+                ]);
                 serverColumns = serverColumns.concat(commonColumnsSet2);
             } else if (serverColumnsType == smConstants.CLUSTER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat(commonColumnsSet2).concat(this.getGridColumns4Roles());
             }
-            serverColumns = serverColumns.concat([{ id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }]);
+            serverColumns = serverColumns.concat([
+                { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+            ]);
 
             return serverColumns;
         };

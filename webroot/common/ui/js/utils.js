@@ -158,11 +158,13 @@ define([
             }
         };
 
-        this.getObjectDetailUrl = function (objectName, objectField) {
-            return '/sm/objects/details/' + objectName;
+        this.getObjectDetailUrl = function (objectName, postProcessor) {
+            var url = '/sm/objects/details/' + objectName;
+            url += (postProcessor != null) ? ("?postProcessor=" + postProcessor) : '';
+            return url;
         };
 
-        this.getObjectUrl = function (objectName, objectField) {
+        this.getObjectUrl = function (objectName) {
             return '/sm/objects/' + objectName;
         };
 

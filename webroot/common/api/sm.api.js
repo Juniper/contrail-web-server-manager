@@ -8,8 +8,9 @@ var commonUtils = require(process.mainModule.exports["corePath"] + '/src/serverr
     global = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/global');
 
 var sm = require('../../common/api/sm'),
-    constants = require('../../common/api/sm.constants')
-url = require('url'),
+    constants = require('../../common/api/sm.constants'),
+    url = require('url'),
+    _ = require('underscore'),
     qs = require('querystring');
 
 var redis = require("redis"),
@@ -29,16 +30,14 @@ function getObjects(req, res) {
         filterInNull = req.param('filterInNull'),
         objectUrl = '/' + objectName,
         qsObj = urlParts.query,
-        responseArray;
+        responseArray, resultArray;
 
-    delete qsObj['_'];
-    delete qsObj['filterInNull'];
-
+    filterInAllowedParams(qsObj);
     objectUrl += '?' + qs.stringify(qsObj);
 
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
+            commonUtils.handleJSONResponse(error, res);
         } else {
             responseArray = responseJSON[objectName];
             resultArray = filterObjectsDetails(responseArray, filterInNull);
@@ -50,26 +49,87 @@ function getObjects(req, res) {
 function getObjectsDetails(req, res) {
     var objectName = req.param('name'),
         filterInNull = req.param('filterInNull'),
+        postProcessor = req.param('postProcessor'),
         urlParts = url.parse(req.url, true),
         objectUrl = '/' + objectName,
         qsObj = urlParts.query,
-        responseArray, resultArray;
+        responseArray, filteredResponseArray, resultArray;
 
-    delete qsObj['_'];
-    delete qsObj['filterInNull'];
-
+    filterInAllowedParams(qsObj);
     objectUrl += '?detail&' + qs.stringify(qsObj);
 
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
+            commonUtils.handleJSONResponse(error, res);
         } else {
             responseArray = responseJSON[objectName];
-            resultArray = filterObjectsDetails(responseArray, filterInNull);
-            commonUtils.handleJSONResponse(null, res, resultArray);
+            filteredResponseArray = filterObjectsDetails(responseArray, filterInNull);
+            resultArray = processResultsCB(res, filteredResponseArray, postProcessor)
         }
     });
 };
+
+function processResultsCB(res, filteredResponseArray, postProcessor) {
+    switch (postProcessor) {
+        case "computeServerStates":
+            computeServerStates(res, filteredResponseArray);
+            break;
+
+        default:
+            commonUtils.handleJSONResponse(null, res, filteredResponseArray);
+    }
+};
+
+function computeServerStates(res, filteredResponseArray) {
+    var objectUrl = '/server?detail&',
+        responseArray;
+
+    sm.get(objectUrl, function (error, responseJSON) {
+        var clusterStatusMap = {}, clusterId, serverStatus,
+            cluster, clusterStatus, totalServers;
+
+        if (error != null) {
+            commonUtils.handleJSONResponse(error, res);
+        } else {
+            responseArray = responseJSON['server'];
+            for(var i = 0; i < responseArray.length; i++) {
+                clusterId = responseArray[i]['cluster_id'];
+                serverStatus = responseArray[i]['status'];
+
+                if(clusterId == null || clusterId == '') {
+                    clusterId = "--empty--"
+                }
+
+                if(clusterStatusMap[clusterId] == null) {
+                    clusterStatusMap[clusterId] = {};
+                }
+
+                if(clusterStatusMap[clusterId][serverStatus] == null) {
+                    clusterStatusMap[clusterId][serverStatus] = 0;
+                }
+
+                clusterStatusMap[clusterId][serverStatus]++;
+            }
+
+            for(var j = 0; j < filteredResponseArray.length; j++) {
+                cluster = filteredResponseArray[j];
+                clusterId = cluster['id'];
+                clusterStatus = clusterStatusMap[clusterId];
+                if(clusterStatus != null) {
+                    totalServers = 0;
+                    for (var key in clusterStatus) {
+                        totalServers += clusterStatus[key];
+                    }
+                    clusterStatus['total_servers'] = totalServers;
+                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: clusterStatus}});
+                } else {
+                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0}}});
+                }
+            }
+            commonUtils.handleJSONResponse(null, res, filteredResponseArray);
+        }
+    });
+}
 
 function filterObjectsDetails(responseArray, filterInNull) {
     var resultArray = [];
@@ -92,7 +152,7 @@ function putObjects(req, res, appdata) {
 
     sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
+            commonUtils.handleJSONResponse(error, res);
         } else {
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
@@ -106,7 +166,7 @@ function postObjects(req, res, appdata) {
 
     sm.post(objectUrl, postData, appdata, function (error, resultJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
+            commonUtils.handleJSONResponse(error, res);
         } else {
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
@@ -135,7 +195,7 @@ function getTagValues(req, res) {
             sm.get(objectUrl, function (error, resultJSON) {
                 var keyValue, key, tags, servers;
                 if (error != null) {
-                    commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
+                    commonUtils.handleJSONResponse(error, res);
                 } else {
                     servers = resultJSON['server'];
                     for (var i = 0; i < servers.length; i++) {
@@ -162,6 +222,14 @@ function getTagValues(req, res) {
             commonUtils.handleJSONResponse(null, res, responseJSON);
         }
     });
+};
+
+function filterInAllowedParams(qsObj) {
+    for(var key in qsObj) {
+        if(constants.ALLOWED_FORWARDING_PARAMS.indexOf(key) == -1) {
+            delete qsObj[key];
+        }
+    }
 };
 
 exports.getObjects = getObjects;

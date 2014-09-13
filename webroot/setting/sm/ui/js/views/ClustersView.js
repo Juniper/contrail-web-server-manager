@@ -8,7 +8,8 @@ define([
     'setting/sm/ui/js/models/ClusterModel',
     'setting/sm/ui/js/views/ClusterEditView'
 ], function (_, Backbone, ClusterModel, ClusterEditView) {
-    var prefixId = smConstants.CLUSTER_PREFIX_ID;
+    var prefixId = smConstants.CLUSTER_PREFIX_ID,
+        clusterEditView = new ClusterEditView();
 
     var ClusterView = Backbone.View.extend({
         el: $(contentContainer),
@@ -49,7 +50,7 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectDetailUrl(prefixId)
+                                url: smUtils.getObjectDetailUrl(prefixId, smConstants.SERVERS_STATE_PROCESSOR)
                             }
                         }
                     }
@@ -65,7 +66,7 @@ define([
                 ajaxConfig = {}, that = this;
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
-            ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID) + "?id=" + clusterId;
+            ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.SERVERS_STATE_PROCESSOR) + "&id=" + clusterId;
             that.$el.html(clusterTemplate());
             contrail.ajaxHandler(ajaxConfig, function () {
             }, function (response) {
@@ -84,30 +85,30 @@ define([
     var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem),
-                clusterEditView = new ClusterEditView({'model': clusterModel});
+                clusterModel = new ClusterModel(dataItem);
 
+            clusterEditView.model = clusterModel;
             clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG});
         }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem),
-                clusterEditView = new ClusterEditView({'model': clusterModel});
+                clusterModel = new ClusterModel(dataItem);
 
+            clusterEditView.model = clusterModel;
             clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
         }),
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem),
-                clusterEditView = new ClusterEditView({'model': clusterModel});
+                clusterModel = new ClusterModel(dataItem);
 
+            clusterEditView.model = clusterModel;
             clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem),
-                clusterEditView = new ClusterEditView({'model': clusterModel});
+                clusterModel = new ClusterModel(dataItem);
 
+            clusterEditView.model = clusterModel;
             clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION_CLUSTER});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
@@ -141,7 +142,7 @@ define([
             },
             {
                 title: smLabels.TITLE_STATUS,
-                keys: ['status.total_servers', 'status.new_servers', 'status.registered_servers', 'status.configured_servers', 'status.provisioned_servers']
+                keys: ['ui_added_parameters.servers_status.total_servers', 'status.new_servers', 'status.registered_servers', 'status.configured_servers', 'status.provisioned_servers']
             }
         ]
     ];
@@ -159,9 +160,9 @@ define([
             "title": smLabels.TITLE_ADD_CLUSTER,
             "iconClass": "icon-plus",
             "onClick": function () {
-                var clusterModel = new ClusterModel(),
-                    clusterEditView = new ClusterEditView({'model': clusterModel});
+                var clusterModel = new ClusterModel();
 
+                clusterEditView.model = clusterModel;
                 clusterEditView.renderAddCluster({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_CLUSTER});
             }
         }
