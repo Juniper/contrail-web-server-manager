@@ -92,30 +92,30 @@ function computeServerStates(res, filteredResponseArray) {
             commonUtils.handleJSONResponse(error, res);
         } else {
             responseArray = responseJSON['server'];
-            for(var i = 0; i < responseArray.length; i++) {
+            for (var i = 0; i < responseArray.length; i++) {
                 clusterId = responseArray[i]['cluster_id'];
                 serverStatus = responseArray[i]['status'];
 
-                if(clusterId == null || clusterId == '') {
+                if (clusterId == null || clusterId == '') {
                     clusterId = "--empty--"
                 }
 
-                if(clusterStatusMap[clusterId] == null) {
+                if (clusterStatusMap[clusterId] == null) {
                     clusterStatusMap[clusterId] = {};
                 }
 
-                if(clusterStatusMap[clusterId][serverStatus] == null) {
+                if (clusterStatusMap[clusterId][serverStatus] == null) {
                     clusterStatusMap[clusterId][serverStatus] = 0;
                 }
 
                 clusterStatusMap[clusterId][serverStatus]++;
             }
 
-            for(var j = 0; j < filteredResponseArray.length; j++) {
+            for (var j = 0; j < filteredResponseArray.length; j++) {
                 cluster = filteredResponseArray[j];
                 clusterId = cluster['id'];
                 clusterStatus = clusterStatusMap[clusterId];
-                if(clusterStatus != null) {
+                if (clusterStatus != null) {
                     totalServers = 0;
                     for (var key in clusterStatus) {
                         totalServers += clusterStatus[key];
@@ -157,6 +157,8 @@ function putObjects(req, res, appdata) {
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
     });
+
+    deleteRedisCache(constants.REDIS_TAG_VALUES);
 };
 
 function postObjects(req, res, appdata) {
@@ -172,6 +174,20 @@ function postObjects(req, res, appdata) {
         }
     });
 };
+
+function deleteRedisCache(keyPrefix) {
+    redisClient.keys(keyPrefix + "*", function (error, keysArray) {
+        if (!error && keysArray.length > 0) {
+            redisClient.del(keysArray, function (error) {
+                if (error) {
+                    logutils.logger.error('Error in delete cache for prefix ' + keyPrefix);
+                }
+            });
+        } else {
+            logutils.logger.error('Error in delete cache for prefix ' + keyPrefix);
+        }
+    });
+}
 
 function getTagValues(req, res) {
     var tagName = req.param('name'),
@@ -225,8 +241,8 @@ function getTagValues(req, res) {
 };
 
 function filterInAllowedParams(qsObj) {
-    for(var key in qsObj) {
-        if(constants.ALLOWED_FORWARDING_PARAMS.indexOf(key) == -1) {
+    for (var key in qsObj) {
+        if (constants.ALLOWED_FORWARDING_PARAMS.indexOf(key) == -1) {
             delete qsObj[key];
         }
     }

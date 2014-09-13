@@ -151,7 +151,7 @@ define([
                     return '-';
                 }
             }
-            if (contrail.checkIfExist(obj) && obj != '') {
+            if ((contrail.checkIfExist(obj) && obj != '') || obj == 0) {
                 return obj;
             } else {
                 return '-';

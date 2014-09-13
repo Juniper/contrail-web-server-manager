@@ -34,7 +34,7 @@ define([
             { id: "registered-servers", field: "", name: "Registered Servers", width: 120, minWidth: 15 },
             { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15 },
             { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15 },
-            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15,
+            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc['ui_added_parameters'],
                         serverStatus = uiParams['servers_status'];
