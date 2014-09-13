@@ -49,7 +49,7 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectDetailUrl(prefixId, prefixId)
+                                url: smUtils.getObjectDetailUrl(prefixId)
                             }
                         }
                     }
@@ -65,7 +65,7 @@ define([
                 ajaxConfig = {}, that = this;
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
-            ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.CLUSTER_PREFIX_ID) + "&id=" + clusterId;
+            ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID) + "?id=" + clusterId;
             that.$el.html(clusterTemplate());
             contrail.ajaxHandler(ajaxConfig, function () {
             }, function (response) {

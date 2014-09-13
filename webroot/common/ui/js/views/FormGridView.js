@@ -9,7 +9,7 @@ define([
     //TODO: Make it generic for any kind of form edit.
     var FormGridView = Backbone.View.extend({
         render: function () {
-            var baseUrl = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID, smConstants.SERVER_PREFIX_ID),
+            var baseUrl = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID),
                 viewConfig = this.attributes.viewConfig,
                 path = viewConfig['path'],
                 model = this.model,

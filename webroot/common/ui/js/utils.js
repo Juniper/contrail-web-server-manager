@@ -159,17 +159,17 @@ define([
         };
 
         this.getObjectDetailUrl = function (objectName, objectField) {
-            return '/sm/objects/details/' + objectName + '?field=' + objectField;
+            return '/sm/objects/details/' + objectName;
         };
 
         this.getObjectUrl = function (objectName, objectField) {
-            var url = '/sm/objects/' + objectName;
-            url += (objectField != null) ? ('?field=' + objectField) : '';
-            return url;
+            return '/sm/objects/' + objectName;
         };
 
-        this.getTagsUrl = function () {
-            return '/sm/tags/values/';
+        this.getTagsUrl = function (clusterId) {
+            var url = '/sm/tags/values/';
+            url += (clusterId != null) ? ('?cluster_id=' + clusterId) : '';
+            return url;
         };
 
         this.getTagValueUrl = function (value) {

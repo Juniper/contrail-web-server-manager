@@ -50,7 +50,7 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectDetailUrl(prefixId, prefixId) + queryString
+                                url: smUtils.getObjectDetailUrl(prefixId) + queryString
                             }
                         }
                     }
@@ -172,6 +172,9 @@ define([
     };
 
     function getHeaderActionConfig(viewconfig) {
+        var hashParams = viewconfig['hashParams'],
+            clusterId = hashParams['cluster_id'];
+
         return [
             {
                 "type": "dropdown",
@@ -244,7 +247,7 @@ define([
                     minWidth: 200,
                     dataSource: {
                         type: 'GET',
-                        url: smUtils.getTagsUrl()
+                        url: smUtils.getTagsUrl(clusterId)
                     },
                     click: applyServerTagFilter,
                     optgrouptoggle: applyServerTagFilter,
@@ -286,14 +289,14 @@ define([
         var queryString = '', tagKey, tagQueryArray = [];
         ;
         if (hashParams['cluster_id'] != null) {
-            queryString += '&cluster_id=' + hashParams['cluster_id'];
+            queryString += '?cluster_id=' + hashParams['cluster_id'];
         }
 
         if (hashParams['tag'] != null) {
             for (tagKey in hashParams['tag']) {
                 tagQueryArray.push(tagKey + "=" + hashParams['tag'][tagKey]);
             }
-            queryString += '&tag=' + tagQueryArray.join(',');
+            queryString += '?tag=' + tagQueryArray.join(',');
         }
         return queryString;
     };

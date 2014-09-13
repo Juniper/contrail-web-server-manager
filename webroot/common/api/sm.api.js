@@ -25,46 +25,64 @@ redisClient.select(global.SM_DFLT_REDIS_DB, function (error) {
 
 function getObjects(req, res) {
     var objectName = req.param('name'),
-        fieldName = req.param('field'),
         urlParts = url.parse(req.url, true),
+        filterInNull = req.param('filterInNull'),
         objectUrl = '/' + objectName,
-        qsObj = urlParts.query;
+        qsObj = urlParts.query,
+        responseArray;
 
-    delete qsObj['field'];
     delete qsObj['_'];
+    delete qsObj['filterInNull'];
 
     objectUrl += '?' + qs.stringify(qsObj);
 
-    sm.get(objectUrl, function (error, resultJSON) {
+    sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
             commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
         } else {
-            resultJSON = fieldName != null ? resultJSON[fieldName] : resultJSON;
-            commonUtils.handleJSONResponse(null, res, resultJSON);
+            responseArray = responseJSON[objectName];
+            resultArray = filterObjectsDetails(responseArray, filterInNull);
+            commonUtils.handleJSONResponse(null, res, responseArray);
         }
     });
 };
 
 function getObjectsDetails(req, res) {
     var objectName = req.param('name'),
-        fieldName = req.param('field'),
+        filterInNull = req.param('filterInNull'),
         urlParts = url.parse(req.url, true),
         objectUrl = '/' + objectName,
-        qsObj = urlParts.query;
+        qsObj = urlParts.query,
+        responseArray, resultArray;
 
-    delete qsObj['field'];
     delete qsObj['_'];
+    delete qsObj['filterInNull'];
 
     objectUrl += '?detail&' + qs.stringify(qsObj);
 
-    sm.get(objectUrl, function (error, resultJSON) {
+    sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
             commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
         } else {
-            resultJSON = fieldName != null ? resultJSON[fieldName] : resultJSON;
-            commonUtils.handleJSONResponse(null, res, resultJSON);
+            responseArray = responseJSON[objectName];
+            resultArray = filterObjectsDetails(responseArray, filterInNull);
+            commonUtils.handleJSONResponse(null, res, resultArray);
         }
     });
+};
+
+function filterObjectsDetails(responseArray, filterInNull) {
+    var resultArray = [];
+    if (filterInNull != null) {
+        for (var i = 0; i < responseArray.length; i++) {
+            if (responseArray[i][filterInNull] == null || responseArray[i][filterInNull] == '') {
+                resultArray.push(responseArray[i]);
+            }
+        }
+        return resultArray;
+    } else {
+        return responseArray;
+    }
 };
 
 function putObjects(req, res, appdata) {
@@ -76,7 +94,6 @@ function putObjects(req, res, appdata) {
         if (error != null) {
             commonUtils.handleJSONResponse({error: true, errorObj: error}, res);
         } else {
-            ;
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
     });
@@ -98,11 +115,17 @@ function postObjects(req, res, appdata) {
 
 function getTagValues(req, res) {
     var tagName = req.param('name'),
+        clusterId = req.param('cluster_id'),
         objectUrl = '/server?detail',
         responseJSON = {}, tagValues = {},
         redisKey;
 
     redisKey = constants.REDIS_TAG_VALUES;
+
+    if (clusterId != null) {
+        redisKey += ":" + clusterId;
+        objectUrl += "&cluster_id=" + clusterId;
+    }
 
     redisClient.get(redisKey, function (error, tagValuesStr) {
         if (error) {

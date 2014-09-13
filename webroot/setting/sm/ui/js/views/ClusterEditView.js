@@ -262,12 +262,12 @@ define([
                                 columns: [
                                     {
                                         elementId: 'datacenter',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('datacenter')), dataSource: { type: 'remote', url: '/sm/tags/values/datacenter'}}}
                                     },
                                     {
                                         elementId: 'floor',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('floor')), dataSource: { type: 'remote', url: '/sm/tags/values/floor'}}}
                                     }
                                 ]
@@ -276,12 +276,12 @@ define([
                                 columns: [
                                     {
                                         elementId: 'hall',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('hall')), dataSource: { type: 'remote', url: '/sm/tags/values/hall'}}}
                                     },
                                     {
                                         elementId: 'rack',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('rack')), dataSource: { type: 'remote', url: '/sm/tags/values/rack'}}}
                                     }
                                 ]
@@ -290,7 +290,7 @@ define([
                                 columns: [
                                     {
                                         elementId: 'user_tag',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('user_tag')), dataSource: { type: 'remote', url: '/sm/tags/values/user_tag'}}}
                                     }
                                 ]
@@ -355,12 +355,12 @@ define([
                                 columns: [
                                     {
                                         elementId: 'datacenter',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('datacenter')), dataSource: { type: 'remote', url: '/sm/tags/values/datacenter'}}}
                                     },
                                     {
                                         elementId: 'floor',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('floor')), dataSource: { type: 'remote', url: '/sm/tags/values/floor'}}}
                                     }
                                 ]
@@ -369,12 +369,12 @@ define([
                                 columns: [
                                     {
                                         elementId: 'hall',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('hall')), dataSource: { type: 'remote', url: '/sm/tags/values/hall'}}}
                                     },
                                     {
                                         elementId: 'rack',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('rack')), dataSource: { type: 'remote', url: '/sm/tags/values/rack'}}}
                                     }
                                 ]
@@ -383,7 +383,7 @@ define([
                                 columns: [
                                     {
                                         elementId: 'user_tag',
-                                        view: "FormMultiselectView",
+                                        view: "FormDropdownView",
                                         viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('user_tag')), dataSource: { type: 'remote', url: '/sm/tags/values/user_tag'}}}
                                     }
                                 ]
