@@ -168,9 +168,9 @@ define([
             return '/sm/objects/' + objectName;
         };
 
-        this.getTagsUrl = function (clusterId) {
+        this.getTagsUrl = function (qs) {
             var url = '/sm/tags/values/';
-            url += (clusterId != null) ? ('?cluster_id=' + clusterId) : '';
+            url += (qs != null) ? qs : '';
             return url;
         };
 

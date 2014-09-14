@@ -194,14 +194,16 @@ function getTagValues(req, res) {
         clusterId = req.param('cluster_id'),
         objectUrl = '/server?detail',
         responseJSON = {}, tagValues = {},
+        urlParts = url.parse(req.url, true),
+        qsObj = urlParts.query,
         redisKey;
 
     redisKey = constants.REDIS_TAG_VALUES;
 
-    if (clusterId != null) {
-        redisKey += ":" + clusterId;
-        objectUrl += "&cluster_id=" + clusterId;
-    }
+    filterInAllowedParams(qsObj);
+
+    objectUrl += '&' + qs.stringify(qsObj);
+    redisKey += ":" + objectUrl;
 
     redisClient.get(redisKey, function (error, tagValuesStr) {
         if (error) {

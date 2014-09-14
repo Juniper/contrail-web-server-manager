@@ -28,7 +28,7 @@ define([
                     title: {
                         text: smLabels.TITLE_SERVERS
                     },
-                    advanceControls: getHeaderActionConfig(viewConfig)
+                    advanceControls: getHeaderActionConfig(queryString)
                 },
                 columnHeader: {
                     columns: smGridConfig.getServerColumns(serverColumnsType)
@@ -171,10 +171,7 @@ define([
         return filterServerData;
     };
 
-    function getHeaderActionConfig(viewconfig) {
-        var hashParams = viewconfig['hashParams'],
-            clusterId = hashParams['cluster_id'];
-
+    function getHeaderActionConfig(queryString) {
         return [
             {
                 "type": "dropdown",
@@ -251,7 +248,7 @@ define([
                     minWidth: 200,
                     dataSource: {
                         type: 'GET',
-                        url: smUtils.getTagsUrl(clusterId)
+                        url: smUtils.getTagsUrl(queryString)
                     },
                     click: applyServerTagFilter,
                     optgrouptoggle: applyServerTagFilter,
