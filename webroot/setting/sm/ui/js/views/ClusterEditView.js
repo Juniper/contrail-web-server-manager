@@ -40,6 +40,7 @@ define([
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
+                $("#" + modalId).find('.contrailWizard').data('contrailWizard').destroy();
                 $("#" + modalId).modal('hide');
             }});
 
@@ -410,7 +411,26 @@ define([
                                                 header: {
                                                     title: {
                                                         text: smLabels.TITLE_SERVERS
-                                                    }
+                                                    },
+                                                    advanceControls: [
+                                                        {
+                                                            "type": "link",
+                                                            "title": 'Select Servers',
+                                                            "iconClass": "icon-plus",
+                                                            "onClick": function () {
+                                                                var checkedRows = $('#add-server-filtered-servers').data('contrailGrid').getCheckedRows();
+                                                                $('#add-server-filtered-servers').data('serverData').selectedServer = checkedRows;
+
+                                                                var cgrids = [];
+                                                                $.each(checkedRows, function(checkedRowKey, checkedRowValue){
+                                                                   cgrids.push(checkedRowValue.cgrid);
+                                                                });
+
+                                                                $('#add-server-filtered-servers').data('contrailGrid')._dataView.deleteDataByIds(cgrids);
+                                                            }
+                                                        }
+                                                    ]
+
                                                 },
                                                 columnHeader: {
                                                     columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
@@ -422,11 +442,8 @@ define([
                                                             iconClass: 'icon-plus',
                                                             onclick: function(e, args) {
                                                                 var selectedRow = $('#add-server-filtered-servers').data('contrailGrid')._dataView.getItem(args.row);
-
-                                                                $('#add-server-filtered-servers').data('contrailGrid').deleteDataByRows([args.row]);
-
                                                                 $('#add-server-filtered-servers').data('serverData').selectedServer.push(selectedRow);
-
+                                                                $('#add-server-filtered-servers').data('contrailGrid').deleteDataByRows([args.row]);
                                                             }
                                                         }
                                                     },
@@ -454,6 +471,7 @@ define([
                     },
                     stepType: 'step',
                     onInitFromNext: function (params, stepViewConfig) {
+
                         var tagParams = getParamsFromTags(params.model.model().attributes.tag);
                         stepViewConfig.viewConfig.rows[0].columns[0].viewConfig.elementConfig.body.dataSource.remote.ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams;
                         return stepViewConfig;

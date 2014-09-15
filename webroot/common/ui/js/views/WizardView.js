@@ -49,7 +49,7 @@ define([
 
             this.$el.find('.actions').find('a').addClass('btn btn-mini')
             this.$el.find('.actions').find('a[href="#next"]').addClass('btn-primary');
-            this.$el.find('.actions').find('a[href="#finish"]').addClass('btn-mini');
+            this.$el.find('.actions').find('a[href="#finish"]').addClass('btn-primary');
 
             $('.wizard > .steps > ul > li').css({
                 'max-width': (100/steps.length) + '%'
