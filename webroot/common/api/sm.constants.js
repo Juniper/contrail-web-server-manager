@@ -24,6 +24,7 @@ smConstants.REDIS_CACHE_EXPIRE = 3600;
 
 
 smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id'];
+smConstants.SM_API_SERVER = 'sm_api_server'
 
 // Export this as a module.
 module.exports = smConstants;

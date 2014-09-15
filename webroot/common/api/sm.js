@@ -2,10 +2,13 @@
  Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var sm = module.exports,
-    smConfig = require('../../common/api/sm.config'),
-    rest = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/rest.api'),
+
+var  rest = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/rest.api');
+
+var smConfig = require('../../common/api/sm.config'),
+    constants = require('../../common/api/sm.constants'),
     assert = require('assert');
+    sm = module.exports;
 
 var smServerIP = smConfig.DFLT_SERVER_IP,
     smServerPort = smConfig.DFLT_SERVER_PORT;
@@ -20,7 +23,7 @@ if (smConfig.sm) {
 }
 
 var smREST = rest.getAPIServer({
-    apiName: smConfig.SM_API_SERVER,
+    apiName: constants.SM_API_SERVER,
     server: smServerIP,
     port: smServerPort
 });
