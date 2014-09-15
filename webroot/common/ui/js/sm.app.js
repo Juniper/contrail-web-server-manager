@@ -12,7 +12,7 @@ require.config({
         text: 'assets/requirejs/text',
         knockout: 'assets/knockout/knockout-3.0.0',
         knockback: 'assets/backbone/knockback.min',
-        validation: 'common/ui/js//backbone-validation-amd'
+        validation: 'assets/backbone/backbone-validation-amd'
     }
 });
 
