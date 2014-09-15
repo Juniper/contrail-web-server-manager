@@ -355,12 +355,12 @@ define([
                                 columns: [
                                     {
                                         elementId: 'datacenter',
-                                        view: "FormDropdownView",
+                                        view: "FormMultiselectView",
                                         viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('datacenter')), dataSource: { type: 'remote', url: '/sm/tags/values/datacenter'}}}
                                     },
                                     {
                                         elementId: 'floor',
-                                        view: "FormDropdownView",
+                                        view: "FormMultiselectView",
                                         viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('floor')), dataSource: { type: 'remote', url: '/sm/tags/values/floor'}}}
                                     }
                                 ]
@@ -369,12 +369,12 @@ define([
                                 columns: [
                                     {
                                         elementId: 'hall',
-                                        view: "FormDropdownView",
+                                        view: "FormMultiselectView",
                                         viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('hall')), dataSource: { type: 'remote', url: '/sm/tags/values/hall'}}}
                                     },
                                     {
                                         elementId: 'rack',
-                                        view: "FormDropdownView",
+                                        view: "FormMultiselectView",
                                         viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('rack')), dataSource: { type: 'remote', url: '/sm/tags/values/rack'}}}
                                     }
                                 ]
@@ -383,7 +383,7 @@ define([
                                 columns: [
                                     {
                                         elementId: 'user_tag',
-                                        view: "FormDropdownView",
+                                        view: "FormMultiselectView",
                                         viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('user_tag')), dataSource: { type: 'remote', url: '/sm/tags/values/user_tag'}}}
                                     }
                                 ]
@@ -400,15 +400,78 @@ define([
                         rows: [
                             {
                                 columns: [
-                                    {elementId: 'add-server-filtered-servers', view: "FormGridView", viewConfig: {path: 'id', class: "span12"} }
+                                    {
+                                        elementId: 'add-server-filtered-servers',
+                                        view: "FormGridView",
+                                        viewConfig: {
+                                            path: 'id',
+                                            class: "span12",
+                                            elementConfig: {
+                                                header: {
+                                                    title: {
+                                                        text: smLabels.TITLE_SERVERS
+                                                    }
+                                                },
+                                                columnHeader: {
+                                                    columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
+                                                },
+                                                body: {
+                                                    options: {
+                                                        actionCell: {
+                                                            type: 'link',
+                                                            iconClass: 'icon-plus',
+                                                            onclick: function(e, args) {
+                                                                var selectedRow = $('#add-server-filtered-servers').data('contrailGrid')._dataView.getItem(args.row);
+
+                                                                $('#add-server-filtered-servers').data('contrailGrid').deleteDataByRows([args.row]);
+
+                                                                $('#add-server-filtered-servers').data('serverData').selectedServer.push(selectedRow);
+
+                                                            }
+                                                        }
+                                                    },
+                                                    dataSource: {
+                                                        remote: {
+                                                            ajaxConfig: {
+                                                                url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id'
+                                                            }
+                                                        }
+                                                    },
+                                                    statusMessages: {
+                                                        empty: {
+                                                            type: 'status',
+                                                            iconClasses: '',
+                                                            text: 'No more Servers to select.'
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 ]
                             }
                         ]
                     },
                     stepType: 'step',
-                    onLoad: function () {
-                        console.log(ko.dataFor(this));
-                        $('#add-server-filtered-servers').data('contrailGrid').refreshView();
+                    onInitFromNext: function (params, stepViewConfig) {
+                        var tagParams = getParamsFromTags(params.model.model().attributes.tag);
+                        stepViewConfig.viewConfig.rows[0].columns[0].viewConfig.elementConfig.body.dataSource.remote.ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams;
+                        return stepViewConfig;
+                    },
+                    onLoadFromNext: function (params) {
+                        var tagParams = getParamsFromTags(params.model.model().attributes.tag);
+
+                        $('#add-server-filtered-servers').data('contrailGrid')._dataView.setRemoteAjaxConfig({
+                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams
+                        });
+
+                        $('#add-server-filtered-servers').data('contrailGrid').refreshData();
+                        $('#add-server-filtered-servers').data('serverData' , {
+                            selectedServer: []
+                        });
+                    },
+                    onLoadFromPrevious: function (params) {
+                        $('#add-server-filtered-servers').data('serverData').selectedServer = [];
                     }
                 },
                 {
@@ -419,19 +482,81 @@ define([
                         rows: [
                             {
                                 columns: [
-                                    {elementId: 'add-server-confirm-servers', view: "FormGridView", viewConfig: {path: 'id', class: "span12"} }
+                                    {
+                                        elementId: 'add-server-confirm-servers',
+                                        view: "FormGridView",
+                                        viewConfig: {
+                                            path: 'id',
+                                            class: "span12",
+                                            elementConfig: {
+                                                header: {
+                                                    title: {
+                                                        text: smLabels.TITLE_SERVERS
+                                                    }
+                                                },
+                                                columnHeader: {
+                                                    columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
+                                                },
+                                                body: {
+                                                    options: {
+                                                        checkboxSelectable: false,
+                                                        actionCell: {
+                                                            type: 'link',
+                                                            iconClass: 'icon-minus',
+                                                            onclick: function(e, args) {
+                                                                $('#add-server-confirm-servers').data('contrailGrid').deleteDataByRows([args.row]);
+                                                            }
+                                                        }
+                                                    },
+                                                    dataSource: {
+                                                        data: []
+                                                    },
+                                                    statusMessages: {
+                                                        empty: {
+                                                            type: 'status',
+                                                            iconClasses: '',
+                                                            text: 'No Servers Selected.'
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 ]
                             }
                         ]
                     },
                     stepType: 'step',
-                    onLoad: function () {
-                        $('#add-server-confirm-servers').data('contrailGrid').refreshView();
+                    onLoadFromNext: function(params) {
+                        var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems(),
+                            selectedServers = $('#add-server-filtered-servers').data('serverData').selectedServer;
+
+                        $('#add-server-confirm-servers').data('contrailGrid')._dataView.setData(currentSelectedServers.concat(selectedServers));
+                    },
+                    onNext: function(params) {
+                        var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
+
+                        params.model.addServer(currentSelectedServers);
+
                     }
                 }
             ]
         }
     };
+
+    function getParamsFromTags(tagsObject) {
+        if(tagsObject.length == 0){
+            return '';
+        }
+        var tagParams = [];
+
+        $.each(tagsObject, function (tagKey, tagValue) {
+            if(tagValue != ''){
+                tagParams.push(tagKey + '=' + tagValue);
+            }
+        });
+        return (tagParams.length > 0) ? '&tag=' + tagParams.join(',') : '';
+    }
 
     function getAddClusterViewConfig() {
         var addClusterViewConfig = {

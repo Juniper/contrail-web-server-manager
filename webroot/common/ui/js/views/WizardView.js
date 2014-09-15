@@ -19,18 +19,29 @@ define([
             this.$el.html(wizardTempl({viewConfig: viewConfig, elementId: elId}));
             steps = viewConfig['steps'];
 
+            $.each(steps, function(stepKey, stepValue){
+                var originalStepOnInitFromNext = null;
+                if(contrail.checkIfFunction(stepValue.onInitFromNext)){
+                    originalStepOnInitFromNext = stepValue.onInitFromNext
+                }
+                stepValue.onInitFromNext = function(params) {
+                    if(contrail.checkIfExist(originalStepOnInitFromNext)) {
+                        stepValue = originalStepOnInitFromNext(params, stepValue);
+                    }
+
+
+                    smUtils.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
+                }
+            });
+
             this.$el.find("#" + elId).contrailWizard({
                 headerTag: "h2",
                 bodyTag: "section",
                 transitionEffect: "slideLeft",
                 titleTemplate: '<span class="number">#index#</span><span class="title"> #title#</span>',
                 steps: steps,
-                onInit: function (event, currentIndex) {
-                    for (var i = 0; i < steps.length; i++) {
-                        childViewObj = steps[i];
-                        childElId = childViewObj['elementId'];
-                        smUtils.renderView4Config($("#" + childElId), self.model, childViewObj, validation, lockEditingByDefault);
-                    }
+                params: {
+                    model: this.model
                 }
             });
 

@@ -45,6 +45,9 @@ define([
                 }
             }
         },
+        addServer: function(serverList) {
+            console.log(serverList);
+        },
         validations: {
             configureValidation: {
                 'email': {

@@ -9,41 +9,22 @@ define([
     //TODO: Make it generic for any kind of form edit.
     var FormGridView = Backbone.View.extend({
         render: function () {
-            var baseUrl = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID),
-                viewConfig = this.attributes.viewConfig,
-                path = viewConfig['path'],
+            var viewConfig = this.attributes.viewConfig,
                 model = this.model,
-                elId = this.attributes.elementId,
-                clusterId = (model != null) ? model.getValueByPath(path) : '',
-                params = clusterId != '' ? ('?cluster_id=' + clusterId) : '',
-                url = baseUrl + params;
+                elId = this.attributes.elementId;
 
-            var gridConfig = {
+            var defaultFormGridConfig = {
                 header: {
-                    title: {
-                        text: smLabels.TITLE_SERVERS
-                    },
                     defaultControls: {
                         exportable: false,
                         refreshable: false,
                         searchable: true
-                    },
-                    customControls: ['<i class="icon-filter"></i>']
-                },
-                columnHeader: {
-                    columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
+                    }
                 },
                 body: {
                     options: {
                         checkboxSelectable: true,
                         detail: false
-                    },
-                    dataSource: {
-                        remote: {
-                            ajaxConfig: {
-                                url: url
-                            }
-                        }
                     }
                 },
                 footer: {
@@ -55,6 +36,8 @@ define([
                     }
                 }
             };
+
+            var gridConfig = $.extend(true, {}, defaultFormGridConfig, viewConfig.elementConfig);
 
             smUtils.renderGrid(this.$el, gridConfig);
         }
