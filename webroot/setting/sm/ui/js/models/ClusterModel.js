@@ -47,6 +47,11 @@ define([
         },
         addServer: function(serverList) {
             console.log(serverList);
+            return true;
+        },
+        assignRoles: function(serverList) {
+            console.log(serverList);
+            return true;
         },
         validations: {
             configureValidation: {
