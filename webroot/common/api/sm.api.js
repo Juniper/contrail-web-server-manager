@@ -3,31 +3,20 @@
  */
 
 var commonUtils = require(process.mainModule.exports["corePath"] + '/src/serverroot/utils/common.utils'),
-    config = require(process.mainModule.exports["corePath"] + '/config/config.global.js'),
-    logutils = require(process.mainModule.exports["corePath"] + '/src/serverroot/utils/log.utils'),
-    global = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/global');
+    logutils = require(process.mainModule.exports["corePath"] + '/src/serverroot/utils/log.utils');
 
 var sm = require('../../common/api/sm'),
     constants = require('../../common/api/sm.constants'),
+    cache = require('../../common/api/sm.cache'),
+    messages = require('../../common/api/sm.messages'),
     url = require('url'),
-    _ = require('underscore'),
-    qs = require('querystring');
-
-var redis = require("redis"),
-    redisServerPort = (config.redis_server_port) ? config.redis_server_port : global.DFLT_REDIS_SERVER_PORT,
-    redisServerIP = (config.redis_server_ip) ? config.redis_server_ip : global.DFLT_REDIS_SERVER_IP,
-    redisClient = redis.createClient(redisServerPort, redisServerIP);
-
-redisClient.select(global.SM_DFLT_REDIS_DB, function (error) {
-    if (error) {
-        logutils.logger.error('Redis DB ' + global.SM_DFLT_REDIS_DB + ' Select Error:' + error);
-    }
-});
+    qs = require('querystring'),
+    _ = require('underscore');
 
 function getObjects(req, res) {
-    var objectName = req.param('name'),
+    var objectName = req.param(constants.KEY_NAME),
         urlParts = url.parse(req.url, true),
-        filterInNull = req.param('filterInNull'),
+        filterInNull = req.param(constants.KEY_FILTER_IN_NULL),
         objectUrl = '/' + objectName,
         qsObj = urlParts.query,
         responseArray, resultArray;
@@ -47,9 +36,9 @@ function getObjects(req, res) {
 };
 
 function getObjectsDetails(req, res) {
-    var objectName = req.param('name'),
-        filterInNull = req.param('filterInNull'),
-        postProcessor = req.param('postProcessor'),
+    var objectName = req.param(constants.KEY_NAME),
+        filterInNull = req.param(constants.KEY_FILTER_IN_NULL),
+        postProcessor = req.param(constants.KEY_POST_PROCESSOR),
         urlParts = url.parse(req.url, true),
         objectUrl = '/' + objectName,
         qsObj = urlParts.query,
@@ -71,7 +60,7 @@ function getObjectsDetails(req, res) {
 
 function processResultsCB(res, filteredResponseArray, postProcessor) {
     switch (postProcessor) {
-        case "computeServerStates":
+        case constants.FUNC_COMPUTE_SERVER_STATES:
             computeServerStates(res, filteredResponseArray);
             break;
 
@@ -81,7 +70,7 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
 };
 
 function computeServerStates(res, filteredResponseArray) {
-    var objectUrl = '/server?detail&',
+    var objectUrl = constants.URL_SERVERS_DETAILS,
         responseArray;
 
     sm.get(objectUrl, function (error, responseJSON) {
@@ -91,13 +80,13 @@ function computeServerStates(res, filteredResponseArray) {
         if (error != null) {
             commonUtils.handleJSONResponse(error, res);
         } else {
-            responseArray = responseJSON['server'];
+            responseArray = responseJSON[constants.KEY_SERVER];
             for (var i = 0; i < responseArray.length; i++) {
-                clusterId = responseArray[i]['cluster_id'];
-                serverStatus = responseArray[i]['status'];
+                clusterId = responseArray[i][constants.KEY_CLUSTER_ID];
+                serverStatus = responseArray[i][constants.KEY_STATUS];
 
                 if (clusterId == null || clusterId == '') {
-                    clusterId = "--empty--"
+                    clusterId = constants.KEY_EMPTY_CLUSTER;
                 }
 
                 if (clusterStatusMap[clusterId] == null) {
@@ -113,7 +102,7 @@ function computeServerStates(res, filteredResponseArray) {
 
             for (var j = 0; j < filteredResponseArray.length; j++) {
                 cluster = filteredResponseArray[j];
-                clusterId = cluster['id'];
+                clusterId = cluster[constants.KEY_ID];
                 clusterStatus = clusterStatusMap[clusterId];
                 if (clusterStatus != null) {
                     totalServers = 0;
@@ -146,7 +135,7 @@ function filterObjectsDetails(responseArray, filterInNull) {
 };
 
 function putObjects(req, res, appdata) {
-    var objectName = req.param('name'),
+    var objectName = req.param(constants.KEY_NAME),
         objectUrl = '/' + objectName,
         postData = req.body;
 
@@ -158,11 +147,11 @@ function putObjects(req, res, appdata) {
         }
     });
 
-    deleteRedisCache(constants.REDIS_TAG_VALUES);
+    cache.deleteRedisCache(constants.REDIS_TAG_VALUES);
 };
 
 function postObjects(req, res, appdata) {
-    var objectName = req.param('name'),
+    var objectName = req.param(constants.KEY_NAME),
         objectUrl = '/' + objectName,
         postData = req.body;
 
@@ -175,71 +164,28 @@ function postObjects(req, res, appdata) {
     });
 };
 
-function deleteRedisCache(keyPrefix) {
-    redisClient.keys(keyPrefix + "*", function (error, keysArray) {
-        if (!error && keysArray.length > 0) {
-            redisClient.del(keysArray, function (error) {
-                if (error) {
-                    logutils.logger.error('Error in delete cache for prefix ' + keyPrefix);
-                }
-            });
-        } else {
-            logutils.logger.error('Error in delete cache for prefix ' + keyPrefix);
-        }
-    });
-}
-
 function getTagValues(req, res) {
-    var tagName = req.param('name'),
-        clusterId = req.param('cluster_id'),
-        objectUrl = '/server?detail',
-        responseJSON = {}, tagValues = {},
+    var tagName = req.param(constants.KEY_NAME),
+        objectUrl = constants.URL_SERVERS_DETAILS,
         urlParts = url.parse(req.url, true),
-        qsObj = urlParts.query,
-        redisKey;
-
-    redisKey = constants.REDIS_TAG_VALUES;
+        qsObj = urlParts.query;
 
     filterInAllowedParams(qsObj);
-
     objectUrl += '&' + qs.stringify(qsObj);
-    redisKey += ":" + objectUrl;
 
-    redisClient.get(redisKey, function (error, tagValuesStr) {
-        if (error) {
-            logutils.logger.error(error.stack);
-            commonUtils.handleJSONResponse(error, res, null);
-        } else if (tagValuesStr == null) {
-            sm.get(objectUrl, function (error, resultJSON) {
-                var keyValue, key, tags, servers;
-                if (error != null) {
-                    commonUtils.handleJSONResponse(error, res);
-                } else {
-                    servers = resultJSON['server'];
-                    for (var i = 0; i < servers.length; i++) {
-                        tags = servers[i]['tag'];
-                        for (key in tags) {
-                            if (tagValues[key] == null) {
-                                tagValues[key] = [];
-                            }
-                            keyValue = tags[key];
-                            if (tagValues[key].indexOf(keyValue) == -1) {
-                                tagValues[key].push(keyValue);
-                            }
-                        }
-                    }
-                }
-                responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
-                commonUtils.handleJSONResponse(null, res, responseJSON);
-                redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(tagValues));
+    cache.handleTagValues(res, objectUrl, tagName);
+};
 
-            });
-        } else {
-            tagValues = JSON.parse(tagValuesStr);
-            responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
-            commonUtils.handleJSONResponse(null, res, responseJSON);
-        }
-    });
+function getTagNames(req, res) {
+    console.log(messages.get(messages.ERROR_REDIS_DB_SELECT, "%%%%%%%"));
+
+    if (cache.TAG_NAMES.length == 0) {
+        cache.initTagNamesCache(function () {
+            commonUtils.handleJSONResponse(null, res, cache.TAG_NAMES);
+        });
+    } else {
+        commonUtils.handleJSONResponse(null, res, cache.TAG_NAMES);
+    }
 };
 
 function filterInAllowedParams(qsObj) {
@@ -255,3 +201,4 @@ exports.putObjects = putObjects;
 exports.postObjects = postObjects;
 exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;
+exports.getTagNames = getTagNames;

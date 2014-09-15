@@ -44,6 +44,12 @@
         <callback>smapi.getTagValues</callback>
     </item>
     <item>
+        <url>/sm/tags/names</url>
+        <method>get</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.getTagNames</callback>
+    </item>
+    <item>
         <url>/sm/tags/values/:name</url>
         <method>get</method>
         <feature>smConfigure</feature>
