@@ -499,7 +499,7 @@ define([
                     stepType: 'step'
                 },
                 {
-                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]),
                     title: smLabels.TITLE_SELECT_SERVERS,
                     view: "SectionView",
                     viewConfig: {
@@ -598,7 +598,7 @@ define([
                     }
                 },
                 {
-                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
+                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_CONFIRM]),
                     title: smLabels.TITLE_ASSIGN_ROLES,
                     view: "SectionView",
                     viewConfig: {
@@ -732,14 +732,24 @@ define([
 
         //Appending Add Server Steps
         addServerStepViewConfig = $.extend(true, {}, addServerViewConfig.viewConfig).steps;
+
         addServerStepViewConfig[0].title = 'Add Server';
+        addServerStepViewConfig[0].onPrevious = function(params) {
+            return false;
+        };
+
         addServerStepViewConfig[1].stepType = 'sub-step';
         addServerStepViewConfig[2].stepType = 'sub-step';
         steps = steps.concat(addServerStepViewConfig);
 
         //Appending Assign Roles Steps
         assignRolesStepViewConfig = $.extend(true, {}, assignRolesViewConfig.viewConfig).steps;
+
         assignRolesStepViewConfig[0].title = 'Assign Roles';
+        assignRolesStepViewConfig[0].onPrevious = function(params) {
+            return false;
+        };
+
         assignRolesStepViewConfig[1].stepType = 'sub-step';
         assignRolesStepViewConfig[2].stepType = 'sub-step';
         steps = steps.concat(assignRolesStepViewConfig);
@@ -748,7 +758,10 @@ define([
         provisionStepViewConfig = $.extend(true, {}, provisionViewConfig, {
             title: smLabels.TITLE_PROVISION,
             stepType: 'step',
-            onNext: function () {
+            onPrevious: function(params) {
+                return false;
+            },
+            onNext: function (params) {
                 console.log('Next : Step 1')
                 return true;
             }
