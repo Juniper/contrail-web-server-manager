@@ -276,7 +276,11 @@ define([
                             }
                         ]
                     },
-                    stepType: 'step'
+                    stepType: 'step',
+                    onInitRender: true,
+                    showButtons: {
+                        previous: false
+                    }
                 },
                 {
                     elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
@@ -355,12 +359,7 @@ define([
                         ]
                     },
                     stepType: 'step',
-                    onInitFromNext: function (params, stepViewConfig) {
-
-                        var tagParams = getParamsFromTags(params.model.model().attributes.tag);
-                        stepViewConfig.viewConfig.rows[0].columns[0].viewConfig.elementConfig.body.dataSource.remote.ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams;
-                        return stepViewConfig;
-                    },
+                    onInitRender: true,
                     onLoadFromNext: function (params) {
                         var tagParams = getParamsFromTags(params.model.model().attributes.tag);
 
@@ -430,6 +429,7 @@ define([
                         ]
                     },
                     stepType: 'step',
+                    onInitRender: false,
                     onLoadFromNext: function(params) {
                         var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems(),
                             selectedServers = $('#add-server-filtered-servers').data('serverData').selectedServer;
@@ -497,7 +497,11 @@ define([
                             }
                         ]
                     },
-                    stepType: 'step'
+                    stepType: 'step',
+                    onInitRender: true,
+                    showButtons: {
+                        previous: false
+                    }
                 },
                 {
                     elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]),
@@ -576,13 +580,7 @@ define([
                         ]
                     },
                     stepType: 'step',
-                    onInitFromNext: function (params, stepViewConfig) {
-                        var clusterId = params.model.model().attributes.id,
-                            tagParams = getParamsFromTags(params.model.model().attributes.tag);
-                        stepViewConfig.viewConfig.rows[0].columns[0].viewConfig.elementConfig.body.dataSource.remote.ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?cluster_id=' + clusterId + tagParams;
-
-                        return stepViewConfig;
-                    },
+                    onInitRender: true,
                     onLoadFromNext: function (params) {
                         var clusterId = params.model.model().attributes.id,
                             tagParams = getParamsFromTags(params.model.model().attributes.tag);
@@ -605,6 +603,11 @@ define([
                     view: "SectionView",
                     viewConfig: {
                         rows: [
+                            {
+                                columns: [
+                                    {elementId: 'roles', view: "FormMultiselectView", viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smLabels.SELECT_ROLES, data: smConstants.ROLES_OBJECTS}}}
+                                ]
+                            },
                             {
                                 columns: [
                                     {
@@ -652,6 +655,7 @@ define([
                         ]
                     },
                     stepType: 'step',
+                    onInitRender: true,
                     onLoadFromNext: function(params) {
                         var currentSelectedServers = $('#assign-roles-confirm-servers').data('contrailGrid')._dataView.getItems(),
                             selectedServers = $('#assign-roles-filtered-servers').data('serverData').selectedServer;
@@ -725,6 +729,10 @@ define([
         configureStepViewConfig = $.extend(true, {}, configureViewConfig, {
             title: smLabels.TITLE_CONFIGURE,
             stepType: 'step',
+            showButtons: {
+                previous: false
+            },
+            onInitRender: true,
             onNext: function () {
                 console.log('Next : Step 1')
                 return true;
@@ -760,6 +768,7 @@ define([
         provisionStepViewConfig = $.extend(true, {}, provisionViewConfig, {
             title: smLabels.TITLE_PROVISION,
             stepType: 'step',
+            onInitRender: true,
             onPrevious: function(params) {
                 return false;
             },

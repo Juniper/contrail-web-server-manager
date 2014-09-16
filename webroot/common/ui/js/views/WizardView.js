@@ -20,17 +20,15 @@ define([
             steps = viewConfig['steps'];
 
             $.each(steps, function(stepKey, stepValue){
-                var originalStepOnInitFromNext = null;
-                if(contrail.checkIfFunction(stepValue.onInitFromNext)){
-                    originalStepOnInitFromNext = stepValue.onInitFromNext
-                }
-                stepValue.onInitFromNext = function(params) {
-                    if(contrail.checkIfExist(originalStepOnInitFromNext)) {
-                        stepValue = originalStepOnInitFromNext(params, stepValue);
+                if(stepValue.onInitRender == true) {
+                    stepValue.onInitWizard = function(params) {
+                        smUtils.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
                     }
-
-
-                    smUtils.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
+                }
+                else {
+                    stepValue.onInitFromNext = function (params) {
+                        smUtils.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
+                    }
                 }
             });
 
@@ -46,27 +44,6 @@ define([
             });
 
             this.$el.parents('.modal-body').css({'padding': '0'});
-
-            this.$el.find('.actions').find('a').addClass('btn btn-mini')
-            this.$el.find('.actions').find('a[href="#next"]').addClass('btn-primary');
-            this.$el.find('.actions').find('a[href="#finish"]').addClass('btn-primary');
-
-            $('.wizard > .steps > ul > li').css({
-                'max-width': (100/steps.length) + '%'
-            });
-
-            var stepIndex = 0;
-            $('.wizard > .steps ul li').each(function(key, value){
-                if(steps[key].stepType == 'sub-step'){
-                    $(this).addClass('subStep');
-                    $(this).find('.number').text('');
-                    $(this).find('.title').text('');
-
-                }
-                else {
-                    $(this).find('.number').text(++stepIndex);
-                }
-            });
         }
     });
 
