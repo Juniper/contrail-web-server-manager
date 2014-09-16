@@ -241,13 +241,13 @@ define([
                                 columns: [
                                     {
                                         elementId: 'datacenter',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('datacenter')), dataSource: { type: 'remote', url: '/sm/tags/values/datacenter'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('datacenter')), dataSource: { type: 'remote', url: '/sm/tags/values/datacenter'}}}
                                     },
                                     {
                                         elementId: 'floor',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('floor')), dataSource: { type: 'remote', url: '/sm/tags/values/floor'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('floor')), dataSource: { type: 'remote', url: '/sm/tags/values/floor'}}}
                                     }
                                 ]
                             },
@@ -255,13 +255,13 @@ define([
                                 columns: [
                                     {
                                         elementId: 'hall',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('hall')), dataSource: { type: 'remote', url: '/sm/tags/values/hall'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('hall')), dataSource: { type: 'remote', url: '/sm/tags/values/hall'}}}
                                     },
                                     {
                                         elementId: 'rack',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('rack')), dataSource: { type: 'remote', url: '/sm/tags/values/rack'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('rack')), dataSource: { type: 'remote', url: '/sm/tags/values/rack'}}}
                                     }
                                 ]
                             },
@@ -269,8 +269,8 @@ define([
                                 columns: [
                                     {
                                         elementId: 'user_tag',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('user_tag')), dataSource: { type: 'remote', url: '/sm/tags/values/user_tag'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('user_tag')), dataSource: { type: 'remote', url: '/sm/tags/values/user_tag'}}}
                                     }
                                 ]
                             }
@@ -462,13 +462,13 @@ define([
                                 columns: [
                                     {
                                         elementId: 'datacenter',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('datacenter')), dataSource: { type: 'remote', url: '/sm/tags/values/datacenter'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('datacenter')), dataSource: { type: 'remote', url: '/sm/tags/values/datacenter'}}}
                                     },
                                     {
                                         elementId: 'floor',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('floor')), dataSource: { type: 'remote', url: '/sm/tags/values/floor'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('floor')), dataSource: { type: 'remote', url: '/sm/tags/values/floor'}}}
                                     }
                                 ]
                             },
@@ -476,13 +476,13 @@ define([
                                 columns: [
                                     {
                                         elementId: 'hall',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('hall')), dataSource: { type: 'remote', url: '/sm/tags/values/hall'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('hall')), dataSource: { type: 'remote', url: '/sm/tags/values/hall'}}}
                                     },
                                     {
                                         elementId: 'rack',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('rack')), dataSource: { type: 'remote', url: '/sm/tags/values/rack'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('rack')), dataSource: { type: 'remote', url: '/sm/tags/values/rack'}}}
                                     }
                                 ]
                             },
@@ -490,8 +490,8 @@ define([
                                 columns: [
                                     {
                                         elementId: 'user_tag',
-                                        view: "FormMultiselectView",
-                                        viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", elementConfig: {placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('user_tag')), dataSource: { type: 'remote', url: '/sm/tags/values/user_tag'}}}
+                                        view: "FormDropdownView",
+                                        viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6", elementConfig: {allowClear: true, placeholder: (smLabels.TITLE_SELECT + ' ' + smLabels.get('user_tag')), dataSource: { type: 'remote', url: '/sm/tags/values/user_tag'}}}
                                     }
                                 ]
                             }
@@ -577,16 +577,17 @@ define([
                     },
                     stepType: 'step',
                     onInitFromNext: function (params, stepViewConfig) {
+                        var clusterId = params.model.model().attributes.id,
+                            tagParams = getParamsFromTags(params.model.model().attributes.tag);
+                        stepViewConfig.viewConfig.rows[0].columns[0].viewConfig.elementConfig.body.dataSource.remote.ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?cluster_id=' + clusterId + tagParams;
 
-                        var tagParams = getParamsFromTags(params.model.model().attributes.tag);
-                        stepViewConfig.viewConfig.rows[0].columns[0].viewConfig.elementConfig.body.dataSource.remote.ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams;
                         return stepViewConfig;
                     },
                     onLoadFromNext: function (params) {
-                        var tagParams = getParamsFromTags(params.model.model().attributes.tag);
-
+                        var clusterId = params.model.model().attributes.id,
+                            tagParams = getParamsFromTags(params.model.model().attributes.tag);
                         $('#assign-roles-filtered-servers').data('contrailGrid')._dataView.setRemoteAjaxConfig({
-                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams
+                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?cluster_id=' + clusterId + tagParams
                         });
 
                         $('#assign-roles-filtered-servers').data('contrailGrid').refreshData();

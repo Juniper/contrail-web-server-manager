@@ -75,6 +75,9 @@ function initCustomKOBindings(Knockout) {
                     dropDown.value(value);
                 }
             }
+            else {
+                dropDown.value('');
+            }
 
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 $(element).select2('destroy');
