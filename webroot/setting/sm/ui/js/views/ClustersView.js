@@ -10,6 +10,7 @@ define([
 ], function (_, Backbone, ClusterModel, ClusterEditView) {
     var prefixId = smConstants.CLUSTER_PREFIX_ID,
         clusterEditView = new ClusterEditView();
+        gridElId = '#' + prefixId + '-results';
 
     var ClusterView = Backbone.View.extend({
         el: $(contentContainer),
@@ -24,8 +25,7 @@ define([
         },
 
         renderClustersList: function () {
-            var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + prefixId + '-results';
+            var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template");
 
             this.$el.html(directoryTemplate({name: prefixId}));
 
@@ -85,10 +85,14 @@ define([
     var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem);
+                clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG});
+            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -99,17 +103,25 @@ define([
         }),
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem);
+                clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
+            clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem);
+                clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION_CLUSTER});
+            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION_CLUSTER, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
             console.log(rowIndex);

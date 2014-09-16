@@ -65,17 +65,25 @@ define([
     var rowActionConfig = [
         smGridConfig.getRegister(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem);
+                serverModel = new ServerModel(dataItem),
+                checkedRow = [dataItem];
 
             serverEditView.model = serverModel;
-            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVER});
+            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVER, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+                }});
         }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem);
+                serverModel = new ServerModel(dataItem),
+                checkedRow = [dataItem];
 
             serverEditView.model = serverModel;
-            serverEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG});
+            serverEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }),
         smGridConfig.getTagAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -90,17 +98,25 @@ define([
         }),
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem);
+                serverModel = new ServerModel(dataItem),
+                checkedRow = [dataItem];
 
             serverEditView.model = serverModel;
-            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
+            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem);
+                serverModel = new ServerModel(dataItem),
+                checkedRow = [dataItem];
 
             serverEditView.model = serverModel;
-            serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_SERVER});
+            serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_SERVER, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         })
     ];
 

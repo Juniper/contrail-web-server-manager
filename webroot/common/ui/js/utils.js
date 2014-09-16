@@ -186,7 +186,6 @@ define([
 
         };
 
-
         this.flattenObject = function (object, intoObject, prefix) {
             var self = this;
             intoObject = intoObject || {};
@@ -203,6 +202,51 @@ define([
             });
 
             return intoObject;
+        };
+
+        this.getEditConfigObj = function (testobj, locks){
+            // flag true means that the parent object is to be deleted
+            var flag = true;
+            $.each(testobj, function (index, value) {
+                if (_.isArray(value)) {
+                    if (contrail.checkIfExist(locks[index + '_locked'])) {
+                        lock = locks[index + '_locked'];
+                        if (lock === true) {
+                            delete testobj[index];
+                        } else if (lock === false && flag === true) {
+                            flag = false;
+                        }
+                    }
+                }
+                // check if value is a key or object
+                // if object make a recursive call on value
+                else if (_.isObject(value)) {
+                    flag = smUtils.getEditConfigObj(value, locks);
+                    if (flag === true) {
+                        // this means that NONE of the elements in the 'value' object were changed
+                        // so we DELETE the PARENT object 'value'
+                        delete testobj[index];
+                    } else if (flag === false) {
+                        // this means that aleast one element in the 'value' object was changed
+                        // so we dont delete the object 'value'
+                        flag = false;
+                    }
+                }
+                // if we reach here :- then value is a key
+                // now we check if the value is locked
+                // we check it from the 'locks'
+                else {
+                    if (contrail.checkIfExist(locks[index + '_locked'])) {
+                        lock = locks[index + '_locked'];
+                        if (lock === true) {
+                            delete testobj[index];
+                        } else if (lock === false && flag === true) {
+                            flag = false;
+                        }
+                    }
+                }
+            });
+            return flag;
         };
 
         this.renderView4Config = function (parentElement, model, viewObj, validation, lockEditingByDefault) {

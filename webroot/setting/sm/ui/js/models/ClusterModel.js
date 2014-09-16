@@ -34,12 +34,35 @@ define([
             status: {},
             tag: {}
         },
-        configure: function (modalId) {
+        configure: function (modalId, checkedRows, callback) {
+            var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
-                    console.log(this.model().attributes);
+                    var putData = {}, clusters = [];
                     $("#" + modalId).modal('hide');
+                    serverAttrs = this.model().attributes;
+                    locks = this.model().attributes.locks.attributes;
+                    smUtils.getEditConfigObj(serverAttrs, locks);
+                    for (var i = 0; i < checkedRows.length; i++) {
+                        clusters.push(serverAttrs);
+                    }
+                    putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
+
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        $("#" + modalId).modal('hide');
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
                 } else {
                     // TODO: Show form-level error message if any
                 }
@@ -52,6 +75,39 @@ define([
         assignRoles: function(serverList) {
             console.log(serverList);
             return true;
+        },
+        provision: function (modalId, checkedRows, callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'configureValidation')) {
+                if (true) {
+                    var clusterAttrs = this.model().attributes,
+                        putData = {}, clusters = [];
+                
+                    for (var i = 0; i < checkedRows.length; i++) {
+                        clusters.push({'id': checkedRows[i]['id'], 'base_image_id': clusterAttrs['base_image_id'],'package_image_id': clusterAttrs['package_image_id']});
+                    }
+                    putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
+
+                    console.log(ajaxConfig);
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        $("#" + modalId).modal('hide');
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
         },
         validations: {
             configureValidation: {
