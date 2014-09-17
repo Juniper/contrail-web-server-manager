@@ -19,7 +19,10 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 //var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
-                that.model.configure(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.configure(function () {
+                    options['callback']();
+                    $('#' + modalId).modal('hide');
+                }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -44,7 +47,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig());
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(), "configureValidation");
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -115,7 +118,7 @@ define([
                     rows: [
                         {
                             columns: [
-                                {elementId: 'id', view: "FormInputView", viewConfig: {path: 'id', dataBindValue: 'id', class: "span6"}},
+                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled:true, path: 'id', dataBindValue: 'id', class: "span6"}},
                                 {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
 
                             ]
@@ -730,15 +733,17 @@ define([
 
         //Appending Configure Server Steps
         configureStepViewConfig = $.extend(true, {}, configureViewConfig, {
+            // making 'id' NOT disabled
+            viewConfig: [{viewConfig: {rows: [{columns: [{viewConfig: {disabled: false}}]}]}}],
             title: smLabels.TITLE_CONFIGURE,
             stepType: 'step',
             showButtons: {
                 previous: false
             },
             onInitRender: true,
-            onNext: function () {
-                console.log('Next : Step 1')
-                return true;
+            onNext: function (params) {
+                console.log('Next : Step 1');
+                return params.model.configure([]);
             }
         });
         steps = steps.concat(configureStepViewConfig);

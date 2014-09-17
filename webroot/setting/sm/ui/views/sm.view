@@ -53,7 +53,7 @@
     <label>{{label}}</label>
 
     <div class="row-fluid form-element">
-        <input type="text" name="{{id}}" class="{{class}}" data-bind="value: {{dataBindValue}}, event: { focusout: validateAttr('{{path}}', '{{validation}}') }"/>
+        <input type="text" name="{{id}}" class="{{class}}" {{#if disabled}} disabled="{{disabled}}" {{/if}} data-bind="value: {{dataBindValue}}, event: { focusout: validateAttr('{{path}}', '{{validation}}') }"/>
         <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
     </div>
 </script>

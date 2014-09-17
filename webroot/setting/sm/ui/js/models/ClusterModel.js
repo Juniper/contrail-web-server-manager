@@ -34,19 +34,16 @@ define([
             status: {},
             tag: {}
         },
-        configure: function (modalId, checkedRows, callback) {
+        configure: function (callback) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
                     var putData = {}, clusters = [];
-                    $("#" + modalId).modal('hide');
                     serverAttrs = this.model().attributes;
                     locks = this.model().attributes.locks.attributes;
                     smUtils.getEditConfigObj(serverAttrs, locks);
-                    for (var i = 0; i < checkedRows.length; i++) {
-                        clusters.push(serverAttrs);
-                    }
+                    clusters.push(serverAttrs);
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
 
                     ajaxConfig.type = "PUT";
@@ -56,7 +53,6 @@ define([
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
                         if (contrail.checkIfFunction(callback)) {
                             callback();
                         }
@@ -111,6 +107,10 @@ define([
         },
         validations: {
             configureValidation: {
+                'id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('id')
+                },
                 'email': {
                     required: false,
                     pattern: 'email',

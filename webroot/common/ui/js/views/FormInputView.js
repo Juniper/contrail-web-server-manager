@@ -21,7 +21,7 @@ define([
                 this.model.unlockAttr4Editing(path)
             }
 
-            tmplParameters = {label: labelValue, id: elId, name: elId, dataBindValue: viewConfig['dataBindValue'], class: "span12", path: path, validation: validation};
+            tmplParameters = {label: labelValue, id: elId, name: elId, disabled: viewConfig['disabled'], dataBindValue: viewConfig['dataBindValue'], class: "span12", path: path, validation: validation};
 
             this.$el.html(inputTemplate(tmplParameters));
         }

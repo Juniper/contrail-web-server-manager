@@ -9,7 +9,7 @@ define([
     'setting/sm/ui/js/views/ClusterEditView'
 ], function (_, Backbone, ClusterModel, ClusterEditView) {
     var prefixId = smConstants.CLUSTER_PREFIX_ID,
-        clusterEditView = new ClusterEditView();
+        clusterEditView = new ClusterEditView(),
         gridElId = '#' + prefixId + '-results';
 
     var ClusterView = Backbone.View.extend({
