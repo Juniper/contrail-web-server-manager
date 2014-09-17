@@ -299,7 +299,7 @@ define([
                                             elementConfig: {
                                                 header: {
                                                     title: {
-                                                        text: smLabels.TITLE_SERVERS
+                                                        text: smLabels.TITLE_SELECT_SERVERS
                                                     },
                                                     advanceControls: [
                                                         {
@@ -393,7 +393,7 @@ define([
                                             elementConfig: {
                                                 header: {
                                                     title: {
-                                                        text: smLabels.TITLE_SERVERS
+                                                        text: smLabels.TITLE_ADD_SERVERS_TO_CLUSTER
                                                     }
                                                 },
                                                 columnHeader: {
@@ -520,7 +520,7 @@ define([
                                             elementConfig: {
                                                 header: {
                                                     title: {
-                                                        text: smLabels.TITLE_SERVERS
+                                                        text: smLabels.TITLE_SELECT_SERVERS
                                                     },
                                                     advanceControls: [
                                                         {
@@ -605,11 +605,6 @@ define([
                         rows: [
                             {
                                 columns: [
-                                    {elementId: 'roles', view: "FormMultiselectView", viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smLabels.SELECT_ROLES, data: smConstants.ROLES_OBJECTS}}}
-                                ]
-                            },
-                            {
-                                columns: [
                                     {
                                         elementId: 'assign-roles-confirm-servers',
                                         view: "FormGridView",
@@ -619,7 +614,7 @@ define([
                                             elementConfig: {
                                                 header: {
                                                     title: {
-                                                        text: smLabels.TITLE_SERVERS
+                                                        text: smLabels.TITLE_SELECTED_SERVERS
                                                     }
                                                 },
                                                 columnHeader: {
@@ -650,6 +645,14 @@ define([
                                             }
                                         }
                                     }
+                                ]
+                            },
+                            {
+                                columns: []
+                            },
+                            {
+                                columns: [
+                                    {elementId: smUtils.formatElementId([smLabels.TITLE_ASSIGN_ROLES]), view: "FormMultiselectView", viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smLabels.SELECT_ROLES, data: smConstants.ROLES_OBJECTS}}}
                                 ]
                             }
                         ]
@@ -743,7 +746,7 @@ define([
         //Appending Add Server Steps
         addServerStepViewConfig = $.extend(true, {}, addServerViewConfig.viewConfig).steps;
 
-        addServerStepViewConfig[0].title = 'Add Server';
+        addServerStepViewConfig[0].title = smLabels.TITLE_ADD_SERVERS_TO_CLUSTER;
         addServerStepViewConfig[0].onPrevious = function(params) {
             return false;
         };
@@ -755,7 +758,7 @@ define([
         //Appending Assign Roles Steps
         assignRolesStepViewConfig = $.extend(true, {}, assignRolesViewConfig.viewConfig).steps;
 
-        assignRolesStepViewConfig[0].title = 'Assign Roles';
+        assignRolesStepViewConfig[0].title = smLabels.TITLE_ASSIGN_ROLES;
         assignRolesStepViewConfig[0].onPrevious = function(params) {
             return false;
         };

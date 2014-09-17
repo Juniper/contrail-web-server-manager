@@ -98,7 +98,8 @@ define([
             "compute": "Compute",
             "collector": "Collector",
             "webui": "Webui",
-            "database": "Database"
+            "database": "Database",
+            "assign_roles": "Assign Roles"
         };
 
         this.TITLE_DETAILS = "Details";
@@ -139,6 +140,7 @@ define([
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
         this.TITLE_DEL_CLUSTERS = 'Delete Clusters';
         this.TITLE_ADD_SERVERS = 'Add Servers';
+        this.TITLE_ADD_SERVERS_TO_CLUSTER = 'Add Servers to Cluster';
         this.TITLE_ADD_TAGS = 'Add Tags';
         this.TITLE_ADD_IMAGE = 'Add Image';
         this.TITLE_ADD_REPO = 'Add Repo';
@@ -156,7 +158,7 @@ define([
         this.TITLE_PROVISION_SERVERS = 'Provision Servers';
         this.TITLE_SEARCH_SERVERS = 'Search Servers';
         this.TITLE_SELECT_SERVERS = 'Select Servers';
-
+        this.TITLE_SELECTED_SERVERS = 'Selected Servers';
 
         this.SELECT_IMAGE = 'Select Image';
         this.SELECT_PACKAGE = 'Select Package';
