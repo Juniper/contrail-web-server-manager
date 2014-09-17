@@ -26,6 +26,9 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-section-view-template">
+    {{#if this.title}}
+        <h5 class="margin-0-0-10">{{this.title}}</h5>
+    {{/if}}
     {{#each rows}}
     <div class="row-fluid margin-0-0-5 span12">
         {{#each this.columns}}

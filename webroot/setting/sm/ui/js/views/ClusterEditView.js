@@ -747,6 +747,7 @@ define([
         addServerStepViewConfig = $.extend(true, {}, addServerViewConfig.viewConfig).steps;
 
         addServerStepViewConfig[0].title = smLabels.TITLE_ADD_SERVERS_TO_CLUSTER;
+        addServerStepViewConfig[0].viewConfig['title'] = smLabels.TITLE_FILTER_SERVERS;
         addServerStepViewConfig[0].onPrevious = function(params) {
             return false;
         };
@@ -759,6 +760,7 @@ define([
         assignRolesStepViewConfig = $.extend(true, {}, assignRolesViewConfig.viewConfig).steps;
 
         assignRolesStepViewConfig[0].title = smLabels.TITLE_ASSIGN_ROLES;
+        assignRolesStepViewConfig[0].viewConfig['title'] = smLabels.TITLE_FILTER_SERVERS;
         assignRolesStepViewConfig[0].onPrevious = function(params) {
             return false;
         };

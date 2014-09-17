@@ -157,6 +157,7 @@ define([
         this.TITLE_PROVISION_SERVER = 'Provision Server';
         this.TITLE_PROVISION_SERVERS = 'Provision Servers';
         this.TITLE_SEARCH_SERVERS = 'Search Servers';
+        this.TITLE_FILTER_SERVERS = 'Filter Servers';
         this.TITLE_SELECT_SERVERS = 'Select Servers';
         this.TITLE_SELECTED_SERVERS = 'Selected Servers';
 
