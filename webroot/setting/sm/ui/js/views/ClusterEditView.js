@@ -742,7 +742,6 @@ define([
             },
             onInitRender: true,
             onNext: function (params) {
-                console.log('Next : Step 1');
                 return params.model.configure([]);
             }
         });

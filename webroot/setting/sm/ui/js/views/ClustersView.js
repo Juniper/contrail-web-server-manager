@@ -42,6 +42,14 @@ define([
                 body: {
                     options: {
                         actionCell: rowActionConfig,
+                        checkboxSelectable: {
+                            onNothingChecked: function(e){
+                                $('#btnDeleteClusters').addClass('disabled-link');
+                            },
+                            onSomethingChecked: function(e){
+                                $('#btnDeleteClusters').removeClass('disabled-link');
+                            }
+                        },
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
                             templateConfig: detailTemplateConfig
@@ -162,6 +170,8 @@ define([
     var headerActionConfig = [
         {
             "type": "link",
+            linkElementId: 'btnDeleteClusters',
+            disabledLink: true,
             "title": smLabels.TITLE_DEL_CLUSTERS,
             "iconClass": "icon-trash",
             "onClick": function () {

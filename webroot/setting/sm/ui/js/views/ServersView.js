@@ -36,6 +36,14 @@ define([
                 body: {
                     options: {
                         actionCell: rowActionConfig,
+                        checkboxSelectable: {
+                            onNothingChecked: function(e){
+                                $('#btnActionServers').addClass('disabled-link').removeAttr('data-toggle');
+                            },
+                            onSomethingChecked: function(e){
+                                $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
+                            }
+                        },
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
                             templateConfig: detailTemplateConfig
@@ -192,6 +200,8 @@ define([
             {
                 "type": "dropdown",
                 "iconClass": "icon-cog",
+                linkElementId: 'btnActionServers',
+                disabledLink: true,
                 "actions": [
                     {
                         "iconClass": "icon-signin",

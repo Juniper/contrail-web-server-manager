@@ -35,7 +35,8 @@ define([
             tag: {}
         },
         configure: function (callback) {
-            var ajaxConfig = {};
+            var ajaxConfig = {},
+                returnFlag = false;
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
@@ -46,6 +47,7 @@ define([
                     clusters.push(serverAttrs);
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
 
+                    ajaxConfig.async = false;
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
@@ -56,13 +58,17 @@ define([
                         if (contrail.checkIfFunction(callback)) {
                             callback();
                         }
+                        returnFlag = true;
                     }, function (error) {
                         console.log(error);
+                        returnFlag = false;
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
+
+            return returnFlag;
         },
         addServer: function(serverList) {
             console.log(serverList);
