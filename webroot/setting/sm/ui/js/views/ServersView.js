@@ -272,6 +272,7 @@ define([
                     },
                     parse: formatData4Ajax,
                     minWidth: 200,
+                    height: 250,
                     dataSource: {
                         type: 'GET',
                         url: smUtils.getTagsUrl(queryString)
