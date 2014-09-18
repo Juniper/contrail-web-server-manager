@@ -32,7 +32,8 @@ define([
                 package_image_id: null
             },
             status: {},
-            tag: {}
+            tag: {},
+            roles: {}
         },
         configure: function (callback) {
             var ajaxConfig = {},
@@ -70,12 +71,66 @@ define([
 
             return returnFlag;
         },
-        addServer: function(serverList) {
-            console.log(serverList);
+        addServer: function (serverList, callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'configureValidation')) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    var clusterAttrs = this.model().attributes,
+                        putData = {}, servers = [];
+                    $.each(serverList, function (key, value) {
+                        servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
+                    });
+                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
             return true;
         },
-        assignRoles: function(serverList) {
-            console.log(serverList);
+        assignRoles: function (serverList, callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'configureValidation')) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    var roles = this.model().attributes.roles.split(','),
+                        putData = {}, servers = [];
+                    $.each(serverList, function (key, value) {
+                        servers.push({'id': value['id'], 'roles': roles});
+                    });
+                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
             return true;
         },
         provision: function (modalId, checkedRows, callback) {

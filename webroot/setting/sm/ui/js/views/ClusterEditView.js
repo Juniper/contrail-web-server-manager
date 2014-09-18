@@ -442,7 +442,9 @@ define([
                     onNext: function(params) {
                         var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
 
-                        return params.model.addServer(currentSelectedServers);
+                        return params.model.addServer(currentSelectedServers, function(){
+                            $('#' + modalId).modal('hide');
+                        });
 
                     }
                 }
@@ -671,7 +673,9 @@ define([
                     onNext: function(params) {
                         var currentSelectedServers = $('#assign-roles-confirm-servers').data('contrailGrid')._dataView.getItems();
 
-                        return params.model.assignRoles(currentSelectedServers);
+                        return params.model.assignRoles(currentSelectedServers, function(){
+                            $('#' + modalId).modal('hide');
+                        });
 
                     }
                 }
