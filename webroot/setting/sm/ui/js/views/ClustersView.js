@@ -71,13 +71,26 @@ define([
         renderCluster: function (clusterId) {
             var detailTemplate = contrail.getTemplate4Id("sm-grid-2-row-group-detail-template"),
                 clusterTemplate = contrail.getTemplate4Id("sm-cluster-template"),
+                clusterActionTemplate = contrail.getTemplate4Id("sm-cluster-action-template"),
                 ajaxConfig = {}, that = this;
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
             ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.SERVERS_STATE_PROCESSOR) + "&id=" + clusterId;
-            that.$el.html(clusterTemplate());
+
+            that.$el.html(clusterTemplate({cluster_id: clusterId}));
             contrail.ajaxHandler(ajaxConfig, function () {
             }, function (response) {
+                var actionConfigItem = null, i = 0;
+                $.each(rowActionCallbackConfig, function(rowActionCallbackConfigKey, rowActionCallbackConfigValue) {
+                    actionConfigItem = $(clusterActionTemplate(rowActionConfig[i]));
+                    that.$el.find("#cluster-actions").append(actionConfigItem);
+
+                    actionConfigItem.on('click', function() {
+                        rowActionCallbackConfigValue(response[0]);
+                    });
+                    i++;
+                });
+
                 that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig}));
                 requirejs(["/setting/sm/ui/js/views/ServersView.js"], function (ServersView) {
                     var serversView = new ServersView({
@@ -90,10 +103,9 @@ define([
         }
     });
 
-    var rowActionConfig = [
-        smGridConfig.getConfigureAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem),
+    var rowActionCallbackConfig = {
+        renderConfigure: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
@@ -101,17 +113,15 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        }),
-        smGridConfig.getAddServersAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem);
+        },
+        renderAddServers: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem);
 
             clusterEditView.model = clusterModel;
             clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
-        }),
-        smGridConfig.getAssignRoleAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem),
+        },
+        renderAssignRoles: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
@@ -119,10 +129,9 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        }),
-        smGridConfig.getProvisionAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                clusterModel = new ClusterModel(dataItem),
+        },
+        renderProvision: function(dataItem) {
+            clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
@@ -130,9 +139,32 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
+        },
+        renderDelete: function(dataItem) {
+            console.log(dataItem)
+        }
+    }
+
+    var rowActionConfig = [
+        smGridConfig.getConfigureAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderConfigure(dataItem);
+        }),
+        smGridConfig.getAddServersAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderAddServers(dataItem);
+        }),
+        smGridConfig.getAssignRoleAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderAssignRoles(dataItem)
+        }),
+        smGridConfig.getProvisionAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderProvision(dataItem);
         }),
         smGridConfig.getDeleteAction(function (rowIndex) {
-            console.log(rowIndex);
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderDelete(dataItem);
         })
     ];
 
