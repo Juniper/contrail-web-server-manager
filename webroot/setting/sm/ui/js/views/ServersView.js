@@ -241,10 +241,14 @@ define([
                         "iconClass": "icon-check",
                         "title": smLabels.TITLE_ASSIGN_ROLES,
                         "onClick": function () {
-                            var serverModel = new ServerModel();
+                            var serverModel = new ServerModel(),
+                                checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
 
                             serverEditView.model = serverModel;
-                            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
+                            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, "checkedRows": checkedRows, callback: function () {
+                                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                                dataView.refreshData();
+                            }});
                         }
                     },
                     {

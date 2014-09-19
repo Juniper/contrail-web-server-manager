@@ -47,7 +47,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(), "configureValidation");
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(options['callback']), "configureValidation");
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -58,7 +58,10 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.provision(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.provision(function () {
+                    options['callback']();
+                    $('#' + modalId).modal('hide');
+                }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -720,7 +723,7 @@ define([
         return (tagParams.length > 0) ? '&tag=' + tagParams.join(',') : '';
     }
 
-    function getAddClusterViewConfig() {
+    function getAddClusterViewConfig(callback) {
         var addClusterViewConfig = {
                 elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_CLUSTER]),
                 view: "WizardView",
@@ -746,7 +749,7 @@ define([
             },
             onInitRender: true,
             onNext: function (params) {
-                return params.model.configure([]);
+                return params.model.configure(callback);
             }
         });
         steps = steps.concat(configureStepViewConfig);
@@ -763,6 +766,10 @@ define([
         addServerStepViewConfig[1].stepType = 'sub-step';
         addServerStepViewConfig[2].stepType = 'sub-step';
         steps = steps.concat(addServerStepViewConfig);
+        addServerStepViewConfig[2].onNext = function(params) {
+            var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
+            return params.model.addServer(currentSelectedServers, callback);
+        };
 
         //Appending Assign Roles Steps
         assignRolesStepViewConfig = $.extend(true, {}, assignRolesViewConfig.viewConfig).steps;
@@ -775,6 +782,10 @@ define([
 
         assignRolesStepViewConfig[1].stepType = 'sub-step';
         assignRolesStepViewConfig[2].stepType = 'sub-step';
+        assignRolesStepViewConfig[2].onNext = function(params) {
+            var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
+            return params.model.assignRoles(currentSelectedServers, callback);
+        };
         steps = steps.concat(assignRolesStepViewConfig);
 
         //Appending Provision steps
@@ -786,8 +797,10 @@ define([
                 return false;
             },
             onNext: function (params) {
-                console.log('Next : Step 1')
-                return true;
+                return params.model.provision(function(){
+                    callback();
+                    $('#' + modalId).modal('hide');
+                });
             }
         });
         steps = steps.concat(provisionStepViewConfig);

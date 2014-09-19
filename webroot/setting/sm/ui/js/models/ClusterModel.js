@@ -133,16 +133,13 @@ define([
             }
             return true;
         },
-        provision: function (modalId, checkedRows, callback) {
+        provision: function (callback) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
                 if (true) {
                     var clusterAttrs = this.model().attributes,
                         putData = {}, clusters = [];
-                
-                    for (var i = 0; i < checkedRows.length; i++) {
-                        clusters.push({'id': checkedRows[i]['id'], 'base_image_id': clusterAttrs['base_image_id'],'package_image_id': clusterAttrs['package_image_id']});
-                    }
+                    clusters.push({'id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id'],'package_image_id': clusterAttrs['package_image_id']});
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
 
                     ajaxConfig.type = "PUT";
@@ -153,7 +150,6 @@ define([
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
                         if (contrail.checkIfFunction(callback)) {
                             callback();
                         }

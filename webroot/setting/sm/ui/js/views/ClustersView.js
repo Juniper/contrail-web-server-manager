@@ -185,7 +185,10 @@ define([
                 var clusterModel = new ClusterModel();
 
                 clusterEditView.model = clusterModel;
-                clusterEditView.renderAddCluster({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_CLUSTER});
+                clusterEditView.renderAddCluster({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_CLUSTER, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
             }
         }
     ];
