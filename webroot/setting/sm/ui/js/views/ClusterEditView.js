@@ -302,62 +302,7 @@ define([
                                         viewConfig: {
                                             path: 'id',
                                             class: "span12",
-                                            elementConfig: {
-                                                header: {
-                                                    title: {
-                                                        text: smLabels.TITLE_SELECT_SERVERS
-                                                    },
-                                                    advanceControls: [
-                                                        {
-                                                            "type": "link",
-                                                            "title": 'Select Servers',
-                                                            "iconClass": "icon-plus",
-                                                            "onClick": function () {
-                                                                var checkedRows = $('#add-server-filtered-servers').data('contrailGrid').getCheckedRows();
-                                                                $('#add-server-filtered-servers').data('serverData').selectedServer = checkedRows;
-
-                                                                var cgrids = [];
-                                                                $.each(checkedRows, function(checkedRowKey, checkedRowValue){
-                                                                    cgrids.push(checkedRowValue.cgrid);
-                                                                });
-
-                                                                $('#add-server-filtered-servers').data('contrailGrid')._dataView.deleteDataByIds(cgrids);
-                                                            }
-                                                        }
-                                                    ]
-
-                                                },
-                                                columnHeader: {
-                                                    columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
-                                                },
-                                                body: {
-                                                    options: {
-                                                        actionCell: {
-                                                            type: 'link',
-                                                            iconClass: 'icon-plus',
-                                                            onclick: function(e, args) {
-                                                                var selectedRow = $('#add-server-filtered-servers').data('contrailGrid')._dataView.getItem(args.row);
-                                                                $('#add-server-filtered-servers').data('serverData').selectedServer.push(selectedRow);
-                                                                $('#add-server-filtered-servers').data('contrailGrid').deleteDataByRows([args.row]);
-                                                            }
-                                                        }
-                                                    },
-                                                    dataSource: {
-                                                        remote: {
-                                                            ajaxConfig: {
-                                                                url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id'
-                                                            }
-                                                        }
-                                                    },
-                                                    statusMessages: {
-                                                        empty: {
-                                                            type: 'status',
-                                                            iconClasses: '',
-                                                            text: 'No more Servers to select.'
-                                                        }
-                                                    }
-                                                }
-                                            }
+                                            elementConfig: getSelectedServerGridElementConfig('add-server')
                                         }
                                     }
                                 ]
@@ -367,19 +312,7 @@ define([
                     stepType: 'step',
                     onInitRender: true,
                     onLoadFromNext: function (params) {
-                        var tagParams = getParamsFromTags(params.model.model().attributes.tag);
-
-                        $('#add-server-filtered-servers').data('contrailGrid')._dataView.setRemoteAjaxConfig({
-                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams
-                        });
-
-                        $('#add-server-filtered-servers').data('contrailGrid').refreshData();
-                        $('#add-server-filtered-servers').data('serverData' , {
-                            selectedServer: []
-                        });
-                    },
-                    onLoadFromPrevious: function (params) {
-                        $('#add-server-filtered-servers').data('serverData').selectedServer = [];
+                        onLoadFilteredServers('add-server', params);
                     }
                 },
                 {
@@ -412,7 +345,8 @@ define([
                                                             type: 'link',
                                                             iconClass: 'icon-minus',
                                                             onclick: function(e, args) {
-                                                                $('#add-server-confirm-servers').data('contrailGrid').deleteDataByRows([args.row]);
+                                                                var selectedRow = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItem(args.row);
+                                                                updateSelectedServer('add-server', 'remove', [selectedRow]);
                                                             }
                                                         }
                                                     },
@@ -437,14 +371,10 @@ define([
                     stepType: 'step',
                     onInitRender: false,
                     onLoadFromNext: function(params) {
-                        var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems(),
-                            selectedServers = $('#add-server-filtered-servers').data('serverData').selectedServer;
-
-                        $('#add-server-confirm-servers').data('contrailGrid')._dataView.setData(currentSelectedServers.concat(selectedServers));
+                        $('#add-server-confirm-servers').data('contrailGrid')._dataView.setData($('#add-server-filtered-servers').data('serverData').selectedServers);
                     },
                     onNext: function(params) {
                         var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
-
                         return params.model.addServer(currentSelectedServers, function(){
                             $('#' + modalId).modal('hide');
                         });
@@ -454,6 +384,130 @@ define([
             ]
         }
     };
+
+    function getSelectedServerGridElementConfig(gridPrefix) {
+        var filteredServerGrid = '#' + gridPrefix + '-filtered-servers';
+        var gridElementConfig = {
+            header: {
+                title: {
+                    text: smLabels.TITLE_SELECT_SERVERS
+                },
+                advanceControls: [
+                    {
+                        "type": "link",
+                        "title": 'Select Servers',
+                        "iconClass": "icon-plus",
+                        "onClick": function () {
+                            var checkedRows = $(filteredServerGrid).data('contrailGrid').getCheckedRows();
+                            updateSelectedServer(gridPrefix, 'add', checkedRows);
+                        }
+                    }
+                ]
+
+            },
+            columnHeader: {
+                columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
+            },
+            body: {
+                options: {
+                    actionCell: {
+                        type: 'link',
+                        iconClass: 'icon-plus',
+                        onclick: function(e, args) {
+                            var selectedRow = $(filteredServerGrid).data('contrailGrid')._dataView.getItem(args.row);
+                            updateSelectedServer(gridPrefix, 'add', [selectedRow]);
+                        }
+                    }
+                },
+                dataSource: {
+                    remote: {
+                        ajaxConfig: {
+                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id'
+                        }
+                    },
+                    events: {
+                        onDataBoundCB: function() {
+                            if(contrail.checkIfExist($(filteredServerGrid).data('serverData'))){
+                                var serverIds = $(filteredServerGrid).data('serverData').serverIds,
+                                    cgrIds = [];
+                                if(serverIds.length > 0){
+                                    var serverList = $(filteredServerGrid).data('contrailGrid')._dataView.getItems()
+                                    $.each(serverList, function(serverListKey, serverListValue){
+                                        if(serverIds.indexOf(serverListValue.id) != -1){
+                                            cgrIds.push(serverListValue.cgrid);
+                                        }
+                                    });
+
+                                    $(filteredServerGrid).data('contrailGrid')._dataView.deleteDataByIds(cgrIds);
+                                }
+
+                            }
+                        }
+                    }
+                },
+                statusMessages: {
+                    empty: {
+                        type: 'status',
+                        iconClasses: '',
+                        text: 'No Servers to select.'
+                    }
+                }
+            }
+        };
+
+        return gridElementConfig;
+    }
+
+    function onLoadFilteredServers(gridPrefix, params) {
+        var filteredServerGridElement = $('#' + gridPrefix + '-filtered-servers'),
+            tagParams = getParamsFromTags(params.model.model().attributes.tag);
+
+        filteredServerGridElement.data('contrailGrid')._dataView.setRemoteAjaxConfig({
+            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?filterInNull=cluster_id' + tagParams
+        });
+
+        filteredServerGridElement.data('contrailGrid').refreshData();
+        if(!contrail.checkIfExist(filteredServerGridElement.data('serverData'))){
+            filteredServerGridElement.data('serverData', {
+                selectedServers: [],
+                serverIds: []
+            });
+        }
+        else {
+
+        }
+    }
+
+    function updateSelectedServer(gridPrefix, method, serverList){
+        var filteredServerGridElement = $('#' + gridPrefix + '-filtered-servers'),
+            confirmServerGridElement = $('#' + gridPrefix + '-confirm-servers'),
+            currentSelectedServer = filteredServerGridElement.data('serverData').selectedServers,
+            serverIds = filteredServerGridElement.data('serverData').serverIds;
+
+        if(method == 'add') {
+            var cgrids = [];
+            currentSelectedServer = currentSelectedServer.concat(serverList);
+            filteredServerGridElement.data('serverData').selectedServers = currentSelectedServer;
+
+            $.each(serverList, function(serverListKey, serverListValue){
+                cgrids.push(serverListValue.cgrid);
+                serverIds.push(serverListValue.id);
+            });
+            filteredServerGridElement.data('contrailGrid')._dataView.deleteDataByIds(cgrids);
+        }
+        else if(method == 'remove') {
+            var cgrids = [];
+
+            $.each(serverList, function(serverListKey, serverListValue){
+                cgrids.push(serverListValue.cgrid);
+                serverIds.splice(serverIds.indexOf(serverListValue.id), 1 );
+            });
+            confirmServerGridElement.data('contrailGrid')._dataView.deleteDataByIds(cgrids);
+        }
+
+        filteredServerGridElement.data('serverData').serverIds = serverIds;
+        filteredServerGridElement.data('serverData').selectedServers = currentSelectedServer;
+    }
 
     var assignRolesViewConfig = {
         elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES]),
@@ -537,7 +591,7 @@ define([
                                                             "iconClass": "icon-plus",
                                                             "onClick": function () {
                                                                 var checkedRows = $('#assign-roles-filtered-servers').data('contrailGrid').getCheckedRows();
-                                                                $('#assign-roles-filtered-servers').data('serverData').selectedServer = checkedRows;
+                                                                $('#assign-roles-filtered-servers').data('serverData').selectedServers = checkedRows;
 
                                                                 var cgrids = [];
                                                                 $.each(checkedRows, function(checkedRowKey, checkedRowValue){
@@ -560,7 +614,7 @@ define([
                                                             iconClass: 'icon-plus',
                                                             onclick: function(e, args) {
                                                                 var selectedRow = $('#assign-roles-filtered-servers').data('contrailGrid')._dataView.getItem(args.row);
-                                                                $('#assign-roles-filtered-servers').data('serverData').selectedServer.push(selectedRow);
+                                                                $('#assign-roles-filtered-servers').data('serverData').selectedServers.push(selectedRow);
                                                                 $('#assign-roles-filtered-servers').data('contrailGrid').deleteDataByRows([args.row]);
                                                             }
                                                         }
@@ -598,11 +652,11 @@ define([
 
                         $('#assign-roles-filtered-servers').data('contrailGrid').refreshData();
                         $('#assign-roles-filtered-servers').data('serverData' , {
-                            selectedServer: []
+                            selectedServers: []
                         });
                     },
                     onLoadFromPrevious: function (params) {
-                        $('#assign-roles-filtered-servers').data('serverData').selectedServer = [];
+                        $('#assign-roles-filtered-servers').data('serverData').selectedServers = [];
                     }
                 },
                 {
@@ -669,7 +723,7 @@ define([
                     onInitRender: true,
                     onLoadFromNext: function(params) {
                         var currentSelectedServers = $('#assign-roles-confirm-servers').data('contrailGrid')._dataView.getItems(),
-                            selectedServers = $('#assign-roles-filtered-servers').data('serverData').selectedServer;
+                            selectedServers = $('#assign-roles-filtered-servers').data('serverData').selectedServers;
 
                         $('#assign-roles-confirm-servers').data('contrailGrid')._dataView.setData(currentSelectedServers.concat(selectedServers));
                     },
