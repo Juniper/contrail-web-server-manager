@@ -17,11 +17,19 @@ define([
                 labelValue = (elId != null) ? smLabels.get(elId) : smLabels.get(path),
                 tmplParameters;
 
-            if(lockEditingByDefault == null || !lockEditingByDefault) {
-                this.model.unlockAttr4Editing(path)
+            if(contrail.checkIfExist(lockEditingByDefault) && lockEditingByDefault) {
+                this.model.initLockAttr(path)
+            }
+            else{
+                lockEditingByDefault = false;
             }
 
-            tmplParameters = {label: labelValue, id: elId, name: elId, disabled: viewConfig['disabled'], dataBindValue: viewConfig['dataBindValue'], class: "span12", path: path, validation: validation};
+            tmplParameters = {
+                label: labelValue, id: elId, name: elId, disabled: viewConfig['disabled'],
+                dataBindValue: viewConfig['dataBindValue'],
+                lockAttr: lockEditingByDefault,
+                class: "span12", path: path, validation: validation
+            };
 
             this.$el.html(inputTemplate(tmplParameters));
         }
