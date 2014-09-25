@@ -32,23 +32,23 @@ define([
                 package_image_id: null
             },
             status: {},
-            tag: {}
+            tag: {},
+            roles: {}
         },
-        configure: function (modalId, checkedRows, callback) {
-            var ajaxConfig = {};
+        configure: function (callback) {
+            var ajaxConfig = {},
+                returnFlag = false;
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
                     var putData = {}, clusters = [];
-                    $("#" + modalId).modal('hide');
                     serverAttrs = this.model().attributes;
                     locks = this.model().attributes.locks.attributes;
                     smUtils.getEditConfigObj(serverAttrs, locks);
-                    for (var i = 0; i < checkedRows.length; i++) {
-                        clusters.push(serverAttrs);
-                    }
+                    clusters.push(serverAttrs);
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
 
+                    ajaxConfig.async = false;
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
@@ -56,7 +56,40 @@ define([
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                        returnFlag = true;
+                    }, function (error) {
+                        console.log(error);
+                        returnFlag = false;
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
+
+            return returnFlag;
+        },
+        addServer: function (serverList, callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'configureValidation')) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    var clusterAttrs = this.model().attributes,
+                        putData = {}, servers = [];
+                    $.each(serverList, function (key, value) {
+                        servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
+                    });
+                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
                         if (contrail.checkIfFunction(callback)) {
                             callback();
                         }
@@ -67,25 +100,46 @@ define([
                     // TODO: Show form-level error message if any
                 }
             }
-        },
-        addServer: function(serverList) {
-            console.log(serverList);
             return true;
         },
-        assignRoles: function(serverList) {
-            console.log(serverList);
+        assignRoles: function (serverList, callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'configureValidation')) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    var roles = this.model().attributes.roles.split(','),
+                        putData = {}, servers = [];
+                    $.each(serverList, function (key, value) {
+                        servers.push({'id': value['id'], 'roles': roles});
+                    });
+                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
             return true;
         },
-        provision: function (modalId, checkedRows, callback) {
+        provision: function (callback) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
                 if (true) {
                     var clusterAttrs = this.model().attributes,
                         putData = {}, clusters = [];
-                
-                    for (var i = 0; i < checkedRows.length; i++) {
-                        clusters.push({'id': checkedRows[i]['id'], 'base_image_id': clusterAttrs['base_image_id'],'package_image_id': clusterAttrs['package_image_id']});
-                    }
+                    clusters.push({'id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id'],'package_image_id': clusterAttrs['package_image_id']});
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
 
                     ajaxConfig.type = "PUT";
@@ -96,7 +150,6 @@ define([
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
                         if (contrail.checkIfFunction(callback)) {
                             callback();
                         }
@@ -111,6 +164,10 @@ define([
         },
         validations: {
             configureValidation: {
+                'id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('id')
+                },
                 'email': {
                     required: false,
                     pattern: 'email',

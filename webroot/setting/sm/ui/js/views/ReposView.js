@@ -33,6 +33,14 @@ define([
                 body: {
                     options: {
                         actionCell: rowActionConfig,
+                        checkboxSelectable: {
+                            onNothingChecked: function(e){
+                                $('#btnDeleteRepos').addClass('disabled-link');
+                            },
+                            onSomethingChecked: function(e){
+                                $('#btnDeleteRepos').removeClass('disabled-link');
+                            }
+                        },
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
                             templateConfig: detailTemplateConfig
@@ -65,6 +73,8 @@ define([
     var headerActionConfig = [
         {
             "type": "link",
+            linkElementId: 'btnDeleteRepos',
+            disabledLink: true,
             "title": smLabels.TITLE_DELETE,
             "iconClass": "icon-trash",
             "onClick": function () {}

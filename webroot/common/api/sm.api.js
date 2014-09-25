@@ -11,6 +11,7 @@ var sm = require('../../common/api/sm'),
     messages = require('../../common/api/sm.messages'),
     url = require('url'),
     qs = require('querystring'),
+    async = require('async'),
     _ = require('underscore');
 
 function getObjects(req, res) {
@@ -164,6 +165,58 @@ function postObjects(req, res, appdata) {
     });
 };
 
+function provision(req, res, appdata) {
+    var provisionUrl = '/server/provision',
+        postData = req.body;
+
+    if(postData != null) {
+        async.map(postData, function(item, callback) {
+            sm.post(provisionUrl, item, appdata, function (error, resultJSON) {
+                if (error != null) {
+                    callback(null, error);
+                } else {
+                    callback(null, resultJSON);
+                }
+            });
+        }, function(error, results) {
+            if (error != null) {
+                commonUtils.handleJSONResponse(error, res);
+            } else {
+                commonUtils.handleJSONResponse(null, res, results);
+            }
+        });
+    } else {
+        logutils.logger.error("Post data can not be null for provision.");
+        commonUtils.handleJSONResponse();
+    }
+};
+
+function reimage(req, res, appdata) {
+    var provisionUrl = '/server/reimage',
+        postData = req.body;
+
+    if(postData != null) {
+        async.map(postData, function(item, callback) {
+            sm.post(provisionUrl, item, appdata, function (error, resultJSON) {
+                if (error != null) {
+                    callback(null, error);
+                } else {
+                    callback(null, resultJSON);
+                }
+            });
+        }, function(error, results) {
+            if (error != null) {
+                commonUtils.handleJSONResponse(error, res);
+            } else {
+                commonUtils.handleJSONResponse(null, res, results);
+            }
+        });
+    } else {
+        logutils.logger.error("Post data can not be null for reimage.");
+        commonUtils.handleJSONResponse();
+    }
+};
+
 function getTagValues(req, res) {
     var tagName = req.param(constants.KEY_NAME),
         objectUrl = constants.URL_SERVERS_DETAILS,
@@ -177,8 +230,6 @@ function getTagValues(req, res) {
 };
 
 function getTagNames(req, res) {
-    console.log(messages.get(messages.ERROR_REDIS_DB_SELECT, "%%%%%%%"));
-
     if (cache.TAG_NAMES.length == 0) {
         cache.initTagNamesCache(function () {
             commonUtils.handleJSONResponse(null, res, cache.TAG_NAMES);
@@ -202,3 +253,5 @@ exports.postObjects = postObjects;
 exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;
+exports.provision = provision;
+exports.reimage = reimage;

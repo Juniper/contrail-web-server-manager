@@ -53,12 +53,22 @@ define([
             errors.set(attrErrorObj);
         },
 
-        unlockAttr4Editing: function (attributePath) {
+        initLockAttr: function (attributePath) {
             var attribute = getAttributeFromPath(attributePath),
                 locks = this.model().get("locks"),
                 lockObj = {};
 
-            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = false;
+            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = Knockout.observable(false);
+            locks.set(lockObj);
+        },
+
+        toggleLockAttr: function(attributePath) {
+            var attribute = getAttributeFromPath(attributePath),
+                locks = this.model().get("locks"),
+                lockedStatus = locks.attributes[attribute + smConstants.LOCKED_SUFFIX_ID],
+                lockObj = {};
+
+            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = !lockedStatus;
             locks.set(lockObj);
         }
     });

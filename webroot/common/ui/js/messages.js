@@ -9,6 +9,9 @@ define([
         this.getInvalidErrorMessage = function(fieldKey) {
             return "Please enter a valid " + smLabels.getInLowerCase(fieldKey) + '.';
         };
+        this.getRequiredMessage = function(fieldKey) {
+            return smLabels.getInLowerCase(fieldKey) + ' is required.';
+        };
 
     };
     return Messages;

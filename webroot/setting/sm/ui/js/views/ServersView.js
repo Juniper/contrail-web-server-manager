@@ -36,6 +36,14 @@ define([
                 body: {
                     options: {
                         actionCell: rowActionConfig,
+                        checkboxSelectable: {
+                            onNothingChecked: function(e){
+                                $('#btnActionServers').addClass('disabled-link').removeAttr('data-toggle');
+                            },
+                            onSomethingChecked: function(e){
+                                $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
+                            }
+                        },
                         detail: {
                             template: $('#sm-grid-2-row-group-detail-template').html(),
                             templateConfig: detailTemplateConfig
@@ -192,6 +200,8 @@ define([
             {
                 "type": "dropdown",
                 "iconClass": "icon-cog",
+                linkElementId: 'btnActionServers',
+                disabledLink: true,
                 "actions": [
                     {
                         "iconClass": "icon-signin",
@@ -231,10 +241,14 @@ define([
                         "iconClass": "icon-check",
                         "title": smLabels.TITLE_ASSIGN_ROLES,
                         "onClick": function () {
-                            var serverModel = new ServerModel();
+                            var serverModel = new ServerModel(),
+                                checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
 
                             serverEditView.model = serverModel;
-                            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES});
+                            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, "checkedRows": checkedRows, callback: function () {
+                                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                                dataView.refreshData();
+                            }});
                         }
                     },
                     {
@@ -262,6 +276,7 @@ define([
                     },
                     parse: formatData4Ajax,
                     minWidth: 200,
+                    height: 250,
                     dataSource: {
                         type: 'GET',
                         url: smUtils.getTagsUrl(queryString)

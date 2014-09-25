@@ -132,15 +132,16 @@ define([
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
             { id: "server_id", field: "id", name: "Hostname", width: 100, minWidth: 15 },
-            { id: "ip_address", field: "ip_address", name: "IP", width: 120, minWidth: 15 }
-        ]).concat(this.getGridColumns4Roles());
+            { id: "ip_address", field: "ip_address", name: "IP", width: 120, minWidth: 15 },
+            { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+        ]);
 
         this.getServerColumns = function (serverColumnsType) {
             var serverColumns,
                 commonColumnsSet1 = [
                     { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
                         searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
-                        if (dc['discovered'] == "true") {
+                        if (dc['discovered'] == true) {
                             return '<div class="padding-2-0;"><i class="icon-circle blue"></i></div>';
                         }
                     }

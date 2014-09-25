@@ -55,4 +55,16 @@
         <feature>smConfigure</feature>
         <callback>smapi.getTagValues</callback>
     </item>
+    <item>
+        <url>/sm/server/provision/</url>
+        <method>post</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.provision</callback>
+    </item>
+    <item>
+        <url>/sm/server/reimage</url>
+        <method>post</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.reimage</callback>
+    </item>
 </urlLists>
