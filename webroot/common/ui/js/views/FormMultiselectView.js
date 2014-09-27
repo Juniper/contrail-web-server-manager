@@ -17,12 +17,10 @@ define([
                 labelValue = (elId != null) ? smLabels.get(elId) : smLabels.get(path),
                 tmplParameters;
 
-            if(contrail.checkIfExist(lockEditingByDefault) && lockEditingByDefault) {
-                this.model.initLockAttr(path)
-            }
-            else{
+            if (!(contrail.checkIfExist(lockEditingByDefault) && lockEditingByDefault)) {
                 lockEditingByDefault = false;
             }
+            this.model.initLockAttr(path, lockEditingByDefault);
 
             tmplParameters = {
                 label: labelValue, id: elId, name: elId,
