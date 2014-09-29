@@ -96,10 +96,9 @@ define([
                     var serversView = new ServersView({
                         el: that.$el.find("#cluster-server-list")
                     });
-                    serversView.render({serverColumnsType: smConstants.CLUSTER_PREFIX_ID, hashParams: {"cluster_id": clusterId}});
+                    serversView.render({serverColumnsType: smConstants.CLUSTER_PREFIX_ID, showAssignRoles: true, hashParams: {"cluster_id": clusterId}});
                 });
-            }, function () {
-            });
+            }, function () {});
         }
     });
 
