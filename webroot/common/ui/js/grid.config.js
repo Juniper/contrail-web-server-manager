@@ -31,7 +31,6 @@ define([
             }},
             { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 },
             { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15 },
-            { id: "registered-servers", field: "", name: "Registered Servers", width: 120, minWidth: 15 },
             { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15 },
             { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15 },
             { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
