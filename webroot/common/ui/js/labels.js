@@ -133,8 +133,8 @@ define([
         this.TITLE_SERVER = 'Server';
         this.TITLE_IMAGES = 'Images';
         this.TITLE_IMAGE = 'Image';
-        this.TITLE_REPOS = 'Repos';
-        this.TITLE_REPO = 'Repo';
+        this.TITLE_PACKAGES = 'Packages';
+        this.TITLE_PACKAGE = 'Package';
 
         this.SELECT_CLUSTER = 'Select Cluster';
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
@@ -144,7 +144,7 @@ define([
         this.TITLE_ADD_SERVERS_TO_CLUSTER = 'Add Servers to Cluster';
         this.TITLE_ADD_TAGS = 'Add Tags';
         this.TITLE_ADD_IMAGE = 'Add Image';
-        this.TITLE_ADD_REPO = 'Add Repo';
+        this.TITLE_ADD_PACKAGE = 'Add Package';
         this.TITLE_PROVISION_CLUSTER = 'Provision Cluster';
         this.TITLE_ADD_TO_CLUSTER = 'Add to Cluster';
 

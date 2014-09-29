@@ -5,7 +5,7 @@
 var clustersPageLoader = new ClustersPageLoader(),
     serversPageLoader = new ServersPageLoader(),
     imagesPageLoader = new ImagesPageLoader(),
-    reposPageLoader = new ReposPageLoader();
+    packagesPageLoader = new PackagesPageLoader();
 
 function ClustersPageLoader() {
     this.load = function (paramObject) {
@@ -55,17 +55,16 @@ function ImagesPageLoader() {
     };
 };
 
-function ReposPageLoader() {
+function PackagesPageLoader() {
     this.load = function (hashParams) {
         var currMenuObj = globalObj.currMenuObj,
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathReposView = rootDir + '/js/views/ReposView.js';
+            pathPackagesView = rootDir + '/js/views/PackagesView.js';
 
-        requirejs([pathReposView], function (ReposView) {
-            var reposView = new ReposView();
-            reposView.render();
+        requirejs([pathPackagesView], function (PackagesView) {
+            var packagesView = new PackagesView();
+            packagesView.render();
         });
     };
-    this.destroy = function () {
-    };
+    this.destroy = function () {};
 };
