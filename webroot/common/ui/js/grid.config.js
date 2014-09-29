@@ -43,9 +43,9 @@ define([
             }
         ];
 
-        this.getRegister = function (onClickFunction) {
+        this.getReimageAction = function (onClickFunction) {
             return {
-                title: smLabels.TITLE_REGISTER_SERVER,
+                title: smLabels.TITLE_REIMAGE,
                 iconClass: 'icon-signin',
                 width: 80,
                 onClick: onClickFunction

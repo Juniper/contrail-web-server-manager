@@ -8,12 +8,15 @@ define([
 ], function (_, ContrailModel) {
     var ServerModel = ContrailModel.extend({
         defaultConfig: {
+            'id': null,
             'cluster_id': null,
             'domain': null,
             'discovered': null,
             'gateway': null,
             'email': null,
             'subnet_mask': null,
+            'static_ip': null,
+            'mac_address': null,
             'base_image_id': null,
             'package_image_id': null,
             'ip_address': null,

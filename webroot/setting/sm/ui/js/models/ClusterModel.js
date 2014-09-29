@@ -27,9 +27,7 @@ define([
                 haproxy: 'disable',
                 use_certificates: 'False',
                 compute_non_mgmt_ip: null,
-                compute_non_mgmt_gway: null,
-                base_image_id: null,
-                package_image_id: null
+                compute_non_mgmt_gway: null
             },
             status: {},
             tag: {},

@@ -35,6 +35,25 @@ define([
             smValidation.bind(this);
         },
 
+        renderReimage: function (options) {
+            var editLayout = editTemplate({prefixId: prefixId}),
+                that = this;
+
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                console.log(that.model.model().attributes);
+                // TODO: Release binding on successful configure
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
+            }});
+
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
+        },
+
         renderAddCluster: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
@@ -230,6 +249,24 @@ define([
                 }
             }
         ]
+    };
+
+    var reimageViewConfig = {
+        elementId: prefixId,
+        view: "SectionView",
+        viewConfig: {
+            rows: [
+                {
+                    columns: [
+                        {
+                            elementId: 'base_image_id',
+                            view: "FormDropdownView",
+                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                        }
+                    ]
+                }
+            ]
+        }
     };
 
     var addServerViewConfig = {

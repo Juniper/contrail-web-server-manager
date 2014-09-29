@@ -71,16 +71,16 @@ define([
     });
 
     var rowActionConfig = [
-        smGridConfig.getRegister(function (rowIndex) {
+        smGridConfig.getReimageAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 checkedRow = [dataItem];
 
             serverEditView.model = serverModel;
-            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVER, checkedRows: checkedRow, callback: function () {
+            serverEditView.renderRegister({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
-                }});
+            }});
         }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -200,17 +200,17 @@ define([
             {
                 "type": "dropdown",
                 "iconClass": "icon-cog",
-                linkElementId: 'btnActionServers',
-                disabledLink: true,
+                "linkElementId": 'btnActionServers',
+                "disabledLink": true,
                 "actions": [
                     {
                         "iconClass": "icon-signin",
-                        "title": smLabels.TITLE_REGISTER_SERVERS,
+                        "title": smLabels.TITLE_REIMAGE,
                         "onClick": function () {
                             var serverModel = new ServerModel();
 
                             serverEditView.model = serverModel;
-                            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVERS});
+                            serverEditView.renderRegister({"title": smLabels.TITLE_REIMAGE});
                         }
                     },
                     {
@@ -284,6 +284,20 @@ define([
                     click: applyServerTagFilter,
                     optgrouptoggle: applyServerTagFilter,
                     control: false
+                }
+            },
+            {
+                "type": "link",
+                "title": smLabels.TITLE_ADD_SERVER,
+                "iconClass": "icon-plus",
+                "onClick": function () {
+                    var serverModel = new ServerModel();
+
+                    serverEditView.model = serverModel;
+                    serverEditView.renderAddServer({"title": smLabels.TITLE_ADD_SERVER, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
                 }
             }
         ];
