@@ -24,7 +24,8 @@ define([
             }
 
             this.$el.find("#" + elId).accordion({
-                heightStyle: "content"
+                heightStyle: "content",
+                collapsible: true
             });
         }
     });

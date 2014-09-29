@@ -53,13 +53,17 @@ define([
             errors.set(attrErrorObj);
         },
 
-        initLockAttr: function (attributePath) {
+        initLockAttr: function (attributePath, lockFlag) {
             var attribute = getAttributeFromPath(attributePath),
                 locks = this.model().get("locks"),
-                lockObj = {};
+                errors = this.model().get("errors"),
+                lockObj = {}, attrErrorObj = {};
 
-            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = Knockout.observable(false);
+            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = lockFlag;
             locks.set(lockObj);
+
+            attrErrorObj[attribute + smConstants.ERROR_SUFFIX_ID] = false
+            errors.set(attrErrorObj);
         },
 
         toggleLockAttr: function(attributePath) {
@@ -70,6 +74,18 @@ define([
 
             lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = !lockedStatus;
             locks.set(lockObj);
+        },
+
+        getLockCSS: function(attributePath) {
+            var attribute = getAttributeFromPath(attributePath),
+                locks = this.model().get("locks"),
+                lockedStatus = locks.attributes[attribute + smConstants.LOCKED_SUFFIX_ID];
+
+            return (lockedStatus) ? 'icon-lock' : 'icon-unlock';
+        },
+
+       checkIfInputDisabled: function(disabledFlag, lockFlag) {
+            return disabledFlag || lockFlag;
         }
     });
 

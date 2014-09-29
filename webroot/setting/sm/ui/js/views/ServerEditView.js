@@ -55,7 +55,7 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-
+                that.model.configureServers();
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -158,7 +158,7 @@ define([
                     rows: [
                         {
                             columns: [
-                                {elementId: 'id', view: "FormInputView", viewConfig: {path: "id", dataBindValue: "id", class: "span6"}},
+                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled: true, path: "id", dataBindValue: "id", class: "span6"}},
                                 {
                                     elementId: 'cluster_id',
                                     view: "FormDropdownView",

@@ -34,15 +34,15 @@ define([
                 // TODO: Check for form-level validation if required
                 var ajaxConfig = {};
                 if (true) {
-                    var putData = {}, servers = [];
-                    $("#" + modalId).modal('hide');
-                    serverAttrs = this.model().attributes;
-                    locks = this.model().attributes.locks.attributes;
-                    smUtils.getEditConfigObj(serverAttrs, locks);
+                    var putData = {}, serverAttrsEdited = [], serversEdited = [],
+                        serverAttrs = this.model().attributes,
+                        locks = this.model().attributes.locks.attributes;
+
+                    serverAttrsEdited = smUtils.getEditConfigObj(serverAttrs, locks);
                     for (var i = 0; i < checkedRows.length; i++) {
-                        servers.push(serverAttrs);
+                        serversEdited.push(serverAttrsEdited);
                     }
-                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+                    putData[smConstants.SERVER_PREFIX_ID] = serversEdited;
 
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
@@ -62,6 +62,13 @@ define([
                     // TODO: Show form-level error message if any
                 }
             }
+        },
+        configureServers: function () {
+            var serverAttrsEdited = [],
+                serverAttrs = this.model().attributes,
+                locks = this.model().attributes.locks.attributes;
+
+            serverAttrsEdited.push(smUtils.getEditConfigObj(serverAttrs, locks));
         },
         editTags: function (modalId, checkedRows, callback) {
             var ajaxConfig = {};

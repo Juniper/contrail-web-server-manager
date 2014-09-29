@@ -41,12 +41,12 @@ define([
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
-                    var putData = {}, clusters = [];
-                    serverAttrs = this.model().attributes;
-                    locks = this.model().attributes.locks.attributes;
-                    smUtils.getEditConfigObj(serverAttrs, locks);
-                    clusters.push(serverAttrs);
-                    putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
+                    var putData = {}, clusterAttrsEdited = [],
+                        clusterAttrs = this.model().attributes,
+                        locks = this.model().attributes.locks.attributes;
+
+                    clusterAttrsEdited.push(smUtils.getEditConfigObj(clusterAttrs, locks));
+                    putData[smConstants.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
 
                     ajaxConfig.async = false;
                     ajaxConfig.type = "PUT";
