@@ -130,9 +130,12 @@ define([
         };
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
-            { id: "server_id", field: "id", name: "Hostname", width: 100, minWidth: 15 },
-            { id: "ip_address", field: "ip_address", name: "IP", width: 120, minWidth: 15 },
-            { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+            { id: "server_id", field: "id", name: "Hostname", width: 200, minWidth: 100 },
+            { id: "tag", field: "tag", name: "Tags", width: 350, minWidth: 350, formatter: function (r, c, v, cd, dc) {
+                var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
+                    tagHTML = tagTemplate(dc.tag);
+                return tagHTML;
+            }}
         ]);
 
         this.getServerColumns = function (serverColumnsType) {

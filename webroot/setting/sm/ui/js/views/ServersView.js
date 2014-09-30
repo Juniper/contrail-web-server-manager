@@ -326,18 +326,15 @@ define([
     };
 
     function serverTagGridFilter(item, args) {
-
         if (args.checkedRows.length == 0) {
             return true;
-        }
-        else {
+        } else {
             var returnFlag = true;
             $.each(args.checkedRows, function (checkedRowKey, checkedRowValue) {
                 var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
                 if (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value) {
                     returnFlag = returnFlag && true;
-                }
-                else {
+                } else {
                     returnFlag = false;
                 }
             });
