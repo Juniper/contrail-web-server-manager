@@ -275,7 +275,7 @@ define([
             }
         ];
 
-        headerActionConfig.push([
+        headerActionConfig = headerActionConfig.concat([
             {
                 type: 'checked-multiselect',
                 iconClass: 'icon-filter',
