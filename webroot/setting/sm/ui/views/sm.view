@@ -54,6 +54,9 @@
                     <strong data-bind="text: errors().{{name}}_error"></strong>
                 </div>
                 <div id="{{this.elementId}}"></div>
+                <div class="stepInfo row-fluid hide">
+                    <p class="span12">Selected Servers: <span class="selectedServerCount">None</span></p>
+                </div>
             </section>
         {{/each}}
     </div>

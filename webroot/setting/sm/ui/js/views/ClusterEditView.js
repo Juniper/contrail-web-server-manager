@@ -304,6 +304,7 @@ define([
                     },
                     onLoadFromNext: function (params) {
                         onLoadFilteredServers('add-server', params);
+                        $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
                     }
                 },
                 {
@@ -381,6 +382,7 @@ define([
                         },
                         onLoadFromNext: function (params) {
                             onLoadFilteredServers('assign-roles', params);
+                            $('#assign-roles-filtered-servers').parents('section').find('.stepInfo').show();
                         }
                     },
                     {
@@ -631,6 +633,8 @@ define([
 
         filteredServerGridElement.data('serverData').serverIds = serverIds;
         filteredServerGridElement.data('serverData').selectedServers = currentSelectedServer;
+        filteredServerGridElement.parents('section').find('.selectedServerCount')
+            .text((currentSelectedServer.length == 0) ? 'None' : currentSelectedServer.length)
     }
 
     var provisionViewConfig = {
