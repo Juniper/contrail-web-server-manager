@@ -297,8 +297,10 @@ define([
                     },
                     stepType: 'step',
                     onInitRender: true,
-                    showButtons: {
-                        previous: false
+                    buttons: {
+                        previous: {
+                            visible: false
+                        }
                     },
                     onLoadFromNext: function (params) {
                         onLoadFilteredServers('add-server', params);
@@ -372,8 +374,10 @@ define([
                         },
                         stepType: 'step',
                         onInitRender: true,
-                        showButtons: {
-                            previous: false
+                        buttons: {
+                            previous: {
+                                visible: false
+                            }
                         },
                         onLoadFromNext: function (params) {
                             onLoadFilteredServers('assign-roles', params);
@@ -687,12 +691,17 @@ define([
             viewConfig: [{viewConfig: {rows: [{columns: [{viewConfig: {disabled: false}}]}]}}],
             title: smLabels.TITLE_CONFIGURE,
             stepType: 'step',
-            showButtons: {
-                previous: false
-            },
             onInitRender: true,
             onNext: function (params) {
                 return params.model.configure(callback);
+            },
+            buttons: {
+                next: {
+                    label: 'Save &amp; Next'
+                },
+                previous: {
+                    visible: false
+                }
             }
         });
         steps = steps.concat(configureStepViewConfig);
@@ -704,11 +713,24 @@ define([
         addServerStepViewConfig[0].onPrevious = function(params) {
             return false;
         };
+        addServerStepViewConfig[0].buttons = {
+            next: {
+                label: 'Next'
+            },
+            previous: {
+                visible: false
+            }
+        };
 
         addServerStepViewConfig[1].stepType = 'sub-step';
         addServerStepViewConfig[1].onNext = function(params) {
             var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
             return params.model.addServer(currentSelectedServers, callback);
+        };
+        addServerStepViewConfig[1].buttons = {
+            next: {
+                label: 'Save &amp; Next'
+            }
         };
         steps = steps.concat(addServerStepViewConfig);
 
@@ -720,12 +742,25 @@ define([
         assignRolesStepViewConfig[0].onPrevious = function(params) {
             return false;
         };
+        assignRolesStepViewConfig[0].buttons = {
+            next: {
+                label: 'Next'
+            },
+            previous: {
+                visible: false
+            }
+        };
 
         assignRolesStepViewConfig[1].stepType = 'sub-step';
         assignRolesStepViewConfig[1].onNext = function(params) {
             var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
             return params.model.assignRoles(currentSelectedServers, callback);
             $('#' + modalId).modal('hide');
+        };
+        assignRolesStepViewConfig[1].buttons = {
+            next: {
+                label: 'Save &amp; Next'
+            }
         };
         steps = steps.concat(assignRolesStepViewConfig);
 
