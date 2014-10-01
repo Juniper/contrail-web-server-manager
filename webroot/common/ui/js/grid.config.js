@@ -116,22 +116,19 @@ define([
 
         this.getGridColumns4Roles = function () {
             var columns = [];
-            for (var i = 0; i < smConstants.ROLES_ARRAY.length; i++) {
-                var role = smConstants.ROLES_ARRAY[i];
+            $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
                 columns.push({
-                    id: role, field: "roles", name: smLabels.get(role), width: 60, minWidth: 15, cssClass: "slick-cell-checkboxsel", formatter: function (r, c, v, cd, dc) {
-                        var checked = dc.roles.indexOf(role) != -1 ? true : false;
-                        var returnHTML = checked ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
-                        return returnHTML;
+                    id: roleValue, field: "roles", name: smLabels.get(roleValue), width: 60, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                        return (dc.roles.indexOf(roleValue) != -1) ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
                     }
                 });
-            }
+            })
             return columns;
         };
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
-            { id: "server_id", field: "id", name: "Hostname", width: 200, minWidth: 100 },
-            { id: "tag", field: "tag", name: "Tags", width: 350, minWidth: 350, formatter: function (r, c, v, cd, dc) {
+            { id: "server_id", field: "id", name: "Hostname", width: 150, minWidth: 100 },
+            { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 100, formatter: function (r, c, v, cd, dc) {
                 var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
                     tagHTML = tagTemplate(dc.tag);
                 return tagHTML;

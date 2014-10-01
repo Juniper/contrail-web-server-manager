@@ -101,6 +101,8 @@ define([
             return true;
         },
         assignRoles: function (serverList, callback) {
+            console.log(serverList);
+            return;
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required

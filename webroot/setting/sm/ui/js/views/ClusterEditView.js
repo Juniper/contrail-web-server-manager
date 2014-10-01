@@ -114,7 +114,18 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                var selectedServers = [],
+                    selectedServerIds = $('#assign-roles-filtered-servers').data('serverData').selectedServers;
+
+                $.each(selectedServerIds, function(selectedServerIdKey, selectedServerIdValue) {
+                    var selectedServer = $('#assign-roles-filtered-servers').data('contrailGrid')._dataView.getItemById(selectedServerIdValue);
+                    selectedServers.push(selectedServer)
+                });
+
+                return that.model.assignRoles(selectedServers, function(){
+                    $('#' + modalId).modal('hide');
+                });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -348,83 +359,23 @@ define([
     function getAssignRolesViewConfig(clusterModel) {
         var clusterModelAttrs = clusterModel.model().attributes,
             assignRolesViewConfig = {
-            elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES]),
-            view: "WizardView",
-            viewConfig: {
-                steps: [
+                elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]),
+                title: smLabels.TITLE_SELECT_SERVERS,
+                view: "SectionView",
+                viewConfig: {
+                rows: [
                     {
-                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]),
-                        title: smLabels.TITLE_SELECT_SERVERS,
-                        view: "SectionView",
-                        viewConfig: {
-                            rows: [
-                                {
-                                    columns: [
-                                        {
-                                            elementId: 'assign-roles-filtered-servers',
-                                            view: "FormGridView",
-                                            viewConfig: {
-                                                path: 'id',
-                                                class: "span12",
+                        columns: [
+                            {
+                                elementId: 'assign-roles-filtered-servers',
+                                view: "FormGridView",
+                                viewConfig: {
+                                    path: 'id',
+                                    class: "span12",
                                                 elementConfig: getSelectedServerGridElementConfig('assign-roles', clusterModelAttrs)
-                                            }
-                                        }
-                                    ]
                                 }
-                            ]
-                        },
-                        stepType: 'step',
-                        onInitRender: true,
-                        buttons: {
-                            previous: {
-                                visible: false
                             }
-                        },
-                        onLoadFromNext: function (params) {
-                            onLoadFilteredServers('assign-roles', params);
-                            $('#assign-roles-filtered-servers').parents('section').find('.stepInfo').show();
-                        }
-                    },
-                    {
-                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_CONFIRM]),
-                        title: smLabels.TITLE_ASSIGN_ROLES,
-                        view: "SectionView",
-                        viewConfig: {
-                            rows: [
-                                {
-                                    columns: [
-                                        {
-                                            elementId: 'assign-roles-confirm-servers',
-                                            view: "FormGridView",
-                                            viewConfig: {
-                                                path: 'id',
-                                                class: "span12",
-                                                elementConfig: getConfirmServerGridElementConfig('assign-roles')
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                                    columns: []
-                                },
-                                {
-                                    columns: [
-                                        {elementId: smUtils.formatElementId([smLabels.TITLE_ASSIGN_ROLES]), view: "FormMultiselectView", viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smLabels.SELECT_ROLES, data: smConstants.ROLES_OBJECTS}}}
-                                    ]
-                                }
-                            ]
-                        },
-                        stepType: 'step',
-                        onInitRender: true,
-                        onLoadFromNext: function(params) {
-                            $('#assign-roles-confirm-servers').data('contrailGrid')._dataView.setData($('#assign-roles-filtered-servers').data('serverData').selectedServers);
-                        },
-                        onNext: function(params) {
-                            var currentSelectedServers = $('#assign-roles-confirm-servers').data('contrailGrid')._dataView.getItems();
-                            return params.model.assignRoles(currentSelectedServers, function(){
-                                $('#' + modalId).modal('hide');
-                            });
-                        }
+                        ]
                     }
                 ]
             }
@@ -453,6 +404,7 @@ define([
                     }, {
                         type: 'checked-multiselect',
                         iconClass: 'icon-filter',
+                        title: 'Filter Servers',
                         placeholder: 'Filter Servers',
                         elementConfig: {
                             elementId: 'tagsCheckedMultiselect',
@@ -479,16 +431,25 @@ define([
 
             },
             columnHeader: {
-                columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
+                columns: (gridPrefix == 'add-server') ?
+                    smGridConfig.EDIT_SERVERS_ROLES_COLUMNS : smGridConfig.EDIT_SERVERS_ROLES_COLUMNS.concat(smGridConfig.getGridColumns4Roles())
             },
             body: {
                 options: {
-                    actionCell: {
+                    actionCell: (gridPrefix == 'assign-roles') ? [] : {
                         type: 'link',
                         iconClass: 'icon-plus',
                         onclick: function(e, args) {
                             var selectedRow = $(filteredServerGrid).data('contrailGrid')._dataView.getItem(args.row);
                             updateSelectedServer(gridPrefix, 'add', [selectedRow]);
+                        }
+                    },
+                    checkboxSelectable: (gridPrefix == 'add-server') ? true: {
+                        onNothingChecked: function (e) {
+                            $('#rolesCheckedMultiselectAction').find('.link-multiselectbox').addClass('disabled-link');
+                        },
+                        onSomethingChecked: function (e) {
+                            $('#rolesCheckedMultiselectAction').find('.link-multiselectbox').removeClass('disabled-link');
                         }
                     }
                 },
@@ -508,6 +469,67 @@ define([
                 }
             }
         };
+
+        if(gridPrefix == 'assign-roles') {
+            gridElementConfig.header.advanceControls.push({
+                actionId: 'rolesCheckedMultiselectAction',
+                type: 'checked-multiselect',
+                iconClass: 'icon-check',
+                placeholder: 'Assign Roles',
+                title: 'Assign Roles',
+                disabledLink: true,
+                elementConfig: {
+                    elementId: 'rolesCheckedMultiselect',
+                    dataTextField: 'text',
+                    dataValueField: 'id',
+                    filterConfig: {
+                        placeholder: 'Search Roles'
+                    },
+                    minWidth: 200,
+                    height: 200,
+                    data: [
+                        {
+                            id: 'roles',
+                            text: 'Roles',
+                            children: smConstants.ROLES_OBJECTS
+                        }
+                    ],
+                    control: {
+                        apply: {
+                            click: function (self, checkedRows) {
+                                var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
+                                    checkedRoles = checkedRows;
+
+                                $.each(checkedServers, function(checkedServerKey, checkedServerValue) {
+                                    $.each(checkedRoles, function(checkedRoleKey, checkedRoleValue) {
+                                        var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val()));
+                                        if (checkedServerValue.roles.indexOf(checkedRoleValue.value) == -1) {
+                                            checkedServerValue.roles.push(checkedRoleValue.value);
+                                            if(!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
+                                                $(filteredServerGrid).data('serverData', {
+                                                    selectedServers: [checkedServerValue.cgrid]
+                                                });
+                                            } else {
+                                                if($(filteredServerGrid).data('serverData').selectedServers.indexOf(checkedServerValue.cgrid) == -1){
+                                                    $(filteredServerGrid).data('serverData').selectedServers.push(checkedServerValue.cgrid);
+                                                }
+                                            }
+
+                                        }
+                                    })
+                                })
+
+                                $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
+                            }
+                        },
+                        cancel: {
+                            click: function (self, checkedRows) {
+                            }
+                        }
+                    }
+                }
+            })
+        }
 
         return gridElementConfig;
     }
@@ -739,33 +761,23 @@ define([
         steps = steps.concat(addServerStepViewConfig);
 
         //Appending Assign Roles Steps
-        assignRolesStepViewConfig = $.extend(true, {}, getAssignRolesViewConfig(clusterModel).viewConfig).steps;
-
-        assignRolesStepViewConfig[0].title = smLabels.TITLE_ASSIGN_ROLES;
-        assignRolesStepViewConfig[0].viewConfig['title'] = smLabels.TITLE_FILTER_SERVERS;
-        assignRolesStepViewConfig[0].onPrevious = function(params) {
-            return false;
-        };
-        assignRolesStepViewConfig[0].buttons = {
-            next: {
-                label: 'Next'
+        assignRolesStepViewConfig = $.extend(true, {}, getAssignRolesViewConfig(clusterModel), {
+            title: smLabels.TITLE_ASSIGN_ROLES,
+            stepType: 'step',
+            onInitRender: true,
+            onNext: function (params) {
+                //TODO - Add code to Assign Roles once tested
+                return true;
             },
-            previous: {
-                visible: false
+            buttons: {
+                next: {
+                    label: 'Save &amp; Next'
+                },
+                previous: {
+                    visible: false
+                }
             }
-        };
-
-        assignRolesStepViewConfig[1].stepType = 'sub-step';
-        assignRolesStepViewConfig[1].onNext = function(params) {
-            var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
-            return params.model.assignRoles(currentSelectedServers, callback);
-            $('#' + modalId).modal('hide');
-        };
-        assignRolesStepViewConfig[1].buttons = {
-            next: {
-                label: 'Save &amp; Next'
-            }
-        };
+        });
         steps = steps.concat(assignRolesStepViewConfig);
 
         addClusterViewConfig.viewConfig.steps = steps;
