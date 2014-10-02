@@ -69,6 +69,9 @@ define([
 
             return returnFlag;
         },
+        configureopenStack: function (callback) {
+            return true;
+        },
         addServer: function (serverList, callback) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {

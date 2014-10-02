@@ -114,23 +114,15 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                var selectedServers = [],
-                    selectedServerIds = $('#assign-roles-filtered-servers').data('serverData').selectedServers;
-
-                $.each(selectedServerIds, function(selectedServerIdKey, selectedServerIdValue) {
-                    var selectedServer = $('#assign-roles-filtered-servers').data('contrailGrid')._dataView.getItemById(selectedServerIdValue);
-                    selectedServers.push(selectedServer)
-                });
-
-                return that.model.assignRoles(selectedServers, function(){
-                    $('#' + modalId).modal('hide');
-                });
-            }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
-                $("#" + modalId).modal('hide');
-            }});
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout,
+                'onSave': function () {
+                    return saveAssignRoles(that.model);
+                }, 'onCancel': function () {
+                    Knockback.release(that.model, document.getElementById(modalId));
+                    smValidation.unbind(that);
+                    $("#" + modalId).modal('hide');
+                }
+            });
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
 
@@ -382,6 +374,20 @@ define([
         };
 
         return assignRolesViewConfig;
+    }
+
+    function saveAssignRoles(clusterModel) {
+        var selectedServers = [],
+            selectedServerIds = $('#assign-roles-filtered-servers').data('serverData').selectedServers;
+
+        $.each(selectedServerIds, function(selectedServerIdKey, selectedServerIdValue) {
+            var selectedServer = $('#assign-roles-filtered-servers').data('contrailGrid')._dataView.getItemById(selectedServerIdValue);
+            selectedServers.push(selectedServer)
+        });
+
+        return clusterModel.assignRoles(selectedServers, function(){
+            $('#' + modalId).modal('hide');
+        });
     }
 
     function getSelectedServerGridElementConfig(gridPrefix, modelAttrs) {
@@ -708,8 +714,7 @@ define([
             configureStepViewConfig = null,
             addServerStepViewConfig = null,
             assignRolesStepViewConfig = null,
-            provisionStepViewConfig;
-
+            openstackStepViewConfig = null;
 
         //Appending Configure Server Steps
         configureStepViewConfig = $.extend(true, {}, configureViewConfig, {
@@ -730,6 +735,7 @@ define([
                 }
             }
         });
+        configureStepViewConfig.viewConfig.splice(1,1);
         steps = steps.concat(configureStepViewConfig);
 
         //Appending Add Server Steps
@@ -765,9 +771,14 @@ define([
             title: smLabels.TITLE_ASSIGN_ROLES,
             stepType: 'step',
             onInitRender: true,
+            onLoadFromNext: function (params) {
+                $('#assign-roles-filtered-servers').data('contrailGrid').setRemoteAjaxConfig({
+                    url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?cluster_id=' + clusterModel.model().attributes.id
+                });
+                $('#assign-roles-filtered-servers').data('contrailGrid').refreshData();
+            },
             onNext: function (params) {
-                //TODO - Add code to Assign Roles once tested
-                return true;
+                return saveAssignRoles(clusterModel);
             },
             buttons: {
                 next: {
@@ -779,6 +790,27 @@ define([
             }
         });
         steps = steps.concat(assignRolesStepViewConfig);
+
+        openstackStepViewConfig = $.extend(true, {}, configureViewConfig.viewConfig[1], {
+            title: smLabels.TITLE_OPENSTACK,
+            stepType: 'step',
+            onInitRender: true,
+            onNext: function (params) {
+                return params.model.configureOpenStack(function(){
+                    callback();
+                    $('#' + modalId).modal('hide');
+                });
+            },
+            buttons: {
+                finish: {
+                    label: 'Save'
+                },
+                previous: {
+                    visible: false
+                }
+            }
+        });
+        steps = steps.concat(openstackStepViewConfig);
 
         addClusterViewConfig.viewConfig.steps = steps;
 
