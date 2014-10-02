@@ -127,7 +127,10 @@ define([
             var clusterModel = new ClusterModel(dataItem);
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
+            clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         },
         renderAssignRoles: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),

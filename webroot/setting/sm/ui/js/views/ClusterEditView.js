@@ -107,7 +107,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, addServerViewConfig);
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, options['callback']));
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -119,7 +119,10 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout,
                 'onSave': function () {
-                    return saveAssignRoles(that.model);
+                    return saveAssignRoles(that.model, function(){
+                        $("#" + modalId).modal('hide');
+                    });
+
                 }, 'onCancel': function () {
                     Knockback.release(that.model, document.getElementById(modalId));
                     smValidation.unbind(that);
@@ -275,81 +278,86 @@ define([
         }
     };
 
-    var addServerViewConfig = {
-        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS]),
-        view: "WizardView",
-        viewConfig: {
-            steps: [
-                {
-                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
-                    title: smLabels.TITLE_SELECT_SERVERS,
-                    view: "SectionView",
-                    viewConfig: {
-                        rows: [
-                            {
-                                columns: [
-                                    {
-                                        elementId: 'add-server-filtered-servers',
-                                        view: "FormGridView",
-                                        viewConfig: {
-                                            path: 'id',
-                                            class: "span12",
-                                            elementConfig: getSelectedServerGridElementConfig('add-server')
+    function getAddServerViewConfig(clusterModel, callback) {
+        var addServerViewConfig = {
+            elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS]),
+            view: "WizardView",
+            viewConfig: {
+                steps: [
+                    {
+                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
+                        title: smLabels.TITLE_SELECT_SERVERS,
+                        view: "SectionView",
+                        viewConfig: {
+                            rows: [
+                                {
+                                    columns: [
+                                        {
+                                            elementId: 'add-server-filtered-servers',
+                                            view: "FormGridView",
+                                            viewConfig: {
+                                                path: 'id',
+                                                class: "span12",
+                                                elementConfig: getAddServerSelectedServerGridElementConfig()
+                                            }
                                         }
-                                    }
-                                ]
+                                    ]
+                                }
+                            ]
+                        },
+                        stepType: 'step',
+                        onInitRender: true,
+                        buttons: {
+                            previous: {
+                                visible: false
                             }
-                        ]
-                    },
-                    stepType: 'step',
-                    onInitRender: true,
-                    buttons: {
-                        previous: {
-                            visible: false
+                        },
+                        onLoadFromNext: function (params) {
+                            onLoadFilteredServers('add-server', params);
+                            $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
                         }
                     },
-                    onLoadFromNext: function (params) {
-                        onLoadFilteredServers('add-server', params);
-                        $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
-                    }
-                },
-                {
-                    elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
-                    title: smLabels.TITLE_ADD_TO_CLUSTER,
-                    view: "SectionView",
-                    viewConfig: {
-                        rows: [
-                            {
-                                columns: [
-                                    {
-                                        elementId: 'add-server-confirm-servers',
-                                        view: "FormGridView",
-                                        viewConfig: {
-                                            path: 'id',
-                                            class: "span12",
-                                            elementConfig: getConfirmServerGridElementConfig('add-server')
+                    {
+                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
+                        title: smLabels.TITLE_ADD_TO_CLUSTER,
+                        view: "SectionView",
+                        viewConfig: {
+                            rows: [
+                                {
+                                    columns: [
+                                        {
+                                            elementId: 'add-server-confirm-servers',
+                                            view: "FormGridView",
+                                            viewConfig: {
+                                                path: 'id',
+                                                class: "span12",
+                                                elementConfig: getConfirmServerGridElementConfig('add-server')
+                                            }
                                         }
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    stepType: 'step',
-                    onInitRender: false,
-                    onLoadFromNext: function(params) {
-                        $('#add-server-confirm-servers').data('contrailGrid')._dataView.setData($('#add-server-filtered-servers').data('serverData').selectedServers);
-                    },
-                    onNext: function(params) {
-                        var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
-                        return params.model.addServer(currentSelectedServers, function(){
-                            $('#' + modalId).modal('hide');
-                        });
+                                    ]
+                                }
+                            ]
+                        },
+                        stepType: 'step',
+                        onInitRender: false,
+                        onLoadFromNext: function(params) {
+                            $('#add-server-confirm-servers').data('contrailGrid')._dataView.setData($('#add-server-filtered-servers').data('serverData').selectedServers);
+                        },
+                        onNext: function(params) {
+                            var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
+                            return params.model.addServer(currentSelectedServers, function(){
+                                callback();
+                                $('#' + modalId).modal('hide');
+                            });
 
+                        }
                     }
-                }
-            ]
-        }
-    };
+                ]
+            }
+        };
+
+        return addServerViewConfig;
+    }
 
     function getAssignRolesViewConfig(clusterModel) {
         var clusterModelAttrs = clusterModel.model().attributes,
@@ -367,7 +375,7 @@ define([
                                 viewConfig: {
                                     path: 'id',
                                     class: "span12",
-                                                elementConfig: getSelectedServerGridElementConfig('assign-roles', clusterModelAttrs)
+                                                elementConfig: getAssignRolesSelectedServerGridElementConfig(clusterModelAttrs)
                                 }
                             }
                         ]
@@ -379,25 +387,33 @@ define([
         return assignRolesViewConfig;
     }
 
-    function saveAssignRoles(clusterModel) {
-        var selectedServers = [],
-            selectedServerIds = $('#assign-roles-filtered-servers').data('serverData').selectedServers;
+    function saveAssignRoles(clusterModel, callback) {
+        if(contrail.checkIfExist($('#assign-roles-filtered-servers').data('serverData'))) {
+            var selectedServers = [],
+                selectedServerIds = $('#assign-roles-filtered-servers').data('serverData').selectedServers;
 
-        $.each(selectedServerIds, function(selectedServerIdKey, selectedServerIdValue) {
-            var selectedServer = $('#assign-roles-filtered-servers').data('contrailGrid')._dataView.getItemById(selectedServerIdValue);
-            selectedServers.push(selectedServer)
-        });
+            $.each(selectedServerIds, function (selectedServerIdKey, selectedServerIdValue) {
+                var selectedServer = $('#assign-roles-filtered-servers').data('contrailGrid')._dataView.getItemById(selectedServerIdValue);
+                selectedServers.push(selectedServer)
+            });
 
-        return clusterModel.assignRoles(selectedServers);
+            return clusterModel.assignRoles(selectedServers, callback);
+        } else {
+            return true;
+        }
     }
 
-    function getSelectedServerGridElementConfig(gridPrefix, modelAttrs) {
-        var filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
-            urlParam = (gridPrefix == 'add-server') ? 'filterInNull=cluster_id' : 'cluster_id=' + modelAttrs.id,
+    function getAddServerSelectedServerGridElementConfig() {
+        var gridPrefix = 'add-server',
+            filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
+            urlParam = 'filterInNull=cluster_id',
             gridElementConfig = {
             header: {
                 title: {
                     text: smLabels.TITLE_SELECT_SERVERS
+                },
+                defaultControls: {
+                    refreshable: true
                 },
                 advanceControls: [
                     {
@@ -438,20 +454,144 @@ define([
 
             },
             columnHeader: {
-                columns: (gridPrefix == 'add-server') ?
-                    smGridConfig.EDIT_SERVERS_ROLES_COLUMNS : smGridConfig.EDIT_SERVERS_ROLES_COLUMNS.concat(smGridConfig.getGridColumns4Roles())
+                columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
             },
             body: {
                 options: {
-                    actionCell: (gridPrefix == 'assign-roles') ? [] : {
+                    actionCell: {
                         type: 'link',
                         iconClass: 'icon-plus',
                         onclick: function(e, args) {
                             var selectedRow = $(filteredServerGrid).data('contrailGrid')._dataView.getItem(args.row);
                             updateSelectedServer(gridPrefix, 'add', [selectedRow]);
                         }
+                    }
+                },
+                dataSource: {
+                    remote: {
+                        ajaxConfig: {
+                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?' + urlParam
+                        }
+                    }
+                },
+                statusMessages: {
+                    empty: {
+                        type: 'status',
+                        iconClasses: '',
+                        text: 'No Servers to select.'
+                    }
+                }
+            }
+        };
+        return gridElementConfig;
+    }
+
+    function getAssignRolesSelectedServerGridElementConfig(modelAttrs) {
+        var gridPrefix = 'assign-roles',
+            filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
+            urlParam = 'cluster_id=' + modelAttrs.id,
+            gridElementConfig = {
+            header: {
+                title: {
+                    text: smLabels.TITLE_SELECT_SERVERS
+                },
+                defaultControls: {
+                    refreshable: true
+                },
+                advanceControls: [
+                    {
+                        type: 'checked-multiselect',
+                        iconClass: 'icon-filter',
+                        title: 'Filter Servers',
+                        placeholder: 'Filter Servers',
+                        elementConfig: {
+                            elementId: 'tagsCheckedMultiselect',
+                            dataTextField: 'text',
+                            dataValueField: 'id',
+                            filterConfig: {
+                                placeholder: 'Search Tags'
+                            },
+                            parse: formatData4Ajax,
+                            minWidth: 200,
+                            height: 250,
+                            dataSource: {
+                                type: 'GET',
+                                url: smUtils.getTagsUrl('')
+                            },
+                            click: function(event, ui){
+                                applyServerTagFilter(filteredServerGrid, event, ui)
+                            },
+                            optgrouptoggle: applyServerTagFilter,
+                            control: false
+                        }
                     },
-                    checkboxSelectable: (gridPrefix == 'add-server') ? true: {
+                    {
+                        actionId: 'rolesCheckedMultiselectAction',
+                        type: 'checked-multiselect',
+                        iconClass: 'icon-check',
+                        placeholder: 'Assign Roles',
+                        title: 'Assign Roles',
+                        disabledLink: true,
+                        elementConfig: {
+                            elementId: 'rolesCheckedMultiselect',
+                            dataTextField: 'text',
+                            dataValueField: 'id',
+                            filterConfig: {
+                                placeholder: 'Search Roles'
+                            },
+                            minWidth: 200,
+                            height: 200,
+                            data: [
+                                {
+                                    id: 'roles',
+                                    text: 'Roles',
+                                    children: smConstants.ROLES_OBJECTS
+                                }
+                            ],
+                            control: {
+                                apply: {
+                                    click: function (self, checkedRows) {
+                                        var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
+                                            checkedRoles = checkedRows;
+
+                                        $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
+                                            $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
+                                                var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val()));
+                                                if (checkedServerValue.roles.indexOf(checkedRoleValue.value) == -1) {
+                                                    checkedServerValue.roles.push(checkedRoleValue.value);
+                                                    if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
+                                                        $(filteredServerGrid).data('serverData', {
+                                                            selectedServers: [checkedServerValue.cgrid]
+                                                        });
+                                                    } else {
+                                                        if ($(filteredServerGrid).data('serverData').selectedServers.indexOf(checkedServerValue.cgrid) == -1) {
+                                                            $(filteredServerGrid).data('serverData').selectedServers.push(checkedServerValue.cgrid);
+                                                        }
+                                                    }
+
+                                                }
+                                            })
+                                        })
+
+                                        $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
+                                    }
+                                },
+                                cancel: {
+                                    click: function (self, checkedRows) {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            columnHeader: {
+                columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS.concat(smGridConfig.getGridColumns4Roles())
+            },
+            body: {
+                options: {
+                    actionCell: [],
+                    checkboxSelectable: {
                         onNothingChecked: function (e) {
                             $('#rolesCheckedMultiselectAction').find('.link-multiselectbox').addClass('disabled-link');
                         },
@@ -476,67 +616,6 @@ define([
                 }
             }
         };
-
-        if(gridPrefix == 'assign-roles') {
-            gridElementConfig.header.advanceControls.push({
-                actionId: 'rolesCheckedMultiselectAction',
-                type: 'checked-multiselect',
-                iconClass: 'icon-check',
-                placeholder: 'Assign Roles',
-                title: 'Assign Roles',
-                disabledLink: true,
-                elementConfig: {
-                    elementId: 'rolesCheckedMultiselect',
-                    dataTextField: 'text',
-                    dataValueField: 'id',
-                    filterConfig: {
-                        placeholder: 'Search Roles'
-                    },
-                    minWidth: 200,
-                    height: 200,
-                    data: [
-                        {
-                            id: 'roles',
-                            text: 'Roles',
-                            children: smConstants.ROLES_OBJECTS
-                        }
-                    ],
-                    control: {
-                        apply: {
-                            click: function (self, checkedRows) {
-                                var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
-                                    checkedRoles = checkedRows;
-
-                                $.each(checkedServers, function(checkedServerKey, checkedServerValue) {
-                                    $.each(checkedRoles, function(checkedRoleKey, checkedRoleValue) {
-                                        var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val()));
-                                        if (checkedServerValue.roles.indexOf(checkedRoleValue.value) == -1) {
-                                            checkedServerValue.roles.push(checkedRoleValue.value);
-                                            if(!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
-                                                $(filteredServerGrid).data('serverData', {
-                                                    selectedServers: [checkedServerValue.cgrid]
-                                                });
-                                            } else {
-                                                if($(filteredServerGrid).data('serverData').selectedServers.indexOf(checkedServerValue.cgrid) == -1){
-                                                    $(filteredServerGrid).data('serverData').selectedServers.push(checkedServerValue.cgrid);
-                                                }
-                                            }
-
-                                        }
-                                    })
-                                })
-
-                                $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
-                            }
-                        },
-                        cancel: {
-                            click: function (self, checkedRows) {
-                            }
-                        }
-                    }
-                }
-            })
-        }
 
         return gridElementConfig;
     }
@@ -740,7 +819,7 @@ define([
         steps = steps.concat(configureStepViewConfig);
 
         //Appending Add Server Steps
-        addServerStepViewConfig = $.extend(true, {}, addServerViewConfig.viewConfig).steps;
+        addServerStepViewConfig = $.extend(true, {}, getAddServerViewConfig(clusterModel, callback).viewConfig).steps;
 
         addServerStepViewConfig[0].title = smLabels.TITLE_ADD_SERVERS_TO_CLUSTER;
         addServerStepViewConfig[0].onPrevious = function(params) {
@@ -779,7 +858,7 @@ define([
                 $('#assign-roles-filtered-servers').data('contrailGrid').refreshData();
             },
             onNext: function (params) {
-                return saveAssignRoles(clusterModel);
+                return saveAssignRoles(clusterModel, function(){});
             },
             buttons: {
                 next: {
