@@ -40,7 +40,10 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                console.log(that.model.model().attributes);
+                that.model.reimage(function () {
+                    options['callback']();
+                    $('#' + modalId).modal('hide');
+                });
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
@@ -385,9 +388,7 @@ define([
             selectedServers.push(selectedServer)
         });
 
-        return clusterModel.assignRoles(selectedServers, function(){
-            $('#' + modalId).modal('hide');
-        });
+        return clusterModel.assignRoles(selectedServers);
     }
 
     function getSelectedServerGridElementConfig(gridPrefix, modelAttrs) {

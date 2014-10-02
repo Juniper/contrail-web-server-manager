@@ -66,12 +66,68 @@ define([
                 }
             }
         },
-        configureServers: function () {
-            var serverAttrsEdited = [],
-                serverAttrs = this.model().attributes,
-                locks = this.model().attributes.locks.attributes;
+        configureServers: function (modalId, checkedRows, callback) {
+            var ajaxConfig = {};
+            if (true) {
+                var putData = {}, serverAttrsEdited = {}, serversEdited = [],
+                    serverAttrs = this.model().attributes,
+                    locks = this.model().attributes.locks.attributes;
 
-            serverAttrsEdited.push(smUtils.getEditConfigObj(serverAttrs, locks));
+                serverAttrsEdited = smUtils.getEditConfigObj(serverAttrs, locks);
+                $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
+                    serversEdited.push($.extend(true, {}, serverAttrsEdited, {id: checkedRowsValue.id}));
+                });
+                putData[smConstants.SERVER_PREFIX_ID] = serversEdited;
+
+                ajaxConfig.type = "PUT";
+                ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+                console.log(ajaxConfig);
+                contrail.ajaxHandler(ajaxConfig, function () {
+                }, function (response) {
+                    console.log(response);
+                    $("#" + modalId).modal('hide');
+                    if (contrail.checkIfFunction(callback)) {
+                        callback();
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+            } else {
+                // TODO: Show form-level error message if any
+            }
+        },
+        editRoles: function (modalId, checkedRows, callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'configureValidation')) {
+                if (true) {
+                    var serverAttrs = this.model().attributes,
+                        putData = {}, servers = [],
+                        roles = serverAttrs['roles'].split(',');
+
+                    for(var i = 0; i < checkedRows.length; i++) {
+                        servers.push({'id': checkedRows[i]['id'], 'roles': roles});
+                    }
+                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+                    console.log(ajaxConfig);
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        $("#" + modalId).modal('hide');
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
         },
         editTags: function (modalId, checkedRows, callback) {
             var ajaxConfig = {};
@@ -106,9 +162,9 @@ define([
                 }
             }
         },
-        register: function (modalId, checkedRows, callback) {
+        reimage: function (modalId, checkedRows, callback) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'configureValidation')) {
+            if (this.model().isValid(true, 'reimageValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
                     var serverAttrs = this.model().attributes,
@@ -117,12 +173,10 @@ define([
                     for (var i = 0; i < checkedRows.length; i++) {
                         servers.push({'id': checkedRows[i]['id'], 'base_image_id': serverAttrs['base_image_id']});
                     }
-
-                    putData[smConstants.SERVER_PREFIX_ID] = servers;
-
-                    ajaxConfig.type = "PUT";
+                    putData = servers;
+                    ajaxConfig.type = "POST";
                     ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+                    ajaxConfig.url = 'sm/server/reimage';
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
@@ -134,39 +188,6 @@ define([
                     }, function (error) {
                         console.log(error);
                     });
-                } else {
-                    // TODO: Show form-level error message if any
-                }
-            }
-        },
-        editRoles: function (modalId, checkedRows, callback) {
-            var ajaxConfig = {};
-            if (this.model().isValid(true, 'configureValidation')) {
-                if (true) {
-                    var serverAttrs = this.model().attributes,
-                        putData = {}, servers = [],
-                        roles = serverAttrs['roles'].split(',');
-
-                    for(var i = 0; i < checkedRows.length; i++) {
-                        servers.push({'id': checkedRows[i]['id'], 'roles': roles});
-                    }
-                    putData[smConstants.SERVER_PREFIX_ID] = servers;
-
-                    ajaxConfig.type = "PUT";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
-                    console.log(ajaxConfig);
-                    contrail.ajaxHandler(ajaxConfig, function () {
-                    }, function (response) {
-                        console.log(response);
-                        $("#" + modalId).modal('hide');
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
-                        }
-                    }, function (error) {
-                        console.log(error);
-                    });
-
                 } else {
                     // TODO: Show form-level error message if any
                 }
@@ -174,22 +195,20 @@ define([
         },
         provision: function (modalId, checkedRows, callback) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'configureValidation')) {
+            if (this.model().isValid(true, 'provisionValidation')) {
                 if (true) {
                     var serverAttrs = this.model().attributes,
                         putData = {}, servers = [];
 
                     for (var i = 0; i < checkedRows.length; i++) {
-                        servers.push({'id': checkedRows[i]['id'], 'base_image_id': serverAttrs['base_image_id'], 'package_image_id': serverAttrs['package_image_id']});
+                        servers.push({'id': checkedRows[i]['id'], 'package_image_id': serverAttrs['package_image_id']});
                     }
-                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+                    putData = servers;
 
-                    ajaxConfig.type = "PUT";
+                    ajaxConfig.type = "POST";
                     ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
-
+                    ajaxConfig.url = '/sm/server/provision';
                     console.log(ajaxConfig);
-
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
@@ -207,6 +226,8 @@ define([
             }
         },
         validations: {
+            reimageValidation: {},
+            provisionValidation: {},
             configureValidation: {
                 'email': {
                     required: false,

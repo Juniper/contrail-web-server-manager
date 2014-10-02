@@ -79,7 +79,7 @@ define([
                     checkedRow = [dataItem];
 
                 serverEditView.model = serverModel;
-                serverEditView.renderRegister({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -208,20 +208,28 @@ define([
                 "iconClass": "icon-signin",
                 "title": smLabels.TITLE_REIMAGE,
                 "onClick": function () {
-                    var serverModel = new ServerModel();
+                    var serverModel = new ServerModel(),
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
 
                     serverEditView.model = serverModel;
-                    serverEditView.renderRegister({"title": smLabels.TITLE_REIMAGE});
+                    serverEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRows, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
                 }
             },
             {
                 "iconClass": "icon-edit",
                 "title": smLabels.TITLE_EDIT_CONFIG,
                 "onClick": function () {
-                    var serverModel = new ServerModel();
+                    var serverModel = new ServerModel(),
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
 
                     serverEditView.model = serverModel;
-                    serverEditView.renderConfigureServers({"title": smLabels.TITLE_EDIT_CONFIG});
+                    serverEditView.renderConfigureServers({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRows, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
                 }
             },
             {
@@ -259,10 +267,14 @@ define([
             "iconClass": "icon-cloud-upload",
             "title": smLabels.TITLE_PROVISION,
             "onClick": function () {
-                var serverModel = new ServerModel();
+                var serverModel = new ServerModel(),
+                    checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
 
                 serverEditView.model = serverModel;
-                serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVERS});
+                serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVERS, "checkedRows": checkedRows, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
             }
         });
         headerActionConfig = [

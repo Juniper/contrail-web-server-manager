@@ -14,12 +14,12 @@ define([
 
     var ServerEditView = Backbone.View.extend({
 
-        renderRegister: function (options) {
+        renderReimage: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.register(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.reimage(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -55,7 +55,7 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.configureServers();
+                that.model.configureServers(modalId, options['checkedRows'], options['callback']);
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
