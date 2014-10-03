@@ -74,6 +74,8 @@ define([
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 console.log(that.model.model().attributes);
+                $("#" + modalId).modal('hide');
+                that.model.createServers(modalId, options['callback']);
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);

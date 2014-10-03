@@ -97,6 +97,34 @@ define([
                 // TODO: Show form-level error message if any
             }
         },
+        createServers: function (modalId, callback) {
+            if (this.model().isValid(true, 'createServersValidation')) {
+                var ajaxConfig = {};
+                if (true) {
+                    var putData = {}, serversCreated = [],
+                        serverAttrs = this.model().attributes;
+                        serversCreated.push(serverAttrs);
+
+                    putData[smConstants.SERVER_PREFIX_ID] = serversCreated;
+
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        $("#" + modalId).modal('hide');
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
+        },
         editRoles: function (modalId, checkedRows, callback) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
@@ -228,6 +256,22 @@ define([
         validations: {
             reimageValidation: {},
             provisionValidation: {},
+            createServersValidation: {
+                'id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('id')
+                },
+                'ip_address': {
+                    required: true,
+                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    msg: smMessages.getInvalidErrorMessage('ip_address')
+                },
+                'mac_address': {
+                    required: true,
+                    pattern: smConstants.PATTERN_MAC_ADDRESS,
+                    msg: smMessages.getInvalidErrorMessage('mac_address')
+                }
+            },
             configureValidation: {
                 'email': {
                     required: false,
