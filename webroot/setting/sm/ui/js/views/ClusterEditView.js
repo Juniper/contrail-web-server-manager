@@ -399,6 +399,7 @@ define([
 
             return clusterModel.assignRoles(selectedServers, callback);
         } else {
+            callback();
             return true;
         }
     }
@@ -557,7 +558,11 @@ define([
                                         $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
                                             $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
                                                 var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val()));
+                                                if($.isEmptyObject(checkedServerValue.roles)) {
+                                                    checkedServerValue.roles = [];
+                                                }
                                                 if (checkedServerValue.roles.indexOf(checkedRoleValue.value) == -1) {
+
                                                     checkedServerValue.roles.push(checkedRoleValue.value);
                                                     if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
                                                         $(filteredServerGrid).data('serverData', {
