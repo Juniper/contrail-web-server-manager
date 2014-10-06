@@ -119,7 +119,11 @@ define([
             $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
                 columns.push({
                     id: roleValue, field: "roles", name: smLabels.get(roleValue), width: 60, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                        return (dc.roles.indexOf(roleValue) != -1) ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
+                        if($.isEmptyObject(dc.roles)) {
+                            return '<i class="icon-remove red"></i>'
+                        } else {
+                            return (dc.roles.indexOf(roleValue) != -1) ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
+                        }
                     }
                 });
             })
