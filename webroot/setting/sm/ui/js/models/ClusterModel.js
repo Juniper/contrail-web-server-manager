@@ -28,8 +28,9 @@ define([
                 use_certificates: 'False',
                 compute_non_mgmt_ip: null,
                 compute_non_mgmt_gway: null,
-                base_image_id: null,
-                package_image_id: null
+                keystone_tenant: null,
+                keystone_username: null,
+                keystone_password: null
             },
             status: {},
             tag: {},
@@ -52,7 +53,61 @@ define([
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                        returnFlag = true;
+                    }, function (error) {
+                        console.log(error);
+                        returnFlag = false;
+                    });
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            } else{
+                var errorsObj = this.model().attributes.errors.attributes, errArr = [];
+                $.each(errorsObj, function (key, value) {
+                    if (value) {
+                        error = key.replace('_error', '');
+                        errArr.push(smLabels.get(error));
+                    }
+                });
+                this.showErrorAttr('cluster_edit_config', smMessages.getResolveErrorsMessage(errArr.join(', ')));
+            }
 
+            return returnFlag;
+        },
+        configureOpenStack: function (callback) {
+            var ajaxConfig = {},
+                returnFlag = false;
+            if (this.model().isValid(true, 'configureValidation')) {
+                // TODO: Check for form-level validation if required
+                if (true) {
+                    var putData = {}, openstackAttrsEdited = [],
+                        clusterAttrs = this.model().attributes;
+
+                    openstackAttrsEdited.push({
+                        'id': clusterAttrs['id'],
+                        'parameters': {
+                            'openstack_mgmt_ip': clusterAttrs.parameters['openstack_mgmt_ip'],
+                            'openstack_passwd' : clusterAttrs.parameters['openstack_passwd'],
+                            'gateway'          : clusterAttrs.parameters['gateway'],
+                            'subnet_mask'      : clusterAttrs.parameters['subnet_mask'],
+                            'keystone_tenant'  : clusterAttrs.parameters['keystone_tenant'],
+                            'keystone_username': clusterAttrs.parameters['keystone_username'],
+                            'keystone_password': clusterAttrs.parameters['keystone_password']
+                        }
+                    });
+                    putData[smConstants.CLUSTER_PREFIX_ID] = openstackAttrsEdited;
+
+                    ajaxConfig.async = false;
+                    ajaxConfig.type = "PUT";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
+                    console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
@@ -107,17 +162,17 @@ define([
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
-                    var roles = this.model().attributes.roles.split(','),
-                        putData = {}, servers = [];
+                    var putData = {}, servers = [];
                     $.each(serverList, function (key, value) {
-                        servers.push({'id': value['id'], 'roles': roles});
+                        servers.push({'id': value['id'], 'roles': value['roles']});
                     });
+
                     putData[smConstants.SERVER_PREFIX_ID] = servers;
 
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
-
+                    console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
@@ -133,18 +188,47 @@ define([
             }
             return true;
         },
-        provision: function (callback) {
+        reimage: function (callback) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'configureValidation')) {
+            if (this.model().isValid(true, 'reimageValidation')) {
                 if (true) {
                     var clusterAttrs = this.model().attributes,
                         putData = {}, clusters = [];
-                    clusters.push({'id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id'],'package_image_id': clusterAttrs['package_image_id']});
-                    putData[smConstants.CLUSTER_PREFIX_ID] = clusters;
+                    clusters.push({'cluster_id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id']});
+                    putData = clusters;
 
-                    ajaxConfig.type = "PUT";
+                    ajaxConfig.type = "POST";
                     ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
+                    ajaxConfig.url = '/sm/server/reimage';
+
+                    console.log(ajaxConfig);
+                    contrail.ajaxHandler(ajaxConfig, function () {
+                    }, function (response) {
+                        console.log(response);
+                        if (contrail.checkIfFunction(callback)) {
+                            callback();
+                        }
+                    }, function (error) {
+                        console.log(error);
+                    });
+
+                } else {
+                    // TODO: Show form-level error message if any
+                }
+            }
+        },
+        provision: function (callback) {
+            var ajaxConfig = {};
+            if (this.model().isValid(true, 'provisionValidation')) {
+                if (true) {
+                    var clusterAttrs = this.model().attributes,
+                        putData = {}, clusters = [];
+                    clusters.push({'cluster_id': clusterAttrs['id'], 'package_image_id': clusterAttrs['package_image_id']});
+                    putData = clusters;
+
+                    ajaxConfig.type = "POST";
+                    ajaxConfig.data = JSON.stringify(putData);
+                    ajaxConfig.url = '/sm/server/provision';
 
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
@@ -163,6 +247,22 @@ define([
             }
         },
         validations: {
+            reimageValidation: {
+                'base_image_id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('base_image_id')
+                }
+            },
+            provisionValidation: {
+                'base_image_id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('base_image_id')
+                },
+                'package_image_id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('package_image_id')
+                }
+            },
             configureValidation: {
                 'id': {
                     required: true,

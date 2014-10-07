@@ -5,13 +5,13 @@
 define([
     'underscore',
     'backbone',
-    'setting/sm/ui/js/models/RepoModel',
-    'setting/sm/ui/js/views/RepoEditView'
-], function (_, Backbone, RepoModel, RepoEditView) {
-    var prefixId = smConstants.REPO_PREFIX_ID,
-        repoEditView = new RepoEditView();
+    'setting/sm/ui/js/models/PackageModel',
+    'setting/sm/ui/js/views/PackageEditView'
+], function (_, Backbone, PackageModel, PackageEditView) {
+    var prefixId = smConstants.PACKAGE_PREFIX_ID,
+        packageEditView = new PackageEditView();
 
-    var ImagesView = Backbone.View.extend({
+    var PackagesView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -23,7 +23,7 @@ define([
             var gridConfig = {
                 header: {
                     title: {
-                        text: smLabels.TITLE_REPOS
+                        text: smLabels.TITLE_PACKAGES
                     },
                     advanceControls: headerActionConfig
                 },
@@ -63,10 +63,10 @@ define([
     var rowActionConfig = [
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                repoModel = new RepoModel(dataItem);
+                packageModel = new PackageModel(dataItem);
 
-            repoEditView.model = repoModel;
-            repoEditView.render({"title": smLabels.TITLE_EDIT_CONFIG});
+            packageEditView.model = packageModel;
+            packageEditView.render({"title": smLabels.TITLE_EDIT_CONFIG});
         })
     ];
 
@@ -81,13 +81,13 @@ define([
         },
         {
             "type": "link",
-            "title": smLabels.TITLE_ADD_REPO,
+            "title": smLabels.TITLE_ADD_PACKAGE,
             "iconClass": "icon-plus",
             "onClick": function () {
-                var repoModel = new RepoModel();
+                var packageModel = new PackageModel();
 
-                repoEditView.model = repoModel;
-                repoEditView.render({"title": smLabels.TITLE_ADD_REPO});
+                packageEditView.model = packageModel;
+                packageEditView.render({"title": smLabels.TITLE_ADD_PACKAGE});
             }
         }
     ];
@@ -101,5 +101,5 @@ define([
         ]
     ];
 
-    return ImagesView;
+    return PackagesView;
 });

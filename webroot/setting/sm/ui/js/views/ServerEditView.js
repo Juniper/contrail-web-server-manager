@@ -14,19 +14,19 @@ define([
 
     var ServerEditView = Backbone.View.extend({
 
-        renderRegister: function (options) {
+        renderReimage: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.register(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.reimage(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, registerViewConfig);
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -44,7 +44,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, "configureValidation");
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(true), "configureValidation");
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -55,7 +55,7 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.configureServers();
+                that.model.configureServers(modalId, options['checkedRows'], options['callback']);
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -63,6 +63,27 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureServersViewConfig, "configureValidation", true);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
+        },
+
+        renderAddServer: function (options) {
+            var editLayout = editTemplate({prefixId: prefixId}),
+                that = this;
+
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                that.model.createServers(modalId, function(){
+                    options['callback']();
+                    $("#" + modalId).modal('hide');
+                });
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
+            }});
+
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(false), "configureValidation");
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -146,10 +167,11 @@ define([
         }
     ];
 
-    var configureViewConfig = {
-        elementId: prefixId,
-        view: "AccordianView",
-        viewConfig: [
+    function getConfigureViewConfig(disableId) {
+        return {
+            elementId: prefixId,
+                view: "AccordianView",
+            viewConfig: [
             {
                 elementId: (prefixId + '_' + smLabels.TITLE_DETAILS).toLowerCase(),
                 title: smLabels.TITLE_DETAILS,
@@ -158,7 +180,7 @@ define([
                     rows: [
                         {
                             columns: [
-                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled: true, path: "id", dataBindValue: "id", class: "span6"}},
+                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "span6"}},
                                 {
                                     elementId: 'cluster_id',
                                     view: "FormDropdownView",
@@ -255,6 +277,8 @@ define([
                 }
             }
         ]
+        };
+
     };
 
     var configureServersViewConfig = {
@@ -367,7 +391,7 @@ define([
         }
     };
 
-    var registerViewConfig = {
+    var reimageViewConfig = {
         elementId: prefixId,
         view: "SectionView",
         viewConfig: {

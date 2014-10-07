@@ -68,7 +68,7 @@ function initCustomKOBindings(Knockout) {
                 dropDown = $(element).contrailDropdown(valueObj).data('contrailDropdown');
 
             if (allBindings.value) {
-                var value = ko.utils.unwrapObservable(allBindings.value);
+                var value = Knockout.utils.unwrapObservable(allBindings.value);
                 if(typeof value === 'function') {
                     dropDown.value(value());
                 } else {
@@ -79,7 +79,7 @@ function initCustomKOBindings(Knockout) {
                 dropDown.value('');
             }
 
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            Knockout.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 $(element).select2('destroy');
             });
         },
@@ -96,7 +96,7 @@ function initCustomKOBindings(Knockout) {
                 multiselect = $(element).contrailMultiselect(valueObj).data('contrailMultiselect');
 
             if (allBindings.value) {
-                var value = ko.utils.unwrapObservable(allBindings.value);
+                var value = Knockout.utils.unwrapObservable(allBindings.value);
                 if (typeof value === 'function') {
                     multiselect.value(value());
                 } else {
@@ -104,7 +104,7 @@ function initCustomKOBindings(Knockout) {
                 }
             }
 
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            Knockout.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 $(element).select2('destroy');
             });
         },
@@ -119,17 +119,17 @@ function initCustomKOBindings(Knockout) {
             el.trigger('change');
         }
     }
-    var updateSelect2Options = ko.bindingHandlers['options']['update'];
+    var updateSelect2Options = Knockout.bindingHandlers['options']['update'];
 
-    ko.bindingHandlers['options']['update'] = function (element) {
+    Knockout.bindingHandlers['options']['update'] = function (element) {
         var r = updateSelect2Options.apply(null, arguments);
         updateSelect2(element);
         return r;
     };
 
-    var updateSelect2SelectedOptions = ko.bindingHandlers['selectedOptions']['update'];
+    var updateSelect2SelectedOptions = Knockout.bindingHandlers['selectedOptions']['update'];
 
-    ko.bindingHandlers['selectedOptions']['update'] = function (element) {
+    Knockout.bindingHandlers['selectedOptions']['update'] = function (element) {
         var r = updateSelect2SelectedOptions.apply(null, arguments);
         updateSelect2(element);
         return r;

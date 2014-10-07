@@ -7,10 +7,10 @@ define([
     'backbone',
     'knockback'
 ], function (_, Backbone, Knockback) {
-    var prefixId = smConstants.REPO_PREFIX_ID,
+    var prefixId = smConstants.PACKAGE_PREFIX_ID,
         editTemplate = contrail.getTemplate4Id("sm-edit-form-template")
 
-    var RepoEditView = Backbone.View.extend({
+    var PackageEditView = Backbone.View.extend({
         render: function (options) {
             var modalId = 'configure-' + prefixId,
                 editLayout = editTemplate({prefixId: prefixId}),
@@ -51,5 +51,5 @@ define([
         }
     };
 
-    return RepoEditView;
+    return PackageEditView;
 });

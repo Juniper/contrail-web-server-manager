@@ -23,6 +23,8 @@ define([
                 smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation, lockEditingByDefault);
             }
 
+            this.model.showErrorAttr(elId, false);
+
             this.$el.find("#" + elId).accordion({
                 heightStyle: "content",
                 collapsible: true

@@ -17,7 +17,8 @@ define([
 
         render: function (viewConfig) {
             var smTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                serverColumnsType = viewConfig['serverColumnsType'];
+                serverColumnsType = viewConfig['serverColumnsType'],
+                showAssignRoles = viewConfig['showAssignRoles'];
 
             var queryString = getQueryString4ServersUrl(viewConfig['hashParams']);
 
@@ -28,19 +29,19 @@ define([
                     title: {
                         text: smLabels.TITLE_SERVERS
                     },
-                    advanceControls: getHeaderActionConfig(queryString)
+                    advanceControls: getHeaderActionConfig(queryString, showAssignRoles)
                 },
                 columnHeader: {
                     columns: smGridConfig.getServerColumns(serverColumnsType)
                 },
                 body: {
                     options: {
-                        actionCell: rowActionConfig,
+                        actionCell: getRowActionConfig(showAssignRoles),
                         checkboxSelectable: {
-                            onNothingChecked: function(e){
+                            onNothingChecked: function (e) {
                                 $('#btnActionServers').addClass('disabled-link').removeAttr('data-toggle');
                             },
-                            onSomethingChecked: function(e){
+                            onSomethingChecked: function (e) {
                                 $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
                             }
                         },
@@ -70,63 +71,68 @@ define([
         }
     });
 
-    var rowActionConfig = [
-        smGridConfig.getRegister(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                checkedRow = [dataItem];
+    function getRowActionConfig(showAssignRoles) {
+        var rowActionConfig = [
+            smGridConfig.getReimageAction(function (rowIndex) {
+                var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                    serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem];
 
-            serverEditView.model = serverModel;
-            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVER, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
+                serverEditView.model = serverModel;
+                serverEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
                 }});
-        }),
-        smGridConfig.getConfigureAction(function (rowIndex) {
+            }),
+            smGridConfig.getConfigureAction(function (rowIndex) {
+                var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                    serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem];
+
+                serverEditView.model = serverModel;
+                serverEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            }),
+            smGridConfig.getTagAction(function (rowIndex) {
+                var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                    serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem];
+
+                serverEditView.model = serverModel;
+                serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            })
+        ];
+        if (showAssignRoles) {
+            rowActionConfig.push(smGridConfig.getAssignRoleAction(function (rowIndex) {
+                var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                    serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem];
+
+                serverEditView.model = serverModel;
+                serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            }));
+        }
+        rowActionConfig.push(smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 checkedRow = [dataItem];
 
             serverEditView.model = serverModel;
-            serverEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+            serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVER, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        }),
-        smGridConfig.getTagAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                checkedRow = [dataItem];
-
-            serverEditView.model = serverModel;
-            serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-        }),
-        smGridConfig.getAssignRoleAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                checkedRow = [dataItem];
-
-            serverEditView.model = serverModel;
-            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-        }),
-        smGridConfig.getProvisionAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                serverModel = new ServerModel(dataItem),
-                checkedRow = [dataItem];
-
-            serverEditView.model = serverModel;
-            serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION + ' ' + smLabels.TITLE_SERVER, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-        })
-    ];
+        }));
+        return rowActionConfig;
+    };
 
     var detailTemplateConfig = [
         [
@@ -195,74 +201,93 @@ define([
         return filterServerData;
     };
 
-    function getHeaderActionConfig(queryString) {
-        return [
+    function getHeaderActionConfig(queryString, showAssignRoles) {
+        var headerActionConfig, dropdownActions;
+        dropdownActions = [
+            {
+                "iconClass": "icon-signin",
+                "title": smLabels.TITLE_REIMAGE,
+                "onClick": function () {
+                    var serverModel = new ServerModel(),
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+
+                    serverEditView.model = serverModel;
+                    serverEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRows, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
+                }
+            },
+            {
+                "iconClass": "icon-edit",
+                "title": smLabels.TITLE_EDIT_CONFIG,
+                "onClick": function () {
+                    var serverModel = new ServerModel(),
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+
+                    serverEditView.model = serverModel;
+                    serverEditView.renderConfigureServers({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRows, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
+                }
+            },
+            {
+                "iconClass": "icon-tags",
+                "title": smLabels.TITLE_EDIT_TAGS,
+                "onClick": function () {
+                    var serverModel = new ServerModel(),
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+
+                    serverEditView.model = serverModel;
+                    serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, "checkedRows": checkedRows, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
+                }
+            }
+        ];
+        if (showAssignRoles) {
+            dropdownActions.push({
+                "iconClass": "icon-check",
+                "title": smLabels.TITLE_ASSIGN_ROLES,
+                "onClick": function () {
+                    var serverModel = new ServerModel(),
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+
+                    serverEditView.model = serverModel;
+                    serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, "checkedRows": checkedRows, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
+                }
+            });
+        }
+        dropdownActions.push({
+            "iconClass": "icon-cloud-upload",
+            "title": smLabels.TITLE_PROVISION,
+            "onClick": function () {
+                var serverModel = new ServerModel(),
+                    checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+
+                serverEditView.model = serverModel;
+                serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVERS, "checkedRows": checkedRows, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            }
+        });
+        headerActionConfig = [
             {
                 "type": "dropdown",
                 "iconClass": "icon-cog",
-                linkElementId: 'btnActionServers',
-                disabledLink: true,
-                "actions": [
-                    {
-                        "iconClass": "icon-signin",
-                        "title": smLabels.TITLE_REGISTER_SERVERS,
-                        "onClick": function () {
-                            var serverModel = new ServerModel();
+                "linkElementId": 'btnActionServers',
+                "disabledLink": true,
+                "actions": dropdownActions
+            }
+        ];
 
-                            serverEditView.model = serverModel;
-                            serverEditView.renderRegister({"title": smLabels.TITLE_REGISTER_SERVERS});
-                        }
-                    },
-                    {
-                        "iconClass": "icon-edit",
-                        "title": smLabels.TITLE_EDIT_CONFIG,
-                        "onClick": function () {
-                            var serverModel = new ServerModel();
-
-                            serverEditView.model = serverModel;
-                            serverEditView.renderConfigureServers({"title": smLabels.TITLE_EDIT_CONFIG});
-                        }
-                    },
-                    {
-                        "iconClass": "icon-tags",
-                        "title": smLabels.TITLE_EDIT_TAGS,
-                        "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
-
-                            serverEditView.model = serverModel;
-                            serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, "checkedRows": checkedRows, callback: function () {
-                                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                                dataView.refreshData();
-                            }});
-                        }
-                    },
-                    {
-                        "iconClass": "icon-check",
-                        "title": smLabels.TITLE_ASSIGN_ROLES,
-                        "onClick": function () {
-                            var serverModel = new ServerModel(),
-                                checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
-
-                            serverEditView.model = serverModel;
-                            serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, "checkedRows": checkedRows, callback: function () {
-                                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                                dataView.refreshData();
-                            }});
-                        }
-                    },
-                    {
-                        "iconClass": "icon-cloud-upload",
-                        "title": smLabels.TITLE_PROVISION,
-                        "onClick": function () {
-                            var serverModel = new ServerModel();
-
-                            serverEditView.model = serverModel;
-                            serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVERS});
-                        }
-                    }
-                ]
-            },
+        headerActionConfig = headerActionConfig.concat([
             {
                 type: 'checked-multiselect',
                 iconClass: 'icon-filter',
@@ -285,8 +310,23 @@ define([
                     optgrouptoggle: applyServerTagFilter,
                     control: false
                 }
+            },
+            {
+                "type": "link",
+                "title": smLabels.TITLE_ADD_SERVER,
+                "iconClass": "icon-plus",
+                "onClick": function () {
+                    var serverModel = new ServerModel();
+
+                    serverEditView.model = serverModel;
+                    serverEditView.renderAddServer({"title": smLabels.TITLE_ADD_SERVER, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
+                }
             }
-        ];
+        ]);
+        return headerActionConfig;
     };
 
     function applyServerTagFilter(event, ui) {
@@ -298,18 +338,15 @@ define([
     };
 
     function serverTagGridFilter(item, args) {
-
         if (args.checkedRows.length == 0) {
             return true;
-        }
-        else {
+        } else {
             var returnFlag = true;
             $.each(args.checkedRows, function (checkedRowKey, checkedRowValue) {
                 var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
                 if (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value) {
                     returnFlag = returnFlag && true;
-                }
-                else {
+                } else {
                     returnFlag = false;
                 }
             });

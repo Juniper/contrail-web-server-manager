@@ -31,7 +31,6 @@ define([
             }},
             { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 },
             { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15 },
-            { id: "registered-servers", field: "", name: "Registered Servers", width: 120, minWidth: 15 },
             { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15 },
             { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15 },
             { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
@@ -43,9 +42,9 @@ define([
             }
         ];
 
-        this.getRegister = function (onClickFunction) {
+        this.getReimageAction = function (onClickFunction) {
             return {
-                title: smLabels.TITLE_REGISTER_SERVER,
+                title: smLabels.TITLE_REIMAGE,
                 iconClass: 'icon-signin',
                 width: 80,
                 onClick: onClickFunction
@@ -117,23 +116,27 @@ define([
 
         this.getGridColumns4Roles = function () {
             var columns = [];
-            for (var i = 0; i < smConstants.ROLES_ARRAY.length; i++) {
-                var role = smConstants.ROLES_ARRAY[i];
+            $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
                 columns.push({
-                    id: role, field: "roles", name: smLabels.get(role), width: 60, minWidth: 15, cssClass: "slick-cell-checkboxsel", formatter: function (r, c, v, cd, dc) {
-                        var checked = dc.roles.indexOf(role) != -1 ? true : false;
-                        var returnHTML = checked ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
-                        return returnHTML;
+                    id: roleValue, field: "roles", name: smLabels.get(roleValue), width: 60, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                        if($.isEmptyObject(dc.roles)) {
+                            return '<i class="icon-remove red"></i>'
+                        } else {
+                            return (dc.roles.indexOf(roleValue) != -1) ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
+                        }
                     }
                 });
-            }
+            })
             return columns;
         };
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
-            { id: "server_id", field: "id", name: "Hostname", width: 100, minWidth: 15 },
-            { id: "ip_address", field: "ip_address", name: "IP", width: 120, minWidth: 15 },
-            { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+            { id: "server_id", field: "id", name: "Hostname", width: 150, minWidth: 100 },
+            { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 100, formatter: function (r, c, v, cd, dc) {
+                var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
+                    tagHTML = tagTemplate(dc.tag);
+                return tagHTML;
+            }}
         ]);
 
         this.getServerColumns = function (serverColumnsType) {

@@ -96,14 +96,23 @@ define([
                     var serversView = new ServersView({
                         el: that.$el.find("#cluster-server-list")
                     });
-                    serversView.render({serverColumnsType: smConstants.CLUSTER_PREFIX_ID, hashParams: {"cluster_id": clusterId}});
+                    serversView.render({serverColumnsType: smConstants.CLUSTER_PREFIX_ID, showAssignRoles: true, hashParams: {"cluster_id": clusterId}});
                 });
-            }, function () {
-            });
+            }, function () {});
         }
     });
 
     var rowActionCallbackConfig = {
+        renderReimage: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+        },
         renderConfigure: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
@@ -118,7 +127,10 @@ define([
             var clusterModel = new ClusterModel(dataItem);
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS});
+            clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         },
         renderAssignRoles: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
@@ -146,6 +158,10 @@ define([
     }
 
     var rowActionConfig = [
+        smGridConfig.getReimageAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderReimage(dataItem);
+        }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderConfigure(dataItem);
@@ -217,7 +233,7 @@ define([
                 var clusterModel = new ClusterModel();
 
                 clusterEditView.model = clusterModel;
-                clusterEditView.renderAddCluster({"title": smLabels.TITLE_ADD + ' ' + smLabels.TITLE_CLUSTER, callback: function () {
+                clusterEditView.renderAddCluster({"title": smLabels.TITLE_ADD_CLUSTER, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});

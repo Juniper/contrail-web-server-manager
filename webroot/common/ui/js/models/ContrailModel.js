@@ -76,6 +76,15 @@ define([
             locks.set(lockObj);
         },
 
+        showErrorAttr: function(attributePath, msg) {
+            var attribute = getAttributeFromPath(attributePath),
+                errors = this.model().get("errors"),
+                errorObj = {};
+
+            errorObj[attribute + smConstants.ERROR_SUFFIX_ID] = msg;
+            errors.set(errorObj);
+        },
+
         getLockCSS: function(attributePath) {
             var attribute = getAttributeFromPath(attributePath),
                 locks = this.model().get("locks"),

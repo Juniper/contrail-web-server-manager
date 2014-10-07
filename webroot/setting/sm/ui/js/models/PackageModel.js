@@ -6,7 +6,7 @@ define([
     'underscore',
     'common/ui/js/models/ContrailModel'
 ], function (_, ContrailModel) {
-    var RepoModel = ContrailModel.extend({
+    var PackageModel = ContrailModel.extend({
         defaultConfig: {
             'version': null,
             'path': null,
@@ -26,5 +26,5 @@ define([
         }
     });
 
-    return RepoModel;
+    return PackageModel;
 });
