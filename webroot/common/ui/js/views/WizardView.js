@@ -20,6 +20,8 @@ define([
             steps = viewConfig['steps'];
 
             $.each(steps, function(stepKey, stepValue){
+
+                self.model.showErrorAttr(stepValue.elementId, false);
                 if(stepValue.onInitRender == true) {
                     stepValue.onInitWizard = function(params) {
                         smUtils.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
