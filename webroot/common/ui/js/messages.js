@@ -12,7 +12,9 @@ define([
         this.getRequiredMessage = function(fieldKey) {
             return smLabels.getInLowerCase(fieldKey) + ' is required.';
         };
-
+        this.getResolveErrorsMessage = function(fieldKey) {
+            return "Please resolve all " + fieldKey + " errors.";
+        };
     };
     return Messages;
 });

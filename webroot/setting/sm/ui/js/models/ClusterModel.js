@@ -67,6 +67,15 @@ define([
                 } else {
                     // TODO: Show form-level error message if any
                 }
+            } else{
+                var errorsObj = this.model().attributes.errors.attributes, errArr = [];
+                $.each(errorsObj, function (key, value) {
+                    if (value) {
+                        error = key.replace('_error', '');
+                        errArr.push(smLabels.get(error));
+                    }
+                });
+                this.showErrorAttr('cluster_edit_config', smMessages.getResolveErrorsMessage(errArr.join(', ')));
             }
 
             return returnFlag;
@@ -238,8 +247,22 @@ define([
             }
         },
         validations: {
-            reimageValidation: {},
-            provisionValidation: {},
+            reimageValidation: {
+                'base_image_id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('base_image_id')
+                }
+            },
+            provisionValidation: {
+                'base_image_id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('base_image_id')
+                },
+                'package_image_id': {
+                    required: true,
+                    msg: smMessages.getRequiredMessage('package_image_id')
+                }
+            },
             configureValidation: {
                 'id': {
                     required: true,
