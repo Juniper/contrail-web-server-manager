@@ -165,6 +165,25 @@ function postObjects(req, res, appdata) {
     });
 };
 
+function deleteObjects(req, res, appdata) {
+    var objectName = req.param(constants.KEY_NAME),
+        urlParts = url.parse(req.url, true),
+        objectUrl = '/' + objectName,
+        qsObj = urlParts.query,
+        responseArray, resultArray;
+
+    filterInAllowedParams(qsObj);
+    objectUrl += '?' + qs.stringify(qsObj);
+
+    sm.del(objectUrl, appdata, function (error, responseJSON) {
+        if (error != null) {
+            commonUtils.handleJSONResponse(error, res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, responseArray);
+        }
+    });
+};
+
 function provision(req, res, appdata) {
     var provisionUrl = '/server/provision',
         postData = req.body;
@@ -250,6 +269,7 @@ function filterInAllowedParams(qsObj) {
 exports.getObjects = getObjects;
 exports.putObjects = putObjects;
 exports.postObjects = postObjects;
+exports.deleteObjects = deleteObjects;
 exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;

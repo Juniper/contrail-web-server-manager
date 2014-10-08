@@ -32,6 +32,12 @@
         <callback>smapi.postObjects</callback>
     </item>
     <item>
+        <url>/sm/objects/:name</url>
+        <method>delete</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.deleteObjects</callback>
+    </item>
+    <item>
         <url>/sm/objects/details/:name</url>
         <method>get</method>
         <feature>smConfigure</feature>
