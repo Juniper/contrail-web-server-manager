@@ -29,7 +29,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, "configureValidation");
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -137,128 +137,138 @@ define([
         }
     });
 
-    var configureViewConfig = {
-        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
-        view: "AccordianView",
-        viewConfig: [
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
-                title: smLabels.TITLE_DETAILS,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled:true, path: 'id', dataBindValue: 'id', class: "span6"}},
-                                {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
+    var createClusterViewConfig = [{
+        elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
+        title: smLabels.TITLE_DETAILS,
+        view: "SectionView",
+        viewConfig: {
+            rows: [
+                {
+                    columns: [
+                        {elementId: 'id', view: "FormInputView", viewConfig: {path: 'id', dataBindValue: 'id', class: "span6"}},
+                        {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
 
-                            ]
-                        }
                     ]
                 }
-            },
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_OPENSTACK]),
-                title: smLabels.TITLE_OPENSTACK,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'openstack_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}},
-                                {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
-                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'keystone_username', view: "FormInputView", viewConfig: {path: 'parameters.keystone_username', dataBindValue: 'parameters().keystone_username', class: "span6"}},
-                                {elementId: 'keystone_password', view: "FormInputView", viewConfig: {path: 'parameters.keystone_password', dataBindValue: 'parameters().keystone_password', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'keystone_tenant', view: "FormInputView", viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CONTRAIL]),
-                title: smLabels.TITLE_CONTRAIL,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'analytics_data_ttl', view: "FormInputView", viewConfig: {path: 'parameters.analytics_data_ttl', dataBindValue: 'parameters().analytics_data_ttl', class: "span6"}},
-                                {elementId: 'ext_bgp', view: "FormInputView", viewConfig: {path: 'parameters.ext_bgp', dataBindValue: 'parameters().ext_bgp', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'router_asn', view: "FormInputView", viewConfig: {path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6"}},
-                                {elementId: 'multi_tenancy', view: "FormDropdownView", viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'haproxy', view: "FormDropdownView", viewConfig: {path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.STATES}}},
-                                {elementId: 'use_certificates', view: "FormDropdownView", viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'database_dir', view: "FormInputView", viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}},
-                                {elementId: 'database_token', view: "FormInputView", viewConfig: {path: 'parameters.database_token', dataBindValue: 'parameters().database_token', class: "span6"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SERVERS_CONFIG]),
-                title: smLabels.TITLE_SERVERS_CONFIG,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: 'parameters.domain', dataBindValue: 'parameters().domain', class: "span6"}},
-                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'parameters.password', dataBindValue: 'parameters().password', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
-                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {
-                                    elementId: 'base_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
-                                },
-                                {
-                                    elementId: 'package_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
-                                }
-                            ]
-                        }
-                    ]
-                }
+            ]
+        }
+    }];
+
+    var configureClusterViewConfig = [
+        {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_OPENSTACK]),
+            title: smLabels.TITLE_OPENSTACK,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'openstack_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}},
+                            {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
+                            {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'keystone_username', view: "FormInputView", viewConfig: {path: 'parameters.keystone_username', dataBindValue: 'parameters().keystone_username', class: "span6"}},
+                            {elementId: 'keystone_password', view: "FormInputView", viewConfig: {path: 'parameters.keystone_password', dataBindValue: 'parameters().keystone_password', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'keystone_tenant', view: "FormInputView", viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}}
+                        ]
+                    }
+                ]
             }
-        ]
-    };
+        },
+        {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CONTRAIL]),
+            title: smLabels.TITLE_CONTRAIL,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'analytics_data_ttl', view: "FormInputView", viewConfig: {path: 'parameters.analytics_data_ttl', dataBindValue: 'parameters().analytics_data_ttl', class: "span6"}},
+                            {elementId: 'ext_bgp', view: "FormInputView", viewConfig: {path: 'parameters.ext_bgp', dataBindValue: 'parameters().ext_bgp', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'router_asn', view: "FormInputView", viewConfig: {path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6"}},
+                            {elementId: 'multi_tenancy', view: "FormDropdownView", viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'haproxy', view: "FormDropdownView", viewConfig: {path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.STATES}}},
+                            {elementId: 'use_certificates', view: "FormDropdownView", viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'database_dir', view: "FormInputView", viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}},
+                            {elementId: 'database_token', view: "FormInputView", viewConfig: {path: 'parameters.database_token', dataBindValue: 'parameters().database_token', class: "span6"}}
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SERVERS_CONFIG]),
+            title: smLabels.TITLE_SERVERS_CONFIG,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'domain', view: "FormInputView", viewConfig: {path: 'parameters.domain', dataBindValue: 'parameters().domain', class: "span6"}},
+                            {elementId: 'password', view: "FormInputView", viewConfig: {path: 'parameters.password', dataBindValue: 'parameters().password', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
+                            {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'base_image_id',
+                                view: "FormDropdownView",
+                                viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                            },
+                            {
+                                elementId: 'package_image_id',
+                                view: "FormDropdownView",
+                                viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ];
+
+    function getConfigureViewConfig() {
+        var viewConfig = []
+        viewConfig = viewConfig.concat(createClusterViewConfig);
+        viewConfig = viewConfig.concat(configureClusterViewConfig);
+        viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = true;
+        return {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
+            view: "AccordianView",
+            viewConfig: viewConfig
+        }
+    }
+
 
     var reimageViewConfig = {
         elementId: prefixId,
@@ -802,10 +812,11 @@ define([
             openstackStepViewConfig = null;
 
         //Appending Configure Server Steps
-        configureStepViewConfig = $.extend(true, {}, configureViewConfig, {
-            // making 'id' NOT disabled
-            viewConfig: [{viewConfig: {rows: [{columns: [{viewConfig: {disabled: false}}]}]}}],
-            title: smLabels.TITLE_CONFIGURE,
+        configureStepViewConfig = {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CREATE_CONFIG]),
+            view: "AccordianView",
+            viewConfig: createClusterViewConfig,
+            title: smLabels.TITLE_CREATE,
             stepType: 'step',
             onInitRender: true,
             onNext: function (params) {
@@ -819,8 +830,7 @@ define([
                     visible: false
                 }
             }
-        });
-        configureStepViewConfig.viewConfig.splice(1,1);
+        };
         steps = steps.concat(configureStepViewConfig);
 
         //Appending Add Server Steps
@@ -876,9 +886,12 @@ define([
         });
         steps = steps.concat(assignRolesStepViewConfig);
 
-        openstackStepViewConfig = $.extend(true, {}, configureViewConfig.viewConfig[1], {
-            title: smLabels.TITLE_OPENSTACK,
+        openstackStepViewConfig = {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
+            view: "AccordianView",
+            title: smLabels.TITLE_CONFIGURE,
             stepType: 'step',
+            viewConfig: configureClusterViewConfig,
             onInitRender: true,
             onNext: function (params) {
                 return params.model.configureOpenStack(function(){
@@ -894,7 +907,7 @@ define([
                     visible: false
                 }
             }
-        });
+        };
         steps = steps.concat(openstackStepViewConfig);
 
         addClusterViewConfig.viewConfig.steps = steps;

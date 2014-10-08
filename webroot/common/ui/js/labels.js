@@ -113,6 +113,7 @@ define([
         this.TITLE_SERVER_STATUS = "Server Status";
         this.TITLE_STATUS = "Status";
         this.TITLE_EDIT_CONFIG = "Edit Config";
+        this.TITLE_CREATE_CONFIG = "Create Config";
         this.TITLE_ADD = "Add";
         this.TITLE_REIMAGE = "Reimage";
         this.TITLE_FILTER = "Filter";
@@ -126,6 +127,7 @@ define([
         this.TITLE_ROLES = "Roles";
         this.TITLE_DELETE = "Delete";
         this.TITLE_CONFIGURE = 'Configure';
+        this.TITLE_CREATE = 'Create';
 
         this.TITLE_CLUSTERS = 'Clusters';
         this.TITLE_CLUSTER = 'Cluster';
