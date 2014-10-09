@@ -519,12 +519,15 @@ define([
                             elementId: 'tagsCheckedMultiselect',
                             dataTextField: 'text',
                             dataValueField: 'id',
+                            noneSelectedText: smLabels.FILTER_TAGS,
+                            selectedText: '# Tags Selected',
                             filterConfig: {
-                                placeholder: 'Search Tags'
+                                placeholder: smLabels.SEARCH_TAGS
                             },
                             parse: formatData4Ajax,
-                            minWidth: 200,
-                            height: 250,
+                            minWidth: 150,
+                            height: 200,
+                            selectedList: 2,
                             dataSource: {
                                 type: 'GET',
                                 url: smUtils.getTagsUrl('')
@@ -547,11 +550,14 @@ define([
                             elementId: 'rolesCheckedMultiselect',
                             dataTextField: 'text',
                             dataValueField: 'id',
+                            noneSelectedText: smLabels.SELECT_ROLES,
+                            selectedText: '# Roles Selected',
                             filterConfig: {
-                                placeholder: 'Search Roles'
+                                placeholder: smLabels.SEARCH_ROLES
                             },
-                            minWidth: 200,
+                            minWidth: 150,
                             height: 200,
+                            selectedList: 2,
                             data: [
                                 {
                                     id: 'roles',
@@ -559,8 +565,10 @@ define([
                                     children: smConstants.ROLES_OBJECTS
                                 }
                             ],
-                            control: {
-                                apply: {
+                            control: [
+                                {
+                                    label: 'Assign',
+                                    cssClass: 'btn-primary',
                                     click: function (self, checkedRows) {
                                         var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
                                             checkedRoles = checkedRows;
@@ -589,13 +597,45 @@ define([
                                         })
 
                                         $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
+                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
+                                        disableRolesCheckedMultiselect(true);
                                     }
                                 },
-                                cancel: {
+                                {
+                                    label: 'Revoke',
                                     click: function (self, checkedRows) {
-                                    }
+                                        var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
+                                            checkedRoles = checkedRows;
+
+                                        $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
+                                            $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
+                                                if($.isEmptyObject(checkedServerValue.roles)) {
+                                                    checkedServerValue.roles = [];
+                                                }
+                                                var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val())),
+                                                    checkedRoleIndex = checkedServerValue.roles.indexOf(checkedRoleValue.value);
+                                               if (checkedRoleIndex != -1) {
+
+                                                    checkedServerValue.roles.splice(checkedRoleIndex, 1);
+                                                    if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
+                                                        $(filteredServerGrid).data('serverData', {
+                                                            selectedServers: [checkedServerValue.cgrid]
+                                                        });
+                                                    } else {
+                                                        if ($(filteredServerGrid).data('serverData').selectedServers.indexOf(checkedServerValue.cgrid) == -1) {
+                                                            $(filteredServerGrid).data('serverData').selectedServers.push(checkedServerValue.cgrid);
+                                                        }
+                                                    }
+
+                                                }
+                                            })
+                                        })
+
+                                        $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
+                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
+                                        disableRolesCheckedMultiselect(true);                                    }
                                 }
-                            }
+                            ]
                         }
                     }
                 ]
@@ -608,10 +648,10 @@ define([
                     actionCell: [],
                     checkboxSelectable: {
                         onNothingChecked: function (e) {
-                            $('#rolesCheckedMultiselectAction').find('.link-multiselectbox').addClass('disabled-link');
+                            disableRolesCheckedMultiselect(true);
                         },
                         onSomethingChecked: function (e) {
-                            $('#rolesCheckedMultiselectAction').find('.link-multiselectbox').removeClass('disabled-link');
+                            disableRolesCheckedMultiselect(false);
                         }
                     }
                 },
@@ -633,6 +673,16 @@ define([
         };
 
         return gridElementConfig;
+    }
+
+    function disableRolesCheckedMultiselect(flag) {
+        if(flag){
+            $('#rolesCheckedMultiselectAction').find('.icon-check').addClass('disabled-link');
+            $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').disable();
+        } else {
+            $('#rolesCheckedMultiselectAction').find('.icon-check').removeClass('disabled-link');
+            $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').enable();
+        }
     }
 
     function getConfirmServerGridElementConfig(gridPrefix) {

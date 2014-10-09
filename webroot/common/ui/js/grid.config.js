@@ -118,11 +118,15 @@ define([
             var columns = [];
             $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
                 columns.push({
-                    id: roleValue, field: "roles", name: smLabels.get(roleValue), width: 60, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                    id: roleValue, field: "roles",
+                    name: smLabels.get(roleValue),
+                    width: 60, minWidth: 15,
+                    cssClass: 'text-center',
+                    formatter: function (r, c, v, cd, dc) {
                         if($.isEmptyObject(dc.roles)) {
-                            return '<i class="icon-remove red"></i>'
+                            return ''
                         } else {
-                            return (dc.roles.indexOf(roleValue) != -1) ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
+                            return (dc.roles.indexOf(roleValue) != -1) ? '<i class="icon-ok green"></i>' : '';
                         }
                     }
                 });
@@ -131,8 +135,8 @@ define([
         };
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
-            { id: "server_id", field: "id", name: "Hostname", width: 150, minWidth: 100 },
-            { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 100, formatter: function (r, c, v, cd, dc) {
+            { id: "server_id", field: "id", name: "Hostname", width: 75, minWidth: 75 },
+            { id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125, formatter: function (r, c, v, cd, dc) {
                 var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
                     tagHTML = tagTemplate(dc.tag);
                 return tagHTML;

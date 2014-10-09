@@ -296,11 +296,12 @@ define([
                     elementId: 'tagsCheckedMultiselect',
                     dataTextField: 'text',
                     dataValueField: 'id',
+                    noneSelectedText: smLabels.FILTER_TAGS,
                     filterConfig: {
-                        placeholder: 'Search Tags'
+                        placeholder: smLabels.SEARCH_TAGS
                     },
                     parse: formatData4Ajax,
-                    minWidth: 200,
+                    minWidth: 150,
                     height: 250,
                     dataSource: {
                         type: 'GET',

@@ -30,7 +30,7 @@ define([
             'intf_control': null,
             'parameters': {},
             'tag': {},
-            'roles': {}
+            'roles': ['compute']
         },
         configure: function (modalId, checkedRows, callback) {
             if (this.model().isValid(true, 'configureValidation')) {

@@ -165,6 +165,9 @@ define([
         this.SELECT_IMAGE = 'Select Image';
         this.SELECT_PACKAGE = 'Select Package';
         this.SELECT_ROLES = 'Select Roles';
+        this.SEARCH_ROLES = 'Search Roles';
+        this.FILTER_TAGS = 'Filter Tags';
+        this.SEARCH_TAGS = 'Search Tags';
     };
     return Labels;
 });
