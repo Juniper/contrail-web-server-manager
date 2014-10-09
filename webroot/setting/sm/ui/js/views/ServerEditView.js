@@ -104,6 +104,7 @@ define([
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionServersViewConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
         },
 
         renderTagServers: function (options) {

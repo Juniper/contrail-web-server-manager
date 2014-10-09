@@ -279,9 +279,6 @@ define([
                 serverId = checkedRow['id'];
             ajaxConfig.type = "DELETE";
             ajaxConfig.url = '/sm/objects/server?id=' + serverId;
-            console.log(ajaxConfig);
-            console.log(modalId);
-
             contrail.ajaxHandler(ajaxConfig, function () {
             }, function (response) {
                 console.log(response);
