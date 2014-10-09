@@ -134,6 +134,24 @@ define([
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
+        },
+
+        renderDeleteCluster: function (options) {
+            var textTemplate = contrail.getTemplate4Id("sm-delete-cluster-template"),
+                elId = 'deleteCluster',
+                that = this,
+                checkedRows = options['checkedRows'],
+                clustersToBeDeleted = {'clusterId': [], 'elementId': elId};
+            clustersToBeDeleted['clusterId'].push(checkedRows['id']);
+            this.model.showErrorAttr(elId, false);
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
+                that.model.deleteCluster(modalId, options['checkedRows'], options['callback']);
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
+            }});
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
         }
     });
 

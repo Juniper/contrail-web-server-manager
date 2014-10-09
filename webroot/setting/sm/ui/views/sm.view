@@ -30,6 +30,24 @@
     </div>
 </script>
 
+<script type="text/x-handlebars-template" id="sm-delete-server-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            <strong>Error: </strong>
+    <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete the following server(s): &nbsp {{serverId}}</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-cluster-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete the following cluster: &nbsp {{clusterId}}</div>
+</script>
+
 <script type="text/x-handlebars-template" id="sm-section-view-template">
     {{#if this.title}}
         <h5 class="margin-0-0-10">{{this.title}}</h5>

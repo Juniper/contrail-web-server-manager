@@ -140,6 +140,7 @@ define([
 
         this.SELECT_CLUSTER = 'Select Cluster';
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
+        this.TITLE_DEL_CLUSTER = 'Delete Cluster';
         this.TITLE_DEL_CLUSTERS = 'Delete Clusters';
         this.TITLE_ADD_SERVER = 'Add Server';
         this.TITLE_ADD_SERVERS = 'Add Servers';
@@ -153,6 +154,7 @@ define([
         this.TITLE_REGISTER = 'Register';
         this.TITLE_CONFIGURE_SERVER = 'Configure Server';
         this.TITLE_CONFIGURE_SERVERS = 'Configure Servers';
+        this.TITLE_DEL_SERVER = 'Delete Server';
         this.TITLE_EDIT_TAGS = 'Edit Tags';
         this.TITLE_ASSIGN_ROLES = 'Assign Roles';
         this.TITLE_PROVISION_SERVER = 'Provision Server';

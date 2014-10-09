@@ -39,7 +39,8 @@ define([
                 if (true) {
                     var putData = {}, serverAttrsEdited = [], serversEdited = [],
                         serverAttrs = this.model().attributes,
-                        locks = this.model().attributes.locks.attributes;
+                        locks = this.model().attributes.locks.attributes,
+                        that = this;
 
                     serverAttrsEdited = smUtils.getEditConfigObj(serverAttrs, locks);
                     for (var i = 0; i < checkedRows.length; i++) {
@@ -60,6 +61,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr('server', error);
                     });
                 } else {
                     // TODO: Show form-level error message if any
@@ -110,7 +112,7 @@ define([
             if (this.model().isValid(true, 'createServersValidation')) {
                 var ajaxConfig = {};
                 if (true) {
-                    var putData = {}, serversCreated = [],
+                    var putData = {}, serversCreated = [], that = this,
                         serverAttrs = this.model().attributes;
                         serversCreated.push(serverAttrs);
 
@@ -128,7 +130,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
-                        this.showErrorAttr(errorConfigObj.elementId, error);
+                        that.showErrorAttr('server', error);
                     });
                 } else {
                     // TODO: Show form-level error message if any
@@ -271,6 +273,26 @@ define([
                     // TODO: Show form-level error message if any
                 }
             }
+        },
+        deleteServer: function (modalId, checkedRow, callback) {
+            var ajaxConfig = {}, that = this,
+                serverId = checkedRow['id'];
+            ajaxConfig.type = "DELETE";
+            ajaxConfig.url = '/sm/objects/server?id=' + serverId;
+            console.log(ajaxConfig);
+            console.log(modalId);
+
+            contrail.ajaxHandler(ajaxConfig, function () {
+            }, function (response) {
+                console.log(response);
+                $("#" + modalId).modal('hide');
+                if (contrail.checkIfFunction(callback)) {
+                    callback();
+                }
+            }, function (error) {
+                console.log(error);
+                this.showErrorAttr('deleteServer', error['responseText']);
+            });
         },
         validations: {
             reimageValidation: {

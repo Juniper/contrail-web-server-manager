@@ -246,6 +246,25 @@ define([
                 }
             }
         },
+        deleteCluster: function (modalId, checkedRow, callback) {
+            var ajaxConfig = {}, that = this,
+                clusterId = checkedRow['id'];
+                ajaxConfig.type = "DELETE";
+                ajaxConfig.url = '/sm/objects/cluster?id=' + clusterId;
+
+            console.log(ajaxConfig);
+            contrail.ajaxHandler(ajaxConfig, function () {
+            }, function (response) {
+                console.log(response);
+                $("#" + modalId).modal('hide');
+                if (contrail.checkIfFunction(callback)) {
+                    callback();
+                }
+            }, function (error) {
+                console.log(this);
+                that.showErrorAttr('deleteCluster', error['responseText']);
+            });
+        },
         validations: {
             reimageValidation: {
                 'base_image_id': {

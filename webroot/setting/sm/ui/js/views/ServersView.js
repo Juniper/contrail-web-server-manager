@@ -105,6 +105,17 @@ define([
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
+            }),
+            smGridConfig.getDeleteAction(function (rowIndex) {
+                var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+                    serverModel = new ServerModel(dataItem),
+                    checkedRow = dataItem;
+
+                serverEditView.model = serverModel;
+                serverEditView.renderDeleteServer({"title": smLabels.TITLE_DEL_SERVER, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
             })
         ];
         if (showAssignRoles) {

@@ -152,8 +152,15 @@ define([
                 dataView.refreshData();
             }});
         },
-        renderDelete: function(dataItem) {
-            console.log(dataItem)
+        renderDelete: function (dataItem) {
+            clusterModel = new ClusterModel(dataItem),
+                checkedRow = dataItem;
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderDeleteCluster({"title": smLabels.TITLE_DEL_CLUSTER, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }
     }
 

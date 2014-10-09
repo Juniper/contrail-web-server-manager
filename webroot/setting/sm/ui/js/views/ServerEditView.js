@@ -144,6 +144,24 @@ define([
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, assignRolesViewConfig);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
+        },
+
+        renderDeleteServer: function (options) {
+            var textTemplate = contrail.getTemplate4Id("sm-delete-server-template"),
+                elId = 'deleteServer',
+                that = this,
+                checkedRows = options['checkedRows'],
+                serversToBeDeleted = {'serverId': [], 'elementId': elId};
+            serversToBeDeleted['serverId'].push(checkedRows['id']);
+            this.model.showErrorAttr(elId, false);
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
+                that.model.deleteServer(modalId, options['checkedRows'], options['callback']);
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
+            }});
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
         }
     });
 
