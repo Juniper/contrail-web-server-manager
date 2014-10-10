@@ -14,18 +14,13 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-accordian-view-template">
-    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
-        <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
-        <strong>Error: </strong>
-        <span data-bind="text: errors().{{elementId}}_error"></span>
-    </div>
     <div id="{{elementId}}">
         {{#each viewConfig}}
-        {{#if this.title}}
-        <h3>{{this.title}}</h3>
-        {{/if}}
-        <div id="{{this.elementId}}">
-        </div>
+            {{#if this.title}}
+                <h3>{{this.title}} <span class="red" data-bind="visible: errors().{{this.elementId}}_error()"> <i class="icon-exclamation-sign red"></i></span></h3>
+            {{/if}}
+            <div id="{{this.elementId}}">
+            </div>
         {{/each}}
     </div>
 </script>
