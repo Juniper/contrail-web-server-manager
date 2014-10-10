@@ -198,7 +198,11 @@ define([
 
         this.getEditConfigObj = function (configObj, locks){
             var lock = null,
-                testobj = $.extend(true, {}, configObj);;
+                testobj = $.extend(true, {}, configObj);
+
+            delete testobj.errors;
+            delete testobj.locks;
+
             $.each(testobj, function (index, value) {
                 if (_.isArray(value)) {
                     if (contrail.checkIfExist(locks[index + '_locked'])) {
