@@ -899,6 +899,7 @@ define([
                 }
             }
         };
+        configureStepViewConfig.viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = false;
         steps = steps.concat(configureStepViewConfig);
 
         //Appending Add Server Steps

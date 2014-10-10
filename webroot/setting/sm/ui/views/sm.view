@@ -17,7 +17,7 @@
     <div id="{{elementId}}">
         {{#each viewConfig}}
             {{#if this.title}}
-                <h3>{{this.title}} <span class="red" data-bind="visible: errors().{{this.elementId}}_error()"> <i class="icon-exclamation-sign red"></i></span></h3>
+                <h3>{{this.title}} <span class="red pull-right" data-bind="visible: errors().{{this.elementId}}_error()"> <i class="icon-warning-sign red"></i></span></h3>
             {{/if}}
             <div id="{{this.elementId}}">
             </div>
