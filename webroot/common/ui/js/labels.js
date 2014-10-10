@@ -85,6 +85,7 @@ define([
             "new_servers": "New Servers",
             "registered_servers": "Registered Servers",
             "configured_servers": "Configured Servers",
+            "inprovision_servers": "In-Provision Servers",
             "provisioned_servers": "Provisioned Servers",
             "total_servers": "Total Servers",
             "external_bgp": "External BGP",
