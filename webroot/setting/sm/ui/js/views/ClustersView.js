@@ -223,15 +223,15 @@ define([
     ];
 
     var headerActionConfig = [
-        {
-            "type": "link",
-            linkElementId: 'btnDeleteClusters',
-            disabledLink: true,
-            "title": smLabels.TITLE_DEL_CLUSTERS,
-            "iconClass": "icon-trash",
-            "onClick": function () {
-            }
-        },
+//        {
+//            "type": "link",
+//            linkElementId: 'btnDeleteClusters',
+//            disabledLink: true,
+//            "title": smLabels.TITLE_DEL_CLUSTERS,
+//            "iconClass": "icon-trash",
+//            "onClick": function () {
+//            }
+//        },
         {
             "type": "link",
             "title": smLabels.TITLE_ADD_CLUSTER,

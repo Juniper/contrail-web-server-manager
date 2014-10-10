@@ -30,6 +30,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -52,6 +53,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -70,6 +72,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -91,6 +94,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionViewConfig);
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -108,6 +112,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, options['callback']));
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -131,6 +136,7 @@ define([
             });
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -143,12 +149,13 @@ define([
                 checkedRows = options['checkedRows'],
                 clustersToBeDeleted = {'clusterId': [], 'elementId': elId};
             clustersToBeDeleted['clusterId'].push(checkedRows['id']);
-            this.model.showErrorAttr(elId, false);
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
                 that.model.deleteCluster(modalId, options['checkedRows'], options['callback']);
             }, 'onCancel': function () {
                 $("#" + modalId).modal('hide');
             }});
+
+            this.model.showErrorAttr(elId, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -963,7 +970,7 @@ define([
             viewConfig: configureClusterViewConfig,
             onInitRender: true,
             onNext: function (params) {
-                return params.model.configureOpenStack(function(){
+                return params.model.configure(function(){
                     callback();
                     $('#' + modalId).modal('hide');
                 });

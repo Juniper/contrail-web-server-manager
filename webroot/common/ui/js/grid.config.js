@@ -145,7 +145,7 @@ define([
                 columns.push({
                     id: roleValue, field: "roles",
                     name: smLabels.get(roleValue),
-                    width: 60, minWidth: 15,
+                    width: 60, minWidth: 60,
                     cssClass: 'text-center',
                     formatter: function (r, c, v, cd, dc) {
                         if($.isEmptyObject(dc.roles)) {
