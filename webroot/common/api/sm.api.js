@@ -54,7 +54,7 @@ function getObjectsDetails(req, res) {
         } else {
             responseArray = responseJSON[objectName];
             filteredResponseArray = filterObjectsDetails(responseArray, filterInNull);
-            resultArray = processResultsCB(res, filteredResponseArray, postProcessor)
+            resultArray = processResultsCB(res, filteredResponseArray, postProcessor);
         }
     });
 };
@@ -63,6 +63,14 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
     switch (postProcessor) {
         case constants.FUNC_COMPUTE_SERVER_STATES:
             computeServerStates(res, filteredResponseArray);
+            break;
+
+        case constants.FUNC_FILTER_IN_IMAGES:
+            filterImagesPackages(res, filteredResponseArray, constants.IMAGE_TYPES);
+            break;
+
+        case constants.FUNC_FILTER_IN_PACKAGES:
+            filterImagesPackages(res, filteredResponseArray, constants.PACKAGE_TYPES);
             break;
 
         default:
@@ -119,7 +127,19 @@ function computeServerStates(res, filteredResponseArray) {
             commonUtils.handleJSONResponse(null, res, filteredResponseArray);
         }
     });
-}
+};
+
+function filterImagesPackages(res, filteredResponseArray, types) {
+    var image, type, responseArray = [];
+    for(var i = 0; i < filteredResponseArray.length; i++) {
+        image = filteredResponseArray[i];
+        type = image['type'];
+        if(types.indexOf(type) != -1) {
+            responseArray.push(image);
+        }
+    }
+    commonUtils.handleJSONResponse(null, res, responseArray);
+};
 
 function filterObjectsDetails(responseArray, filterInNull) {
     var resultArray = [];

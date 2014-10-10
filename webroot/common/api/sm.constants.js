@@ -18,6 +18,9 @@ smConstants.KEY_POST_PROCESSOR = 'postProcessor';
 smConstants.KEY_EMPTY_CLUSTER = '--empty--';
 
 smConstants.FUNC_COMPUTE_SERVER_STATES = 'computeServerStates';
+smConstants.FUNC_FILTER_IN_IMAGES = 'filterInImages';
+smConstants.FUNC_FILTER_IN_PACKAGES = 'filterInPackages';
+
 
 smConstants.REDIS_TAG_VALUES = 'tagValues';
 smConstants.REDIS_CACHE_EXPIRE = 3600;
@@ -25,6 +28,10 @@ smConstants.REDIS_CACHE_EXPIRE = 3600;
 
 smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id'];
 smConstants.SM_API_SERVER = 'sm_api_server'
+
+smConstants.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5'];
+smConstants.PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package', 'contrail-storage-ubuntu-package'];
+
 
 // Export this as a module.
 module.exports = smConstants;
