@@ -27,6 +27,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig);
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -37,7 +38,10 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.configure(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.configure(modalId, options['checkedRows'], function(){
+                    options['callback']();
+                    $("#" + modalId).modal('hide');
+                });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -45,6 +49,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(true), "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -55,7 +60,10 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.configureServers(modalId, options['checkedRows'], options['callback']);
+                that.model.configureServers(modalId, options['checkedRows'], function(){
+                    options['callback']();
+                    $("#" + modalId).modal('hide');
+                });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -63,6 +71,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureServersViewConfig, "configureValidation", true);
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -84,6 +93,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(false), "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -102,6 +112,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionServersViewConfig);
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -126,6 +137,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, editTagViewConfig);
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
         },
@@ -143,6 +155,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, assignRolesViewConfig);
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
         },
@@ -154,12 +167,14 @@ define([
                 checkedRows = options['checkedRows'],
                 serversToBeDeleted = {'serverId': [], 'elementId': elId};
             serversToBeDeleted['serverId'].push(checkedRows['id']);
-            this.model.showErrorAttr(elId, false);
+
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
                 that.model.deleteServer(modalId, options['checkedRows'], options['callback']);
             }, 'onCancel': function () {
                 $("#" + modalId).modal('hide');
             }});
+
+            this.model.showErrorAttr(elId, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);

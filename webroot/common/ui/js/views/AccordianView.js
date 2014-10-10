@@ -22,11 +22,11 @@ define([
             for (var i = 0; i < viewConfig.length; i++) {
                 childViewObj = viewConfig[i];
                 childElId = childViewObj['elementId'];
-                errorObj['attributes'][childElId + '_error'] = getKOComputedError(viewConfig[i], this);
+
+                this.model.showErrorAttr(childElId, getKOComputedError(viewConfig[i], this));
+
                 smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation, lockEditingByDefault);
             }
-
-            this.model.showErrorAttr(elId, false);
 
             this.$el.find("#" + elId).accordion({
                 heightStyle: "content",

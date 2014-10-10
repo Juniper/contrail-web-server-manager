@@ -9,6 +9,10 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-edit-form-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{prefixId}}_form_error">
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{prefixId}}_form_error"></span>
+    </div>
     <form name="{{prefixId}}Form" id="sm-{{prefixId}}-form" onsubmit="return false;" class="">
     </form>
 </script>
