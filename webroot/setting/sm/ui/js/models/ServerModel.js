@@ -30,7 +30,7 @@ define([
             'intf_control': null,
             'parameters': {},
             'tag': {},
-            'roles': {}
+            'roles': ['compute']
         },
         configure: function (modalId, checkedRows, callback) {
             if (this.model().isValid(true, 'configureValidation')) {
@@ -39,7 +39,8 @@ define([
                 if (true) {
                     var putData = {}, serverAttrsEdited = [], serversEdited = [],
                         serverAttrs = this.model().attributes,
-                        locks = this.model().attributes.locks.attributes;
+                        locks = this.model().attributes.locks.attributes,
+                        that = this;
 
                     serverAttrsEdited = smUtils.getEditConfigObj(serverAttrs, locks);
                     for (var i = 0; i < checkedRows.length; i++) {
@@ -54,25 +55,16 @@ define([
                     contrail.ajaxHandler(ajaxConfig, function () {
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
                         if (contrail.checkIfFunction(callback)) {
                             callback();
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
-            } else{
-                var errorsObj = this.model().attributes.errors.attributes, errArr = [];
-                $.each(errorsObj, function (key, value) {
-                    if (value) {
-                        error = key.replace('_error', '');
-                        errArr.push(smLabels.get(error));
-                    }
-                });
-                this.showErrorAttr('server', smMessages.getResolveErrorsMessage(errArr.join(', ')));
             }
         },
         configureServers: function (modalId, checkedRows, callback) {
@@ -80,7 +72,8 @@ define([
             if (true) {
                 var putData = {}, serverAttrsEdited = {}, serversEdited = [],
                     serverAttrs = this.model().attributes,
-                    locks = this.model().attributes.locks.attributes;
+                    locks = this.model().attributes.locks.attributes,
+                    that = this;
 
                 serverAttrsEdited = smUtils.getEditConfigObj(serverAttrs, locks);
                 $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
@@ -95,24 +88,25 @@ define([
                 contrail.ajaxHandler(ajaxConfig, function () {
                 }, function (response) {
                     console.log(response);
-                    $("#" + modalId).modal('hide');
                     if (contrail.checkIfFunction(callback)) {
                         callback();
                     }
                 }, function (error) {
                     console.log(error);
+                    that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                 });
             } else {
                 // TODO: Show form-level error message if any
             }
         },
         createServers: function (modalId, callback) {
-            if (this.model().isValid(true, 'createServersValidation')) {
+            if (this.model().isValid(true, 'configureValidation')) {
                 var ajaxConfig = {};
                 if (true) {
-                    var putData = {}, serversCreated = [],
+                    var putData = {}, serversCreated = [], that = this,
                         serverAttrs = this.model().attributes;
-                        serversCreated.push(serverAttrs);
+                        serversCreated.push(serverAttrs),
+                        that = this;
 
                     putData[smConstants.SERVER_PREFIX_ID] = serversCreated;
 
@@ -128,20 +122,11 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
-                        this.showErrorAttr(errorConfigObj.elementId, error);
+                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
-            } else {
-                var errorsObj = this.model().attributes.errors.attributes, errArr = [];
-                $.each(errorsObj, function (key, value) {
-                    if (value) {
-                        error = key.replace('_error', '');
-                        errArr.push(smLabels.get(error));
-                    }
-                });
-                this.showErrorAttr('server', smMessages.getResolveErrorsMessage(errArr.join(', ')));
             }
         },
         editRoles: function (modalId, checkedRows, callback) {
@@ -150,7 +135,8 @@ define([
                 if (true) {
                     var serverAttrs = this.model().attributes,
                         putData = {}, servers = [],
-                        roles = serverAttrs['roles'].split(',');
+                        roles = serverAttrs['roles'].split(','),
+                        that = this;
 
                     for(var i = 0; i < checkedRows.length; i++) {
                         servers.push({'id': checkedRows[i]['id'], 'roles': roles});
@@ -170,6 +156,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                     });
                 } else {
                     // TODO: Show form-level error message if any
@@ -182,7 +169,8 @@ define([
                 // TODO: Check for form-level validation if required
                 if (true) {
                     var serverAttrs = this.model().attributes,
-                        putData = {}, servers = [];
+                        putData = {}, servers = [],
+                        that = this;
 
                     for (var i = 0; i < checkedRows.length; i++) {
                         servers.push({'id': checkedRows[i]['id'], 'tag': serverAttrs['tag']});
@@ -203,6 +191,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                     });
                 } else {
                     // TODO: Show form-level error message if any
@@ -215,7 +204,8 @@ define([
                 // TODO: Check for form-level validation if required
                 if (true) {
                     var serverAttrs = this.model().attributes,
-                        putData = {}, servers = [];
+                        putData = {}, servers = [],
+                        that = this;
 
                     for (var i = 0; i < checkedRows.length; i++) {
                         servers.push({'id': checkedRows[i]['id'], 'base_image_id': serverAttrs['base_image_id']});
@@ -234,6 +224,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                     });
                 } else {
                     // TODO: Show form-level error message if any
@@ -245,7 +236,8 @@ define([
             if (this.model().isValid(true, 'provisionValidation')) {
                 if (true) {
                     var serverAttrs = this.model().attributes,
-                        putData = {}, servers = [];
+                        putData = {}, servers = [],
+                        that = this;
 
                     for (var i = 0; i < checkedRows.length; i++) {
                         servers.push({'id': checkedRows[i]['id'], 'package_image_id': serverAttrs['package_image_id']});
@@ -265,12 +257,30 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                     });
 
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
+        },
+        deleteServer: function (modalId, checkedRow, callback) {
+            var ajaxConfig = {}, that = this,
+                serverId = checkedRow['id'];
+            ajaxConfig.type = "DELETE";
+            ajaxConfig.url = '/sm/objects/server?id=' + serverId;
+            contrail.ajaxHandler(ajaxConfig, function () {
+            }, function (response) {
+                console.log(response);
+                $("#" + modalId).modal('hide');
+                if (contrail.checkIfFunction(callback)) {
+                    callback();
+                }
+            }, function (error) {
+                console.log(error);
+                this.showErrorAttr('deleteServer', error['responseText']);
+            });
         },
         validations: {
             reimageValidation: {
@@ -289,7 +299,7 @@ define([
                     msg: smMessages.getRequiredMessage('package_image_id')
                 }
             },
-            createServersValidation: {
+            configureValidation: {
                 'id': {
                     required: true,
                     msg: smMessages.getRequiredMessage('id')
@@ -299,13 +309,16 @@ define([
                     pattern: smConstants.PATTERN_IP_ADDRESS,
                     msg: smMessages.getInvalidErrorMessage('ip_address')
                 },
+                'ipmi_address': {
+                    required: false,
+                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    msg: smMessages.getInvalidErrorMessage('ipmi_address')
+                },
                 'mac_address': {
                     required: true,
                     pattern: smConstants.PATTERN_MAC_ADDRESS,
                     msg: smMessages.getInvalidErrorMessage('mac_address')
-                }
-            },
-            configureValidation: {
+                },
                 'email': {
                     required: false,
                     pattern: 'email',
@@ -325,16 +338,6 @@ define([
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
                     msg: smMessages.getInvalidErrorMessage('subnet_mask')
-                },
-                'parameters.compute_non_mgmt_ip': {
-                    required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_ip')
-                },
-                'parameters.compute_non_mgmt_gway': {
-                    required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_gway')
                 }
             }
         }

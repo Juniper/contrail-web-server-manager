@@ -30,9 +30,34 @@ define([
                 }
             }},
             { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 },
-            { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15 },
-            { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15 },
-            { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15 },
+            { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+                formatter: function (r, c, v, cd, dc) {
+                    var uiParams = dc['ui_added_parameters'],
+                        serverStatus = uiParams['servers_status'];
+                    return serverStatus['new_servers'];
+                }
+            },
+            { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+                formatter: function (r, c, v, cd, dc) {
+                    var uiParams = dc['ui_added_parameters'],
+                        serverStatus = uiParams['servers_status'];
+                    return serverStatus['configured_servers'];
+                }
+            },
+            { id: "inprovision_servers", field: "", name: "In-Provision Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+                formatter: function (r, c, v, cd, dc) {
+                    var uiParams = dc['ui_added_parameters'],
+                        serverStatus = uiParams['servers_status'];
+                    return serverStatus['inprovision_servers'];
+                }
+            },
+            { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+                formatter: function (r, c, v, cd, dc) {
+                    var uiParams = dc['ui_added_parameters'],
+                        serverStatus = uiParams['servers_status'];
+                    return serverStatus['provisioned_servers'];
+                }
+            },
             { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc['ui_added_parameters'],
@@ -118,11 +143,15 @@ define([
             var columns = [];
             $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
                 columns.push({
-                    id: roleValue, field: "roles", name: smLabels.get(roleValue), width: 60, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                    id: roleValue, field: "roles",
+                    name: smLabels.get(roleValue),
+                    width: 60, minWidth: 60,
+                    cssClass: 'text-center',
+                    formatter: function (r, c, v, cd, dc) {
                         if($.isEmptyObject(dc.roles)) {
-                            return '<i class="icon-remove red"></i>'
+                            return ''
                         } else {
-                            return (dc.roles.indexOf(roleValue) != -1) ? "<i class='icon-ok green'></i>" : "<i class='icon-remove red'></i>";
+                            return (dc.roles.indexOf(roleValue) != -1) ? '<i class="icon-ok green"></i>' : '';
                         }
                     }
                 });
@@ -131,8 +160,8 @@ define([
         };
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
-            { id: "server_id", field: "id", name: "Hostname", width: 150, minWidth: 100 },
-            { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 100, formatter: function (r, c, v, cd, dc) {
+            { id: "server_id", field: "id", name: "Hostname", width: 75, minWidth: 75 },
+            { id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125, formatter: function (r, c, v, cd, dc) {
                 var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
                     tagHTML = tagTemplate(dc.tag);
                 return tagHTML;

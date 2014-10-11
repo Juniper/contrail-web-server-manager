@@ -16,7 +16,6 @@ define([
             package_image_id: null,
             parameters: {
                 domain: null,
-                keystone_tenant: null,
                 gateway: null,
                 subnet_mask: null,
                 openstack_mgmt_ip: null,
@@ -44,7 +43,8 @@ define([
                 if (true) {
                     var putData = {}, clusterAttrsEdited = [],
                         clusterAttrs = this.model().attributes,
-                        locks = this.model().attributes.locks.attributes;
+                        locks = this.model().attributes.locks.attributes,
+                        that = this;
 
                     clusterAttrsEdited.push(smUtils.getEditConfigObj(clusterAttrs, locks));
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
@@ -62,61 +62,7 @@ define([
                         returnFlag = true;
                     }, function (error) {
                         console.log(error);
-                        returnFlag = false;
-                    });
-                } else {
-                    // TODO: Show form-level error message if any
-                }
-            } else{
-                var errorsObj = this.model().attributes.errors.attributes, errArr = [];
-                $.each(errorsObj, function (key, value) {
-                    if (value) {
-                        error = key.replace('_error', '');
-                        errArr.push(smLabels.get(error));
-                    }
-                });
-                this.showErrorAttr('cluster_edit_config', smMessages.getResolveErrorsMessage(errArr.join(', ')));
-            }
-
-            return returnFlag;
-        },
-        configureOpenStack: function (callback) {
-            var ajaxConfig = {},
-                returnFlag = false;
-            if (this.model().isValid(true, 'configureValidation')) {
-                // TODO: Check for form-level validation if required
-                if (true) {
-                    var putData = {}, openstackAttrsEdited = [],
-                        clusterAttrs = this.model().attributes;
-
-                    openstackAttrsEdited.push({
-                        'id': clusterAttrs['id'],
-                        'parameters': {
-                            'openstack_mgmt_ip': clusterAttrs.parameters['openstack_mgmt_ip'],
-                            'openstack_passwd' : clusterAttrs.parameters['openstack_passwd'],
-                            'gateway'          : clusterAttrs.parameters['gateway'],
-                            'subnet_mask'      : clusterAttrs.parameters['subnet_mask'],
-                            'keystone_tenant'  : clusterAttrs.parameters['keystone_tenant'],
-                            'keystone_username': clusterAttrs.parameters['keystone_username'],
-                            'keystone_password': clusterAttrs.parameters['keystone_password']
-                        }
-                    });
-                    putData[smConstants.CLUSTER_PREFIX_ID] = openstackAttrsEdited;
-
-                    ajaxConfig.async = false;
-                    ajaxConfig.type = "PUT";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
-                    console.log(ajaxConfig);
-                    contrail.ajaxHandler(ajaxConfig, function () {
-                    }, function (response) {
-                        console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
-                        }
-                        returnFlag = true;
-                    }, function (error) {
-                        console.log(error);
+                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
                         returnFlag = false;
                     });
                 } else {
@@ -132,7 +78,9 @@ define([
                 // TODO: Check for form-level validation if required
                 if (true) {
                     var clusterAttrs = this.model().attributes,
-                        putData = {}, servers = [];
+                        putData = {}, servers = [],
+                        that = this;
+
                     $.each(serverList, function (key, value) {
                         servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
                     });
@@ -150,6 +98,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
                     });
                 } else {
                     // TODO: Show form-level error message if any
@@ -162,7 +111,9 @@ define([
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
-                    var putData = {}, servers = [];
+                    var putData = {}, servers = [],
+                        that = this;
+
                     $.each(serverList, function (key, value) {
                         servers.push({'id': value['id'], 'roles': value['roles']});
                     });
@@ -181,6 +132,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
                     });
                 } else {
                     // TODO: Show form-level error message if any
@@ -193,7 +145,9 @@ define([
             if (this.model().isValid(true, 'reimageValidation')) {
                 if (true) {
                     var clusterAttrs = this.model().attributes,
-                        putData = {}, clusters = [];
+                        putData = {}, clusters = [],
+                        that = this;
+
                     clusters.push({'cluster_id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id']});
                     putData = clusters;
 
@@ -210,6 +164,7 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
                     });
 
                 } else {
@@ -222,7 +177,9 @@ define([
             if (this.model().isValid(true, 'provisionValidation')) {
                 if (true) {
                     var clusterAttrs = this.model().attributes,
-                        putData = {}, clusters = [];
+                        putData = {}, clusters = [],
+                        that = this;
+
                     clusters.push({'cluster_id': clusterAttrs['id'], 'package_image_id': clusterAttrs['package_image_id']});
                     putData = clusters;
 
@@ -239,12 +196,32 @@ define([
                         }
                     }, function (error) {
                         console.log(error);
+                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
                     });
 
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
+        },
+        deleteCluster: function (modalId, checkedRow, callback) {
+            var ajaxConfig = {}, that = this,
+                clusterId = checkedRow['id'];
+                ajaxConfig.type = "DELETE";
+                ajaxConfig.url = '/sm/objects/cluster?id=' + clusterId;
+
+            console.log(ajaxConfig);
+            contrail.ajaxHandler(ajaxConfig, function () {
+            }, function (response) {
+                console.log(response);
+                $("#" + modalId).modal('hide');
+                if (contrail.checkIfFunction(callback)) {
+                    callback();
+                }
+            }, function (error) {
+                console.log(this);
+                that.showErrorAttr('deleteCluster', error['responseText']);
+            });
         },
         validations: {
             reimageValidation: {

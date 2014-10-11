@@ -85,6 +85,7 @@ define([
             "new_servers": "New Servers",
             "registered_servers": "Registered Servers",
             "configured_servers": "Configured Servers",
+            "inprovision_servers": "In-Provision Servers",
             "provisioned_servers": "Provisioned Servers",
             "total_servers": "Total Servers",
             "external_bgp": "External BGP",
@@ -113,6 +114,7 @@ define([
         this.TITLE_SERVER_STATUS = "Server Status";
         this.TITLE_STATUS = "Status";
         this.TITLE_EDIT_CONFIG = "Edit Config";
+        this.TITLE_CREATE_CONFIG = "Create Config";
         this.TITLE_ADD = "Add";
         this.TITLE_REIMAGE = "Reimage";
         this.TITLE_FILTER = "Filter";
@@ -126,6 +128,7 @@ define([
         this.TITLE_ROLES = "Roles";
         this.TITLE_DELETE = "Delete";
         this.TITLE_CONFIGURE = 'Configure';
+        this.TITLE_CREATE = 'Create';
 
         this.TITLE_CLUSTERS = 'Clusters';
         this.TITLE_CLUSTER = 'Cluster';
@@ -138,6 +141,7 @@ define([
 
         this.SELECT_CLUSTER = 'Select Cluster';
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
+        this.TITLE_DEL_CLUSTER = 'Delete Cluster';
         this.TITLE_DEL_CLUSTERS = 'Delete Clusters';
         this.TITLE_ADD_SERVER = 'Add Server';
         this.TITLE_ADD_SERVERS = 'Add Servers';
@@ -151,6 +155,7 @@ define([
         this.TITLE_REGISTER = 'Register';
         this.TITLE_CONFIGURE_SERVER = 'Configure Server';
         this.TITLE_CONFIGURE_SERVERS = 'Configure Servers';
+        this.TITLE_DEL_SERVER = 'Delete Server';
         this.TITLE_EDIT_TAGS = 'Edit Tags';
         this.TITLE_ASSIGN_ROLES = 'Assign Roles';
         this.TITLE_PROVISION_SERVER = 'Provision Server';
@@ -163,6 +168,9 @@ define([
         this.SELECT_IMAGE = 'Select Image';
         this.SELECT_PACKAGE = 'Select Package';
         this.SELECT_ROLES = 'Select Roles';
+        this.SEARCH_ROLES = 'Search Roles';
+        this.FILTER_TAGS = 'Filter Tags';
+        this.SEARCH_TAGS = 'Search Tags';
     };
     return Labels;
 });

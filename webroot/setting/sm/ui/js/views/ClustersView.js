@@ -152,8 +152,15 @@ define([
                 dataView.refreshData();
             }});
         },
-        renderDelete: function(dataItem) {
-            console.log(dataItem)
+        renderDelete: function (dataItem) {
+            clusterModel = new ClusterModel(dataItem),
+                checkedRow = dataItem;
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderDeleteCluster({"title": smLabels.TITLE_DEL_CLUSTER, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         }
     }
 
@@ -210,21 +217,21 @@ define([
             },
             {
                 title: smLabels.TITLE_STATUS,
-                keys: ['ui_added_parameters.servers_status.total_servers', 'status.new_servers', 'status.registered_servers', 'status.configured_servers', 'status.provisioned_servers']
+                keys: ['ui_added_parameters.servers_status.total_servers', 'ui_added_parameters.servers_status.new_servers', 'ui_added_parameters.servers_status.configured_servers', 'ui_added_parameters.servers_status.inprovision_servers', 'ui_added_parameters.servers_status.provisioned_servers']
             }
         ]
     ];
 
     var headerActionConfig = [
-        {
-            "type": "link",
-            linkElementId: 'btnDeleteClusters',
-            disabledLink: true,
-            "title": smLabels.TITLE_DEL_CLUSTERS,
-            "iconClass": "icon-trash",
-            "onClick": function () {
-            }
-        },
+//        {
+//            "type": "link",
+//            linkElementId: 'btnDeleteClusters',
+//            disabledLink: true,
+//            "title": smLabels.TITLE_DEL_CLUSTERS,
+//            "iconClass": "icon-trash",
+//            "onClick": function () {
+//            }
+//        },
         {
             "type": "link",
             "title": smLabels.TITLE_ADD_CLUSTER,

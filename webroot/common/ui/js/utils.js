@@ -44,14 +44,6 @@ define([
                             serverSidePagination: false
                         }
                     }
-                },
-                footer: {
-                    pager: {
-                        options: {
-                            pageSize: 50,
-                            pageSizeSelect: [10, 50, 100]
-                        }
-                    }
                 }
             }, gridConfig));
         };
@@ -206,7 +198,11 @@ define([
 
         this.getEditConfigObj = function (configObj, locks){
             var lock = null,
-                testobj = $.extend(true, {}, configObj);;
+                testobj = $.extend(true, {}, configObj);
+
+            delete testobj.errors;
+            delete testobj.locks;
+
             $.each(testobj, function (index, value) {
                 if (_.isArray(value)) {
                     if (contrail.checkIfExist(locks[index + '_locked'])) {

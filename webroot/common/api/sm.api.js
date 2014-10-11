@@ -54,7 +54,7 @@ function getObjectsDetails(req, res) {
         } else {
             responseArray = responseJSON[objectName];
             filteredResponseArray = filterObjectsDetails(responseArray, filterInNull);
-            resultArray = processResultsCB(res, filteredResponseArray, postProcessor)
+            resultArray = processResultsCB(res, filteredResponseArray, postProcessor);
         }
     });
 };
@@ -63,6 +63,14 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
     switch (postProcessor) {
         case constants.FUNC_COMPUTE_SERVER_STATES:
             computeServerStates(res, filteredResponseArray);
+            break;
+
+        case constants.FUNC_FILTER_IN_IMAGES:
+            filterImagesPackages(res, filteredResponseArray, constants.IMAGE_TYPES);
+            break;
+
+        case constants.FUNC_FILTER_IN_PACKAGES:
+            filterImagesPackages(res, filteredResponseArray, constants.PACKAGE_TYPES);
             break;
 
         default:
@@ -106,20 +114,64 @@ function computeServerStates(res, filteredResponseArray) {
                 clusterId = cluster[constants.KEY_ID];
                 clusterStatus = clusterStatusMap[clusterId];
                 if (clusterStatus != null) {
-                    totalServers = 0;
-                    for (var key in clusterStatus) {
-                        totalServers += clusterStatus[key];
-                    }
-                    clusterStatus['total_servers'] = totalServers;
+                    clusterStatus['total_servers'] = getTotalServers4Cluster(clusterStatus);
+                    clusterStatus['new_servers'] = getNewServers4Cluster(clusterStatus);
+                    clusterStatus['configured_servers'] = getConfiguredServers4Cluster(clusterStatus);
+                    clusterStatus['provisioned_servers'] = getProvisionedServers4Cluster(clusterStatus);
+                    clusterStatus['inprovision_servers'] = clusterStatus['total_servers'] - clusterStatus['new_servers']  - clusterStatus['configured_servers'] - clusterStatus['provisioned_servers'];
                     filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: clusterStatus}});
                 } else {
-                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0}}});
+                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0, new_servers: 0, configured_servers: 0, provisioned_servers: 0, inprovision_servers: 0}}});
                 }
             }
             commonUtils.handleJSONResponse(null, res, filteredResponseArray);
         }
     });
-}
+};
+
+function getNewServers4Cluster(clusterStatus) {
+    var newServers = 0;
+    if(clusterStatus['server_discovered'] != null) {
+        newServers = clusterStatus['server_discovered'];
+    }
+    return newServers;
+};
+
+function getConfiguredServers4Cluster(clusterStatus) {
+    var configuredServers = 0;
+    if(clusterStatus['server_added'] != null) {
+        configuredServers = clusterStatus['server_added'];
+    }
+    return configuredServers;
+};
+
+function getProvisionedServers4Cluster(clusterStatus) {
+    var provisionedServers = 0;
+    if(clusterStatus['provision_completed'] != null) {
+        provisionedServers = clusterStatus['provision_completed'];
+    }
+    return provisionedServers;
+};
+
+function getTotalServers4Cluster(clusterStatus) {
+    var totalServers = 0;
+    for (var key in clusterStatus) {
+        totalServers += clusterStatus[key];
+    }
+    return totalServers;
+};
+
+function filterImagesPackages(res, filteredResponseArray, types) {
+    var image, type, responseArray = [];
+    for(var i = 0; i < filteredResponseArray.length; i++) {
+        image = filteredResponseArray[i];
+        type = image['type'];
+        if(types.indexOf(type) != -1) {
+            responseArray.push(image);
+        }
+    }
+    commonUtils.handleJSONResponse(null, res, responseArray);
+};
 
 function filterObjectsDetails(responseArray, filterInNull) {
     var resultArray = [];
@@ -161,6 +213,25 @@ function postObjects(req, res, appdata) {
             commonUtils.handleJSONResponse(error, res);
         } else {
             commonUtils.handleJSONResponse(null, res, resultJSON);
+        }
+    });
+};
+
+function deleteObjects(req, res, appdata) {
+    var objectName = req.param(constants.KEY_NAME),
+        urlParts = url.parse(req.url, true),
+        objectUrl = '/' + objectName,
+        qsObj = urlParts.query,
+        responseArray, resultArray;
+
+    filterInAllowedParams(qsObj);
+    objectUrl += '?' + qs.stringify(qsObj);
+
+    sm.del(objectUrl, appdata, function (error, responseJSON) {
+        if (error != null) {
+            commonUtils.handleJSONResponse(error, res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, responseArray);
         }
     });
 };
@@ -250,6 +321,7 @@ function filterInAllowedParams(qsObj) {
 exports.getObjects = getObjects;
 exports.putObjects = putObjects;
 exports.postObjects = postObjects;
+exports.deleteObjects = deleteObjects;
 exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;

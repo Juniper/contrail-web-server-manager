@@ -29,7 +29,8 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, "configureValidation");
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -52,6 +53,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -70,6 +72,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), "configureValidation");
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -91,6 +94,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionViewConfig);
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -108,6 +112,7 @@ define([
             }});
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, options['callback']));
+            this.model.showErrorAttr(prefixId + '_form', false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
@@ -131,134 +136,164 @@ define([
             });
 
             smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
+            this.model.showErrorAttr(prefixId + '_form', false);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
+        },
+
+        renderDeleteCluster: function (options) {
+            var textTemplate = contrail.getTemplate4Id("sm-delete-cluster-template"),
+                elId = 'deleteCluster',
+                that = this,
+                checkedRows = options['checkedRows'],
+                clustersToBeDeleted = {'clusterId': [], 'elementId': elId};
+            clustersToBeDeleted['clusterId'].push(checkedRows['id']);
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
+                that.model.deleteCluster(modalId, options['checkedRows'], options['callback']);
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
+            }});
+
+            this.model.showErrorAttr(elId, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smValidation.bind(this);
         }
     });
 
-    var configureViewConfig = {
-        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
-        view: "AccordianView",
-        viewConfig: [
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
-                title: smLabels.TITLE_DETAILS,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled:true, path: 'id', dataBindValue: 'id', class: "span6"}},
-                                {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
+    var createClusterViewConfig = [{
+        elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
+        title: smLabels.TITLE_DETAILS,
+        view: "SectionView",
+        viewConfig: {
+            rows: [
+                {
+                    columns: [
+                        {elementId: 'id', view: "FormInputView", viewConfig: {path: 'id', dataBindValue: 'id', class: "span6"}},
+                        {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
 
-                            ]
-                        }
                     ]
                 }
-            },
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_OPENSTACK]),
-                title: smLabels.TITLE_OPENSTACK,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'openstack_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}},
-                                {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
-                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'keystone_username', view: "FormInputView", viewConfig: {path: 'parameters.keystone_username', dataBindValue: 'parameters().keystone_username', class: "span6"}},
-                                {elementId: 'keystone_password', view: "FormInputView", viewConfig: {path: 'parameters.keystone_password', dataBindValue: 'parameters().keystone_password', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'keystone_tenant', view: "FormInputView", viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CONTRAIL]),
-                title: smLabels.TITLE_CONTRAIL,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'analytics_data_ttl', view: "FormInputView", viewConfig: {path: 'parameters.analytics_data_ttl', dataBindValue: 'parameters().analytics_data_ttl', class: "span6"}},
-                                {elementId: 'ext_bgp', view: "FormInputView", viewConfig: {path: 'parameters.ext_bgp', dataBindValue: 'parameters().ext_bgp', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'router_asn', view: "FormInputView", viewConfig: {path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6"}},
-                                {elementId: 'multi_tenancy', view: "FormDropdownView", viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'haproxy', view: "FormDropdownView", viewConfig: {path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.STATES}}},
-                                {elementId: 'use_certificates', view: "FormDropdownView", viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'database_dir', view: "FormInputView", viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}},
-                                {elementId: 'database_token', view: "FormInputView", viewConfig: {path: 'parameters.database_token', dataBindValue: 'parameters().database_token', class: "span6"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SERVERS_CONFIG]),
-                title: smLabels.TITLE_SERVERS_CONFIG,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: 'parameters.domain', dataBindValue: 'parameters().domain', class: "span6"}},
-                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'parameters.password', dataBindValue: 'parameters().password', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
-                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {
-                                    elementId: 'base_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
-                                },
-                                {
-                                    elementId: 'package_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
-                                }
-                            ]
-                        }
-                    ]
-                }
+            ]
+        }
+    }];
+
+    var configureClusterViewConfig = [
+        {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_OPENSTACK]),
+            title: smLabels.TITLE_OPENSTACK,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'openstack_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}},
+                            {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
+                            {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'keystone_username', view: "FormInputView", viewConfig: {path: 'parameters.keystone_username', dataBindValue: 'parameters().keystone_username', class: "span6"}},
+                            {elementId: 'keystone_password', view: "FormInputView", viewConfig: {path: 'parameters.keystone_password', dataBindValue: 'parameters().keystone_password', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'keystone_tenant', view: "FormInputView", viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}}
+                        ]
+                    }
+                ]
             }
-        ]
-    };
+        },
+        {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CONTRAIL]),
+            title: smLabels.TITLE_CONTRAIL,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'analytics_data_ttl', view: "FormInputView", viewConfig: {path: 'parameters.analytics_data_ttl', dataBindValue: 'parameters().analytics_data_ttl', class: "span6"}},
+                            {elementId: 'ext_bgp', view: "FormInputView", viewConfig: {path: 'parameters.ext_bgp', dataBindValue: 'parameters().ext_bgp', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'router_asn', view: "FormInputView", viewConfig: {path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6"}},
+                            {elementId: 'multi_tenancy', view: "FormDropdownView", viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'haproxy', view: "FormDropdownView", viewConfig: {path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.STATES}}},
+                            {elementId: 'use_certificates', view: "FormDropdownView", viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'database_dir', view: "FormInputView", viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}},
+                            {elementId: 'database_token', view: "FormInputView", viewConfig: {path: 'parameters.database_token', dataBindValue: 'parameters().database_token', class: "span6"}}
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SERVERS_CONFIG]),
+            title: smLabels.TITLE_SERVERS_CONFIG,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'domain', view: "FormInputView", viewConfig: {path: 'parameters.domain', dataBindValue: 'parameters().domain', class: "span6"}},
+                            {elementId: 'password', view: "FormInputView", viewConfig: {path: 'parameters.password', dataBindValue: 'parameters().password', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
+                            {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'base_image_id',
+                                view: "FormDropdownView",
+                                viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                            },
+                            {
+                                elementId: 'package_image_id',
+                                view: "FormDropdownView",
+                                viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInPackages')}}}
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ];
+
+    function getConfigureViewConfig() {
+        var viewConfig = []
+        viewConfig = viewConfig.concat(createClusterViewConfig);
+        viewConfig = viewConfig.concat(configureClusterViewConfig);
+        viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = true;
+        return {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
+            view: "AccordianView",
+            viewConfig: viewConfig
+        }
+    }
+
 
     var reimageViewConfig = {
         elementId: prefixId,
@@ -270,7 +305,7 @@ define([
                         {
                             elementId: 'base_image_id',
                             view: "FormDropdownView",
-                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInImages')}}}
                         }
                     ]
                 }
@@ -509,12 +544,15 @@ define([
                             elementId: 'tagsCheckedMultiselect',
                             dataTextField: 'text',
                             dataValueField: 'id',
+                            noneSelectedText: smLabels.FILTER_TAGS,
+                            selectedText: '# Tags Selected',
                             filterConfig: {
-                                placeholder: 'Search Tags'
+                                placeholder: smLabels.SEARCH_TAGS
                             },
                             parse: formatData4Ajax,
-                            minWidth: 200,
-                            height: 250,
+                            minWidth: 150,
+                            height: 200,
+                            selectedList: 2,
                             dataSource: {
                                 type: 'GET',
                                 url: smUtils.getTagsUrl('')
@@ -537,11 +575,14 @@ define([
                             elementId: 'rolesCheckedMultiselect',
                             dataTextField: 'text',
                             dataValueField: 'id',
+                            noneSelectedText: smLabels.SELECT_ROLES,
+                            selectedText: '# Roles Selected',
                             filterConfig: {
-                                placeholder: 'Search Roles'
+                                placeholder: smLabels.SEARCH_ROLES
                             },
-                            minWidth: 200,
+                            minWidth: 150,
                             height: 200,
+                            selectedList: 2,
                             data: [
                                 {
                                     id: 'roles',
@@ -549,8 +590,10 @@ define([
                                     children: smConstants.ROLES_OBJECTS
                                 }
                             ],
-                            control: {
-                                apply: {
+                            control: [
+                                {
+                                    label: 'Assign',
+                                    cssClass: 'btn-primary',
                                     click: function (self, checkedRows) {
                                         var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
                                             checkedRoles = checkedRows;
@@ -579,13 +622,45 @@ define([
                                         })
 
                                         $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
+                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
+                                        disableRolesCheckedMultiselect(true);
                                     }
                                 },
-                                cancel: {
+                                {
+                                    label: 'Revoke',
                                     click: function (self, checkedRows) {
-                                    }
+                                        var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
+                                            checkedRoles = checkedRows;
+
+                                        $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
+                                            $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
+                                                if($.isEmptyObject(checkedServerValue.roles)) {
+                                                    checkedServerValue.roles = [];
+                                                }
+                                                var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val())),
+                                                    checkedRoleIndex = checkedServerValue.roles.indexOf(checkedRoleValue.value);
+                                               if (checkedRoleIndex != -1) {
+
+                                                    checkedServerValue.roles.splice(checkedRoleIndex, 1);
+                                                    if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
+                                                        $(filteredServerGrid).data('serverData', {
+                                                            selectedServers: [checkedServerValue.cgrid]
+                                                        });
+                                                    } else {
+                                                        if ($(filteredServerGrid).data('serverData').selectedServers.indexOf(checkedServerValue.cgrid) == -1) {
+                                                            $(filteredServerGrid).data('serverData').selectedServers.push(checkedServerValue.cgrid);
+                                                        }
+                                                    }
+
+                                                }
+                                            })
+                                        })
+
+                                        $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
+                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
+                                        disableRolesCheckedMultiselect(true);                                    }
                                 }
-                            }
+                            ]
                         }
                     }
                 ]
@@ -598,10 +673,10 @@ define([
                     actionCell: [],
                     checkboxSelectable: {
                         onNothingChecked: function (e) {
-                            $('#rolesCheckedMultiselectAction').find('.link-multiselectbox').addClass('disabled-link');
+                            disableRolesCheckedMultiselect(true);
                         },
                         onSomethingChecked: function (e) {
-                            $('#rolesCheckedMultiselectAction').find('.link-multiselectbox').removeClass('disabled-link');
+                            disableRolesCheckedMultiselect(false);
                         }
                     }
                 },
@@ -623,6 +698,16 @@ define([
         };
 
         return gridElementConfig;
+    }
+
+    function disableRolesCheckedMultiselect(flag) {
+        if(flag){
+            $('#rolesCheckedMultiselectAction').find('.icon-check').addClass('disabled-link');
+            $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').disable();
+        } else {
+            $('#rolesCheckedMultiselectAction').find('.icon-check').removeClass('disabled-link');
+            $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').enable();
+        }
     }
 
     function getConfirmServerGridElementConfig(gridPrefix) {
@@ -760,12 +845,12 @@ define([
                         {
                             elementId: 'base_image_id',
                             view: "FormDropdownView",
-                            viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                            viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInImages')}}}
                         },
                         {
                             elementId: 'package_image_id',
                             view: "FormDropdownView",
-                            viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID, smConstants.IMAGE_PREFIX_ID)}}}
+                            viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                         }
                     ]
                 }
@@ -802,10 +887,11 @@ define([
             openstackStepViewConfig = null;
 
         //Appending Configure Server Steps
-        configureStepViewConfig = $.extend(true, {}, configureViewConfig, {
-            // making 'id' NOT disabled
-            viewConfig: [{viewConfig: {rows: [{columns: [{viewConfig: {disabled: false}}]}]}}],
-            title: smLabels.TITLE_CONFIGURE,
+        configureStepViewConfig = {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CREATE_CONFIG]),
+            view: "AccordianView",
+            viewConfig: createClusterViewConfig,
+            title: smLabels.TITLE_CREATE,
             stepType: 'step',
             onInitRender: true,
             onNext: function (params) {
@@ -819,8 +905,8 @@ define([
                     visible: false
                 }
             }
-        });
-        configureStepViewConfig.viewConfig.splice(1,1);
+        };
+        configureStepViewConfig.viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = false;
         steps = steps.concat(configureStepViewConfig);
 
         //Appending Add Server Steps
@@ -876,12 +962,15 @@ define([
         });
         steps = steps.concat(assignRolesStepViewConfig);
 
-        openstackStepViewConfig = $.extend(true, {}, configureViewConfig.viewConfig[1], {
-            title: smLabels.TITLE_OPENSTACK,
+        openstackStepViewConfig = {
+            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
+            view: "AccordianView",
+            title: smLabels.TITLE_CONFIGURE,
             stepType: 'step',
+            viewConfig: configureClusterViewConfig,
             onInitRender: true,
             onNext: function (params) {
-                return params.model.configureOpenStack(function(){
+                return params.model.configure(function(){
                     callback();
                     $('#' + modalId).modal('hide');
                 });
@@ -894,7 +983,7 @@ define([
                     visible: false
                 }
             }
-        });
+        };
         steps = steps.concat(openstackStepViewConfig);
 
         addClusterViewConfig.viewConfig.steps = steps;
