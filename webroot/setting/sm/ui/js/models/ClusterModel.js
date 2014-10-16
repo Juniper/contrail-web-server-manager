@@ -106,6 +106,29 @@ define([
             }
             return true;
         },
+        removeServer: function (serverList, callback) {
+            var ajaxConfig = {}, putData = {}, servers = [];
+                $.each(serverList, function (key, value) {
+                    servers.push({'id': value['id'], 'cluster_id': ""});
+                });
+                putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                ajaxConfig.type = "PUT";
+                ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+                console.log(ajaxConfig);
+
+                contrail.ajaxHandler(ajaxConfig, function () {
+                }, function (response) {
+                    console.log(response);
+                    if (contrail.checkIfFunction(callback)) {
+                        callback();
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
+            return true;
+        },
         assignRoles: function (serverList, callback) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
