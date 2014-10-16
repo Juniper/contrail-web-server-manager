@@ -350,6 +350,10 @@ define([
                         onLoadFromNext: function (params) {
                             onLoadFilteredServers('add-server', params);
                             $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onLoadFromPrevious: function (params) {
+                            onLoadFilteredServers('add-server', params);
+                            $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
                         }
                     },
                     {
@@ -590,9 +594,10 @@ define([
                                     children: smConstants.ROLES_OBJECTS
                                 }
                             ],
+                            tristate: true,
                             control: [
                                 {
-                                    label: 'Assign',
+                                    label: 'Apply',
                                     cssClass: 'btn-primary',
                                     click: function (self, checkedRows) {
                                         var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
@@ -600,13 +605,23 @@ define([
 
                                         $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
                                             $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
-                                                var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val()));
                                                 if($.isEmptyObject(checkedServerValue.roles)) {
                                                     checkedServerValue.roles = [];
                                                 }
-                                                if (checkedServerValue.roles.indexOf(checkedRoleValue.value) == -1) {
+                                                var checkedRoleValueObj = $.parseJSON(unescape($(checkedRoleValue).val())),
+                                                    checkedRoleIndex = checkedServerValue.roles.indexOf(checkedRoleValueObj.value),
+                                                    serverRoleDirty = false;
 
-                                                    checkedServerValue.roles.push(checkedRoleValue.value);
+
+                                                if ($(checkedRoleValue).is(':checked') && checkedRoleIndex == -1) {
+                                                    checkedServerValue.roles.push(checkedRoleValueObj.value);
+                                                    serverRoleDirty = true;
+                                                } else if (!$(checkedRoleValue).is(':checked') && checkedRoleIndex != -1) {
+                                                    checkedServerValue.roles.splice(checkedRoleIndex, 1);
+                                                    serverRoleDirty = true;
+                                                }
+
+                                                if (serverRoleDirty) {
                                                     if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
                                                         $(filteredServerGrid).data('serverData', {
                                                             selectedServers: [checkedServerValue.cgrid]
@@ -619,46 +634,12 @@ define([
 
                                                 }
                                             })
-                                        })
+                                        });
 
                                         $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
-                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
+                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').setCheckedState(null);
                                         disableRolesCheckedMultiselect(true);
                                     }
-                                },
-                                {
-                                    label: 'Revoke',
-                                    click: function (self, checkedRows) {
-                                        var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
-                                            checkedRoles = checkedRows;
-
-                                        $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
-                                            $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
-                                                if($.isEmptyObject(checkedServerValue.roles)) {
-                                                    checkedServerValue.roles = [];
-                                                }
-                                                var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val())),
-                                                    checkedRoleIndex = checkedServerValue.roles.indexOf(checkedRoleValue.value);
-                                               if (checkedRoleIndex != -1) {
-
-                                                    checkedServerValue.roles.splice(checkedRoleIndex, 1);
-                                                    if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
-                                                        $(filteredServerGrid).data('serverData', {
-                                                            selectedServers: [checkedServerValue.cgrid]
-                                                        });
-                                                    } else {
-                                                        if ($(filteredServerGrid).data('serverData').selectedServers.indexOf(checkedServerValue.cgrid) == -1) {
-                                                            $(filteredServerGrid).data('serverData').selectedServers.push(checkedServerValue.cgrid);
-                                                        }
-                                                    }
-
-                                                }
-                                            })
-                                        })
-
-                                        $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
-                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
-                                        disableRolesCheckedMultiselect(true);                                    }
                                 }
                             ]
                         }
@@ -827,6 +808,7 @@ define([
                 serverIds.splice(serverIds.indexOf(serverListValue.id), 1 );
             });
             confirmServerGridElement.data('contrailGrid')._dataView.deleteDataByIds(cgrids);
+            filteredServerGridElement.data('contrailGrid')._dataView.addData(serverList);
         }
 
         filteredServerGridElement.data('serverData').serverIds = serverIds;
