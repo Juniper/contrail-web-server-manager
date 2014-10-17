@@ -314,6 +314,7 @@ define([
                     parse: formatData4Ajax,
                     minWidth: 150,
                     height: 250,
+                    emptyOptionText: 'No Tags found.',
                     dataSource: {
                         type: 'GET',
                         url: smUtils.getTagsUrl(queryString)

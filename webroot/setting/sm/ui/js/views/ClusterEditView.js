@@ -592,6 +592,7 @@ define([
                             parse: formatData4Ajax,
                             minWidth: 200,
                             height: 250,
+                            emptyOptionText: 'No Tags found.',
                             dataSource: {
                                 type: 'GET',
                                 url: smUtils.getTagsUrl('')
@@ -671,6 +672,7 @@ define([
                             parse: formatData4Ajax,
                             minWidth: 150,
                             height: 200,
+                            emptyOptionText: 'No Tags found.',
                             selectedList: 2,
                             dataSource: {
                                 type: 'GET',
