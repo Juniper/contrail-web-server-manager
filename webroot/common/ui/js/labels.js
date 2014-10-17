@@ -145,12 +145,14 @@ define([
         this.TITLE_DEL_CLUSTERS = 'Delete Clusters';
         this.TITLE_ADD_SERVER = 'Add Server';
         this.TITLE_ADD_SERVERS = 'Add Servers';
+        this.TITLE_REMOVE_SERVERS = 'Remove Servers';
         this.TITLE_ADD_SERVERS_TO_CLUSTER = 'Add Servers to Cluster';
         this.TITLE_ADD_TAGS = 'Add Tags';
         this.TITLE_ADD_IMAGE = 'Add Image';
         this.TITLE_ADD_PACKAGE = 'Add Package';
         this.TITLE_PROVISION_CLUSTER = 'Provision Cluster';
         this.TITLE_ADD_TO_CLUSTER = 'Add to Cluster';
+        this.TITLE_REMOVE_FROM_CLUSTER = 'Remove from Cluster';
 
         this.TITLE_REGISTER = 'Register';
         this.TITLE_CONFIGURE_SERVER = 'Configure Server';

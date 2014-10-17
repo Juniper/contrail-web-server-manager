@@ -94,6 +94,15 @@ define([
             };
         };
 
+        this.getRemoveServersAction = function (onClickFunction) {
+            return {
+                title: smLabels.TITLE_REMOVE_SERVERS,
+                iconClass: 'icon-minus',
+                width: 80,
+                onClick: onClickFunction
+            };
+        };
+
         this.getReimageAction = function (onClickFunction) {
             return {
                 title: smLabels.TITLE_REIMAGE,

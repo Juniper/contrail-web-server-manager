@@ -118,6 +118,24 @@ define([
             smValidation.bind(this);
         },
 
+        renderRemoveServers: function (options) {
+            var editLayout = editTemplate({prefixId: prefixId}),
+                that = this;
+
+            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
+            }});
+
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, options['callback']));
+            this.model.showErrorAttr(prefixId + '_form', false);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
+        },
+
         renderAssignRoles: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
@@ -314,7 +332,9 @@ define([
     };
 
     function getAddServerViewConfig(clusterModel, callback) {
-        var addServerViewConfig = {
+        var gridPrefix = 'add-server',
+            url = 'filterInNull=cluster_id',
+            addServerViewConfig = {
             elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS]),
             view: "WizardView",
             viewConfig: {
@@ -333,7 +353,7 @@ define([
                                             viewConfig: {
                                                 path: 'id',
                                                 class: "span12",
-                                                elementConfig: getAddServerSelectedServerGridElementConfig()
+                                                elementConfig: getSelectedServerGridElementConfig(gridPrefix, url)
                                             }
                                         }
                                     ]
@@ -348,16 +368,16 @@ define([
                             }
                         },
                         onLoadFromNext: function (params) {
-                            onLoadFilteredServers('add-server', params);
+                            onLoadFilteredServers(gridPrefix, params);
                             $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
                         },
                         onLoadFromPrevious: function (params) {
-                            onLoadFilteredServers('add-server', params);
+                            onLoadFilteredServers(gridPrefix, params);
                             $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
                         },
                         onNext: function(params) {
                             var checkedRows =  $('#add-server-filtered-servers').data('contrailGrid').getCheckedRows();
-                            return updateSelectedServer('add-server', 'add', checkedRows);
+                            return updateSelectedServer(gridPrefix, 'add', checkedRows);
                         }
                     },
                     {
@@ -374,7 +394,7 @@ define([
                                             viewConfig: {
                                                 path: 'id',
                                                 class: "span12",
-                                                elementConfig: getConfirmServerGridElementConfig('add-server')
+                                                elementConfig: getConfirmServerGridElementConfig(gridPrefix)
                                             }
                                         }
                                     ]
@@ -400,6 +420,97 @@ define([
         };
 
         return addServerViewConfig;
+    }
+
+    function getRemoveServerViewConfig(clusterModel, callback) {
+        var gridPrefix = 'remove-server',
+            url = 'cluster_id=' + clusterModel.model().attributes.id,
+            removeServerViewConfig = {
+            elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS]),
+            view: "WizardView",
+            viewConfig: {
+                steps: [
+                    {
+                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
+                        title: smLabels.TITLE_SELECT_SERVERS,
+                        view: "SectionView",
+                        viewConfig: {
+                            rows: [
+                                {
+                                    columns: [
+                                        {
+                                            elementId: gridPrefix + '-filtered-servers',
+                                            view: "FormGridView",
+                                            viewConfig: {
+                                                path: 'id',
+                                                class: "span12",
+                                                elementConfig: getSelectedServerGridElementConfig(gridPrefix, url)
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        stepType: 'step',
+                        onInitRender: true,
+                        buttons: {
+                            previous: {
+                                visible: false
+                            }
+                        },
+                        onLoadFromNext: function (params) {
+                            onLoadFilteredServers(gridPrefix, params);
+                            $('#remove-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onLoadFromPrevious: function (params) {
+                            onLoadFilteredServers(gridPrefix, params);
+                            $('#remove-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onNext: function(params) {
+                            var checkedRows =  $('#remove-server-filtered-servers').data('contrailGrid').getCheckedRows();
+                            return updateSelectedServer(gridPrefix, 'add', checkedRows);
+                        }
+                    },
+                    {
+                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
+                        title: smLabels.TITLE_REMOVE_FROM_CLUSTER,
+                        view: "SectionView",
+                        viewConfig: {
+                            rows: [
+                                {
+                                    columns: [
+                                        {
+                                            elementId: 'remove-server-confirm-servers',
+                                            view: "FormGridView",
+                                            viewConfig: {
+                                                path: 'id',
+                                                class: "span12",
+                                                elementConfig: getConfirmServerGridElementConfig(gridPrefix)
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        stepType: 'step',
+                        onInitRender: false,
+                        onLoadFromNext: function(params) {
+                            $('#remove-server-confirm-servers').data('contrailGrid')._dataView.setData($('#remove-server-filtered-servers').data('serverData').selectedServers);
+                        },
+                        onNext: function(params) {
+                            var currentSelectedServers = $('#remove-server-confirm-servers').data('contrailGrid')._dataView.getItems();
+                            return params.model.removeServer(currentSelectedServers, function(){
+                                callback();
+                                $('#' + modalId).modal('hide');
+                            });
+
+                        }
+                    }
+                ]
+            }
+        };
+
+        return removeServerViewConfig;
     }
 
     function getAssignRolesViewConfig(clusterModel) {
@@ -447,10 +558,8 @@ define([
         }
     }
 
-    function getAddServerSelectedServerGridElementConfig() {
-        var gridPrefix = 'add-server',
-            filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
-            urlParam = 'filterInNull=cluster_id',
+    function getSelectedServerGridElementConfig(gridPrefix, urlParam) {
+        var filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
             gridElementConfig = {
             header: {
                 title: {

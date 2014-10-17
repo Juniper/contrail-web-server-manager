@@ -132,6 +132,15 @@ define([
                 dataView.refreshData();
             }});
         },
+        renderRemoveServers: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem);
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderRemoveServers({"title": smLabels.TITLE_REMOVE_SERVERS, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+        },
         renderAssignRoles: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
@@ -176,6 +185,10 @@ define([
         smGridConfig.getAddServersAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAddServers(dataItem);
+        }),
+        smGridConfig.getRemoveServersAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderRemoveServers(dataItem);
         }),
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
