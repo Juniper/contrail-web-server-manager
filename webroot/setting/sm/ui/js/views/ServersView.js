@@ -349,19 +349,27 @@ define([
         $('#' + prefixId + '-results').data('contrailGrid')._dataView.setFilter(serverTagGridFilter);
     };
 
+    /*
+        ServerFilter: OR within the category , AND across the category
+     */
     function serverTagGridFilter(item, args) {
         if (args.checkedRows.length == 0) {
             return true;
         } else {
-            var returnFlag = true;
+            var returnObj = {},
+                returnFlag = true;
             $.each(args.checkedRows, function (checkedRowKey, checkedRowValue) {
                 var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
-                if (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value) {
-                    returnFlag = returnFlag && true;
-                } else {
-                    returnFlag = false;
+                if(!contrail.checkIfExist(returnObj[checkedRowValueObj.parent])){
+                    returnObj[checkedRowValueObj.parent] = false;
                 }
+                returnObj[checkedRowValueObj.parent] = returnObj[checkedRowValueObj.parent] || (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value);
             });
+
+            $.each(returnObj, function(returnObjKey, returnObjValue) {
+                returnFlag = returnFlag && returnObjValue;
+            });
+
             return returnFlag;
         }
     };

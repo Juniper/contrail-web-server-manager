@@ -354,6 +354,10 @@ define([
                         onLoadFromPrevious: function (params) {
                             onLoadFilteredServers('add-server', params);
                             $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onNext: function(params) {
+                            var checkedRows =  $('#add-server-filtered-servers').data('contrailGrid').getCheckedRows();
+                            return updateSelectedServer('add-server', 'add', checkedRows);
                         }
                     },
                     {
@@ -486,7 +490,9 @@ define([
                             click: function(event, ui){
                                 applyServerTagFilter(filteredServerGrid, event, ui)
                             },
-                            optgrouptoggle: applyServerTagFilter,
+                            optgrouptoggle: function(event, ui){
+                                applyServerTagFilter(filteredServerGrid, event, ui)
+                            },
                             control: false
                         }
                     }
@@ -564,7 +570,9 @@ define([
                             click: function(event, ui){
                                 applyServerTagFilter(filteredServerGrid, event, ui)
                             },
-                            optgrouptoggle: applyServerTagFilter,
+                            optgrouptoggle: function(event, ui){
+                                applyServerTagFilter(filteredServerGrid, event, ui)
+                            },
                             control: false
                         }
                     },
@@ -751,19 +759,27 @@ define([
         $(filteredServerGrid).data('contrailGrid')._dataView.setFilter(serverTagGridFilter);
     };
 
+    /*
+     ServerFilter: OR within the category , AND across the category
+     */
     function serverTagGridFilter(item, args) {
         if (args.checkedRows.length == 0) {
             return true;
         } else {
-            var returnFlag = true;
+            var returnObj = {},
+                returnFlag = true;
             $.each(args.checkedRows, function (checkedRowKey, checkedRowValue) {
                 var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
-                if (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value) {
-                    returnFlag = returnFlag && true;
-                } else {
-                    returnFlag = false;
+                if(!contrail.checkIfExist(returnObj[checkedRowValueObj.parent])){
+                    returnObj[checkedRowValueObj.parent] = false;
                 }
+                returnObj[checkedRowValueObj.parent] = returnObj[checkedRowValueObj.parent] || (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value);
             });
+
+            $.each(returnObj, function(returnObjKey, returnObjValue) {
+                returnFlag = returnFlag && returnObjValue;
+            });
+
             return returnFlag;
         }
     };
@@ -814,7 +830,9 @@ define([
         filteredServerGridElement.data('serverData').serverIds = serverIds;
         filteredServerGridElement.data('serverData').selectedServers = currentSelectedServer;
         filteredServerGridElement.parents('section').find('.selectedServerCount')
-            .text((currentSelectedServer.length == 0) ? 'None' : currentSelectedServer.length)
+            .text((currentSelectedServer.length == 0) ? 'None' : currentSelectedServer.length);
+
+        return true;
     }
 
     var provisionViewConfig = {
