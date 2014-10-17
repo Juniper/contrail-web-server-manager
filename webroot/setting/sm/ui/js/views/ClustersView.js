@@ -199,7 +199,7 @@ define([
             },
             {
                 title: smLabels.TITLE_OPENSTACK,
-                keys: ['parameters.openstack_mgmt_ip', 'parameters.gateway', 'parameters.subnet_mask', 'parameters.keystone_tenant', 'parameters.keystone_username']
+                keys: ['parameters.openstack_mgmt_ip', 'parameters.keystone_tenant', 'parameters.keystone_username']
             },
             {
                 title: smLabels.TITLE_CONTRAIL,
