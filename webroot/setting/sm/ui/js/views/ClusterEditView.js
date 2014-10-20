@@ -714,6 +714,31 @@ define([
                                 }
                             ],
                             tristate: true,
+                            open: function(event, ui){
+                                var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows();
+
+                                var checkedRoleCountObj = {},
+                                    checkedRoleStateArray = [],
+                                    serverCount = checkedServers.length;
+
+                                $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
+                                    checkedRoleCountObj[roleValue] = 0;
+                                });
+
+                                $.each(checkedServers, function(serverKey, serverValue) {
+                                    $.each(serverValue.roles, function(serverRoleKey, serverRoleValue) {
+                                        checkedRoleCountObj[serverRoleValue]++;
+                                    });
+                                });
+
+                                $.each(checkedRoleCountObj, function(roleKey, roleValue) {
+                                    var roleState = (roleValue == 0) ? false : ((roleValue == serverCount) ? true : null);
+                                    checkedRoleStateArray.push(roleState);
+                                });
+
+                                $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').setCheckedState(checkedRoleStateArray);
+
+                            },
                             control: [
                                 {
                                     label: 'Apply',
