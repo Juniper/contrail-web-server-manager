@@ -118,7 +118,7 @@ function computeServerStates(res, filteredResponseArray) {
                     clusterStatus['new_servers'] = getNewServers4Cluster(clusterStatus);
                     clusterStatus['configured_servers'] = getConfiguredServers4Cluster(clusterStatus);
                     clusterStatus['provisioned_servers'] = getProvisionedServers4Cluster(clusterStatus);
-                    clusterStatus['inprovision_servers'] = clusterStatus['total_servers'] - clusterStatus['new_servers']  - clusterStatus['configured_servers'] - clusterStatus['provisioned_servers'];
+                    clusterStatus['inprovision_servers'] = clusterStatus['total_servers'] - clusterStatus['new_servers'] - clusterStatus['configured_servers'] - clusterStatus['provisioned_servers'];
                     filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: clusterStatus}});
                 } else {
                     filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0, new_servers: 0, configured_servers: 0, provisioned_servers: 0, inprovision_servers: 0}}});
@@ -131,7 +131,7 @@ function computeServerStates(res, filteredResponseArray) {
 
 function getNewServers4Cluster(clusterStatus) {
     var newServers = 0;
-    if(clusterStatus['server_discovered'] != null) {
+    if (clusterStatus['server_discovered'] != null) {
         newServers = clusterStatus['server_discovered'];
     }
     return newServers;
@@ -139,7 +139,7 @@ function getNewServers4Cluster(clusterStatus) {
 
 function getConfiguredServers4Cluster(clusterStatus) {
     var configuredServers = 0;
-    if(clusterStatus['server_added'] != null) {
+    if (clusterStatus['server_added'] != null) {
         configuredServers = clusterStatus['server_added'];
     }
     return configuredServers;
@@ -147,7 +147,7 @@ function getConfiguredServers4Cluster(clusterStatus) {
 
 function getProvisionedServers4Cluster(clusterStatus) {
     var provisionedServers = 0;
-    if(clusterStatus['provision_completed'] != null) {
+    if (clusterStatus['provision_completed'] != null) {
         provisionedServers = clusterStatus['provision_completed'];
     }
     return provisionedServers;
@@ -163,10 +163,10 @@ function getTotalServers4Cluster(clusterStatus) {
 
 function filterImagesPackages(res, filteredResponseArray, types) {
     var image, type, responseArray = [];
-    for(var i = 0; i < filteredResponseArray.length; i++) {
+    for (var i = 0; i < filteredResponseArray.length; i++) {
         image = filteredResponseArray[i];
         type = image['type'];
-        if(types.indexOf(type) != -1) {
+        if (types.indexOf(type) != -1) {
             responseArray.push(image);
         }
     }
@@ -187,6 +187,8 @@ function filterObjectsDetails(responseArray, filterInNull) {
     }
 };
 
+// PUT method of web-server api should be used only to edit object.
+// To create new objects use POST method of web-server api.
 function putObjects(req, res, appdata) {
     var objectName = req.param(constants.KEY_NAME),
         objectUrl = '/' + objectName,
@@ -203,17 +205,21 @@ function putObjects(req, res, appdata) {
     cache.deleteRedisCache(constants.REDIS_TAG_VALUES);
 };
 
+// POST method of web-server api should be used only to create new objects; it checks for duplicate id.
+// To create objects use PUT method of web-server api.
 function postObjects(req, res, appdata) {
     var objectName = req.param(constants.KEY_NAME),
         objectUrl = '/' + objectName,
         postData = req.body;
 
-    sm.post(objectUrl, postData, appdata, function (error, resultJSON) {
-        if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
-        } else {
-            commonUtils.handleJSONResponse(null, res, resultJSON);
-        }
+    check4DuplicateId(res, objectName, postData[objectName][0]['id'], function () {
+        sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
+            if (error != null) {
+                commonUtils.handleJSONResponse(error, res);
+            } else {
+                commonUtils.handleJSONResponse(null, res, resultJSON);
+            }
+        });
     });
 };
 
@@ -240,8 +246,8 @@ function provision(req, res, appdata) {
     var provisionUrl = '/server/provision',
         postData = req.body;
 
-    if(postData != null) {
-        async.map(postData, function(item, callback) {
+    if (postData != null) {
+        async.map(postData, function (item, callback) {
             sm.post(provisionUrl, item, appdata, function (error, resultJSON) {
                 if (error != null) {
                     callback(null, error);
@@ -249,7 +255,7 @@ function provision(req, res, appdata) {
                     callback(null, resultJSON);
                 }
             });
-        }, function(error, results) {
+        }, function (error, results) {
             if (error != null) {
                 commonUtils.handleJSONResponse(error, res);
             } else {
@@ -257,8 +263,7 @@ function provision(req, res, appdata) {
             }
         });
     } else {
-        logutils.logger.error("Post data can not be null for provision.");
-        commonUtils.handleJSONResponse();
+        commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": messages.ERROR_POST_DATA_NULL}, res);
     }
 };
 
@@ -266,8 +271,8 @@ function reimage(req, res, appdata) {
     var provisionUrl = '/server/reimage',
         postData = req.body;
 
-    if(postData != null) {
-        async.map(postData, function(item, callback) {
+    if (postData != null) {
+        async.map(postData, function (item, callback) {
             sm.post(provisionUrl, item, appdata, function (error, resultJSON) {
                 if (error != null) {
                     callback(null, error);
@@ -275,7 +280,7 @@ function reimage(req, res, appdata) {
                     callback(null, resultJSON);
                 }
             });
-        }, function(error, results) {
+        }, function (error, results) {
             if (error != null) {
                 commonUtils.handleJSONResponse(error, res);
             } else {
@@ -283,8 +288,7 @@ function reimage(req, res, appdata) {
             }
         });
     } else {
-        logutils.logger.error("Post data can not be null for reimage.");
-        commonUtils.handleJSONResponse();
+        commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": messages.ERROR_POST_DATA_NULL}, res);
     }
 };
 
@@ -316,6 +320,21 @@ function filterInAllowedParams(qsObj) {
             delete qsObj[key];
         }
     }
+};
+
+function check4DuplicateId(res, objectName, id, callback) {
+    var objectUrl = '/' + objectName + '?id=' + id;
+
+    sm.get(objectUrl, function (error, responseJSON) {
+        if (error != null) {
+            logutils.logger.error(error.stack);
+            commonUtils.handleJSONResponse(error, res);
+        } else if (responseJSON[objectName] && responseJSON[objectName].length == 0) {
+            callback();
+        } else {
+            commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": messages.ERROR_DUPLICATE_OBJ_ID}, res);
+        }
+    });
 };
 
 exports.getObjects = getObjects;
