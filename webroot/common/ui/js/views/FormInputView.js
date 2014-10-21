@@ -13,6 +13,7 @@ define([
                 elId = this.attributes.elementId,
                 validation = this.attributes.validation,
                 path = viewConfig['path'],
+                type = (viewConfig['type'] != null) ? viewConfig['type'] : 'text',
                 lockEditingByDefault = this.attributes.lockEditingByDefault,
                 labelValue = (elId != null) ? smLabels.get(elId) : smLabels.get(path),
                 tmplParameters;
@@ -25,7 +26,7 @@ define([
             tmplParameters = {
                 label: labelValue, id: elId, name: elId, disabled: viewConfig['disabled'],
                 dataBindValue: viewConfig['dataBindValue'],
-                lockAttr: lockEditingByDefault,
+                lockAttr: lockEditingByDefault, type: type,
                 class: "span12", path: path, validation: validation
             };
 
