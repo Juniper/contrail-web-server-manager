@@ -12,10 +12,12 @@ define([
 
         constructor: function (modelConfig) {
             var model, errorAttributes,
-                editingLockAttrs, _this = this;
+                editingLockAttrs, _this = this,
+                modelAttributes = (modelConfig == null) ? this.defaultConfig : modelConfig;
 
-            errorAttributes = generateAttributes(modelConfig, smConstants.ERROR_SUFFIX_ID, false);
-            editingLockAttrs = generateAttributes(modelConfig, smConstants.LOCKED_SUFFIX_ID, true);
+            errorAttributes = generateAttributes(modelAttributes, smConstants.ERROR_SUFFIX_ID, false);
+            editingLockAttrs = generateAttributes(modelAttributes, smConstants.LOCKED_SUFFIX_ID, true);
+
             modelConfig = $.extend(true, {}, this.defaultConfig, modelConfig, {errors: new Backbone.Model(errorAttributes), locks: new Backbone.Model(editingLockAttrs)});
 
             model = new Backbone.Model(modelConfig);
