@@ -85,7 +85,7 @@ define([
                 that.model.createServers(modalId, function(){
                     options['callback']();
                     $("#" + modalId).modal('hide');
-                });
+                }, smConstants.POST_METHOD);
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);

@@ -1031,7 +1031,7 @@ define([
             stepType: 'step',
             onInitRender: true,
             onNext: function (params) {
-                return params.model.configure(callback);
+                return params.model.configure(callback, smConstants.POST_METHOD);
             },
             buttons: {
                 next: {

@@ -40,6 +40,9 @@ define([
         this.LOCKED_SUFFIX_ID = "_locked";
 
         this.SERVERS_STATE_PROCESSOR = "computeServerStates";
+
+        this.POST_METHOD = "POST";
+        this.PUT_METHOD = "PUT";
     }
     return Constants;
 });

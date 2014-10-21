@@ -35,7 +35,7 @@ define([
             tag: {},
             roles: {}
         },
-        configure: function (callback) {
+        configure: function (callback, ajaxMethod) {
             var ajaxConfig = {},
                 returnFlag = false;
             if (this.model().isValid(true, 'configureValidation')) {
@@ -50,7 +50,7 @@ define([
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
 
                     ajaxConfig.async = false;
-                    ajaxConfig.type = "PUT";
+                    ajaxConfig.type = contrail.checkIfExist(ajaxMethod) ? ajaxMethod : "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
                     contrail.ajaxHandler(ajaxConfig, function () {
