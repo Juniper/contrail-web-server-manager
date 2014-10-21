@@ -286,7 +286,7 @@ define([
                 'parameters.openstack_mgmt_ip': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_ip')
+                    msg: smMessages.getInvalidErrorMessage('openstack_mgmt_ip')
                 },
                 'parameters.router_asn': {
                     required: false,
