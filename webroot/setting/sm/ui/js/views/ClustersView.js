@@ -103,16 +103,6 @@ define([
     });
 
     var rowActionCallbackConfig = {
-        renderReimage: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
-
-            clusterEditView.model = clusterModel;
-            clusterEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-        },
         renderConfigure: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
@@ -147,6 +137,16 @@ define([
 
             clusterEditView.model = clusterModel;
             clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+        },
+        renderReimage: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
