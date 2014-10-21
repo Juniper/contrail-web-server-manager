@@ -174,10 +174,6 @@ define([
     }
 
     var rowActionConfig = [
-        smGridConfig.getReimageAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderReimage(dataItem);
-        }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderConfigure(dataItem);
@@ -193,6 +189,10 @@ define([
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAssignRoles(dataItem)
+        }),
+        smGridConfig.getReimageAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderReimage(dataItem);
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
