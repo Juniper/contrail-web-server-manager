@@ -85,7 +85,7 @@ define([
                 that.model.createServers(modalId, function(){
                     options['callback']();
                     $("#" + modalId).modal('hide');
-                });
+                }, smConstants.POST_METHOD);
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -269,7 +269,7 @@ define([
                         {
                             columns: [
                                 {elementId: 'ip_address', view: "FormInputView", viewConfig: {path: "ip_address", dataBindValue: "ip_address", class: "span6"}},
-                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'password', dataBindValue: 'password', class: "span6"}}
+                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "span6"}}
                             ]
                         },
                         {
@@ -281,7 +281,7 @@ define([
                         {
                             columns: [
                                 {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
-                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password', dataBindValue: 'ipmi_password', class: "span6"}}
+                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "span6"}}
                             ]
                         },
                         {
@@ -375,7 +375,7 @@ define([
                         {
                             columns: [
                                 {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
-                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password', dataBindValue: 'ipmi_password', class: "span6"}}
+                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password',  type: 'password', dataBindValue: 'ipmi_password', class: "span6"}}
                             ]
                         },
                         {

@@ -118,6 +118,24 @@ define([
             smValidation.bind(this);
         },
 
+        renderRemoveServers: function (options) {
+            var editLayout = editTemplate({prefixId: prefixId}),
+                that = this;
+
+            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            }, 'onCancel': function () {
+                Knockback.release(that.model, document.getElementById(modalId));
+                smValidation.unbind(that);
+                $("#" + modalId).modal('hide');
+            }});
+
+            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, options['callback']));
+            this.model.showErrorAttr(prefixId + '_form', false);
+
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            smValidation.bind(this);
+        },
+
         renderAssignRoles: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
@@ -189,19 +207,19 @@ define([
                     {
                         columns: [
                             {elementId: 'openstack_mgmt_ip', view: "FormInputView", viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}},
-                            {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
+                            {elementId: 'openstack_passwd', view: "FormInputView", viewConfig: {path: 'parameters.openstack_passwd', type: 'password', dataBindValue: 'parameters().openstack_passwd', class: "span6"}}
                         ]
                     },
-                    {
-                        columns: [
-                            {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
-                            {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
-                        ]
-                    },
+//                    {
+//                        columns: [
+//                            {elementId: 'gateway', view: "FormInputView", viewConfig: {path: 'parameters.gateway', dataBindValue: 'parameters().gateway', class: "span6"}},
+//                            {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'parameters.subnet_mask', dataBindValue: 'parameters().subnet_mask', class: "span6"}}
+//                        ]
+//                    },
                     {
                         columns: [
                             {elementId: 'keystone_username', view: "FormInputView", viewConfig: {path: 'parameters.keystone_username', dataBindValue: 'parameters().keystone_username', class: "span6"}},
-                            {elementId: 'keystone_password', view: "FormInputView", viewConfig: {path: 'parameters.keystone_password', dataBindValue: 'parameters().keystone_password', class: "span6"}}
+                            {elementId: 'keystone_password', view: "FormInputView", viewConfig: {path: 'parameters.keystone_password', type: 'password', dataBindValue: 'parameters().keystone_password', class: "span6"}}
                         ]
                     },
                     {
@@ -254,7 +272,7 @@ define([
                     {
                         columns: [
                             {elementId: 'domain', view: "FormInputView", viewConfig: {path: 'parameters.domain', dataBindValue: 'parameters().domain', class: "span6"}},
-                            {elementId: 'password', view: "FormInputView", viewConfig: {path: 'parameters.password', dataBindValue: 'parameters().password', class: "span6"}}
+                            {elementId: 'password', view: "FormInputView", viewConfig: {path: 'parameters.password', type: 'password', dataBindValue: 'parameters().password', class: "span6"}}
                         ]
                     },
                     {
@@ -314,7 +332,9 @@ define([
     };
 
     function getAddServerViewConfig(clusterModel, callback) {
-        var addServerViewConfig = {
+        var gridPrefix = 'add-server',
+            url = 'filterInNull=cluster_id',
+            addServerViewConfig = {
             elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS]),
             view: "WizardView",
             viewConfig: {
@@ -333,7 +353,7 @@ define([
                                             viewConfig: {
                                                 path: 'id',
                                                 class: "span12",
-                                                elementConfig: getAddServerSelectedServerGridElementConfig()
+                                                elementConfig: getSelectedServerGridElementConfig(gridPrefix, url)
                                             }
                                         }
                                     ]
@@ -348,8 +368,16 @@ define([
                             }
                         },
                         onLoadFromNext: function (params) {
-                            onLoadFilteredServers('add-server', params);
+                            onLoadFilteredServers(gridPrefix, params);
                             $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onLoadFromPrevious: function (params) {
+                            onLoadFilteredServers(gridPrefix, params);
+                            $('#add-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onNext: function(params) {
+                            var checkedRows =  $('#add-server-filtered-servers').data('contrailGrid').getCheckedRows();
+                            return updateSelectedServer(gridPrefix, 'add', checkedRows);
                         }
                     },
                     {
@@ -366,7 +394,7 @@ define([
                                             viewConfig: {
                                                 path: 'id',
                                                 class: "span12",
-                                                elementConfig: getConfirmServerGridElementConfig('add-server')
+                                                elementConfig: getConfirmServerGridElementConfig(gridPrefix)
                                             }
                                         }
                                     ]
@@ -392,6 +420,97 @@ define([
         };
 
         return addServerViewConfig;
+    }
+
+    function getRemoveServerViewConfig(clusterModel, callback) {
+        var gridPrefix = 'remove-server',
+            url = 'cluster_id=' + clusterModel.model().attributes.id,
+            removeServerViewConfig = {
+            elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS]),
+            view: "WizardView",
+            viewConfig: {
+                steps: [
+                    {
+                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
+                        title: smLabels.TITLE_SELECT_SERVERS,
+                        view: "SectionView",
+                        viewConfig: {
+                            rows: [
+                                {
+                                    columns: [
+                                        {
+                                            elementId: gridPrefix + '-filtered-servers',
+                                            view: "FormGridView",
+                                            viewConfig: {
+                                                path: 'id',
+                                                class: "span12",
+                                                elementConfig: getSelectedServerGridElementConfig(gridPrefix, url)
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        stepType: 'step',
+                        onInitRender: true,
+                        buttons: {
+                            previous: {
+                                visible: false
+                            }
+                        },
+                        onLoadFromNext: function (params) {
+                            onLoadFilteredServers(gridPrefix, params);
+                            $('#remove-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onLoadFromPrevious: function (params) {
+                            onLoadFilteredServers(gridPrefix, params);
+                            $('#remove-server-filtered-servers').parents('section').find('.stepInfo').show();
+                        },
+                        onNext: function(params) {
+                            var checkedRows =  $('#remove-server-filtered-servers').data('contrailGrid').getCheckedRows();
+                            return updateSelectedServer(gridPrefix, 'add', checkedRows);
+                        }
+                    },
+                    {
+                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
+                        title: smLabels.TITLE_REMOVE_FROM_CLUSTER,
+                        view: "SectionView",
+                        viewConfig: {
+                            rows: [
+                                {
+                                    columns: [
+                                        {
+                                            elementId: 'remove-server-confirm-servers',
+                                            view: "FormGridView",
+                                            viewConfig: {
+                                                path: 'id',
+                                                class: "span12",
+                                                elementConfig: getConfirmServerGridElementConfig(gridPrefix)
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        stepType: 'step',
+                        onInitRender: false,
+                        onLoadFromNext: function(params) {
+                            $('#remove-server-confirm-servers').data('contrailGrid')._dataView.setData($('#remove-server-filtered-servers').data('serverData').selectedServers);
+                        },
+                        onNext: function(params) {
+                            var currentSelectedServers = $('#remove-server-confirm-servers').data('contrailGrid')._dataView.getItems();
+                            return params.model.removeServer(currentSelectedServers, function(){
+                                callback();
+                                $('#' + modalId).modal('hide');
+                            });
+
+                        }
+                    }
+                ]
+            }
+        };
+
+        return removeServerViewConfig;
     }
 
     function getAssignRolesViewConfig(clusterModel) {
@@ -439,10 +558,8 @@ define([
         }
     }
 
-    function getAddServerSelectedServerGridElementConfig() {
-        var gridPrefix = 'add-server',
-            filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
-            urlParam = 'filterInNull=cluster_id',
+    function getSelectedServerGridElementConfig(gridPrefix, urlParam) {
+        var filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
             gridElementConfig = {
             header: {
                 title: {
@@ -475,6 +592,7 @@ define([
                             parse: formatData4Ajax,
                             minWidth: 200,
                             height: 250,
+                            emptyOptionText: 'No Tags found.',
                             dataSource: {
                                 type: 'GET',
                                 url: smUtils.getTagsUrl('')
@@ -482,7 +600,9 @@ define([
                             click: function(event, ui){
                                 applyServerTagFilter(filteredServerGrid, event, ui)
                             },
-                            optgrouptoggle: applyServerTagFilter,
+                            optgrouptoggle: function(event, ui){
+                                applyServerTagFilter(filteredServerGrid, event, ui)
+                            },
                             control: false
                         }
                     }
@@ -552,6 +672,7 @@ define([
                             parse: formatData4Ajax,
                             minWidth: 150,
                             height: 200,
+                            emptyOptionText: 'No Tags found.',
                             selectedList: 2,
                             dataSource: {
                                 type: 'GET',
@@ -560,7 +681,9 @@ define([
                             click: function(event, ui){
                                 applyServerTagFilter(filteredServerGrid, event, ui)
                             },
-                            optgrouptoggle: applyServerTagFilter,
+                            optgrouptoggle: function(event, ui){
+                                applyServerTagFilter(filteredServerGrid, event, ui)
+                            },
                             control: false
                         }
                     },
@@ -590,9 +713,35 @@ define([
                                     children: smConstants.ROLES_OBJECTS
                                 }
                             ],
+                            tristate: true,
+                            open: function(event, ui){
+                                var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows();
+
+                                var checkedRoleCountObj = {},
+                                    checkedRoleStateArray = [],
+                                    serverCount = checkedServers.length;
+
+                                $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
+                                    checkedRoleCountObj[roleValue] = 0;
+                                });
+
+                                $.each(checkedServers, function(serverKey, serverValue) {
+                                    $.each(serverValue.roles, function(serverRoleKey, serverRoleValue) {
+                                        checkedRoleCountObj[serverRoleValue]++;
+                                    });
+                                });
+
+                                $.each(checkedRoleCountObj, function(roleKey, roleValue) {
+                                    var roleState = (roleValue == 0) ? false : ((roleValue == serverCount) ? true : null);
+                                    checkedRoleStateArray.push(roleState);
+                                });
+
+                                $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').setCheckedState(checkedRoleStateArray);
+
+                            },
                             control: [
                                 {
-                                    label: 'Assign',
+                                    label: 'Apply',
                                     cssClass: 'btn-primary',
                                     click: function (self, checkedRows) {
                                         var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
@@ -600,13 +749,23 @@ define([
 
                                         $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
                                             $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
-                                                var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val()));
                                                 if($.isEmptyObject(checkedServerValue.roles)) {
                                                     checkedServerValue.roles = [];
                                                 }
-                                                if (checkedServerValue.roles.indexOf(checkedRoleValue.value) == -1) {
+                                                var checkedRoleValueObj = $.parseJSON(unescape($(checkedRoleValue).val())),
+                                                    checkedRoleIndex = checkedServerValue.roles.indexOf(checkedRoleValueObj.value),
+                                                    serverRoleDirty = false;
 
-                                                    checkedServerValue.roles.push(checkedRoleValue.value);
+
+                                                if ($(checkedRoleValue).is(':checked') && checkedRoleIndex == -1) {
+                                                    checkedServerValue.roles.push(checkedRoleValueObj.value);
+                                                    serverRoleDirty = true;
+                                                } else if (!$(checkedRoleValue).is(':checked') && checkedRoleIndex != -1) {
+                                                    checkedServerValue.roles.splice(checkedRoleIndex, 1);
+                                                    serverRoleDirty = true;
+                                                }
+
+                                                if (serverRoleDirty) {
                                                     if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
                                                         $(filteredServerGrid).data('serverData', {
                                                             selectedServers: [checkedServerValue.cgrid]
@@ -619,46 +778,12 @@ define([
 
                                                 }
                                             })
-                                        })
+                                        });
 
                                         $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
-                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
+                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').setCheckedState(null);
                                         disableRolesCheckedMultiselect(true);
                                     }
-                                },
-                                {
-                                    label: 'Revoke',
-                                    click: function (self, checkedRows) {
-                                        var checkedServers = $(filteredServerGrid).data('contrailGrid').getCheckedRows(),
-                                            checkedRoles = checkedRows;
-
-                                        $.each(checkedServers, function (checkedServerKey, checkedServerValue) {
-                                            $.each(checkedRoles, function (checkedRoleKey, checkedRoleValue) {
-                                                if($.isEmptyObject(checkedServerValue.roles)) {
-                                                    checkedServerValue.roles = [];
-                                                }
-                                                var checkedRoleValue = $.parseJSON(unescape($(checkedRoleValue).val())),
-                                                    checkedRoleIndex = checkedServerValue.roles.indexOf(checkedRoleValue.value);
-                                               if (checkedRoleIndex != -1) {
-
-                                                    checkedServerValue.roles.splice(checkedRoleIndex, 1);
-                                                    if (!contrail.checkIfExist($(filteredServerGrid).data('serverData'))) {
-                                                        $(filteredServerGrid).data('serverData', {
-                                                            selectedServers: [checkedServerValue.cgrid]
-                                                        });
-                                                    } else {
-                                                        if ($(filteredServerGrid).data('serverData').selectedServers.indexOf(checkedServerValue.cgrid) == -1) {
-                                                            $(filteredServerGrid).data('serverData').selectedServers.push(checkedServerValue.cgrid);
-                                                        }
-                                                    }
-
-                                                }
-                                            })
-                                        })
-
-                                        $(filteredServerGrid).data('contrailGrid')._dataView.updateData(checkedServers);
-                                        $('#rolesCheckedMultiselectAction').find('.input-icon').data('contrailCheckedMultiselect').uncheckAll()
-                                        disableRolesCheckedMultiselect(true);                                    }
                                 }
                             ]
                         }
@@ -770,19 +895,27 @@ define([
         $(filteredServerGrid).data('contrailGrid')._dataView.setFilter(serverTagGridFilter);
     };
 
+    /*
+     ServerFilter: OR within the category , AND across the category
+     */
     function serverTagGridFilter(item, args) {
         if (args.checkedRows.length == 0) {
             return true;
         } else {
-            var returnFlag = true;
+            var returnObj = {},
+                returnFlag = true;
             $.each(args.checkedRows, function (checkedRowKey, checkedRowValue) {
                 var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
-                if (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value) {
-                    returnFlag = returnFlag && true;
-                } else {
-                    returnFlag = false;
+                if(!contrail.checkIfExist(returnObj[checkedRowValueObj.parent])){
+                    returnObj[checkedRowValueObj.parent] = false;
                 }
+                returnObj[checkedRowValueObj.parent] = returnObj[checkedRowValueObj.parent] || (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value);
             });
+
+            $.each(returnObj, function(returnObjKey, returnObjValue) {
+                returnFlag = returnFlag && returnObjValue;
+            });
+
             return returnFlag;
         }
     };
@@ -827,12 +960,15 @@ define([
                 serverIds.splice(serverIds.indexOf(serverListValue.id), 1 );
             });
             confirmServerGridElement.data('contrailGrid')._dataView.deleteDataByIds(cgrids);
+            filteredServerGridElement.data('contrailGrid')._dataView.addData(serverList);
         }
 
         filteredServerGridElement.data('serverData').serverIds = serverIds;
         filteredServerGridElement.data('serverData').selectedServers = currentSelectedServer;
         filteredServerGridElement.parents('section').find('.selectedServerCount')
-            .text((currentSelectedServer.length == 0) ? 'None' : currentSelectedServer.length)
+            .text((currentSelectedServer.length == 0) ? 'None' : currentSelectedServer.length);
+
+        return true;
     }
 
     var provisionViewConfig = {
@@ -895,7 +1031,7 @@ define([
             stepType: 'step',
             onInitRender: true,
             onNext: function (params) {
-                return params.model.configure(callback);
+                return params.model.configure(callback, smConstants.POST_METHOD);
             },
             buttons: {
                 next: {

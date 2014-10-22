@@ -103,16 +103,6 @@ define([
     });
 
     var rowActionCallbackConfig = {
-        renderReimage: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
-
-            clusterEditView.model = clusterModel;
-            clusterEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-        },
         renderConfigure: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
@@ -132,12 +122,31 @@ define([
                 dataView.refreshData();
             }});
         },
+        renderRemoveServers: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem);
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderRemoveServers({"title": smLabels.TITLE_REMOVE_SERVERS, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+        },
         renderAssignRoles: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
             clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+        },
+        renderReimage: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
@@ -165,10 +174,6 @@ define([
     }
 
     var rowActionConfig = [
-        smGridConfig.getReimageAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderReimage(dataItem);
-        }),
         smGridConfig.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderConfigure(dataItem);
@@ -177,9 +182,17 @@ define([
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAddServers(dataItem);
         }),
+        smGridConfig.getRemoveServersAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderRemoveServers(dataItem);
+        }),
         smGridConfig.getAssignRoleAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAssignRoles(dataItem)
+        }),
+        smGridConfig.getReimageAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderReimage(dataItem);
         }),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
@@ -199,7 +212,7 @@ define([
             },
             {
                 title: smLabels.TITLE_OPENSTACK,
-                keys: ['parameters.openstack_mgmt_ip', 'parameters.gateway', 'parameters.subnet_mask', 'parameters.keystone_tenant', 'parameters.keystone_username']
+                keys: ['parameters.openstack_mgmt_ip', 'parameters.keystone_tenant', 'parameters.keystone_username']
             },
             {
                 title: smLabels.TITLE_CONTRAIL,

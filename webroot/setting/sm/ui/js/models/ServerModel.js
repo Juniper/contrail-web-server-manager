@@ -99,7 +99,7 @@ define([
                 // TODO: Show form-level error message if any
             }
         },
-        createServers: function (modalId, callback) {
+        createServers: function (modalId, callback, ajaxMethod) {
             if (this.model().isValid(true, 'configureValidation')) {
                 var ajaxConfig = {};
                 if (true) {
@@ -110,7 +110,7 @@ define([
 
                     putData[smConstants.SERVER_PREFIX_ID] = serversCreated;
 
-                    ajaxConfig.type = "PUT";
+                    ajaxConfig.type = contrail.checkIfExist(ajaxMethod) ? ajaxMethod : "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
                     contrail.ajaxHandler(ajaxConfig, function () {

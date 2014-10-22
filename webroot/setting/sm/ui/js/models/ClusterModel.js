@@ -35,7 +35,7 @@ define([
             tag: {},
             roles: {}
         },
-        configure: function (callback) {
+        configure: function (callback, ajaxMethod) {
             var ajaxConfig = {},
                 returnFlag = false;
             if (this.model().isValid(true, 'configureValidation')) {
@@ -50,7 +50,7 @@ define([
                     putData[smConstants.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
 
                     ajaxConfig.async = false;
-                    ajaxConfig.type = "PUT";
+                    ajaxConfig.type = contrail.checkIfExist(ajaxMethod) ? ajaxMethod : "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
                     contrail.ajaxHandler(ajaxConfig, function () {
@@ -104,6 +104,29 @@ define([
                     // TODO: Show form-level error message if any
                 }
             }
+            return true;
+        },
+        removeServer: function (serverList, callback) {
+            var ajaxConfig = {}, putData = {}, servers = [];
+                $.each(serverList, function (key, value) {
+                    servers.push({'id': value['id'], 'cluster_id': ""});
+                });
+                putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+                ajaxConfig.type = "PUT";
+                ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+                console.log(ajaxConfig);
+
+                contrail.ajaxHandler(ajaxConfig, function () {
+                }, function (response) {
+                    console.log(response);
+                    if (contrail.checkIfFunction(callback)) {
+                        callback();
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
             return true;
         },
         assignRoles: function (serverList, callback) {
@@ -263,7 +286,7 @@ define([
                 'parameters.openstack_mgmt_ip': {
                     required: false,
                     pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_ip')
+                    msg: smMessages.getInvalidErrorMessage('openstack_mgmt_ip')
                 },
                 'parameters.router_asn': {
                     required: false,
