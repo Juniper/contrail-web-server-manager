@@ -35,7 +35,7 @@
         <strong>Error: </strong>
         <span data-bind="text: errors().{{elementId}}_error"></span>
     </div>
-    <div>Are you sure you want to delete the following server(s): &nbsp {{serverId}}</div>
+    <div>Are you sure you want to delete server <b>{{serverId}}</b>?</div>
 </script>
 
 <script type="text/x-handlebars-template" id="sm-delete-cluster-template">
@@ -44,7 +44,7 @@
         <strong>Error: </strong>
         <span data-bind="text: errors().{{elementId}}_error"></span>
     </div>
-    <div>Are you sure you want to delete the following cluster: &nbsp {{clusterId}}</div>
+    <div>Are you sure you want to delete cluster <b>{{clusterId}}</b>?</div>
 </script>
 
 <script type="text/x-handlebars-template" id="sm-section-view-template">

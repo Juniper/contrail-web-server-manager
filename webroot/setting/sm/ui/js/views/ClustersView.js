@@ -78,8 +78,7 @@ define([
             ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.SERVERS_STATE_PROCESSOR) + "&id=" + clusterId;
 
             that.$el.html(clusterTemplate({cluster_id: clusterId}));
-            contrail.ajaxHandler(ajaxConfig, function () {
-            }, function (response) {
+            contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
                 var actionConfigItem = null, i = 0;
                 $.each(rowActionCallbackConfig, function(rowActionCallbackConfigKey, rowActionCallbackConfigValue) {
                     actionConfigItem = $(clusterActionTemplate(rowActionConfig[i]));
