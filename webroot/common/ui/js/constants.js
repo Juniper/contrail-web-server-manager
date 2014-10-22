@@ -41,8 +41,11 @@ define([
 
         this.SERVERS_STATE_PROCESSOR = "computeServerStates";
 
+        this.GET_METHOD = "GET";
         this.POST_METHOD = "POST";
         this.PUT_METHOD = "PUT";
+
+        this.URL_TAG_NAMES = '/sm/tags/names';
     }
     return Constants;
 });

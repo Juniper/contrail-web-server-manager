@@ -119,27 +119,32 @@ define([
         },
 
         renderTagServers: function (options) {
-            var editLayout = editTemplate({prefixId: prefixId}),
-                editTagViewConfig = {
-                    elementId: (prefixId + '_' + smLabels.TITLE_TAG).toLowerCase(),
-                    view: "SectionView",
-                    viewConfig: {
-                        rows: tagServersViewConfigRows
+            var self = this;
+
+            getTagServersViewConfigRows(function (tagServersViewConfigRows) {
+                var editLayout = editTemplate({prefixId: prefixId}),
+                    editTagViewConfig = {
+                        elementId: (prefixId + '_' + smLabels.TITLE_TAG).toLowerCase(),
+                        view: "SectionView",
+                        viewConfig: {
+                            rows: tagServersViewConfigRows
+                        }
+                    };
+
+                smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                        self.model.editTags(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                    }, 'onCancel': function () {
+                        Knockback.release(self.model, document.getElementById(modalId));
+                        smValidation.unbind(self);
+                        $("#" + modalId).modal('hide');
                     }
-                }, that = this;
+                });
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.editTags(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
-            }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
-                $("#" + modalId).modal('hide');
-            }});
+                smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), self.model, editTagViewConfig);
+                self.model.showErrorAttr(prefixId + '_form', false);
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, editTagViewConfig);
-            this.model.showErrorAttr(prefixId + '_form', false);
-
-            Knockback.applyBindings(this.model, document.getElementById(modalId));
+                Knockback.applyBindings(self.model, document.getElementById(modalId));
+            });
         },
 
         renderAssignRoles: function (options) {
@@ -181,25 +186,26 @@ define([
         }
     });
 
-    var tagServersViewConfigRows = [
-        {
-            columns: [
-                {elementId: 'datacenter', view: "FormInputView", viewConfig: {path: "tag.datacenter", dataBindValue: "tag().datacenter", class: "span6"}},
-                {elementId: 'floor', view: "FormInputView", viewConfig: {path: 'tag.floor', dataBindValue: 'tag().floor', class: "span6"}}
-            ]
-        },
-        {
-            columns: [
-                {elementId: 'hall', view: "FormInputView", viewConfig: {path: "tag.hall", dataBindValue: "tag().hall", class: "span6"}},
-                {elementId: 'rack', view: "FormInputView", viewConfig: {path: 'tag.rack', dataBindValue: 'tag().rack', class: "span6"}}
-            ]
-        },
-        {
-            columns: [
-                {elementId: 'user_tag', view: "FormInputView", viewConfig: {path: "tag.user_tag", dataBindValue: "tag().user_tag", class: "span6"}}
-            ]
-        }
-    ];
+    function getTagServersViewConfigRows(callback) {
+        var ajaxConfig = {type: smConstants.GET_METHOD, cache: "true", url: smConstants.URL_TAG_NAMES},
+            tagServersViewConfigRows = [];
+
+        contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
+            var row, columns, isNewRow, tagName;
+            for (var i = 0; response != null && i < response.length; i++) {
+                isNewRow = ((i % 2) == 0) ? true : false;
+                tagName = response[i];
+                if (isNewRow) {
+                    row = {columns: []};
+                    tagServersViewConfigRows.push(row);
+                }
+                row['columns'].push({ elementId: tagName, view: "FormInputView", viewConfig: {path: "tag." + tagName, dataBindValue: "tag()." + tagName, class: "span6"}});
+            }
+            callback(tagServersViewConfigRows)
+        }, function () {
+            callback(tagServersViewConfigRows)
+        });
+    };
 
     function getConfigureViewConfig(disableId) {
         return {
