@@ -90,10 +90,15 @@ define([
                     checkedRow = [dataItem];
 
                 serverEditView.model = serverModel;
-                serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, checkedRows: checkedRow, callback: function () {
-                    var dataView = $(gridElId).data("contrailGrid")._dataView;
-                    dataView.refreshData();
-                }});
+                serverEditView.renderTagServers({
+                    "title": smLabels.TITLE_EDIT_TAGS,
+                    checkedRows: checkedRow,
+                    callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    },
+                    lockEditingByDefault: false
+                });
             }),
             smGridConfig.getReimageAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -237,10 +242,15 @@ define([
                         checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
 
                     serverEditView.model = serverModel;
-                    serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, "checkedRows": checkedRows, callback: function () {
-                        var dataView = $(gridElId).data("contrailGrid")._dataView;
-                        dataView.refreshData();
-                    }});
+                    serverEditView.renderTagServers({
+                        "title": smLabels.TITLE_EDIT_TAGS,
+                        "checkedRows": checkedRows,
+                        callback: function () {
+                            var dataView = $(gridElId).data("contrailGrid")._dataView;
+                            dataView.refreshData();
+                        },
+                        lockEditingByDefault: true
+                    });
                 }
             }
         ];

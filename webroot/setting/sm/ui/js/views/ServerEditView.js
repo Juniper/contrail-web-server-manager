@@ -129,7 +129,8 @@ define([
                         viewConfig: {
                             rows: tagServersViewConfigRows
                         }
-                    };
+                    },
+                    lockEditingByDefault = options.lockEditingByDefault;
 
                 smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                         self.model.editTags(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
@@ -140,7 +141,7 @@ define([
                     }
                 });
 
-                smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), self.model, editTagViewConfig);
+                smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), self.model, editTagViewConfig, 'editTagsValidation', lockEditingByDefault);
                 self.model.showErrorAttr(prefixId + '_form', false);
 
                 Knockback.applyBindings(self.model, document.getElementById(modalId));

@@ -203,36 +203,36 @@ define([
             delete testobj.errors;
             delete testobj.locks;
 
-            $.each(testobj, function (index, value) {
+            $.each(testobj, function (attribute, value) {
                 if (_.isArray(value)) {
-                    if (contrail.checkIfExist(locks[index + '_locked'])) {
-                        lock = locks[index + '_locked'];
+                    if (contrail.checkIfExist(locks[attribute + '_locked'])) {
+                        lock = locks[attribute + '_locked'];
                         if (lock === true) {
-                            delete testobj[index];
+                            delete testobj[attribute];
                         }
                     } else {
-                        delete testobj[index];
+                        delete testobj[attribute];
                     }
                 }
                 // check if value is a key or object
                 // if object make a recursive call on value
                 else if (_.isObject(value)) {
-                    testobj[index] = smUtils.getEditConfigObj(value, locks);
-                    if ($.isEmptyObject(testobj[index])) {
-                        delete testobj[index];
+                    testobj[attribute] = smUtils.getEditConfigObj(value, locks);
+                    if ($.isEmptyObject(testobj[attribute])) {
+                        delete testobj[attribute];
                     }
                 }
                 // if we reach here :- then value is a key
                 // now we check if the value is locked
                 // we check it from the 'locks'
                 else {
-                    if (contrail.checkIfExist(locks[index + '_locked'])) {
-                        lock = locks[index + '_locked'];
+                    if (contrail.checkIfExist(locks[attribute + '_locked'])) {
+                        lock = locks[attribute + '_locked'];
                         if (lock === true) {
-                            delete testobj[index];
+                            delete testobj[attribute];
                         }
                     } else {
-                        delete testobj[index];
+                        delete testobj[attribute];
                     }
                 }
             });

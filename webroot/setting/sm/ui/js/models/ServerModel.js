@@ -165,34 +165,53 @@ define([
         },
         editTags: function (modalId, checkedRows, callback) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'configureValidation')) {
+            if (this.model().isValid(true, 'editTagsValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
-                    var serverAttrs = this.model().attributes,
-                        putData = {}, servers = [],
+                    var putData = {}, serverAttrsEdited = {}, serversEdited = [],
+                        serverAttrs = this.model().attributes,
+                        locks = this.model().attributes.locks.attributes,
                         that = this;
 
-                    for (var i = 0; i < checkedRows.length; i++) {
-                        servers.push({'id': checkedRows[i]['id'], 'tag': serverAttrs['tag']});
-                    }
-
-                    putData[smConstants.SERVER_PREFIX_ID] = servers;
-
-                    ajaxConfig.type = "PUT";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
-                    console.log(ajaxConfig);
-                    contrail.ajaxHandler(ajaxConfig, function () {
+                    contrail.ajaxHandler({
+                        type: 'GET',
+                        url: smConstants.URL_TAG_NAMES
+                    }, function () {
                     }, function (response) {
-                        console.log(response);
-                        $("#" + modalId).modal('hide');
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
-                        }
+                        $.each(response, function(tagKey, tagValue) {
+                            if(!contrail.checkIfExist(serverAttrs.tag[tagValue])){
+                                serverAttrs.tag[tagValue] = null;
+                            }
+                        });
+
+                        serverAttrsEdited = smUtils.getEditConfigObj(serverAttrs, locks);
+
+                        $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
+                            serversEdited.push({'id': checkedRowsValue.id, 'tag': serverAttrsEdited['tag']});
+                        });
+                        putData[smConstants.SERVER_PREFIX_ID] = serversEdited;
+
+                        ajaxConfig.type = "PUT";
+                        ajaxConfig.data = JSON.stringify(putData);
+                        ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+                        console.log(ajaxConfig);
+                        contrail.ajaxHandler(ajaxConfig, function () {
+                        }, function (response) {
+                            console.log(response);
+                            $("#" + modalId).modal('hide');
+                            if (contrail.checkIfFunction(callback)) {
+                                callback();
+                            }
+                        }, function (error) {
+                            console.log(error);
+                            that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                        });
                     }, function (error) {
                         console.log(error);
                         that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
                     });
+
+
                 } else {
                     // TODO: Show form-level error message if any
                 }
@@ -335,7 +354,8 @@ define([
                     pattern: smConstants.PATTERN_IP_ADDRESS,
                     msg: smMessages.getInvalidErrorMessage('subnet_mask')
                 }
-            }
+            },
+            editTagsValidation: {}
         }
     });
 
