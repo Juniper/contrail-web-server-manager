@@ -290,10 +290,6 @@ define([
                 }
             },
             provisionValidation: {
-                'base_image_id': {
-                    required: true,
-                    msg: smMessages.getRequiredMessage('base_image_id')
-                },
                 'package_image_id': {
                     required: true,
                     msg: smMessages.getRequiredMessage('package_image_id')
