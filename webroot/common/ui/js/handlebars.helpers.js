@@ -29,3 +29,7 @@ Handlebars.registerHelper('printJSON', function(jsonObject) {
     return JSON.stringify(jsonObject);
 });
 
+
+Handlebars.registerHelper('getKeyValue4Object', function(object, key) {
+    return object[key];
+});

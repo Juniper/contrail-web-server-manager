@@ -148,9 +148,9 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-tags-template">
-    {{#each this}}
+    {{#each tags}}
         <a onclick="loadFeature({{filterServerByTagParams @key this}});">
-            <span class="badge badge-color-{{@index}}">{{this}}</span>
+            <span class="badge badge-color-{{getKeyValue4Object ../colors @key}}">{{this}}</span>
         </a>
     {{/each}}
 </script>

@@ -32,9 +32,19 @@ require([
     smMessages = new Messages();
     smGridConfig = new GridConfig();
     smValidation = validation;
+    initSMWebCache();
     initBackboneValidation(_);
     initCustomKOBindings(Knockout);
 });
+
+function initSMWebCache() {
+    var ajaxConfig = {type: smConstants.GET_METHOD, cache: "true", url: smConstants.URL_TAG_NAMES};
+    contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
+        for (var i = 0; response != null && i < response.length; i++) {
+            smConstants.TAG_COLORS[response[i]] = i;
+        }
+    });
+};
 
 function initBackboneValidation(_) {
     _.extend(smValidation.callbacks, {

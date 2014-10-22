@@ -46,6 +46,7 @@ define([
         this.PUT_METHOD = "PUT";
 
         this.URL_TAG_NAMES = '/sm/tags/names';
+        this.TAG_COLORS = {};
     }
     return Constants;
 });

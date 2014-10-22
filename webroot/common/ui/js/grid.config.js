@@ -172,7 +172,7 @@ define([
             { id: "server_id", field: "id", name: "Hostname", width: 75, minWidth: 75 },
             { id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125, formatter: function (r, c, v, cd, dc) {
                 var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                    tagHTML = tagTemplate(dc.tag);
+                    tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS});
                 return tagHTML;
             }}
         ]);
@@ -192,7 +192,7 @@ define([
                 commonColumnsSet2 = [
                     { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, formatter: function (r, c, v, cd, dc) {
                         var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                            tagHTML = tagTemplate(dc.tag);
+                            tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS});
                         return tagHTML;
                     }},
                     { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
