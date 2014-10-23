@@ -250,7 +250,7 @@ function provision(req, res, appdata) {
         async.map(postData, function (item, callback) {
             sm.post(provisionUrl, item, appdata, function (error, resultJSON) {
                 if (error != null) {
-                    callback(null, error);
+                    callback(error);
                 } else {
                     callback(null, resultJSON);
                 }
@@ -275,7 +275,7 @@ function reimage(req, res, appdata) {
         async.map(postData, function (item, callback) {
             sm.post(provisionUrl, item, appdata, function (error, resultJSON) {
                 if (error != null) {
-                    callback(null, error);
+                    callback(error);
                 } else {
                     callback(null, resultJSON);
                 }
