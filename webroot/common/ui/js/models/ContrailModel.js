@@ -92,7 +92,7 @@ define([
                 locks = this.model().get("locks"),
                 lockedStatus = locks.attributes[attribute + smConstants.LOCKED_SUFFIX_ID];
 
-            return (lockedStatus) ? 'icon-pencil' : 'icon-pencil';
+            return (lockedStatus) ? 'icon-muted' : '';
         },
 
        checkIfInputDisabled: function(disabledFlag, lockFlag) {

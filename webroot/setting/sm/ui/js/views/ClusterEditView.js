@@ -239,7 +239,7 @@ define([
                     {
                         columns: [
                             {elementId: 'analytics_data_ttl', view: "FormInputView", viewConfig: {path: 'parameters.analytics_data_ttl', dataBindValue: 'parameters().analytics_data_ttl', class: "span6"}},
-                            {elementId: 'ext_bgp', view: "FormInputView", viewConfig: {path: 'parameters.ext_bgp', dataBindValue: 'parameters().ext_bgp', class: "span6"}}
+                            {elementId: 'external_bgp', view: "FormInputView", viewConfig: {path: 'parameters.external_bgp', dataBindValue: 'parameters().external_bgp', class: "span6"}}
                         ]
                     },
                     {
@@ -978,11 +978,6 @@ define([
             rows: [
                 {
                     columns: [
-                        {
-                            elementId: 'base_image_id',
-                            view: "FormDropdownView",
-                            viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInImages')}}}
-                        },
                         {
                             elementId: 'package_image_id',
                             view: "FormDropdownView",

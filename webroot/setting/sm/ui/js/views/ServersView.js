@@ -90,10 +90,15 @@ define([
                     checkedRow = [dataItem];
 
                 serverEditView.model = serverModel;
-                serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, checkedRows: checkedRow, callback: function () {
-                    var dataView = $(gridElId).data("contrailGrid")._dataView;
-                    dataView.refreshData();
-                }});
+                serverEditView.renderTagServers({
+                    "title": smLabels.TITLE_EDIT_TAGS,
+                    checkedRows: checkedRow,
+                    callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    },
+                    lockEditingByDefault: false
+                });
             }),
             smGridConfig.getReimageAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
@@ -105,7 +110,7 @@ define([
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
-            }),
+            }, true),
             smGridConfig.getProvisionAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
@@ -127,7 +132,7 @@ define([
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
-            })
+            }, true)
         ];
         if (showAssignRoles) {
             rowActionConfig.push(smGridConfig.getAssignRoleAction(function (rowIndex) {
@@ -171,7 +176,7 @@ define([
             },
             {
                 title: smLabels.TITLE_PROVISIONING,
-                keys: ['base_image_id', 'package_image_id']
+                keys: [ 'base_image_id', 'reimaged_id', 'package_image_id', 'provisioned_id']
             }
         ]
     ];
@@ -237,10 +242,15 @@ define([
                         checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
 
                     serverEditView.model = serverModel;
-                    serverEditView.renderTagServers({"title": smLabels.TITLE_EDIT_TAGS, "checkedRows": checkedRows, callback: function () {
-                        var dataView = $(gridElId).data("contrailGrid")._dataView;
-                        dataView.refreshData();
-                    }});
+                    serverEditView.renderTagServers({
+                        "title": smLabels.TITLE_EDIT_TAGS,
+                        "checkedRows": checkedRows,
+                        callback: function () {
+                            var dataView = $(gridElId).data("contrailGrid")._dataView;
+                            dataView.refreshData();
+                        },
+                        lockEditingByDefault: true
+                    });
                 }
             }
         ];
@@ -263,6 +273,7 @@ define([
         dropdownActions.push({
             "iconClass": "icon-signin",
             "title": smLabels.TITLE_REIMAGE,
+            divider: true,
             "onClick": function () {
             var serverModel = new ServerModel(),
                 checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();

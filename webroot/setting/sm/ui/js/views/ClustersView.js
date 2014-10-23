@@ -78,8 +78,7 @@ define([
             ajaxConfig.url = smUtils.getObjectDetailUrl(smConstants.CLUSTER_PREFIX_ID, smConstants.SERVERS_STATE_PROCESSOR) + "&id=" + clusterId;
 
             that.$el.html(clusterTemplate({cluster_id: clusterId}));
-            contrail.ajaxHandler(ajaxConfig, function () {
-            }, function (response) {
+            contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
                 var actionConfigItem = null, i = 0;
                 $.each(rowActionCallbackConfig, function(rowActionCallbackConfigKey, rowActionCallbackConfigValue) {
                     actionConfigItem = $(clusterActionTemplate(rowActionConfig[i]));
@@ -103,16 +102,6 @@ define([
     });
 
     var rowActionCallbackConfig = {
-        renderConfigure: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
-
-            clusterEditView.model = clusterModel;
-            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-        },
         renderAddServers: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem);
 
@@ -137,6 +126,16 @@ define([
 
             clusterEditView.model = clusterModel;
             clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+        },
+        renderConfigure: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
@@ -174,10 +173,6 @@ define([
     }
 
     var rowActionConfig = [
-        smGridConfig.getConfigureAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderConfigure(dataItem);
-        }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAddServers(dataItem);
@@ -190,10 +185,14 @@ define([
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAssignRoles(dataItem)
         }),
+        smGridConfig.getConfigureAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderConfigure(dataItem);
+        }),
         smGridConfig.getReimageAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderReimage(dataItem);
-        }),
+        }, true),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderProvision(dataItem);
@@ -201,7 +200,7 @@ define([
         smGridConfig.getDeleteAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderDelete(dataItem);
-        })
+        }, true)
     ];
 
     var detailTemplateConfig = [
@@ -221,17 +220,17 @@ define([
         ],
         [
             {
+                title: smLabels.TITLE_STATUS,
+                keys: ['ui_added_parameters.servers_status.total_servers', 'ui_added_parameters.servers_status.new_servers', 'ui_added_parameters.servers_status.configured_servers', 'ui_added_parameters.servers_status.inprovision_servers', 'ui_added_parameters.servers_status.provisioned_servers']
+            },
+            {
                 title: smLabels.TITLE_SERVERS_CONFIG,
-                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'parameters.base_image_id', 'parameters.package_image_id']
+                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'base_image_id', 'package_image_id']
             },
             {
                 title: smLabels.TITLE_STORAGE,
                 keys: ['parameters.uuid', 'parameters.storage_virsh_uuid', 'parameters.storage_fsid']
             },
-            {
-                title: smLabels.TITLE_STATUS,
-                keys: ['ui_added_parameters.servers_status.total_servers', 'ui_added_parameters.servers_status.new_servers', 'ui_added_parameters.servers_status.configured_servers', 'ui_added_parameters.servers_status.inprovision_servers', 'ui_added_parameters.servers_status.provisioned_servers']
-            }
         ]
     ];
 

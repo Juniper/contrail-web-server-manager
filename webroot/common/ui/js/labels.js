@@ -45,8 +45,10 @@ define([
             "ipmi_address": "IPMI",
             "ipmi_username": "IPMI Username",
             "ipmi_password": "IPMI Password",
-            "base_image_id": "Base Image",
-            "package_image_id": "Package",
+            "base_image_id": "Default Image",
+            "reimaged_id": "Installed Image",
+            "package_image_id": "Default Package",
+            "provisioned_id": "Installed Package",
             "roles": "Roles",
             "mac_address": "MAC Address",
             "interface_name": "Interface Name",
@@ -59,11 +61,11 @@ define([
             "host_name": "Host Name",
 
             //Tags
-            "datacenter": "Datacenter",
-            "floor": "Floor",
-            "hall": "Hall",
-            "rack": "Rack",
-            "user_tag": "User Defined Tag",
+            "reservedby": "Reserved By",
+            "custom_tag1": "Custom Tag 1",
+            "custom_tag2": "Custom Tag 2",
+            "user_tag": "Custom Tag",
+            "custom_tag": "Custom Tag",
 
             //Cluster
             "cluster_id": "Cluster",

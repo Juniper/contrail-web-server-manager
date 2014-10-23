@@ -67,83 +67,82 @@ define([
             }
         ];
 
-        this.getReimageAction = function (onClickFunction) {
-            return {
-                title: smLabels.TITLE_REIMAGE,
-                iconClass: 'icon-signin',
-                width: 80,
-                onClick: onClickFunction
-            };
-        };
-
-        this.getConfigureAction = function (onClickFunction) {
+        this.getConfigureAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_EDIT_CONFIG,
                 iconClass: 'icon-edit',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
 
-        this.getAddServersAction = function (onClickFunction) {
+        this.getAddServersAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_ADD_SERVERS,
                 iconClass: 'icon-plus',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
 
-        this.getRemoveServersAction = function (onClickFunction) {
+        this.getRemoveServersAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_REMOVE_SERVERS,
                 iconClass: 'icon-minus',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
 
-        this.getReimageAction = function (onClickFunction) {
+        this.getReimageAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_REIMAGE,
                 iconClass: 'icon-upload-alt',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
 
-        this.getProvisionAction = function (onClickFunction) {
+        this.getProvisionAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_PROVISION,
                 iconClass: 'icon-cloud-upload',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
 
-        this.getTagAction = function (onClickFunction) {
+        this.getTagAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_EDIT_TAGS,
                 iconClass: 'icon-tags',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
 
-        this.getAssignRoleAction = function (onClickFunction) {
+        this.getAssignRoleAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_ASSIGN_ROLES,
                 iconClass: 'icon-check',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
 
-        this.getDeleteAction = function (onClickFunction) {
+        this.getDeleteAction = function (onClickFunction, divider) {
             return {
                 title: smLabels.TITLE_DELETE,
                 iconClass: 'icon-trash',
                 width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
             };
         };
@@ -162,6 +161,12 @@ define([
                         } else {
                             return (dc.roles.indexOf(roleValue) != -1) ? '<i class="icon-ok green"></i>' : '';
                         }
+                    },
+                    exportConfig: {
+                        allow: true,
+                        advFormatter: function(dc) {
+                            return (dc.roles.indexOf(roleValue) != -1);
+                        }
                     }
                 });
             })
@@ -170,11 +175,20 @@ define([
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
             { id: "server_id", field: "id", name: "Hostname", width: 75, minWidth: 75 },
-            { id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125, formatter: function (r, c, v, cd, dc) {
-                var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                    tagHTML = tagTemplate(dc.tag);
-                return tagHTML;
-            }}
+            {
+                id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125,
+                formatter: function (r, c, v, cd, dc) {
+                    var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
+                        tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS});
+                    return tagHTML;
+                },
+                exportConfig: {
+                    allow: true,
+                    advFormatter: function(dc) {
+                        return JSON.stringify(dc.tag);
+                    }
+                }
+            }
         ]);
 
         this.getServerColumns = function (serverColumnsType) {
@@ -190,11 +204,20 @@ define([
                     { id: "server_id", field: "id", name: "Hostname", width: 80, minWidth: 15 }
                 ],
                 commonColumnsSet2 = [
-                    { id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, formatter: function (r, c, v, cd, dc) {
-                        var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                            tagHTML = tagTemplate(dc.tag);
-                        return tagHTML;
-                    }},
+                    {
+                        id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150,
+                        formatter: function (r, c, v, cd, dc) {
+                            var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
+                                tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS});
+                            return tagHTML;
+                        },
+                        exportConfig: {
+                            allow: true,
+                            advFormatter: function(dc) {
+                                return JSON.stringify(dc.tag);
+                            }
+                        }
+                    },
                     { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
                     { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15 }
                 ];

@@ -35,7 +35,7 @@
         <strong>Error: </strong>
         <span data-bind="text: errors().{{elementId}}_error"></span>
     </div>
-    <div>Are you sure you want to delete the following server(s): &nbsp {{serverId}}</div>
+    <div>Are you sure you want to delete server <b>{{serverId}}</b>?</div>
 </script>
 
 <script type="text/x-handlebars-template" id="sm-delete-cluster-template">
@@ -44,7 +44,7 @@
         <strong>Error: </strong>
         <span data-bind="text: errors().{{elementId}}_error"></span>
     </div>
-    <div>Are you sure you want to delete the following cluster: &nbsp {{clusterId}}</div>
+    <div>Are you sure you want to delete cluster <b>{{clusterId}}</b>?</div>
 </script>
 
 <script type="text/x-handlebars-template" id="sm-section-view-template">
@@ -88,7 +88,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
             </span>
         </div>
     </div>
@@ -105,7 +105,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
             </span>
         </div>
     </div>
@@ -122,7 +122,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
             </span>
         </div>
     </div>
@@ -148,9 +148,9 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-tags-template">
-    {{#each this}}
+    {{#each tags}}
         <a onclick="loadFeature({{filterServerByTagParams @key this}});">
-            <span class="badge badge-color-{{@index}}">{{this}}</span>
+            <span class="badge badge-color-{{getKeyValue4Object ../colors @key}}">{{this}}</span>
         </a>
     {{/each}}
 </script>
