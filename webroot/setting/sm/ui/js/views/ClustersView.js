@@ -102,16 +102,6 @@ define([
     });
 
     var rowActionCallbackConfig = {
-        renderConfigure: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
-
-            clusterEditView.model = clusterModel;
-            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
-                var dataView = $(gridElId).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-        },
         renderAddServers: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem);
 
@@ -136,6 +126,16 @@ define([
 
             clusterEditView.model = clusterModel;
             clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+        },
+        renderConfigure: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
@@ -173,10 +173,6 @@ define([
     }
 
     var rowActionConfig = [
-        smGridConfig.getConfigureAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderConfigure(dataItem);
-        }),
         smGridConfig.getAddServersAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAddServers(dataItem);
@@ -189,10 +185,14 @@ define([
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderAssignRoles(dataItem)
         }),
+        smGridConfig.getConfigureAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
+            rowActionCallbackConfig.renderConfigure(dataItem);
+        }),
         smGridConfig.getReimageAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderReimage(dataItem);
-        }),
+        }, true),
         smGridConfig.getProvisionAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderProvision(dataItem);
@@ -200,7 +200,7 @@ define([
         smGridConfig.getDeleteAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex);
             rowActionCallbackConfig.renderDelete(dataItem);
-        })
+        }, true)
     ];
 
     var detailTemplateConfig = [

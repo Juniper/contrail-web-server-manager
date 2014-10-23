@@ -110,7 +110,7 @@ define([
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
-            }),
+            }, true),
             smGridConfig.getProvisionAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
@@ -132,7 +132,7 @@ define([
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
-            })
+            }, true)
         ];
         if (showAssignRoles) {
             rowActionConfig.push(smGridConfig.getAssignRoleAction(function (rowIndex) {
@@ -273,6 +273,7 @@ define([
         dropdownActions.push({
             "iconClass": "icon-signin",
             "title": smLabels.TITLE_REIMAGE,
+            divider: true,
             "onClick": function () {
             var serverModel = new ServerModel(),
                 checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
