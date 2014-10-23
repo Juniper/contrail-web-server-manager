@@ -66,42 +66,47 @@ smCache.handleTagValues = function (res, objectUrl, tagName) {
     var responseJSON = {}, tagValues = {},
         redisKey = constants.REDIS_TAG_VALUES;
 
-    redisKey += ":" + objectUrl;
+    this.initTagNamesCache(function () {
+        for(var i = 0; i < smCache.TAG_NAMES.length; i++) {
+            tagValues[smCache.TAG_NAMES[i]] = [];
+        }
+        redisKey += ":" + objectUrl;
 
-    redisClient.get(redisKey, function (error, tagValuesStr) {
-        if (error) {
-            logutils.logger.error(error.stack);
-            commonUtils.handleJSONResponse(error, res, null);
-        } else if (tagValuesStr == null) {
-            sm.get(objectUrl, function (error, resultJSON) {
-                var keyValue, key, tags, servers;
-                if (error != null) {
-                    commonUtils.handleJSONResponse(error, res);
-                } else {
-                    servers = resultJSON['server'];
-                    for (var i = 0; i < servers.length; i++) {
-                        tags = servers[i]['tag'];
-                        for (key in tags) {
-                            if (tagValues[key] == null) {
-                                tagValues[key] = [];
-                            }
-                            keyValue = tags[key];
-                            if (tagValues[key].indexOf(keyValue) == -1) {
-                                tagValues[key].push(keyValue);
+        redisClient.get(redisKey, function (error, tagValuesStr) {
+            if (error) {
+                logutils.logger.error(error.stack);
+                commonUtils.handleJSONResponse(error, res, null);
+            } else if (tagValuesStr == null) {
+                sm.get(objectUrl, function (error, resultJSON) {
+                    var keyValue, key, tags, servers;
+                    if (error != null) {
+                        commonUtils.handleJSONResponse(error, res);
+                    } else {
+                        servers = resultJSON['server'];
+                        for (var i = 0; i < servers.length; i++) {
+                            tags = servers[i]['tag'];
+                            for (key in tags) {
+                                if (tagValues[key] == null) {
+                                    tagValues[key] = [];
+                                }
+                                keyValue = tags[key];
+                                if (tagValues[key].indexOf(keyValue) == -1) {
+                                    tagValues[key].push(keyValue);
+                                }
                             }
                         }
                     }
-                }
+                    responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
+                    commonUtils.handleJSONResponse(null, res, responseJSON);
+                    redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(tagValues));
+
+                });
+            } else {
+                tagValues = JSON.parse(tagValuesStr);
                 responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
                 commonUtils.handleJSONResponse(null, res, responseJSON);
-                redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(tagValues));
-
-            });
-        } else {
-            tagValues = JSON.parse(tagValuesStr);
-            responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
-            commonUtils.handleJSONResponse(null, res, responseJSON);
-        }
+            }
+        });
     });
 };
 
