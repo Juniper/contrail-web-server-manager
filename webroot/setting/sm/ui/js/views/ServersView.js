@@ -176,7 +176,7 @@ define([
             },
             {
                 title: smLabels.TITLE_PROVISIONING,
-                keys: ['base_image_id', 'package_image_id']
+                keys: [ 'base_image_id', 'reimaged_id', 'package_image_id', 'provisioned_id']
             }
         ]
     ];

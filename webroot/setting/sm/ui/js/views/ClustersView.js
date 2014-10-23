@@ -220,17 +220,17 @@ define([
         ],
         [
             {
+                title: smLabels.TITLE_STATUS,
+                keys: ['ui_added_parameters.servers_status.total_servers', 'ui_added_parameters.servers_status.new_servers', 'ui_added_parameters.servers_status.configured_servers', 'ui_added_parameters.servers_status.inprovision_servers', 'ui_added_parameters.servers_status.provisioned_servers']
+            },
+            {
                 title: smLabels.TITLE_SERVERS_CONFIG,
-                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'parameters.base_image_id', 'parameters.package_image_id']
+                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'base_image_id', 'package_image_id']
             },
             {
                 title: smLabels.TITLE_STORAGE,
                 keys: ['parameters.uuid', 'parameters.storage_virsh_uuid', 'parameters.storage_fsid']
             },
-            {
-                title: smLabels.TITLE_STATUS,
-                keys: ['ui_added_parameters.servers_status.total_servers', 'ui_added_parameters.servers_status.new_servers', 'ui_added_parameters.servers_status.configured_servers', 'ui_added_parameters.servers_status.inprovision_servers', 'ui_added_parameters.servers_status.provisioned_servers']
-            }
         ]
     ];
 
