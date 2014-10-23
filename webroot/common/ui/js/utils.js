@@ -143,11 +143,15 @@ define([
                     return '-';
                 }
             }
-            if ((contrail.checkIfExist(obj) && obj != '') || obj == 0) {
-                return obj;
-            } else {
-                return '-';
+
+            if (contrail.checkIfExist(obj)) {
+                obj = obj.toString().trim();
+                if (obj !== '' || obj === 0) {
+                    return obj;
+                }
             }
+
+            return '-';
         };
 
         this.getObjectDetailUrl = function (objectName, postProcessor) {

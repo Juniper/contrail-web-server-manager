@@ -167,7 +167,7 @@
                                 <li>
                                     <label class="inline">
                                         <span class="key"> {{getSMLabel this}} </span>
-                                        <span class="value"> {{{getJSONValueByPath this ../../../../dc}}} </span>
+                                        <span class="value">{{{getJSONValueByPath this ../../../../dc}}}</span>
                                     </label>
                                 </li>
                             {{/IfValidJSONValueByPath}}
