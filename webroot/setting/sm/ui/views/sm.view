@@ -47,6 +47,24 @@
     <div>Are you sure you want to delete cluster <b>{{clusterId}}</b>?</div>
 </script>
 
+<script type="text/x-handlebars-template" id="sm-delete-image-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete image <b>{{imageId}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-package-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete package <b>{{packageId}}</b>?</div>
+</script>
+
 <script type="text/x-handlebars-template" id="sm-section-view-template">
     {{#if this.title}}
         <h5 class="margin-0-0-10">{{this.title}}</h5>
@@ -167,7 +185,7 @@
                                 <li>
                                     <label class="inline">
                                         <span class="key"> {{getSMLabel this}} </span>
-                                        <span class="value"> {{{getJSONValueByPath this ../../../../dc}}} </span>
+                                        <span class="value">{{{getJSONValueByPath this ../../../../dc}}}</span>
                                     </label>
                                 </li>
                             {{/IfValidJSONValueByPath}}

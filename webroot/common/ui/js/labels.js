@@ -31,6 +31,15 @@ define([
             return label.toUpperCase();
         };
 
+        this.getFirstCharUpperCase = function (key) {
+            var label = this.get(key);
+
+            label = label.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                return letter.toUpperCase();
+            });
+            return label;
+        };
+
         var labelMap = {
             //General
             "id": "ID",

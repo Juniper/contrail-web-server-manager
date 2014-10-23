@@ -9,7 +9,8 @@ define([
     'setting/sm/ui/js/views/PackageEditView'
 ], function (_, Backbone, PackageModel, PackageEditView) {
     var prefixId = smConstants.PACKAGE_PREFIX_ID,
-        packageEditView = new PackageEditView();
+        packageEditView = new PackageEditView(),
+        gridElId = '#' + prefixId + '-results';
 
     var PackagesView = Backbone.View.extend({
         el: $(contentContainer),
@@ -61,24 +62,20 @@ define([
     });
 
     var rowActionConfig = [
-        smGridConfig.getConfigureAction(function (rowIndex) {
+        smGridConfig.getDeleteAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                packageModel = new PackageModel(dataItem);
+                packageModel = new PackageModel(dataItem),
+                checkedRow = dataItem;
 
             packageEditView.model = packageModel;
-            packageEditView.render({"title": smLabels.TITLE_EDIT_CONFIG});
+            packageEditView.renderDeletePackage({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         })
     ];
 
     var headerActionConfig = [
-        {
-            "type": "link",
-            linkElementId: 'btnDeleteRepos',
-            disabledLink: true,
-            "title": smLabels.TITLE_DELETE,
-            "iconClass": "icon-trash",
-            "onClick": function () {}
-        },
         {
             "type": "link",
             "title": smLabels.TITLE_ADD_PACKAGE,
@@ -87,7 +84,10 @@ define([
                 var packageModel = new PackageModel();
 
                 packageEditView.model = packageModel;
-                packageEditView.render({"title": smLabels.TITLE_ADD_PACKAGE});
+                packageEditView.render({"title": smLabels.TITLE_ADD_PACKAGE, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
             }
         }
     ];

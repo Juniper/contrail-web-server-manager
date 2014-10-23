@@ -80,7 +80,7 @@ define([
             that.$el.html(clusterTemplate({cluster_id: clusterId}));
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
                 var actionConfigItem = null, i = 0;
-                $.each(rowActionCallbackConfig, function(rowActionCallbackConfigKey, rowActionCallbackConfigValue) {
+                $.each(clusterActionCallbackConfig, function(rowActionCallbackConfigKey, rowActionCallbackConfigValue) {
                     actionConfigItem = $(clusterActionTemplate(rowActionConfig[i]));
                     that.$el.find("#cluster-actions").append(actionConfigItem);
 
@@ -100,6 +100,70 @@ define([
             }, function () {});
         }
     });
+
+    var clusterActionCallbackConfig = {
+        renderAddServers: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem);
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS, callback: function () {
+                loadFeature({p: smConstants.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        },
+        renderRemoveServers: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem);
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderRemoveServers({"title": smLabels.TITLE_REMOVE_SERVERS, callback: function () {
+                loadFeature({p: smConstants.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        },
+        renderAssignRoles: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                loadFeature({p: smConstants.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        },
+        renderConfigure: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+                loadFeature({p: smConstants.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        },
+        renderReimage: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
+                loadFeature({p: smConstants.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        },
+        renderProvision: function(dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem];
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION_CLUSTER, checkedRows: checkedRow, callback: function () {
+                loadFeature({p: smConstants.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        },
+        renderDelete: function (dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = dataItem;
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderDeleteCluster({"title": smLabels.TITLE_DEL_CLUSTER, checkedRows: checkedRow, callback: function () {
+                loadFeature({p: smConstants.URL_HASH_SM_CLUSTERS, q: {}});
+            }});
+        }
+    };
 
     var rowActionCallbackConfig = {
         renderAddServers: function(dataItem) {
@@ -151,7 +215,7 @@ define([
             }});
         },
         renderProvision: function(dataItem) {
-            clusterModel = new ClusterModel(dataItem),
+            var clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem];
 
             clusterEditView.model = clusterModel;
@@ -161,7 +225,7 @@ define([
             }});
         },
         renderDelete: function (dataItem) {
-            clusterModel = new ClusterModel(dataItem),
+            var clusterModel = new ClusterModel(dataItem),
                 checkedRow = dataItem;
 
             clusterEditView.model = clusterModel;
@@ -170,7 +234,7 @@ define([
                 dataView.refreshData();
             }});
         }
-    }
+    };
 
     var rowActionConfig = [
         smGridConfig.getAddServersAction(function (rowIndex) {
@@ -235,15 +299,17 @@ define([
     ];
 
     var headerActionConfig = [
-//        {
-//            "type": "link",
-//            linkElementId: 'btnDeleteClusters',
-//            disabledLink: true,
-//            "title": smLabels.TITLE_DEL_CLUSTERS,
-//            "iconClass": "icon-trash",
-//            "onClick": function () {
-//            }
-//        },
+        /*
+        {
+            "type": "link",
+            linkElementId: 'btnDeleteClusters',
+            disabledLink: true,
+            "title": smLabels.TITLE_DEL_CLUSTERS,
+            "iconClass": "icon-trash",
+            "onClick": function () {
+            }
+        },
+        */
         {
             "type": "link",
             "title": smLabels.TITLE_ADD_CLUSTER,

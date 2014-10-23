@@ -92,7 +92,8 @@ define([
                 locks = this.model().get("locks"),
                 lockedStatus = locks.attributes[attribute + smConstants.LOCKED_SUFFIX_ID];
 
-            return (lockedStatus) ? 'icon-muted' : '';
+            //TODO Change color of the icon on lock/unlock
+            return (lockedStatus) ? '' : '';
         },
 
        checkIfInputDisabled: function(disabledFlag, lockFlag) {

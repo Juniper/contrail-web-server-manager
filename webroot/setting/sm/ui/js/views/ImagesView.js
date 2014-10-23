@@ -9,7 +9,8 @@ define([
     'setting/sm/ui/js/views/ImageEditView'
 ], function (_, Backbone, ImageModel, ImageEditView) {
     var prefixId = smConstants.IMAGE_PREFIX_ID,
-        imageEditView = new ImageEditView();
+        imageEditView = new ImageEditView(),
+        gridElId = '#' + prefixId + '-results';
 
     var ImagesView = Backbone.View.extend({
         el: $(contentContainer),
@@ -61,24 +62,20 @@ define([
     });
 
     var rowActionConfig = [
-        smGridConfig.getConfigureAction(function (rowIndex) {
+        smGridConfig.getDeleteAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
-                imageModel = new ImageModel(dataItem);
+                imageModel = new ImageModel(dataItem),
+                checkedRow = dataItem;
 
             imageEditView.model = imageModel;
-            imageEditView.render({"title": smLabels.TITLE_EDIT_CONFIG});
+            imageEditView.renderDeleteImage({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
         })
     ];
 
     var headerActionConfig = [
-        {
-            "type": "link",
-            linkElementId: 'btnDeleteImages',
-            disabledLink: true,
-            "title": smLabels.TITLE_DELETE,
-            "iconClass": "icon-trash",
-            "onClick": function () {}
-        },
         {
             "type": "link",
             "title": smLabels.TITLE_ADD_IMAGE,
@@ -87,7 +84,10 @@ define([
                 var imageModel = new ImageModel();
 
                 imageEditView.model = imageModel;
-                imageEditView.render({"title": smLabels.TITLE_ADD_IMAGE});
+                imageEditView.render({"title": smLabels.TITLE_ADD_IMAGE, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
             }
         }
     ];

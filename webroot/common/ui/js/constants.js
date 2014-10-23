@@ -47,6 +47,8 @@ define([
 
         this.URL_TAG_NAMES = '/sm/tags/names';
         this.TAG_COLORS = {};
+
+        this.URL_HASH_SM_CLUSTERS = 'setting_sm_clusters';
     }
     return Constants;
 });
