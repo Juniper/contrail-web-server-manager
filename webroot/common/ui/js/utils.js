@@ -92,7 +92,7 @@ define([
                     },
                     {
                         className: 'btn-primary',
-                        title: 'Save',
+                        title: (options['btnName']) ? options['btnName'] : 'Save',
                         onclick: function () {
                             options['onSave']();
                         }
