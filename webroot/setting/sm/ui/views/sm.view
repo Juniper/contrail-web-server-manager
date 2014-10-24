@@ -106,7 +106,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil blue" data-bind="css: {'grey': locks().{{name}}_locked }"></i>
             </span>
         </div>
     </div>
@@ -123,7 +123,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil blue" data-bind="css: {'grey': locks().{{name}}_locked }"></i>
             </span>
         </div>
     </div>
@@ -140,7 +140,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil blue" data-bind="css: {'grey': locks().{{name}}_locked }"></i>
             </span>
         </div>
     </div>
