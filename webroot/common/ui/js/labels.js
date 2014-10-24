@@ -179,7 +179,9 @@ define([
         this.TITLE_SELECTED_SERVERS = 'Selected Servers';
 
         this.SELECT_IMAGE = 'Select Image';
+        this.TITLE_DELETE_IMAGE = 'Delete Image';
         this.SELECT_PACKAGE = 'Select Package';
+        this.TITLE_DELETE_PACKAGE = 'Delete Package';
         this.SELECT_ROLES = 'Select Roles';
         this.SEARCH_ROLES = 'Search Roles';
         this.FILTER_TAGS = 'Filter Tags';

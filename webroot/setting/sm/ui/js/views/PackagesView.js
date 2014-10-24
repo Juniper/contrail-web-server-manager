@@ -68,7 +68,7 @@ define([
                 checkedRow = dataItem;
 
             packageEditView.model = packageModel;
-            packageEditView.renderDeletePackage({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+            packageEditView.renderDeletePackage({"title": smLabels.TITLE_DELETE_PACKAGE, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
