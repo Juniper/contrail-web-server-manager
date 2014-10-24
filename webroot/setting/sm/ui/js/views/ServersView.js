@@ -157,8 +157,12 @@ define([
                 keys: ['id', 'cluster_id', 'email']
             },
             {
-                title: smLabels.TITLE_SYSTEM,
-                keys: ['host_name', 'domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'mac_address', 'static_ip', 'parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control', 'parameters.partition']
+                title: smLabels.TITLE_SYSTEM_MANAGEMENT,
+                keys: ['host_name', 'domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'mac_address', 'static_ip', 'parameters.partition']
+            },
+            {
+                title: smLabels.TITLE_INTERFACES,
+                keys: ['parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control']
             }
         ],
         [

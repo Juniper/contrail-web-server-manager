@@ -119,7 +119,8 @@ define([
         this.TITLE_CONTRAIL = "Contrail";
         this.TITLE_STORAGE = "Storage";
         this.TITLE_OPENSTACK = "Openstack";
-        this.TITLE_SYSTEM = "System";
+        this.TITLE_SYSTEM_MANAGEMENT = "System Management";
+        this.TITLE_INTERFACES = "Interfaces";
         this.TITLE_TAGS = "Tags";
         this.TITLE_CONFIGURATIONS = "Configurations";
         this.TITLE_SERVER_STATUS = "Server Status";
@@ -179,7 +180,9 @@ define([
         this.TITLE_SELECTED_SERVERS = 'Selected Servers';
 
         this.SELECT_IMAGE = 'Select Image';
+        this.TITLE_DELETE_IMAGE = 'Delete Image';
         this.SELECT_PACKAGE = 'Select Package';
+        this.TITLE_DELETE_PACKAGE = 'Delete Package';
         this.SELECT_ROLES = 'Select Roles';
         this.SEARCH_ROLES = 'Search Roles';
         this.FILTER_TAGS = 'Filter Tags';

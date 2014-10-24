@@ -68,7 +68,7 @@ define([
                 checkedRow = dataItem;
 
             imageEditView.model = imageModel;
-            imageEditView.renderDeleteImage({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+            imageEditView.renderDeleteImage({"title": smLabels.TITLE_DELETE_IMAGE, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});

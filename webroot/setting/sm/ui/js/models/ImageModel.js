@@ -16,7 +16,7 @@ define([
             'type': null,
             'parameters': {}
         },
-        configure: function (callback) {
+        configure: function (callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true,"configureValidation")) {
                 if (true) {
@@ -37,14 +37,19 @@ define([
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID);
 
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.IMAGE_PREFIX_ID + '_form', error['responseText']);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
 
                 } else {
@@ -52,21 +57,26 @@ define([
                 }
             }
         },
-        deleteImage: function (modalId, checkedRow, callback){
+        deleteImage: function (checkedRow, callbackObj){
             var ajaxConfig = {}, that = this,
                 clusterId = checkedRow['id'];
             ajaxConfig.type = "DELETE";
             ajaxConfig.url = '/sm/objects/image?id=' + clusterId;
 
             contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
             }, function (response) {
                 console.log(response);
-                if (contrail.checkIfFunction(callback)) {
-                    callback();
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
                 }
             }, function (error) {
                 console.log(error);
-                that.showErrorAttr('deleteImage', error.responseText);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
             });
         },
         validations: {
