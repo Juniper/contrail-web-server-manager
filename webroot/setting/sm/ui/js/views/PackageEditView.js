@@ -40,7 +40,7 @@ define([
                 checkedRows = options['checkedRows'],
                 packageToBeDeleted = {'packageId': [], 'elementId': elId};
             packageToBeDeleted['packageId'].push(checkedRows['id']);
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Ok', 'body': textTemplate(packageToBeDeleted), 'onSave': function () {
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(packageToBeDeleted), 'onSave': function () {
                 that.model.deletePackage(modalId, options['checkedRows'], function(){
                     options['callback']();
                     $('#' + modalId).modal('hide');

@@ -174,7 +174,7 @@ define([
                 serversToBeDeleted = {'serverId': [], 'elementId': elId};
             serversToBeDeleted['serverId'].push(checkedRows['id']);
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Ok', 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
                 that.model.deleteServer(modalId, options['checkedRows'], options['callback']);
             }, 'onCancel': function () {
                 $("#" + modalId).modal('hide');
