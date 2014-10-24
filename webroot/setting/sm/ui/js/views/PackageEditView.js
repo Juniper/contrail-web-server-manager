@@ -18,9 +18,20 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.configure(function () {
-                    options['callback']();
-                    $('#' + modalId).modal('hide');
+                that.model.configure({
+                    init: function () {
+                        that.model.showErrorAttr(prefixId + '_form', false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        });
+                    }
                 });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
@@ -41,9 +52,20 @@ define([
                 packageToBeDeleted = {'packageId': [], 'elementId': elId};
             packageToBeDeleted['packageId'].push(checkedRows['id']);
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(packageToBeDeleted), 'onSave': function () {
-                that.model.deletePackage(modalId, options['checkedRows'], function(){
-                    options['callback']();
-                    $('#' + modalId).modal('hide');
+                that.model.deletePackage(options['checkedRows'],{
+                    init: function () {
+                        that.model.showErrorAttr(elId, false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(elId, error.responseText);
+                        });
+                    }
                 });
             }, 'onCancel': function () {
                 $("#" + modalId).modal('hide');
