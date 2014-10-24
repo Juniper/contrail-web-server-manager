@@ -85,10 +85,10 @@
         {{#each viewConfig.steps}}
             <h2>{{this.title}}</h2>
             <section>
-                <div class="alert alert-error" data-bind="visible: errors().{{this.elementId}}_error">
+                <div class="alert alert-error" data-bind="visible: errors().{{this.elementId}}_form_error">
                     <button type="button" class="close" data-dismiss="alert"></button>
                     <strong>Error: </strong>
-                    <span data-bind="text: errors().{{this.elementId}}_error"></span>
+                    <span data-bind="text: errors().{{this.elementId}}_form_error"></span>
                 </div>
                 <div id="{{this.elementId}}"></div>
                 <div class="stepInfo row-fluid hide">
