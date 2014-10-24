@@ -119,7 +119,8 @@ define([
         this.TITLE_CONTRAIL = "Contrail";
         this.TITLE_STORAGE = "Storage";
         this.TITLE_OPENSTACK = "Openstack";
-        this.TITLE_SYSTEM = "System";
+        this.TITLE_SYSTEM_MANAGEMENT = "System Management";
+        this.TITLE_INTERFACES = "Interfaces";
         this.TITLE_TAGS = "Tags";
         this.TITLE_CONFIGURATIONS = "Configurations";
         this.TITLE_SERVER_STATUS = "Server Status";

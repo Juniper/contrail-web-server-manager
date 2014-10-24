@@ -318,7 +318,7 @@ define([
                 view: "AccordianView",
             viewConfig: [
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_DETAILS).toLowerCase(),
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
                 title: smLabels.TITLE_DETAILS,
                 view: "SectionView",
                 viewConfig: {
@@ -342,7 +342,7 @@ define([
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_PROVISIONING).toLowerCase(),
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_PROVISIONING]),
                 title: smLabels.TITLE_PROVISIONING,
                 view: "SectionView",
                 viewConfig: {
@@ -365,8 +365,8 @@ define([
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_SYSTEM).toLowerCase(),
-                title: smLabels.TITLE_SYSTEM,
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SYSTEM_MANAGEMENT]),
+                title: smLabels.TITLE_SYSTEM_MANAGEMENT,
                 view: "SectionView",
                 viewConfig: {
                     rows: [
@@ -403,18 +403,27 @@ define([
                         },
                         {
                             columns: [
-                                {elementId: 'mac_address', view: "FormInputView", viewConfig: {path: 'mac_address', dataBindValue: 'mac_address', class: "span6"}},
-                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}}
+                                {elementId: 'mac_address', view: "FormInputView", viewConfig: {path: 'mac_address', dataBindValue: 'mac_address', class: "span6"}}
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_INTERFACES]),
+                title: smLabels.TITLE_INTERFACES,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}},
+                                {elementId: 'intf_bond', view: "FormInputView", viewConfig: {path: 'intf_bond', dataBindValue: 'intf_bond', class: "span6"}}
                             ]
                         },
                         {
                             columns: [
-                                {elementId: 'intf_bond', view: "FormInputView", viewConfig: {path: 'intf_bond', dataBindValue: 'intf_bond', class: "span6"}},
-                                {elementId: 'intf_data', view: "FormInputView", viewConfig: {path: 'intf_data', dataBindValue: 'intf_data', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
+                                {elementId: 'intf_data', view: "FormInputView", viewConfig: {path: 'intf_data', dataBindValue: 'intf_data', class: "span6"}},
                                 {elementId: 'intf_control', view: "FormInputView", viewConfig: {path: 'intf_control', dataBindValue: 'intf_control', class: "span6"}}
                             ]
                         }
@@ -431,7 +440,7 @@ define([
         view: "AccordianView",
         viewConfig: [
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_DETAILS).toLowerCase(),
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
                 title: smLabels.TITLE_DETAILS,
                 view: "SectionView",
                 viewConfig: {
@@ -450,7 +459,7 @@ define([
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_PROVISIONING).toLowerCase(),
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_PROVISIONING]),
                 title: smLabels.TITLE_PROVISIONING,
                 view: "SectionView",
                 viewConfig: {
@@ -473,8 +482,8 @@ define([
                 }
             },
             {
-                elementId: (prefixId + '_' + smLabels.TITLE_SYSTEM).toLowerCase(),
-                title: smLabels.TITLE_SYSTEM,
+                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SYSTEM_MANAGEMENT]),
+                title: smLabels.TITLE_SYSTEM_MANAGEMENT,
                 view: "SectionView",
                 viewConfig: {
                     rows: [
@@ -493,18 +502,6 @@ define([
                             columns: [
                                 {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
                                 {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}},
-                                {elementId: 'intf_control', view: "FormInputView", viewConfig: {path: 'intf_control', dataBindValue: 'intf_control', class: "span6"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'intf_bond', view: "FormInputView", viewConfig: {path: 'intf_bond', dataBindValue: 'intf_bond', class: "span6"}},
-                                {elementId: 'intf_data', view: "FormInputView", viewConfig: {path: 'intf_data', dataBindValue: 'intf_data', class: "span6"}}
                             ]
                         }
                     ]
