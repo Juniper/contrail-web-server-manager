@@ -211,7 +211,7 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-cluster-action-template">
-    <a class="margin-0-5 grey" title="{{title}}">
+    <a class="margin-0-5 grey font-size-14" title="{{title}}">
         <i class="{{iconClass}}"></i>
     </a>
 </script>
