@@ -91,7 +91,7 @@ define([
                         }
                     },
                     {
-                        className: 'btn-primary',
+                        className: 'btn-primary btnSave',
                         title: (options['btnName']) ? options['btnName'] : 'Save',
                         onclick: function () {
                             options['onSave']();
@@ -116,6 +116,29 @@ define([
                     options['onCancel']();
                 }
             });
+        };
+
+        this.enableModalLoading = function (modalId) {
+            $('#' + modalId).find('.modal-header h6').prepend('<i class="icon-spinner icon-spin margin-right-10 modal-loading-icon">');
+            $('#' + modalId).find('.modal-header .icon-remove').addClass('icon-muted');
+
+            $('#' + modalId).find('.modal-footer .btn').attr('disabled', true);
+            $('#' + modalId).find('.modal-header button').attr('disabled', true);
+
+        };
+
+        this.disableModalLoading = function (modalId, callback) {
+            setTimeout(function () {
+                $('#' + modalId).find('.modal-body').animate({scrollTop: 0})
+
+                $('#' + modalId).find('.modal-header h6 .modal-loading-icon').remove();
+                $('#' + modalId).find('.modal-header .icon-remove').removeClass('icon-muted');
+
+                $('#' + modalId).find('.modal-footer .btn').attr('disabled', false);
+                $('#' + modalId).find('.modal-header button').attr('disabled', false);
+
+                callback();
+            }, 1000);
         };
 
         this.createColumns4Grid = function (fieldsObj) {

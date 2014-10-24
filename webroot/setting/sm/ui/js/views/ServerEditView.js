@@ -19,7 +19,21 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.reimage(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.reimage(options['checkedRows'], {
+                    init: function () {
+                        that.model.showErrorAttr(prefixId + '_form', false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        });
+                    }
+                }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -38,9 +52,20 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.configure(modalId, options['checkedRows'], function(){
-                    options['callback']();
-                    $("#" + modalId).modal('hide');
+                that.model.configure(options['checkedRows'], {
+                    init: function () {
+                        that.model.showErrorAttr(prefixId + '_form', false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        });
+                    }
                 });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
@@ -60,9 +85,20 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.configureServers(modalId, options['checkedRows'], function(){
-                    options['callback']();
-                    $("#" + modalId).modal('hide');
+                that.model.configureServers(options['checkedRows'], {
+                    init: function () {
+                        that.model.showErrorAttr(prefixId + '_form', false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        });
+                    }
                 });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
@@ -82,9 +118,20 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.createServers(modalId, function(){
-                    options['callback']();
-                    $("#" + modalId).modal('hide');
+                that.model.createServers({
+                    init: function () {
+                        that.model.showErrorAttr(prefixId + '_form', false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        });
+                    }
                 }, smConstants.POST_METHOD);
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
@@ -104,7 +151,22 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.provision(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.provision(options['checkedRows'], {
+                    init: function () {
+                        that.model.showErrorAttr(prefixId + '_form', false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        });
+                    }
+                });
+                // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -119,7 +181,7 @@ define([
         },
 
         renderTagServers: function (options) {
-            var self = this;
+            var that = this;
 
             getTagServersViewConfigRows(function (tagServersViewConfigRows) {
                 var editLayout = editTemplate({prefixId: prefixId}),
@@ -133,18 +195,32 @@ define([
                     lockEditingByDefault = options.lockEditingByDefault;
 
                 smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                        self.model.editTags(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                        that.model.editTags(options['checkedRows'], {
+                            init: function () {
+                                that.model.showErrorAttr(prefixId + '_form', false);
+                                smUtils.enableModalLoading(modalId);
+                            },
+                            success: function () {
+                                options['callback']();
+                                $("#" + modalId).modal('hide');
+                            },
+                            error: function (error) {
+                                smUtils.disableModalLoading(modalId, function () {
+                                    that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                                });
+                            }
+                        }); // TODO: Release binding on successful configure
                     }, 'onCancel': function () {
-                        Knockback.release(self.model, document.getElementById(modalId));
-                        smValidation.unbind(self);
+                        Knockback.release(that.model, document.getElementById(modalId));
+                        smValidation.unbind(that);
                         $("#" + modalId).modal('hide');
                     }
                 });
 
-                smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), self.model, editTagViewConfig, 'editTagsValidation', lockEditingByDefault);
-                self.model.showErrorAttr(prefixId + '_form', false);
+                smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), that.model, editTagViewConfig, 'editTagsValidation', lockEditingByDefault);
+                that.model.showErrorAttr(prefixId + '_form', false);
 
-                Knockback.applyBindings(self.model, document.getElementById(modalId));
+                Knockback.applyBindings(that.model, document.getElementById(modalId));
             });
         },
 
@@ -153,7 +229,21 @@ define([
                 that = this;
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.editRoles(modalId, options['checkedRows'], options['callback']); // TODO: Release binding on successful configure
+                that.model.editRoles(options['checkedRows'], {
+                    init: function () {
+                        that.model.showErrorAttr(prefixId + '_form', false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        });
+                    }
+                }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 smValidation.unbind(that);
@@ -175,7 +265,21 @@ define([
             serversToBeDeleted['serverId'].push(checkedRows['id']);
 
             smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
-                that.model.deleteServer(modalId, options['checkedRows'], options['callback']);
+                that.model.deleteServer(options['checkedRows'], {
+                    init: function () {
+                        that.model.showErrorAttr(elId, false);
+                        smUtils.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        smUtils.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(elId, error.responseText);
+                        });
+                    }
+                });
             }, 'onCancel': function () {
                 $("#" + modalId).modal('hide');
             }});

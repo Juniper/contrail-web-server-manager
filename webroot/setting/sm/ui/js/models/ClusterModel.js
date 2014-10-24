@@ -35,7 +35,7 @@ define([
             tag: {},
             roles: {}
         },
-        configure: function (callback, ajaxMethod) {
+        configure: function (callbackObj, ajaxMethod) {
             var ajaxConfig = {},
                 returnFlag = false;
             if (this.model().isValid(true, 'configureValidation')) {
@@ -54,15 +54,20 @@ define([
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                         returnFlag = true;
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                         returnFlag = false;
                     });
                 } else {
@@ -72,8 +77,9 @@ define([
 
             return returnFlag;
         },
-        addServer: function (serverList, callback) {
-            var ajaxConfig = {};
+        addServer: function (serverList, callbackObj) {
+            var ajaxConfig = {},
+                returnFlag = false;
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
@@ -86,51 +92,72 @@ define([
                     });
                     putData[smConstants.SERVER_PREFIX_ID] = servers;
 
+                    ajaxConfig.async = false;
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
 
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
+                        returnFlag = true;
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
+                        returnFlag = false;
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
-            return true;
+            return returnFlag;
         },
-        removeServer: function (serverList, callback) {
-            var ajaxConfig = {}, putData = {}, servers = [];
-                $.each(serverList, function (key, value) {
-                    servers.push({'id': value['id'], 'cluster_id': ""});
-                });
-                putData[smConstants.SERVER_PREFIX_ID] = servers;
+        removeServer: function (serverList, callbackObj) {
+            var ajaxConfig = {},
+                returnFlag = false,
+                putData = {}, servers = [];
+            $.each(serverList, function (key, value) {
+                servers.push({'id': value['id'], 'cluster_id': ""});
+            });
+            putData[smConstants.SERVER_PREFIX_ID] = servers;
 
-                ajaxConfig.type = "PUT";
-                ajaxConfig.data = JSON.stringify(putData);
-                ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
-                console.log(ajaxConfig);
+            ajaxConfig.async = false;
+            ajaxConfig.type = "PUT";
+            ajaxConfig.data = JSON.stringify(putData);
+            ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+            console.log(ajaxConfig);
 
-                contrail.ajaxHandler(ajaxConfig, function () {
-                }, function (response) {
-                    console.log(response);
-                    if (contrail.checkIfFunction(callback)) {
-                        callback();
-                    }
-                }, function (error) {
-                    console.log(error);
-                });
-            return true;
+            contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
+            }, function (response) {
+                console.log(response);
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
+                }
+                returnFlag = true;
+            }, function (error) {
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
+                returnFlag = false;
+            });
+
+            return returnFlag;
         },
-        assignRoles: function (serverList, callback) {
-            var ajaxConfig = {};
+        assignRoles: function (serverList, callbackObj) {
+            var ajaxConfig = {},
+                returnFlag = false;
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 if (true) {
@@ -143,27 +170,35 @@ define([
 
                     putData[smConstants.SERVER_PREFIX_ID] = servers;
 
+                    ajaxConfig.async = false;
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
+                        returnFlag = true;
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
+                        returnFlag = false;
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
-            return true;
+            return returnFlag;
         },
-        reimage: function (callback) {
+        reimage: function (callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'reimageValidation')) {
                 if (true) {
@@ -180,14 +215,19 @@ define([
 
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
 
                 } else {
@@ -195,7 +235,7 @@ define([
                 }
             }
         },
-        provision: function (callback) {
+        provision: function (callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'provisionValidation')) {
                 if (true) {
@@ -212,14 +252,19 @@ define([
 
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.CLUSTER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
 
                 } else {
@@ -227,23 +272,28 @@ define([
                 }
             }
         },
-        deleteCluster: function (modalId, checkedRow, callback) {
+        deleteCluster: function (checkedRow, callbackObj) {
             var ajaxConfig = {}, that = this,
                 clusterId = checkedRow['id'];
-                ajaxConfig.type = "DELETE";
-                ajaxConfig.url = '/sm/objects/cluster?id=' + clusterId;
+
+            ajaxConfig.type = "DELETE";
+            ajaxConfig.url = '/sm/objects/cluster?id=' + clusterId;
 
             console.log(ajaxConfig);
             contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
             }, function (response) {
                 console.log(response);
-                $("#" + modalId).modal('hide');
-                if (contrail.checkIfFunction(callback)) {
-                    callback();
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
                 }
             }, function (error) {
-                console.log(this);
-                that.showErrorAttr('deleteCluster', error['responseText']);
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
             });
         },
         validations: {

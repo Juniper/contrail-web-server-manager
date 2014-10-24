@@ -32,7 +32,7 @@ define([
             'tag': {},
             'roles': ['compute']
         },
-        configure: function (modalId, checkedRows, callback) {
+        configure: function (checkedRows, callbackObj) {
             if (this.model().isValid(true, 'configureValidation')) {
                 // TODO: Check for form-level validation if required
                 var ajaxConfig = {};
@@ -53,21 +53,26 @@ define([
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
         },
-        configureServers: function (modalId, checkedRows, callback) {
+        configureServers: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
             if (true) {
                 var putData = {}, serverAttrsEdited = {}, serversEdited = [],
@@ -86,20 +91,25 @@ define([
                 ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
                 console.log(ajaxConfig);
                 contrail.ajaxHandler(ajaxConfig, function () {
+                    if (contrail.checkIfFunction(callbackObj.init)) {
+                        callbackObj.init();
+                    }
                 }, function (response) {
                     console.log(response);
-                    if (contrail.checkIfFunction(callback)) {
-                        callback();
+                    if (contrail.checkIfFunction(callbackObj.success)) {
+                        callbackObj.success();
                     }
                 }, function (error) {
                     console.log(error);
-                    that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                    if (contrail.checkIfFunction(callbackObj.error)) {
+                        callbackObj.error(error);
+                    }
                 });
             } else {
                 // TODO: Show form-level error message if any
             }
         },
-        createServers: function (modalId, callback, ajaxMethod) {
+        createServers: function (callbackObj, ajaxMethod) {
             if (this.model().isValid(true, 'configureValidation')) {
                 var ajaxConfig = {};
                 if (true) {
@@ -113,23 +123,28 @@ define([
                     ajaxConfig.type = contrail.checkIfExist(ajaxMethod) ? ajaxMethod : "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
         },
-        editRoles: function (modalId, checkedRows, callback) {
+        editRoles: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'configureValidation')) {
                 if (true) {
@@ -148,22 +163,26 @@ define([
                     ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
         },
-        editTags: function (modalId, checkedRows, callback) {
+        editTags: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'editTagsValidation')) {
                 // TODO: Check for form-level validation if required
@@ -196,15 +215,19 @@ define([
                         ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
                         console.log(ajaxConfig);
                         contrail.ajaxHandler(ajaxConfig, function () {
+                            if (contrail.checkIfFunction(callbackObj.init)) {
+                                callbackObj.init();
+                            }
                         }, function (response) {
                             console.log(response);
-                            $("#" + modalId).modal('hide');
-                            if (contrail.checkIfFunction(callback)) {
-                                callback();
+                            if (contrail.checkIfFunction(callbackObj.success)) {
+                                callbackObj.success();
                             }
                         }, function (error) {
                             console.log(error);
-                            that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                            if (contrail.checkIfFunction(callbackObj.error)) {
+                                callbackObj.error(error);
+                            }
                         });
                     }, function (error) {
                         console.log(error);
@@ -217,7 +240,7 @@ define([
                 }
             }
         },
-        reimage: function (modalId, checkedRows, callback) {
+        reimage: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'reimageValidation')) {
                 // TODO: Check for form-level validation if required
@@ -235,22 +258,26 @@ define([
                     ajaxConfig.url = 'sm/server/reimage';
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
                 } else {
                     // TODO: Show form-level error message if any
                 }
             }
         },
-        provision: function (modalId, checkedRows, callback) {
+        provision: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, 'provisionValidation')) {
                 if (true) {
@@ -268,15 +295,19 @@ define([
                     ajaxConfig.url = '/sm/server/provision';
                     console.log(ajaxConfig);
                     contrail.ajaxHandler(ajaxConfig, function () {
+                        if (contrail.checkIfFunction(callbackObj.init)) {
+                            callbackObj.init();
+                        }
                     }, function (response) {
                         console.log(response);
-                        $("#" + modalId).modal('hide');
-                        if (contrail.checkIfFunction(callback)) {
-                            callback();
+                        if (contrail.checkIfFunction(callbackObj.success)) {
+                            callbackObj.success();
                         }
                     }, function (error) {
                         console.log(error);
-                        that.showErrorAttr(smConstants.SERVER_PREFIX_ID + '_form', error.responseText);
+                        if (contrail.checkIfFunction(callbackObj.error)) {
+                            callbackObj.error(error);
+                        }
                     });
 
                 } else {
@@ -284,21 +315,25 @@ define([
                 }
             }
         },
-        deleteServer: function (modalId, checkedRow, callback) {
+        deleteServer: function (checkedRow, callbackObj) {
             var ajaxConfig = {}, that = this,
                 serverId = checkedRow['id'];
             ajaxConfig.type = "DELETE";
             ajaxConfig.url = '/sm/objects/server?id=' + serverId;
             contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
             }, function (response) {
                 console.log(response);
-                $("#" + modalId).modal('hide');
-                if (contrail.checkIfFunction(callback)) {
-                    callback();
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
                 }
             }, function (error) {
                 console.log(error);
-                this.showErrorAttr('deleteServer', error['responseText']);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
             });
         },
         validations: {
