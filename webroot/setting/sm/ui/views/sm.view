@@ -85,10 +85,10 @@
         {{#each viewConfig.steps}}
             <h2>{{this.title}}</h2>
             <section>
-                <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
-                    <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+                <div class="alert alert-error" data-bind="visible: errors().{{this.elementId}}_error">
+                    <button type="button" class="close" data-dismiss="alert"></button>
                     <strong>Error: </strong>
-                    <span data-bind="text: errors().{{elementId}}_error"></span>
+                    <span data-bind="text: errors().{{this.elementId}}_error"></span>
                 </div>
                 <div id="{{this.elementId}}"></div>
                 <div class="stepInfo row-fluid hide">
@@ -106,7 +106,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil blue" data-bind="css: {'grey': locks().{{name}}_locked }"></i>
             </span>
         </div>
     </div>
@@ -123,7 +123,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil blue" data-bind="css: {'grey': locks().{{name}}_locked }"></i>
             </span>
         </div>
     </div>
@@ -140,7 +140,7 @@
         </div>
         <div class="span2">
             <span class="pull-right" data-bind="visible: {{lockAttr}}, event: { click: function() { toggleLockAttr('{{name}}') }}">
-                <i class="icon-pencil" data-bind="css: getLockCSS('{{name}}')"></i>
+                <i class="icon-pencil blue" data-bind="css: {'grey': locks().{{name}}_locked }"></i>
             </span>
         </div>
     </div>
@@ -211,7 +211,7 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-cluster-action-template">
-    <a class="margin-0-5 grey" title="{{title}}">
+    <a class="margin-0-5 grey font-size-14" title="{{title}}">
         <i class="{{iconClass}}"></i>
     </a>
 </script>

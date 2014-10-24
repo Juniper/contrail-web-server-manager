@@ -87,15 +87,6 @@ define([
             errors.set(errorObj);
         },
 
-        getLockCSS: function(attributePath) {
-            var attribute = getAttributeFromPath(attributePath),
-                locks = this.model().get("locks"),
-                lockedStatus = locks.attributes[attribute + smConstants.LOCKED_SUFFIX_ID];
-
-            //TODO Change color of the icon on lock/unlock
-            return (lockedStatus) ? '' : '';
-        },
-
        checkIfInputDisabled: function(disabledFlag, lockFlag) {
             return disabledFlag || lockFlag;
         }

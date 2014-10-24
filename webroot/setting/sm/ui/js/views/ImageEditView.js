@@ -41,7 +41,7 @@ define([
                 checkedRows = options['checkedRows'],
                 ImageToBeDeleted = {'imageId': [], 'elementId': elId};
             ImageToBeDeleted['imageId'].push(checkedRows['id']);
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Ok', 'body': textTemplate(ImageToBeDeleted), 'onSave': function () {
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(ImageToBeDeleted), 'onSave': function () {
                 that.model.deleteImage(modalId, options['checkedRows'], function(){
                     options['callback']();
                     $('#' + modalId).modal('hide');
