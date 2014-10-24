@@ -167,7 +167,7 @@ define([
                 checkedRows = options['checkedRows'],
                 clustersToBeDeleted = {'clusterId': [], 'elementId': elId};
             clustersToBeDeleted['clusterId'].push(checkedRows['id']);
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
+            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Ok', 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
                 that.model.deleteCluster(modalId, options['checkedRows'], options['callback']);
             }, 'onCancel': function () {
                 $("#" + modalId).modal('hide');

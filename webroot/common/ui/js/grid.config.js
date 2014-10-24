@@ -219,7 +219,13 @@ define([
                         }
                     },
                     { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
-                    { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15 }
+                    { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+                        onClick: function (e, dc) {
+                            if(dc['ipmi_address'] != null && dc['ipmi_address'] != '') {
+                                window.open("http://" + dc['ipmi_address']);
+                            }
+                        }
+                    }}
                 ];
 
             if (serverColumnsType == smConstants.SERVER_PREFIX_ID) {
