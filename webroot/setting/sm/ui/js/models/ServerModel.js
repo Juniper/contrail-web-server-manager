@@ -386,7 +386,7 @@ define([
                 },
                 'subnet_mask': {
                     required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    pattern: smConstants.PATTERN_SUBNET_MASK,
                     msg: smMessages.getInvalidErrorMessage('subnet_mask')
                 }
             },
