@@ -178,23 +178,23 @@ define([
         };
 
         this.getObjectDetailUrl = function (objectName, postProcessor) {
-            var url = '/sm/objects/details/' + objectName;
+            var url = smwc.URL_OBJ_DETAILS + objectName;
             url += (postProcessor != null) ? ("?postProcessor=" + postProcessor) : '';
             return url;
         };
 
         this.getObjectUrl = function (objectName) {
-            return '/sm/objects/' + objectName;
+            return smwc.URL_OBJECTS + objectName;
         };
 
         this.getTagsUrl = function (qs) {
-            var url = '/sm/tags/values/';
+            var url = smwc.URL_TAG_VALUES;
             url += (qs != null) ? qs : '';
             return url;
         };
 
         this.getTagValueUrl = function (value) {
-            return '/sm/tags/values/' + value;
+            return smwc.URL_TAG_VALUES + value;
         };
 
         this.formatElementId = function (strArray) {
@@ -232,8 +232,8 @@ define([
 
             $.each(testobj, function (attribute, value) {
                 if (_.isArray(value)) {
-                    if (contrail.checkIfExist(locks[attribute + '_locked'])) {
-                        lock = locks[attribute + '_locked'];
+                    if (contrail.checkIfExist(locks[attribute + smwc.LOCKED_SUFFIX_ID])) {
+                        lock = locks[attribute + smwc.LOCKED_SUFFIX_ID];
                         if (lock === true) {
                             delete testobj[attribute];
                         }
@@ -244,7 +244,7 @@ define([
                 // check if value is a key or object
                 // if object make a recursive call on value
                 else if (_.isObject(value)) {
-                    testobj[attribute] = smUtils.getEditConfigObj(value, locks);
+                    testobj[attribute] = smwu.getEditConfigObj(value, locks);
                     if ($.isEmptyObject(testobj[attribute])) {
                         delete testobj[attribute];
                     }
@@ -256,8 +256,8 @@ define([
                     if(contrail.checkIfExist(value) && (typeof value == 'string')) {
                         testobj[attribute] = value.trim();
                     }
-                    if (contrail.checkIfExist(locks[attribute + '_locked'])) {
-                        lock = locks[attribute + '_locked'];
+                    if (contrail.checkIfExist(locks[attribute + smwc.LOCKED_SUFFIX_ID])) {
+                        lock = locks[attribute + smwc.LOCKED_SUFFIX_ID];
                         if (lock === true) {
                             delete testobj[attribute];
                         }
@@ -271,9 +271,9 @@ define([
 
         this.renderView4Config = function (parentElement, model, viewObj, validation, lockEditingByDefault) {
             var viewName = viewObj['view'],
-                elementId = viewObj['elementId'],
-                validation = (validation != null) ? validation : 'validation',
-                viewAttributes = {viewConfig: viewObj['viewConfig'], elementId: elementId, validation: validation, lockEditingByDefault: lockEditingByDefault},
+                elementId = viewObj[smwc.KEY_ELEMENT_ID],
+                validation = (validation != null) ? validation : smwc.KEY_VALIDATION,
+                viewAttributes = {viewConfig: viewObj[smwc.KEY_VIEW_CONFIG], elementId: elementId, validation: validation, lockEditingByDefault: lockEditingByDefault},
                 elementView;
 
             switch (viewName) {

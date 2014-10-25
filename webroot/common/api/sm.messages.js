@@ -8,6 +8,7 @@ var coreConstants = require(process.mainModule.exports["corePath"] + '/src/serve
 smMessages.ERROR_REDIS_DB_SELECT = 'Redis DB ' + coreConstants.SM_DFLT_REDIS_DB + ' Select Error: {0}';
 smMessages.ERROR_DUPLICATE_OBJ_ID = 'Object id can not be duplicate.';
 smMessages.ERROR_POST_DATA_NULL = 'POST data can not be null.';
+smMessages.ERROR_DELETE_CACHE_4_PREFIX = 'Error in delete cache for prefix {0}';
 
 smMessages.get = function () {
     var args = arguments;

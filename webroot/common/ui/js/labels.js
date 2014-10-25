@@ -179,6 +179,9 @@ define([
         this.TITLE_SELECT_SERVERS = 'Select Servers';
         this.TITLE_SELECTED_SERVERS = 'Selected Servers';
 
+        this.TITLE_SAVE_NEXT = 'Save &amp; Next';
+        this.TITLE_NEXT = 'Next';
+
         this.SELECT_IMAGE = 'Select Image';
         this.TITLE_DELETE_IMAGE = 'Delete Image';
         this.SELECT_PACKAGE = 'Select Package';

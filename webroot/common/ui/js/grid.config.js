@@ -32,35 +32,35 @@ define([
             { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 },
             { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
-                    var uiParams = dc['ui_added_parameters'],
+                    var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['new_servers'];
                 }
             },
             { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
-                    var uiParams = dc['ui_added_parameters'],
+                    var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['configured_servers'];
                 }
             },
             { id: "inprovision_servers", field: "", name: "In-Provision Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
-                    var uiParams = dc['ui_added_parameters'],
+                    var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['inprovision_servers'];
                 }
             },
             { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
-                    var uiParams = dc['ui_added_parameters'],
+                    var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['provisioned_servers'];
                 }
             },
             { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
-                    var uiParams = dc['ui_added_parameters'],
+                    var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['total_servers'];
                 }
@@ -69,7 +69,7 @@ define([
 
         this.getConfigureAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_EDIT_CONFIG,
+                title: smwl.TITLE_EDIT_CONFIG,
                 iconClass: 'icon-edit',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -79,7 +79,7 @@ define([
 
         this.getAddServersAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_ADD_SERVERS,
+                title: smwl.TITLE_ADD_SERVERS,
                 iconClass: 'icon-plus',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -89,7 +89,7 @@ define([
 
         this.getRemoveServersAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_REMOVE_SERVERS,
+                title: smwl.TITLE_REMOVE_SERVERS,
                 iconClass: 'icon-minus',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -99,7 +99,7 @@ define([
 
         this.getReimageAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_REIMAGE,
+                title: smwl.TITLE_REIMAGE,
                 iconClass: 'icon-upload-alt',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -109,7 +109,7 @@ define([
 
         this.getProvisionAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_PROVISION,
+                title: smwl.TITLE_PROVISION,
                 iconClass: 'icon-cloud-upload',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -119,7 +119,7 @@ define([
 
         this.getTagAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_EDIT_TAGS,
+                title: smwl.TITLE_EDIT_TAGS,
                 iconClass: 'icon-tags',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -129,7 +129,7 @@ define([
 
         this.getAssignRoleAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_ASSIGN_ROLES,
+                title: smwl.TITLE_ASSIGN_ROLES,
                 iconClass: 'icon-check',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -139,7 +139,7 @@ define([
 
         this.getDeleteAction = function (onClickFunction, divider) {
             return {
-                title: smLabels.TITLE_DELETE,
+                title: smwl.TITLE_DELETE,
                 iconClass: 'icon-trash',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
@@ -149,10 +149,10 @@ define([
 
         this.getGridColumns4Roles = function () {
             var columns = [];
-            $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
+            $.each(smwc.ROLES_ARRAY, function(roleKey, roleValue) {
                 columns.push({
                     id: roleValue, field: "roles",
-                    name: smLabels.get(roleValue),
+                    name: smwl.get(roleValue),
                     width: 60, minWidth: 60,
                     cssClass: 'text-center',
                     formatter: function (r, c, v, cd, dc) {
@@ -179,7 +179,7 @@ define([
                 id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125,
                 formatter: function (r, c, v, cd, dc) {
                     var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                        tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS, allowLink: false});
+                        tagHTML = tagTemplate({tags: dc.tag, colors: smwc.CACHED_TAG_COLORS, allowLink: false});
                     return tagHTML;
                 },
                 exportConfig: {
@@ -208,7 +208,7 @@ define([
                         id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150,
                         formatter: function (r, c, v, cd, dc) {
                             var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                                tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS, allowLink: true});
+                                tagHTML = tagTemplate({tags: dc.tag, colors: smwc.CACHED_TAG_COLORS, allowLink: true});
                             return tagHTML;
                         },
                         exportConfig: {
@@ -228,7 +228,7 @@ define([
                     }}
                 ];
 
-            if (serverColumnsType == smConstants.SERVER_PREFIX_ID) {
+            if (serverColumnsType == smwc.SERVER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat([
                     { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
                         onClick: function (e, dc) {
@@ -237,7 +237,7 @@ define([
                     }}
                 ]);
                 serverColumns = serverColumns.concat(commonColumnsSet2);
-            } else if (serverColumnsType == smConstants.CLUSTER_PREFIX_ID) {
+            } else if (serverColumnsType == smwc.CLUSTER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat(commonColumnsSet2).concat(this.getGridColumns4Roles());
             }
             serverColumns = serverColumns.concat([

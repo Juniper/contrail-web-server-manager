@@ -9,23 +9,23 @@ define([
 ], function (_, Backbone, Knockout) {
     var AccordianView = Backbone.View.extend({
         render: function () {
-            var accordianTempl = contrail.getTemplate4Id("sm-accordian-view-template"),
+            var accordianTempl = contrail.getTemplate4Id(smwc.TMPL_ACCORDIAN_VIEW),
                 viewConfig = this.attributes.viewConfig,
                 elId = this.attributes.elementId,
                 validation = this.attributes.validation,
                 lockEditingByDefault = this.attributes.lockEditingByDefault,
-                errorObj = this.model.model().get("errors"),
+                errorObj = this.model.model().get(smwc.KEY_MODEL_ERRORS),
                 childViewObj, childElId, childElIdArray;
 
             this.$el.html(accordianTempl({viewConfig: viewConfig, elementId: elId}));
 
             for (var i = 0; i < viewConfig.length; i++) {
                 childViewObj = viewConfig[i];
-                childElId = childViewObj['elementId'];
+                childElId = childViewObj[smwc.KEY_ELEMENT_ID];
 
                 this.model.showErrorAttr(childElId, getKOComputedError(viewConfig[i], this));
 
-                smUtils.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation, lockEditingByDefault);
+                smwu.renderView4Config(this.$el.find("#" + childElId), this.model, childViewObj, validation, lockEditingByDefault);
             }
 
             this.$el.find("#" + elId).accordion({
@@ -36,12 +36,12 @@ define([
     });
 
     var getKOComputedError = function (childViewObj, that) {
-        var childElIdArray = getElementIds4Section(childViewObj['viewConfig']),
+        var childElIdArray = getElementIds4Section(childViewObj[smwc.KEY_VIEW_CONFIG]),
             koComputedFunc = Knockout.computed(function () {
                 var value = false;
                 for(var i = 0; i < childElIdArray.length; i ++) {
                     var item = childElIdArray[i],
-                        errorName = item + '_error';
+                        errorName = item + smwc.ERROR_SUFFIX_ID;
                     if(item != null && this.model.errors()[errorName] != null) {
                         var idError = this.model.errors()[errorName]();
 
@@ -57,12 +57,12 @@ define([
     };
 
     var getElementIds4Section = function (sectionConfig) {
-        var rows = sectionConfig['rows'],
+        var rows = sectionConfig[smwc.KEY_ROWS],
             columns, elementIds = [];
         for (var i = 0; i < rows.length; i++) {
-            columns = rows[i]['columns'];
+            columns = rows[i][smwc.KEY_COLUMNS];
             for (var j = 0; j < columns.length; j++) {
-                elementIds.push(columns[j]['elementId']);
+                elementIds.push(columns[j][smwc.KEY_ELEMENT_ID]);
             }
         }
         return elementIds;

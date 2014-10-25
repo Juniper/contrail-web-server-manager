@@ -4,8 +4,12 @@
 
 var smConfig = {'sm': {}};
 
-smConfig.sm.server_ip = '127.0.0.1';
-smConfig.sm.server_port = 9001;
+smConfig.sm.server_ip = '10.204.216.51';
+smConfig.sm.server_ip = '10.84.17.1';
+//smConfig.sm.server_ip = '10.84.9.17';
+
+//smConfig.sm.server_port = 9001;
+smConfig.sm.server_port = 8081;
 
 smConfig.DFLT_SERVER_IP = '127.0.0.1';
 smConfig.DFLT_SERVER_PORT = '9001';

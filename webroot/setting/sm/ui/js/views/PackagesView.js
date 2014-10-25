@@ -8,28 +8,27 @@ define([
     'setting/sm/ui/js/models/PackageModel',
     'setting/sm/ui/js/views/PackageEditView'
 ], function (_, Backbone, PackageModel, PackageEditView) {
-    var prefixId = smConstants.PACKAGE_PREFIX_ID,
+    var prefixId = smwc.PACKAGE_PREFIX_ID,
         packageEditView = new PackageEditView(),
-        gridElId = '#' + prefixId + '-results';
+        gridElId = '#' + prefixId + smwc.RESULTS_SUFFIX_ID;
 
     var PackagesView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
-            var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + prefixId + '-results';
+            var directoryTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + smwc.TMPL_SUFFIX_ID);
 
             this.$el.html(directoryTemplate({name: prefixId}));
 
             var gridConfig = {
                 header: {
                     title: {
-                        text: smLabels.TITLE_PACKAGES
+                        text: smwl.TITLE_PACKAGES
                     },
                     advanceControls: headerActionConfig
                 },
                 columnHeader: {
-                    columns: smGridConfig.REPO_COLUMNS
+                    columns: smwgc.REPO_COLUMNS
                 },
                 body: {
                     options: {
@@ -50,23 +49,23 @@ define([
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInPackages')
+                                url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')
                             }
                         }
                     }
                 }
             };
 
-            smUtils.renderGrid(gridElId, gridConfig);
+            smwu.renderGrid(gridElId, gridConfig);
         }
     });
 
     var rowActionConfig = [
-        smGridConfig.getDeleteAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+        smwgc.getDeleteAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 packageModel = new PackageModel(dataItem),
                 checkedRow = dataItem,
-                _title = smLabels.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')';
+                _title = smwl.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')';
 
             packageEditView.model = packageModel;
             packageEditView.renderDeletePackage({"title": _title, checkedRows: checkedRow, callback: function () {
@@ -79,13 +78,13 @@ define([
     var headerActionConfig = [
         {
             "type": "link",
-            "title": smLabels.TITLE_ADD_PACKAGE,
+            "title": smwl.TITLE_ADD_PACKAGE,
             "iconClass": "icon-plus",
             "onClick": function () {
                 var packageModel = new PackageModel();
 
                 packageEditView.model = packageModel;
-                packageEditView.render({"title": smLabels.TITLE_ADD_PACKAGE, callback: function () {
+                packageEditView.render({"title": smwl.TITLE_ADD_PACKAGE, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -96,7 +95,7 @@ define([
     var detailTemplateConfig = [
         [
             {
-                title: smLabels.TITLE_DETAILS,
+                title: smwl.TITLE_DETAILS,
                 keys: ['id', 'type', 'version', 'path']
             }
         ]

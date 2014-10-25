@@ -40,7 +40,7 @@ define([
 
             var gridConfig = $.extend(true, {}, defaultFormGridConfig, viewConfig.elementConfig);
 
-            smUtils.renderGrid(this.$el, gridConfig);
+            smwu.renderGrid(this.$el, gridConfig);
         }
     });
 

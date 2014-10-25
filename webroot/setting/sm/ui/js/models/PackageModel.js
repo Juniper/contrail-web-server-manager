@@ -18,7 +18,7 @@ define([
         },
         configure: function (callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, "configureValidation")) {
+            if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
                 if (true) {
                     var imageAttrs = this.model().attributes,
                         putData = {}, images = [],
@@ -30,11 +30,11 @@ define([
                         'path'   : imageAttrs['path'],
                         'type'   : imageAttrs['type']
                     });
-                    putData[smConstants.IMAGE_PREFIX_ID] = images;
+                    putData[smwc.IMAGE_PREFIX_ID] = images;
 
                     ajaxConfig.type = "POST";
                     ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.IMAGE_PREFIX_ID);
+                    ajaxConfig.url = smwu.getObjectUrl(smwc.IMAGE_PREFIX_ID);
 
                     contrail.ajaxHandler(ajaxConfig, function () {
                         if (contrail.checkIfFunction(callbackObj.init)) {
@@ -61,7 +61,7 @@ define([
             var ajaxConfig = {}, that = this,
                 clusterId = checkedRow['id'];
             ajaxConfig.type = "DELETE";
-            ajaxConfig.url = '/sm/objects/image?id=' + clusterId;
+            ajaxConfig.url = smwc.URL_OBJ_IMAGE_ID + clusterId;
 
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
@@ -83,19 +83,19 @@ define([
             configureValidation: {
                 'id': {
                     required: true,
-                    msg: smMessages.getRequiredMessage('id')
+                    msg: smwm.getRequiredMessage('id')
                 },
                 'type': {
                     required: true,
-                    msg: smMessages.getRequiredMessage('type')
+                    msg: smwm.getRequiredMessage('type')
                 },
                 'version': {
                     required: true,
-                    msg: smMessages.getRequiredMessage('version')
+                    msg: smwm.getRequiredMessage('version')
                 },
                 'path': {
                     required: true,
-                    msg: smMessages.getRequiredMessage('path')
+                    msg: smwm.getRequiredMessage('path')
                 }
             }
         }

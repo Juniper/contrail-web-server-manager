@@ -2,7 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var smConstants, smGridConfig, smUtils, smLabels, smValidation, smMessages;
+var smwc, smwgc, smwu, smwl, smwv, smwm;
 
 require.config({
     baseUrl: '/',
@@ -26,28 +26,28 @@ require([
     'common/ui/js/messages',
     'knockout'
 ], function (_, validation, Constants, GridConfig, Utils, Labels, Messages, Knockout) {
-    smConstants = new Constants();
-    smUtils = new Utils();
-    smLabels = new Labels();
-    smMessages = new Messages();
-    smGridConfig = new GridConfig();
-    smValidation = validation;
+    smwc = new Constants();
+    smwu = new Utils();
+    smwl = new Labels();
+    smwm = new Messages();
+    smwgc = new GridConfig();
+    smwv = validation;
     initSMWebCache();
     initBackboneValidation(_);
     initCustomKOBindings(Knockout);
 });
 
 function initSMWebCache() {
-    var ajaxConfig = {type: smConstants.GET_METHOD, cache: "true", url: smConstants.URL_TAG_NAMES};
+    var ajaxConfig = {type: "GET", cache: "true", url: smwc.URL_TAG_NAMES};
     contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
         for (var i = 0; response != null && i < response.length; i++) {
-            smConstants.TAG_COLORS[response[i]] = i;
+            smwc.CACHED_TAG_COLORS[response[i]] = i;
         }
     });
 };
 
 function initBackboneValidation(_) {
-    _.extend(smValidation.callbacks, {
+    _.extend(smwv.callbacks, {
         valid: function (view, attr, selector) {
             /*
              var $el = $(view.modalElementId).find('[name=' + attr + ']'),

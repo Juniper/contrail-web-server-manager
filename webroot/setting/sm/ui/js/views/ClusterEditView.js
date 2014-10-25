@@ -7,9 +7,9 @@ define([
     'backbone',
     'knockback'
 ], function (_, Backbone, Knockback) {
-    var prefixId = smConstants.CLUSTER_PREFIX_ID,
+    var prefixId = smwc.CLUSTER_PREFIX_ID,
         modalId = 'configure-' + prefixId,
-        editTemplate = contrail.getTemplate4Id("sm-edit-form-template");
+        editTemplate = contrail.getTemplate4Id(smwc.TMPL_EDIT_FORM);
 
     var ClusterEditView = Backbone.View.extend({
         modalElementId: '#' + modalId,
@@ -17,142 +17,142 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 //var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
                 that.model.configure({
                     init: function () {
-                        that.model.showErrorAttr(prefixId + '_form', false);
-                        smUtils.enableModalLoading(modalId);
+                        that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        smwu.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
+                smwv.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
-            this.model.showErrorAttr(prefixId + '_form', false);
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
+            this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         },
 
         renderReimage: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.reimage({
                     init: function () {
-                        that.model.showErrorAttr(prefixId + '_form', false);
-                        smUtils.enableModalLoading(modalId);
+                        that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        smwu.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
+                smwv.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
-            this.model.showErrorAttr(prefixId + '_form', false);
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         },
 
         renderAddCluster: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
+                smwv.unbind(that);
                 $("#" + modalId).find('.contrailWizard').data('contrailWizard').destroy();
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), "configureValidation");
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), "configureValidation");
 
-            this.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_CREATE_CONFIG]) + '_form', false);
-            this.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', false);
-            this.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]) + '_form', false);
-            this.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]) + '_form', false);
+            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         },
 
         renderProvision: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.provision({
                     init: function () {
-                        that.model.showErrorAttr(prefixId + '_form', false);
-                        smUtils.enableModalLoading(modalId);
+                        that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                        smwu.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
+                smwv.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionViewConfig);
-            this.model.showErrorAttr(prefixId + '_form', false);
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionViewConfig);
+            this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         },
 
         renderAddServers: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
+                smwv.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, true, options['callback']));
-            this.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', false);
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, true, options['callback']));
+            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         },
 
         renderRemoveServers: function (options) {
@@ -160,51 +160,51 @@ define([
                 that = this,
                 callbackObj = {
                     init: function () {
-                        that.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', false);
-                        smUtils.enableModalLoading(modalId);
+                        that.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', error.responseText);
+                        smwu.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 };
 
-            smUtils.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smValidation.unbind(that);
+                smwv.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, callbackObj));
-            this.model.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', false);
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, callbackObj));
+            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         },
 
         renderAssignRoles: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout,
+            smwu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout,
                 'onSave': function () {
                     return saveAssignRoles(that.model, {
                         init: function () {
-                            that.model.showErrorAttr(prefixId + '_form', false);
-                            smUtils.enableModalLoading(modalId);
+                            that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+                            smwu.enableModalLoading(modalId);
                         },
                         success: function () {
                             $("#" + modalId).modal('hide');
                         },
                         error: function (error) {
-                            smUtils.disableModalLoading(modalId, function () {
-                                that.model.showErrorAttr(prefixId + '_form', error.responseText);
+                            smwu.disableModalLoading(modalId, function () {
+                                that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                             });
                         }
                     }, function () {
@@ -213,16 +213,16 @@ define([
 
                 }, 'onCancel': function () {
                     Knockback.release(that.model, document.getElementById(modalId));
-                    smValidation.unbind(that);
+                    smwv.unbind(that);
                     $("#" + modalId).modal('hide');
                 }
             });
 
-            smUtils.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
-            this.model.showErrorAttr(prefixId + '_form', false);
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
+            this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         },
 
         renderDeleteCluster: function (options) {
@@ -232,18 +232,18 @@ define([
                 checkedRows = options['checkedRows'],
                 clustersToBeDeleted = {'clusterId': [], 'elementId': elId};
             clustersToBeDeleted['clusterId'].push(checkedRows['id']);
-            smUtils.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
+            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
                 that.model.deleteCluster(options['checkedRows'], {
                     init: function () {
                         that.model.showErrorAttr(elId, false);
-                        smUtils.enableModalLoading(modalId);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
+                        smwu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(elId, error.responseText);
                         });
                     }
@@ -255,13 +255,13 @@ define([
             this.model.showErrorAttr(elId, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smValidation.bind(this);
+            smwv.bind(this);
         }
     });
 
     var createClusterViewConfig = [{
-        elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_DETAILS]),
-        title: smLabels.TITLE_DETAILS,
+        elementId: smwu.formatElementId([prefixId, smwl.TITLE_DETAILS]),
+        title: smwl.TITLE_DETAILS,
         view: "SectionView",
         viewConfig: {
             rows: [
@@ -278,8 +278,8 @@ define([
 
     var configureClusterViewConfig = [
         {
-            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_OPENSTACK]),
-            title: smLabels.TITLE_OPENSTACK,
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_OPENSTACK]),
+            title: smwl.TITLE_OPENSTACK,
             view: "SectionView",
             viewConfig: {
                 rows: [
@@ -310,8 +310,8 @@ define([
             }
         },
         {
-            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CONTRAIL]),
-            title: smLabels.TITLE_CONTRAIL,
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_CONTRAIL]),
+            title: smwl.TITLE_CONTRAIL,
             view: "SectionView",
             viewConfig: {
                 rows: [
@@ -324,13 +324,13 @@ define([
                     {
                         columns: [
                             {elementId: 'router_asn', view: "FormInputView", viewConfig: {path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6"}},
-                            {elementId: 'multi_tenancy', view: "FormDropdownView", viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
+                            {elementId: 'multi_tenancy', view: "FormDropdownView", viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS}}}
                         ]
                     },
                     {
                         columns: [
-                            {elementId: 'haproxy', view: "FormDropdownView", viewConfig: {path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.STATES}}},
-                            {elementId: 'use_certificates', view: "FormDropdownView", viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smConstants.FLAGS}}}
+                            {elementId: 'haproxy', view: "FormDropdownView", viewConfig: {path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES}}},
+                            {elementId: 'use_certificates', view: "FormDropdownView", viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS}}}
                         ]
                     },
                     {
@@ -343,8 +343,8 @@ define([
             }
         },
         {
-            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_SERVERS_CONFIG]),
-            title: smLabels.TITLE_SERVERS_CONFIG,
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_SERVERS_CONFIG]),
+            title: smwl.TITLE_SERVERS_CONFIG,
             view: "SectionView",
             viewConfig: {
                 rows: [
@@ -365,12 +365,12 @@ define([
                             {
                                 elementId: 'base_image_id',
                                 view: "FormDropdownView",
-                                viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                                viewConfig: {path: 'base_image_id', class: "span6", dataBindValue: 'base_image_id', elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
                             },
                             {
                                 elementId: 'package_image_id',
                                 view: "FormDropdownView",
-                                viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInPackages')}}}
+                                viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                             }
                         ]
                     }
@@ -385,7 +385,7 @@ define([
         viewConfig = viewConfig.concat(configureClusterViewConfig);
         viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = true;
         return {
-            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]),
             view: "AccordianView",
             viewConfig: viewConfig
         }
@@ -402,7 +402,7 @@ define([
                         {
                             elementId: 'base_image_id',
                             view: "FormDropdownView",
-                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smLabels.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
                         }
                     ]
                 }
@@ -414,13 +414,13 @@ define([
         var gridPrefix = 'add-server',
             url = 'filterInNull=cluster_id',
             addServerViewConfig = {
-            elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS]),
+            elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS]),
             view: "WizardView",
             viewConfig: {
                 steps: [
                     {
-                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
-                        title: smLabels.TITLE_SELECT_SERVERS,
+                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_SELECT_SERVERS]),
+                        title: smwl.TITLE_SELECT_SERVERS,
                         view: "SectionView",
                         viewConfig: {
                             rows: [
@@ -460,8 +460,8 @@ define([
                         }
                     },
                     {
-                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
-                        title: smLabels.TITLE_ADD_TO_CLUSTER,
+                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]),
+                        title: smwl.TITLE_ADD_TO_CLUSTER,
                         view: "SectionView",
                         viewConfig: {
                             rows: [
@@ -484,18 +484,18 @@ define([
                         onInitRender: false,
                         onLoadFromNext: function(params) {
                             $('#add-server-confirm-servers').data('contrailGrid')._dataView.setData($('#add-server-filtered-servers').data('serverData').selectedServers);
-                            clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', false);
+                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
 
                         },
                         onNext: function(params) {
                             var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
                             var callbackObj = {
                                 init: function () {
-                                    clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', false);
-                                    smUtils.enableModalLoading(modalId);
+                                    clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+                                    smwu.enableModalLoading(modalId);
                                 },
                                 success: function () {
-                                    smUtils.disableModalLoading(modalId, function () {
+                                    smwu.disableModalLoading(modalId, function () {
                                         callback();
                                         if (modalHideFlag) {
                                             $("#" + modalId).modal('hide');
@@ -503,8 +503,8 @@ define([
                                     });
                                 },
                                 error: function (error) {
-                                    smUtils.disableModalLoading(modalId, function () {
-                                        clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', error.responseText);
+                                    smwu.disableModalLoading(modalId, function () {
+                                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                                     });
                                 }
                             }
@@ -523,13 +523,13 @@ define([
         var gridPrefix = 'remove-server',
             url = 'cluster_id=' + clusterModel.model().attributes.id,
             removeServerViewConfig = {
-            elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS]),
+            elementId:  smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS]),
             view: "WizardView",
             viewConfig: {
                 steps: [
                     {
-                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_SELECT_SERVERS]),
-                        title: smLabels.TITLE_SELECT_SERVERS,
+                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_SELECT_SERVERS]),
+                        title: smwl.TITLE_SELECT_SERVERS,
                         view: "SectionView",
                         viewConfig: {
                             rows: [
@@ -569,8 +569,8 @@ define([
                         }
                     },
                     {
-                        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]),
-                        title: smLabels.TITLE_REMOVE_FROM_CLUSTER,
+                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]),
+                        title: smwl.TITLE_REMOVE_FROM_CLUSTER,
                         view: "SectionView",
                         viewConfig: {
                             rows: [
@@ -593,7 +593,7 @@ define([
                         onInitRender: false,
                         onLoadFromNext: function(params) {
                             $('#remove-server-confirm-servers').data('contrailGrid')._dataView.setData($('#remove-server-filtered-servers').data('serverData').selectedServers);
-                            clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_REMOVE_SERVERS, smLabels.TITLE_ADD_TO_CLUSTER]) + '_form', false);
+                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
                         },
                         onNext: function(params) {
                             var currentSelectedServers = $('#remove-server-confirm-servers').data('contrailGrid')._dataView.getItems();
@@ -611,8 +611,8 @@ define([
     function getAssignRolesViewConfig(clusterModel) {
         var clusterModelAttrs = clusterModel.model().attributes,
             assignRolesViewConfig = {
-                elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]),
-                title: smLabels.TITLE_SELECT_SERVERS,
+                elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]),
+                title: smwl.TITLE_SELECT_SERVERS,
                 view: "SectionView",
                 viewConfig: {
                 rows: [
@@ -658,7 +658,7 @@ define([
             gridElementConfig = {
             header: {
                 title: {
-                    text: smLabels.TITLE_SELECT_SERVERS
+                    text: smwl.TITLE_SELECT_SERVERS
                 },
                 defaultControls: {
                     refreshable: true
@@ -687,10 +687,10 @@ define([
                             parse: formatData4Ajax,
                             minWidth: 200,
                             height: 250,
-                            emptyOptionText: 'No Tags found.',
+                            emptyOptionText: smwm.NO_TAGS_FOUND,
                             dataSource: {
                                 type: 'GET',
-                                url: smUtils.getTagsUrl('')
+                                url: smwu.getTagsUrl('')
                             },
                             click: function(event, ui){
                                 applyServerTagFilter(filteredServerGrid, event, ui)
@@ -705,7 +705,7 @@ define([
 
             },
             columnHeader: {
-                columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
+                columns: smwgc.EDIT_SERVERS_ROLES_COLUMNS
             },
             body: {
                 options: {
@@ -721,7 +721,7 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?' + urlParam
+                            url: smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + '?' + urlParam
                         }
                     }
                 },
@@ -729,7 +729,7 @@ define([
                     empty: {
                         type: 'status',
                         iconClasses: '',
-                        text: 'No Servers to select.'
+                        text: smwm.NO_SERVERS_2_SELECT
                     }
                 }
             }
@@ -744,7 +744,7 @@ define([
             gridElementConfig = {
             header: {
                 title: {
-                    text: smLabels.TITLE_SELECT_SERVERS
+                    text: smwl.TITLE_SELECT_SERVERS
                 },
                 defaultControls: {
                     refreshable: true
@@ -759,19 +759,19 @@ define([
                             elementId: 'tagsCheckedMultiselect',
                             dataTextField: 'text',
                             dataValueField: 'id',
-                            noneSelectedText: smLabels.FILTER_TAGS,
+                            noneSelectedText: smwl.FILTER_TAGS,
                             selectedText: '# Tags Selected',
                             filterConfig: {
-                                placeholder: smLabels.SEARCH_TAGS
+                                placeholder: smwl.SEARCH_TAGS
                             },
                             parse: formatData4Ajax,
                             minWidth: 150,
                             height: 200,
-                            emptyOptionText: 'No Tags found.',
+                            emptyOptionText: smwm.NO_TAGS_FOUND,
                             selectedList: 2,
                             dataSource: {
                                 type: 'GET',
-                                url: smUtils.getTagsUrl('')
+                                url: smwu.getTagsUrl('')
                             },
                             click: function(event, ui){
                                 applyServerTagFilter(filteredServerGrid, event, ui)
@@ -793,10 +793,10 @@ define([
                             elementId: 'rolesCheckedMultiselect',
                             dataTextField: 'text',
                             dataValueField: 'id',
-                            noneSelectedText: smLabels.SELECT_ROLES,
+                            noneSelectedText: smwl.SELECT_ROLES,
                             selectedText: '# Roles Selected',
                             filterConfig: {
-                                placeholder: smLabels.SEARCH_ROLES
+                                placeholder: smwl.SEARCH_ROLES
                             },
                             minWidth: 150,
                             height: 200,
@@ -805,7 +805,7 @@ define([
                                 {
                                     id: 'roles',
                                     text: 'Roles',
-                                    children: smConstants.ROLES_OBJECTS
+                                    children: smwc.ROLES_OBJECTS
                                 }
                             ],
                             tristate: true,
@@ -816,7 +816,7 @@ define([
                                     checkedRoleStateArray = [],
                                     serverCount = checkedServers.length;
 
-                                $.each(smConstants.ROLES_ARRAY, function(roleKey, roleValue) {
+                                $.each(smwc.ROLES_ARRAY, function(roleKey, roleValue) {
                                     checkedRoleCountObj[roleValue] = 0;
                                 });
 
@@ -886,7 +886,7 @@ define([
                 ]
             },
             columnHeader: {
-                columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS.concat(smGridConfig.getGridColumns4Roles())
+                columns: smwgc.EDIT_SERVERS_ROLES_COLUMNS.concat(smwgc.getGridColumns4Roles())
             },
             body: {
                 options: {
@@ -903,7 +903,7 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?' + urlParam
+                            url: smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + '?' + urlParam
                         }
                     }
                 },
@@ -911,7 +911,7 @@ define([
                     empty: {
                         type: 'status',
                         iconClasses: '',
-                        text: 'No Servers to select.'
+                        text: smwm.NO_SERVERS_2_SELECT
                     }
                 }
             }
@@ -935,11 +935,11 @@ define([
         var gridElementConfig = {
             header: {
                 title: {
-                    text: smLabels.TITLE_SELECTED_SERVERS
+                    text: smwl.TITLE_SELECTED_SERVERS
                 }
             },
             columnHeader: {
-                columns: smGridConfig.EDIT_SERVERS_ROLES_COLUMNS
+                columns: smwgc.EDIT_SERVERS_ROLES_COLUMNS
             },
             body: {
                 options: {
@@ -960,7 +960,7 @@ define([
                     empty: {
                         type: 'status',
                         iconClasses: '',
-                        text: 'No Servers Selected.'
+                        text: smwm.NO_SERVERS_SELECTED
                     }
                 }
             }
@@ -977,7 +977,7 @@ define([
             $.each(children, function (k, v) {
                 childrenData.push({'id': v, 'text': v});
             });
-            filterServerData.push({'id': key, 'text': smLabels.get(key), children: childrenData});
+            filterServerData.push({'id': key, 'text': smwl.get(key), children: childrenData});
         });
         return filterServerData;
     };
@@ -1067,7 +1067,7 @@ define([
     }
 
     var provisionViewConfig = {
-        elementId:  smUtils.formatElementId([prefixId, smLabels.TITLE_PROVISIONING]),
+        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_PROVISIONING]),
         view: "SectionView",
         viewConfig: {
             rows: [
@@ -1076,7 +1076,7 @@ define([
                         {
                             elementId: 'package_image_id',
                             view: "FormDropdownView",
-                            viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smLabels.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smUtils.getObjectDetailUrl(smConstants.IMAGE_PREFIX_ID, 'filterInPackages')}}}
+                            viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                         }
                     ]
                 }
@@ -1100,7 +1100,7 @@ define([
 
     function getAddClusterViewConfig(clusterModel, callback) {
         var addClusterViewConfig = {
-                elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_ADD_CLUSTER]),
+                elementId: smwu.formatElementId([prefixId, smwl.TITLE_ADD_CLUSTER]),
                 view: "WizardView",
                 viewConfig: {
                     steps: []
@@ -1116,33 +1116,33 @@ define([
             Appending Configure Server Steps
          */
         configureStepViewConfig = {
-            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_CREATE_CONFIG]),
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]),
             view: "AccordianView",
             viewConfig: createClusterViewConfig,
-            title: smLabels.TITLE_CREATE,
+            title: smwl.TITLE_CREATE,
             stepType: 'step',
             onInitRender: true,
             onNext: function (params) {
                 return params.model.configure({
                     init: function () {
-                        clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_CREATE_CONFIG]) + '_form', false);
-                        smUtils.enableModalLoading(modalId);
+                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        smUtils.disableModalLoading(modalId, function () {
+                        smwu.disableModalLoading(modalId, function () {
                             callback();
                         });
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
-                            clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_CREATE_CONFIG]) + '_form', error.responseText);
+                        smwu.disableModalLoading(modalId, function () {
+                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
-                }, smConstants.POST_METHOD);
+                }, "POST");
             },
             buttons: {
                 next: {
-                    label: 'Save &amp; Next'
+                    label: smwl.TITLE_SAVE_NEXT
                 },
                 previous: {
                     visible: false
@@ -1157,13 +1157,13 @@ define([
          */
         addServerStepViewConfig = $.extend(true, {}, getAddServerViewConfig(clusterModel, false, callback).viewConfig).steps;
 
-        addServerStepViewConfig[0].title = smLabels.TITLE_ADD_SERVERS_TO_CLUSTER;
+        addServerStepViewConfig[0].title = smwl.TITLE_ADD_SERVERS_TO_CLUSTER;
         addServerStepViewConfig[0].onPrevious = function(params) {
             return false;
         };
         addServerStepViewConfig[0].buttons = {
             next: {
-                label: 'Next'
+                label: smwl.TITLE_NEXT
             },
             previous: {
                 visible: false
@@ -1173,7 +1173,7 @@ define([
         addServerStepViewConfig[1].stepType = 'sub-step';
         addServerStepViewConfig[1].buttons = {
             next: {
-                label: 'Save &amp; Next'
+                label: smwl.TITLE_SAVE_NEXT
             }
         };
         steps = steps.concat(addServerStepViewConfig);
@@ -1182,30 +1182,30 @@ define([
             Appending Assign Roles Steps
          */
         assignRolesStepViewConfig = $.extend(true, {}, getAssignRolesViewConfig(clusterModel), {
-            title: smLabels.TITLE_ASSIGN_ROLES,
+            title: smwl.TITLE_ASSIGN_ROLES,
             stepType: 'step',
             onInitRender: true,
             onLoadFromNext: function (params) {
                 $('#assign-roles-filtered-servers').data('contrailGrid').setRemoteAjaxConfig({
-                    url: smUtils.getObjectDetailUrl(smConstants.SERVER_PREFIX_ID) + '?cluster_id=' + clusterModel.model().attributes.id
+                    url: smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + '?cluster_id=' + clusterModel.model().attributes.id
                 });
                 $('#assign-roles-filtered-servers').data('contrailGrid').refreshData();
-                clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]) + '_form', false);
+                clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
             },
             onNext: function (params) {
                 return saveAssignRoles(clusterModel, {
                     init: function () {
-                        clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]) + '_form', false);
-                        smUtils.enableModalLoading(modalId);
+                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        smUtils.disableModalLoading(modalId, function () {
+                        smwu.disableModalLoading(modalId, function () {
                             callback();
                         });
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
-                            clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_ASSIGN_ROLES, smLabels.TITLE_SELECT_SERVERS]) + '_form', error.responseText);
+                        smwu.disableModalLoading(modalId, function () {
+                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }, function() {});
@@ -1215,7 +1215,7 @@ define([
             },
             buttons: {
                 next: {
-                    label: 'Save &amp; Next'
+                    label: smwl.TITLE_SAVE_NEXT
                 },
                 previous: {
                     visible: false
@@ -1228,27 +1228,27 @@ define([
          Appending Configure Cluster Steps
          */
         openstackStepViewConfig = {
-            elementId: smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]),
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]),
             view: "AccordianView",
-            title: smLabels.TITLE_CONFIGURE,
+            title: smwl.TITLE_CONFIGURE,
             stepType: 'step',
             viewConfig: configureClusterViewConfig,
             onInitRender: true,
             onNext: function (params) {
                 return params.model.configure({
                     init: function () {
-                        clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]) + '_form', false);
-                        smUtils.enableModalLoading(modalId);
+                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
+                        smwu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        smUtils.disableModalLoading(modalId, function () {
+                        smwu.disableModalLoading(modalId, function () {
                             callback();
                             $('#' + modalId).modal('hide');
                         });
                     },
                     error: function (error) {
-                        smUtils.disableModalLoading(modalId, function () {
-                            clusterModel.showErrorAttr(smUtils.formatElementId([prefixId, smLabels.TITLE_EDIT_CONFIG]) + '_form', error.responseText);
+                        smwu.disableModalLoading(modalId, function () {
+                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });
