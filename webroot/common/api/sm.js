@@ -6,7 +6,7 @@
 var  rest = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/rest.api');
 
 var smConfig = require('../../common/api/sm.config'),
-    constants = require('../../common/api/sm.constants'),
+    smConstants = require('../../common/api/sm.constants'),
     assert = require('assert');
     sm = module.exports;
 
@@ -23,7 +23,7 @@ if (smConfig.sm) {
 }
 
 var smREST = rest.getAPIServer({
-    apiName: constants.SM_API_SERVER,
+    apiName: smConstants.SM_API_SERVER,
     server: smServerIP,
     port: smServerPort
 });
