@@ -326,7 +326,7 @@ define([
                 },
                 'parameters.subnet_mask': {
                     required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
+                    pattern: smConstants.PATTERN_SUBNET_MASK,
                     msg: smMessages.getInvalidErrorMessage('subnet_mask')
                 },
                 'parameters.openstack_mgmt_ip': {
