@@ -166,11 +166,17 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-tags-template">
-    {{#each tags}}
-        <a onclick="loadFeature({{filterServerByTagParams @key this}});">
+    {{#if allowLink}}
+        {{#each tags}}
+            <a onclick="loadFeature({{filterServerByTagParams @key this}});">
+                <span class="badge badge-color-{{getKeyValue4Object ../colors @key}}">{{this}}</span>
+            </a>
+        {{/each}}
+    {{else}}
+        {{#each tags}}
             <span class="badge badge-color-{{getKeyValue4Object ../colors @key}}">{{this}}</span>
-        </a>
-    {{/each}}
+        {{/each}}
+    {{/if}}
 </script>
 
 <script type="text/x-handlebars-template" id="sm-grid-2-row-group-detail-template">
