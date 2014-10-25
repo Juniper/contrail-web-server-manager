@@ -98,6 +98,7 @@ define([
                     callback: function () {
                         var dataView = $(gridElId).data("contrailGrid")._dataView;
                         dataView.refreshData();
+                        $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').refresh();
                     },
                     lockEditingByDefault: false
                 });
@@ -258,6 +259,7 @@ define([
                         callback: function () {
                             var dataView = $(gridElId).data("contrailGrid")._dataView;
                             dataView.refreshData();
+                            $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').refresh();
                         },
                         lockEditingByDefault: true
                     });
@@ -321,6 +323,19 @@ define([
 
         headerActionConfig = headerActionConfig.concat([
             {
+                "type": "link",
+                "title": smLabels.TITLE_ADD_SERVER,
+                "iconClass": "icon-plus",
+                "onClick": function () {
+                    var serverModel = new ServerModel();
+
+                    serverEditView.model = serverModel;
+                    serverEditView.renderAddServer({"title": smLabels.TITLE_ADD_SERVER, callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }});
+                }
+            }, {
                 type: 'checked-multiselect',
                 iconClass: 'icon-filter',
                 placeholder: 'Filter Servers',
@@ -343,20 +358,6 @@ define([
                     click: applyServerTagFilter,
                     optgrouptoggle: applyServerTagFilter,
                     control: false
-                }
-            },
-            {
-                "type": "link",
-                "title": smLabels.TITLE_ADD_SERVER,
-                "iconClass": "icon-plus",
-                "onClick": function () {
-                    var serverModel = new ServerModel();
-
-                    serverEditView.model = serverModel;
-                    serverEditView.renderAddServer({"title": smLabels.TITLE_ADD_SERVER, callback: function () {
-                        var dataView = $(gridElId).data("contrailGrid")._dataView;
-                        dataView.refreshData();
-                    }});
                 }
             }
         ]);
