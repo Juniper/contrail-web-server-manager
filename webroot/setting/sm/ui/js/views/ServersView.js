@@ -46,7 +46,7 @@ define([
                             }
                         },
                         detail: {
-                            template: $(smwc.TMPL_2ROW_GROUP_DETAIL).html(),
+                            template: $('#' + smwc.TMPL_2ROW_GROUP_DETAIL).html(),
                             templateConfig: detailTemplateConfig
                         },
                         sortable: {

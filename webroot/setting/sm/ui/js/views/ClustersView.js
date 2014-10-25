@@ -51,7 +51,7 @@ define([
                             }
                         },
                         detail: {
-                            template: $('#sm-grid-2-row-group-detail-template').html(),
+                            template: $('#' + smwc.TMPL_2ROW_GROUP_DETAIL).html(),
                             templateConfig: detailTemplateConfig
                         }
                     },
