@@ -253,6 +253,9 @@ define([
                 // now we check if the value is locked
                 // we check it from the 'locks'
                 else {
+                    if(contrail.checkIfExist(value) && (typeof value == 'string')) {
+                        testobj[attribute] = value.trim();
+                    }
                     if (contrail.checkIfExist(locks[attribute + '_locked'])) {
                         lock = locks[attribute + '_locked'];
                         if (lock === true) {
