@@ -65,10 +65,11 @@ define([
         smGridConfig.getDeleteAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                 packageModel = new PackageModel(dataItem),
-                checkedRow = dataItem;
+                checkedRow = dataItem,
+                _title = smLabels.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')';
 
             packageEditView.model = packageModel;
-            packageEditView.renderDeletePackage({"title": smLabels.TITLE_DELETE_PACKAGE, checkedRows: checkedRow, callback: function () {
+            packageEditView.renderDeletePackage({"title": _title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});

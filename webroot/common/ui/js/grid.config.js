@@ -179,7 +179,7 @@ define([
                 id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125,
                 formatter: function (r, c, v, cd, dc) {
                     var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                        tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS});
+                        tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS, allowLink: false});
                     return tagHTML;
                 },
                 exportConfig: {
@@ -208,7 +208,7 @@ define([
                         id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150,
                         formatter: function (r, c, v, cd, dc) {
                             var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
-                                tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS});
+                                tagHTML = tagTemplate({tags: dc.tag, colors: smConstants.TAG_COLORS, allowLink: true});
                             return tagHTML;
                         },
                         exportConfig: {

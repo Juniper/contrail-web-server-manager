@@ -1210,6 +1210,9 @@ define([
                     }
                 }, function() {});
             },
+            onPrevious: function (params) {
+                return false;
+            },
             buttons: {
                 next: {
                     label: 'Save &amp; Next'
@@ -1249,6 +1252,9 @@ define([
                         });
                     }
                 });
+            },
+            onPrevious: function (params) {
+                return false;
             },
             buttons: {
                 finish: {
