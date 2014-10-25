@@ -167,69 +167,76 @@ define([
 
     var rowActionCallbackConfig = {
         renderAddServers: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem);
+            var clusterModel = new ClusterModel(dataItem),
+                _title = smLabels.TITLE_ADD_SERVERS + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderAddServers({"title": smLabels.TITLE_ADD_SERVERS, callback: function () {
+            clusterEditView.renderAddServers({"title": _title, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
         },
         renderRemoveServers: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem);
+            var clusterModel = new ClusterModel(dataItem),
+                _title = smLabels.TITLE_REMOVE_SERVERS + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderRemoveServers({"title": smLabels.TITLE_REMOVE_SERVERS, callback: function () {
+            clusterEditView.renderRemoveServers({"title": _title, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
         },
         renderAssignRoles: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                checkedRow = [dataItem],
+                _title = smLabels.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderAssignRoles({"title": _title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
         },
         renderConfigure: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                checkedRow = [dataItem],
+                _title = smLabels.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderConfigure({"title": _title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
         },
         renderReimage: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                checkedRow = [dataItem],
+                _title = smLabels.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderReimage({"title": _title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
         },
         renderProvision: function(dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                checkedRow = [dataItem],
+                _title = smLabels.TITLE_PROVISION_CLUSTER + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderProvision({"title": smLabels.TITLE_PROVISION_CLUSTER, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderProvision({"title": _title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
         },
         renderDelete: function (dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = dataItem;
+                checkedRow = dataItem,
+                _title = smLabels.TITLE_ADD_SERVERS + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderDeleteCluster({"title": smLabels.TITLE_DEL_CLUSTER, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderDeleteCluster({"title": _title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});

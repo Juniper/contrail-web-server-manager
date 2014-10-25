@@ -76,10 +76,11 @@ define([
             smGridConfig.getConfigureAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem];
+                    checkedRow = [dataItem],
+                    _title = smLabels.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderConfigure({"title": smLabels.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderConfigure({"title": _title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -87,11 +88,12 @@ define([
             smGridConfig.getTagAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem];
+                    checkedRow = [dataItem],
+                    _title = smLabels.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
                 serverEditView.renderTagServers({
-                    "title": smLabels.TITLE_EDIT_TAGS,
+                    "title": _title,
                     checkedRows: checkedRow,
                     callback: function () {
                         var dataView = $(gridElId).data("contrailGrid")._dataView;
@@ -103,10 +105,11 @@ define([
             smGridConfig.getReimageAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem];
+                    checkedRow = [dataItem],
+                    _title = smLabels.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderReimage({"title": smLabels.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderReimage({"title": _title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -114,10 +117,11 @@ define([
             smGridConfig.getProvisionAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem];
+                    checkedRow = [dataItem],
+                    _title = smLabels.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderProvisionServers({"title": smLabels.TITLE_PROVISION_SERVER, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderProvisionServers({"title": _title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -125,10 +129,11 @@ define([
             smGridConfig.getDeleteAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
-                    checkedRow = dataItem;
+                    checkedRow = dataItem,
+                    _title = smLabels.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderDeleteServer({"title": smLabels.TITLE_DEL_SERVER, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderDeleteServer({"title": _title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -138,10 +143,11 @@ define([
             rowActionConfig.push(smGridConfig.getAssignRoleAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem];
+                    checkedRow = [dataItem],
+                    _title = smLabels.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderAssignRoles({"title": smLabels.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderAssignRoles({"title": _title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
