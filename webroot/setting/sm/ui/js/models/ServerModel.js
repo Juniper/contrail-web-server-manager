@@ -352,7 +352,7 @@ define([
                 },
                 'subnet_mask': {
                     required: false,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
+                    pattern: smwc.PATTERN_SUBNET_MASK,
                     msg: smwm.getInvalidErrorMessage('subnet_mask')
                 }
             },
