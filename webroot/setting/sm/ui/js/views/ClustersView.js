@@ -233,7 +233,7 @@ define([
         renderDelete: function (dataItem) {
             var clusterModel = new ClusterModel(dataItem),
                 checkedRow = dataItem,
-                _title = smLabels.TITLE_ADD_SERVERS + ' ('+ dataItem['id'] +')';
+                _title = smLabels.TITLE_DEL_CLUSTER + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
             clusterEditView.renderDeleteCluster({"title": _title, checkedRows: checkedRow, callback: function () {
