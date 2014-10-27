@@ -65,10 +65,10 @@ define([
             var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 packageModel = new PackageModel(dataItem),
                 checkedRow = dataItem,
-                _title = smwl.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')';
+                title = smwl.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')';
 
             packageEditView.model = packageModel;
-            packageEditView.renderDeletePackage({"title": _title, checkedRows: checkedRow, callback: function () {
+            packageEditView.renderDeletePackage({"title": title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});

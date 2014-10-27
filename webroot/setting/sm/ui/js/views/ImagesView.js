@@ -65,10 +65,10 @@ define([
             var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 imageModel = new ImageModel(dataItem),
                 checkedRow = dataItem,
-                _title = smwl.TITLE_DELETE_IMAGE + ' ('+ dataItem['id'] +')';
+                title = smwl.TITLE_DELETE_IMAGE + ' ('+ dataItem['id'] +')';
 
             imageEditView.model = imageModel;
-            imageEditView.renderDeleteImage({"title": _title, checkedRows: checkedRow, callback: function () {
+            imageEditView.renderDeleteImage({"title": title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});

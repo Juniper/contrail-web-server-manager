@@ -77,10 +77,10 @@ define([
                 var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    _title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderConfigure({"title": _title, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderConfigure({"title": title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -89,11 +89,11 @@ define([
                 var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    _title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
                 serverEditView.renderTagServers({
-                    "title": _title,
+                    "title": title,
                     checkedRows: checkedRow,
                     callback: function () {
                         var dataView = $(gridElId).data("contrailGrid")._dataView;
@@ -107,10 +107,10 @@ define([
                 var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    _title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderReimage({"title": _title, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderReimage({"title": title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -119,10 +119,10 @@ define([
                 var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    _title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderProvisionServers({"title": _title, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderProvisionServers({"title": title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -131,10 +131,10 @@ define([
                 var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    _title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderDeleteServer({"title": _title, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderDeleteServer({"title": title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -145,10 +145,10 @@ define([
                 var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    _title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
-                serverEditView.renderAssignRoles({"title": _title, checkedRows: checkedRow, callback: function () {
+                serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
