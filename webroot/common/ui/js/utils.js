@@ -8,10 +8,11 @@ define([
     'common/ui/js/views/FormGridView',
     'common/ui/js/views/FormMultiselectView',
     'common/ui/js/views/FormDropdownView',
+    'common/ui/js/views/FormCheckboxView',
     'common/ui/js/views/AccordianView',
     'common/ui/js/views/SectionView',
     'common/ui/js/views/WizardView'
-], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, AccordianView, SectionView, WizardView) {
+], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, FormCheckboxView, AccordianView, SectionView, WizardView) {
     var Utils = function () {
         var self = this;
         this.renderGrid = function (elementId, gridConfig) {
@@ -289,6 +290,12 @@ define([
 
                 case "FormDropdownView":
                     elementView = new FormDropdownView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "FormCheckboxView":
+                    console.log('here');
+                    elementView = new FormCheckboxView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 
