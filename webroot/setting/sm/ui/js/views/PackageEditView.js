@@ -38,7 +38,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + smwc.FORM_SUFFIX_ID), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             smwv.bind(this);
