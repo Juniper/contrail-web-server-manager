@@ -91,6 +91,7 @@ define([
             "haproxy": "HA Proxy",
             "encapsulation_priority": "Encapsulation Priority",
             "keystone_username": "Keystone Username",
+            "keystone_password": "Keystone Password",
             "storage_virsh_uuid": "Storage Virsh UUID",
             "storage_fsid": "Storage FSID",
             "new_servers": "New Servers",
@@ -102,6 +103,7 @@ define([
             "external_bgp": "External BGP",
             "database_dir": "Database Dir",
             "database_token": "Database Token",
+            "service_token": "Service Token",
 
             //Roles
             "config": "Config",

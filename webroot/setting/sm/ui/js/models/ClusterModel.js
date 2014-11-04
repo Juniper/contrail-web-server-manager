@@ -316,7 +316,7 @@ define([
                     msg: smwm.getInvalidErrorMessage('router_asn')
                 },
                 'parameters.analytics_data_ttl': {
-                    required: false,
+                    required: true,
                     pattern: 'number',
                     msg: smwm.getInvalidErrorMessage('analytics_data_ttl')
                 },
@@ -329,6 +329,22 @@ define([
                     required: false,
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
+                },
+                'parameters.keystone_username': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('keystone_username')
+                },
+                'parameters.keystone_password': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('keystone_password')
+                },
+                'parameters.openstack_passwd': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('openstack_passwd')
+                },
+                'parameters.service_token': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('service_token')
                 }
             }
         }
