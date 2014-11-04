@@ -160,16 +160,12 @@ define([
     var detailTemplateConfig = [
         [
             {
-                title: smwl.TITLE_DETAILS,
-                keys: ['id', 'cluster_id', 'email']
-            },
-            {
                 title: smwl.TITLE_SYSTEM_MANAGEMENT,
-                keys: ['host_name', 'domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'mac_address', 'static_ip', 'parameters.partition']
+                keys: ['id', 'mac_address', 'host_name', 'domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'static_ip', 'parameters.partition']
             },
             {
-                title: smwl.TITLE_INTERFACES,
-                keys: ['parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control']
+                title: smwl.TITLE_PROVISIONING,
+                keys: [ 'cluster_id', 'email', 'base_image_id', 'reimaged_id', 'package_image_id', 'provisioned_id']
             }
         ],
         [
@@ -186,8 +182,8 @@ define([
                 keys: ['tag.datacenter', 'tag.floor', 'tag.hall', 'tag.rack', 'tag.user_tag']
             },
             {
-                title: smwl.TITLE_PROVISIONING,
-                keys: [ 'base_image_id', 'reimaged_id', 'package_image_id', 'provisioned_id']
+                title: smwl.TITLE_INTERFACES,
+                keys: ['parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control']
             }
         ]
     ];

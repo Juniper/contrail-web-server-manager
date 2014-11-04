@@ -318,53 +318,6 @@ define([
                 view: "AccordianView",
             viewConfig: [
             {
-                elementId: smwu.formatElementId([prefixId, smwl.TITLE_DETAILS]),
-                title: smwl.TITLE_DETAILS,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "span6"}},
-                                {
-                                    elementId: 'cluster_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'cluster_id', dataBindValue: "cluster_id", class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CLUSTER, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)}}}
-                                }
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: smwu.formatElementId([prefixId, smwl.TITLE_PROVISIONING]),
-                title: smwl.TITLE_PROVISIONING,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {
-                                    elementId: 'base_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
-                                },
-                                {
-                                    elementId: 'package_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
                 elementId: smwu.formatElementId([prefixId, smwl.TITLE_SYSTEM_MANAGEMENT]),
                 title: smwl.TITLE_SYSTEM_MANAGEMENT,
                 view: "SectionView",
@@ -372,7 +325,12 @@ define([
                     rows: [
                         {
                             columns: [
-
+                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "span6"}},
+                                {elementId: 'mac_address', view: "FormInputView", viewConfig: {path: 'mac_address', dataBindValue: 'mac_address', class: "span6"}}
+                            ]
+                        },
+                        {
+                            columns: [
                                 {elementId: 'host_name', view: "FormInputView", viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}},
                                 {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
                             ]
@@ -400,10 +358,39 @@ define([
                                 {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
                                 {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
                             ]
+                        }
+                    ]
+                }
+            },
+            {
+                elementId: smwu.formatElementId([prefixId, smwl.TITLE_PROVISIONING]),
+                title: smwl.TITLE_PROVISIONING,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+
+                                {
+                                    elementId: 'cluster_id',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'cluster_id', dataBindValue: "cluster_id", class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CLUSTER, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)}}}
+                                },
+                                {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
+                            ]
                         },
                         {
                             columns: [
-                                {elementId: 'mac_address', view: "FormInputView", viewConfig: {path: 'mac_address', dataBindValue: 'mac_address', class: "span6"}}
+                                {
+                                    elementId: 'base_image_id',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                                },
+                                {
+                                    elementId: 'package_image_id',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
+                                }
                             ]
                         }
                     ]
