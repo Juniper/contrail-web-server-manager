@@ -87,6 +87,9 @@ define([
                     actionConfigItem.on('click', function() {
                         rowActionCallbackConfigValue(response[0]);
                     });
+                    actionConfigItem.tooltip({
+                        placement: 'bottom'
+                    });
                     i++;
                 });
 

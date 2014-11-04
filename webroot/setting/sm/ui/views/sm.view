@@ -224,9 +224,9 @@
 
 <script type="text/x-handlebars-template" id="sm-cluster-template">
     <div id="cluster-header" class="row-fluid margin-0-0-15">
-        <div class="row-fluid padding-6-0" style="border-bottom: 1px solid #eee;">
-            <h4 class="margin-0-5 pull-left">{{cluster_id}}</h4>
-            <div id="cluster-actions" class="pull-right">
+        <div class="row-fluid detail-header-row">
+            <h4 class="margin-0-5 pull-left padding-5-0">{{cluster_id}}</h4>
+            <div id="cluster-actions" class="pull-right horizontal-actions">
             </div>
         </div>
     </div>
@@ -235,7 +235,7 @@
 </script>
 
 <script type="text/x-handlebars-template" id="sm-cluster-action-template">
-    <a class="margin-0-5 grey font-size-14" title="{{title}}">
+    <a class="horizontal-action-item" title="{{title}}">
         <i class="{{iconClass}}"></i>
     </a>
 </script>
