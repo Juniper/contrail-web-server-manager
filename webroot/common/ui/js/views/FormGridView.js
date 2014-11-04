@@ -17,7 +17,7 @@ define([
                 header: {
                     defaultControls: {
                         exportable: false,
-                        refreshable: false,
+                        refreshable: true,
                         searchable: true
                     }
                 },

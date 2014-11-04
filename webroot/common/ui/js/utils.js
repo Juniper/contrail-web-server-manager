@@ -23,7 +23,7 @@ define([
                         iconCssClass: 'blue'
                     },
                     defaultControls: {
-                        refreshable: false,
+                        refreshable: true,
                         collapseable: false
                     }
                 },
@@ -31,7 +31,7 @@ define([
                 },
                 body: {
                     options: {
-                        autoRefresh: 600,
+                        autoRefresh: 60,
                         forceFitColumns: true,
                         checkboxSelectable: true,
                         detail: {
