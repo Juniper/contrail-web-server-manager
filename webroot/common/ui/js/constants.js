@@ -77,6 +77,7 @@ define([
 
         this.KEY_VALIDATION = 'validation';
         this.KEY_CONFIGURE_VALIDATION = 'configureValidation';
+        this.KEY_ADD_VALIDATION = 'addValidation';
 
         this.TMPL_ACCORDIAN_VIEW = "sm-accordian-view-template";
         this.TMPL_DROPDOWN_VIEW = "sm-dropdown-view-template";

@@ -29,16 +29,19 @@ define([
                 compute_non_mgmt_gway: null,
                 keystone_tenant: null,
                 keystone_username: null,
-                keystone_password: null
+                keystone_password: null,
+                service_token: null
             },
             status: {},
             tag: {},
             roles: {}
         },
-        configure: function (callbackObj, ajaxMethod) {
-            var ajaxConfig = {},
-                returnFlag = false;
-            if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
+        configure: function (callbackObj, ajaxMethod, validation) {
+            var ajaxConfig = {}, returnFlag = false;
+
+            validation = (validation == null) ? smwc.KEY_CONFIGURE_VALIDATION : validation;
+
+            if (this.model().isValid(true, validation)) {
                 var putData = {}, clusterAttrsEdited = [],
                     clusterAttrs = this.model().attributes,
                     locks = this.model().attributes.locks.attributes,
@@ -283,6 +286,17 @@ define([
                 'package_image_id': {
                     required: true,
                     msg: smwm.getRequiredMessage('package_image_id')
+                }
+            },
+            addValidation: {
+                'id': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('id')
+                },
+                'email': {
+                    required: false,
+                    pattern: 'email',
+                    msg: smwm.getInvalidErrorMessage('email')
                 }
             },
             configureValidation: {
