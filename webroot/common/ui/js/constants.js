@@ -6,6 +6,7 @@ define([
     'underscore'
 ], function (_) {
     var Constants = function () {
+        this.TIMEOUT = 180 * 1000;
         this.IMAGE_PREFIX_ID = 'image';
         this.PACKAGE_PREFIX_ID = 'package';
         this.CLUSTER_PREFIX_ID = 'cluster';

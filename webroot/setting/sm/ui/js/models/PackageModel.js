@@ -33,6 +33,7 @@ define([
                     putData[smwc.IMAGE_PREFIX_ID] = images;
 
                     ajaxConfig.type = "POST";
+                    ajaxConfig.timeout = smwc.TIMEOUT;
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smwu.getObjectUrl(smwc.IMAGE_PREFIX_ID);
 

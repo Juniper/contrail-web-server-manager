@@ -33,6 +33,7 @@ define([
 
                 ajaxConfig.type = "POST";
                 ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.timeout = smwc.TIMEOUT;
                 ajaxConfig.url = smwu.getObjectUrl(smwc.IMAGE_PREFIX_ID);
 
                 contrail.ajaxHandler(ajaxConfig, function () {
