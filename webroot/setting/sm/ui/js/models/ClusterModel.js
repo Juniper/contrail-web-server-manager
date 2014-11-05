@@ -75,49 +75,52 @@ define([
         addServer: function (serverList, callbackObj) {
             var ajaxConfig = {},
                 returnFlag = false;
-            if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
-                var clusterAttrs = this.model().attributes,
-                    putData = {}, servers = [],
-                    that = this;
 
-                $.each(serverList, function (key, value) {
-                    servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
-                });
-                putData[smwc.SERVER_PREFIX_ID] = servers;
+            var clusterAttrs = this.model().attributes,
+                putData = {}, servers = [],
+                that = this;
 
-                ajaxConfig.async = false;
-                ajaxConfig.type = "PUT";
-                ajaxConfig.data = JSON.stringify(putData);
-                ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
+            $.each(serverList, function (key, value) {
+                servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
+            });
+            putData[smwc.SERVER_PREFIX_ID] = servers;
 
-                contrail.ajaxHandler(ajaxConfig, function () {
-                    if (contrail.checkIfFunction(callbackObj.init)) {
-                        callbackObj.init();
-                    }
-                }, function (response) {
-                    console.log(response);
-                    if (contrail.checkIfFunction(callbackObj.success)) {
-                        callbackObj.success();
-                    }
-                    returnFlag = true;
-                }, function (error) {
-                    console.log(error);
-                    if (contrail.checkIfFunction(callbackObj.error)) {
-                        callbackObj.error(error);
-                    }
-                    returnFlag = false;
-                });
-            }
+            ajaxConfig.async = false;
+            ajaxConfig.type = "PUT";
+            ajaxConfig.data = JSON.stringify(putData);
+            ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
+
+            contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
+            }, function (response) {
+                console.log(response);
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
+                }
+                returnFlag = true;
+            }, function (error) {
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
+                returnFlag = false;
+            });
+
             return returnFlag;
         },
         removeServer: function (serverList, callbackObj) {
             var ajaxConfig = {},
                 returnFlag = false,
                 putData = {}, servers = [];
+
             $.each(serverList, function (key, value) {
                 servers.push({'id': value['id'], 'cluster_id': ""});
             });
+
             putData[smwc.SERVER_PREFIX_ID] = servers;
+            smwu.removeRolesFromServers(putData);
 
             ajaxConfig.async = false;
             ajaxConfig.type = "PUT";
@@ -146,42 +149,39 @@ define([
             return returnFlag;
         },
         assignRoles: function (serverList, callbackObj) {
-            var ajaxConfig = {},
+            var ajaxConfig = {}, returnFlag = false,
+                putData = {}, servers = [],
+                that = this;
+
+            $.each(serverList, function (key, value) {
+                servers.push({'id': value['id'], 'roles': value['roles']});
+            });
+
+            putData[smwc.SERVER_PREFIX_ID] = servers;
+
+            ajaxConfig.async = false;
+            ajaxConfig.type = "PUT";
+            ajaxConfig.data = JSON.stringify(putData);
+            ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
+            console.log(ajaxConfig);
+            contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
+            }, function (response) {
+                console.log(response);
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
+                }
+                returnFlag = true;
+            }, function (error) {
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
                 returnFlag = false;
-            if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
+            });
 
-                var putData = {}, servers = [],
-                    that = this;
-
-                $.each(serverList, function (key, value) {
-                    servers.push({'id': value['id'], 'roles': value['roles']});
-                });
-
-                putData[smwc.SERVER_PREFIX_ID] = servers;
-
-                ajaxConfig.async = false;
-                ajaxConfig.type = "PUT";
-                ajaxConfig.data = JSON.stringify(putData);
-                ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
-                console.log(ajaxConfig);
-                contrail.ajaxHandler(ajaxConfig, function () {
-                    if (contrail.checkIfFunction(callbackObj.init)) {
-                        callbackObj.init();
-                    }
-                }, function (response) {
-                    console.log(response);
-                    if (contrail.checkIfFunction(callbackObj.success)) {
-                        callbackObj.success();
-                    }
-                    returnFlag = true;
-                }, function (error) {
-                    console.log(error);
-                    if (contrail.checkIfFunction(callbackObj.error)) {
-                        callbackObj.error(error);
-                    }
-                    returnFlag = false;
-                });
-            }
             return returnFlag;
         },
         reimage: function (callbackObj) {

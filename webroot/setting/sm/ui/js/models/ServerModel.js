@@ -44,7 +44,9 @@ define([
                 for (var i = 0; i < checkedRows.length; i++) {
                     serversEdited.push(serverAttrsEdited);
                 }
+
                 putData[smwc.SERVER_PREFIX_ID] = serversEdited;
+                smwu.removeRolesFromServers(putData);
 
                 ajaxConfig.type = "PUT";
                 ajaxConfig.data = JSON.stringify(putData);
@@ -78,7 +80,9 @@ define([
             $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
                 serversEdited.push($.extend(true, {}, serverAttrsEdited, {id: checkedRowsValue.id}));
             });
+
             putData[smwc.SERVER_PREFIX_ID] = serversEdited;
+            smwu.removeRolesFromServers(putData);
 
             ajaxConfig.type = "PUT";
             ajaxConfig.data = JSON.stringify(putData);

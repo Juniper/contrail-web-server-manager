@@ -200,6 +200,7 @@ define([
                             smwu.enableModalLoading(modalId);
                         },
                         success: function () {
+                            options['callback']();
                             $("#" + modalId).modal('hide');
                         },
                         error: function (error) {
@@ -509,7 +510,6 @@ define([
                                 }
                             }
                             return params.model.addServer(currentSelectedServers, callbackObj);
-
                         }
                     }
                 ]
