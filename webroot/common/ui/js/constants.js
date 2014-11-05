@@ -19,6 +19,9 @@ define([
         this.LOCKED_SUFFIX_ID = "_locked";
         this.FORM_SUFFIX_ID = "_form";
 
+        this.CATEGORY_IMAGE = 'image';
+        this.CATEGORY_PACKAGE = 'package';
+
         this.SM_API_SERVER = 'sm-api-server';
         this.DFLT_SERVER_IP = '127.0.0.1';
 

@@ -105,6 +105,9 @@ define([
             "database_token": "Database Token",
             "service_token": "Service Token",
 
+            //Images
+            'puppet_manifest_version': "Puppet Manifest Version",
+
             //Roles
             "config": "Config",
             "openstack": "Openstack",

@@ -66,11 +66,11 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
             break;
 
         case smConstants.FUNC_FILTER_IN_IMAGES:
-            filterImagesPackages(res, filteredResponseArray, smConstants.IMAGE_TYPES);
+            filterImagesPackages(res, filteredResponseArray, smConstants.IMAGE_TYPES, smConstants.KEY_IMAGE);
             break;
 
         case smConstants.FUNC_FILTER_IN_PACKAGES:
-            filterImagesPackages(res, filteredResponseArray, smConstants.PACKAGE_TYPES);
+            filterImagesPackages(res, filteredResponseArray, smConstants.PACKAGE_TYPES, smConstants.KEY_PACKAGE);
             break;
 
         default:
@@ -161,12 +161,13 @@ function getTotalServers4Cluster(clusterStatus) {
     return totalServers;
 };
 
-function filterImagesPackages(res, filteredResponseArray, types) {
-    var image, type, responseArray = [];
+function filterImagesPackages(res, filteredResponseArray, types, imageCategory) {
+    var image, type, responseArray = [], category;
     for (var i = 0; i < filteredResponseArray.length; i++) {
         image = filteredResponseArray[i];
         type = image['type'];
-        if (types.indexOf(type) != -1) {
+        category = image['category'];
+        if((category != null && category == imageCategory) || types.indexOf(type) != -1) {
             responseArray.push(image);
         }
     }
@@ -332,7 +333,7 @@ function check4DuplicateId(res, objectName, id, callback) {
         } else if (responseJSON[objectName] && responseJSON[objectName].length == 0) {
             callback();
         } else {
-            commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": smMessages.ERROR_DUPLICATE_OBJ_ID}, res);
+            commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": smMessages.get(smMessages.ERROR_DUPLICATE_OBJ_ID, objectName)}, res);
         }
     });
 };

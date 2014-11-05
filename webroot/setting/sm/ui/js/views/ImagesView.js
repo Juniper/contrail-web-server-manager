@@ -96,7 +96,7 @@ define([
         [
             {
                 title: smwl.TITLE_DETAILS,
-                keys: ['id', 'type', 'version', 'path']
+                keys: ['id', 'category', 'type', 'version', 'path', 'parameters.kickstart', 'parameters.kickseed', 'parameters.puppet_manifest_version']
             }
         ]
     ];

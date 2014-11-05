@@ -11,25 +11,23 @@ define([
     var ImageModel = ContrailModel.extend({
         defaultConfig: {
             'id': null,
+            'category': smwc.CATEGORY_IMAGE,
+            'type': null,
             'version': null,
             'path': null,
-            'type': null,
             'parameters': {}
         },
         configure: function (callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
                 var imageAttrs = this.model().attributes,
-                    putData = {}, images = [],
+                    putData = {}, imageAttrsEdited = [],
+                    locks = this.model().attributes.locks.attributes,
                     that = this;
 
-                images.push({
-                    'id': imageAttrs['id'],
-                    'version': imageAttrs['version'],
-                    'path': imageAttrs['path'],
-                    'type': imageAttrs['type']
-                });
-                putData[smwc.IMAGE_PREFIX_ID] = images;
+                locks['category' + smwc.LOCKED_SUFFIX_ID] = false;
+                imageAttrsEdited.push(smwu.getEditConfigObj(imageAttrs, locks));
+                putData[smwc.IMAGE_PREFIX_ID] = imageAttrsEdited;
 
                 ajaxConfig.type = "POST";
                 ajaxConfig.data = JSON.stringify(putData);

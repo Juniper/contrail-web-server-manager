@@ -11,16 +11,18 @@ define([
 
         this.IMAGE_COLUMNS = [
             { id: "image_id", field: "id", name: "Name", width: 120, minWidth: 15 },
+            { id: "category", field: "category", name: "Category", width: 120, minWidth: 15 },
             { id: "image_type", field: "type", name: "Type", width: 120, minWidth: 15 },
             { id: "image_version", field: "version", name: "Version", width: 120, minWidth: 15 },
             { id: "image_path", field: "path", name: "Path", width: 300, minWidth: 15 }
         ];
 
-        this.REPO_COLUMNS = [
-            { id: "repo_id", field: "id", name: "Name", width: 120, minWidth: 15 },
-            { id: "repo_type", field: "type", name: "Type", width: 120, minWidth: 15 },
-            { id: "repo_version", field: "version", name: "Version", width: 120, minWidth: 15 },
-            { id: "repo_path", field: "path", name: "Path", width: 300, minWidth: 15 }
+        this.PACKAGE_COLUMNS = [
+            { id: "package_id", field: "id", name: "Name", width: 120, minWidth: 15 },
+            { id: "package_category", field: "category", name: "Category", width: 120, minWidth: 15 },
+            { id: "package_type", field: "type", name: "Type", width: 120, minWidth: 15 },
+            { id: "package_version", field: "version", name: "Version", width: 120, minWidth: 15 },
+            { id: "package_path", field: "path", name: "Path", width: 300, minWidth: 15 }
         ];
 
         this.CLUSTER_COLUMNS = [
