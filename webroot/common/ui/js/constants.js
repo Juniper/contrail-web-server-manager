@@ -86,6 +86,7 @@ define([
         this.TMPL_EDIT_FORM = "sm-edit-form-template";
         this.TMPL_2ROW_GROUP_DETAIL = "sm-grid-2-row-group-detail-template";
         this.TMPL_CLUSTER = "sm-cluster-template";
+        this.TMPL_SERVER = "sm-server-template";
         this.TMPL_CLUSTER_ACTION = "sm-cluster-action-template";
         this.TMPL_DELETE_IMAGE = "sm-delete-image-template";
         this.TMPL_DELETE_PACKAGE = "sm-delete-package-template"

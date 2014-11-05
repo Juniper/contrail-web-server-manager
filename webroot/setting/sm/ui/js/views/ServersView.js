@@ -16,6 +16,15 @@ define([
         el: $(contentContainer),
 
         render: function (viewConfig) {
+            var hashParams = viewConfig['hashParams']
+            if (hashParams['server_id'] != null) {
+                this.renderServer(hashParams['server_id']);
+            } else {
+                this.renderServersList(viewConfig);
+            }
+        },
+
+        renderServersList: function (viewConfig) {
             var smTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + smwc.TMPL_SUFFIX_ID),
                 serverColumnsType = viewConfig['serverColumnsType'],
                 showAssignRoles = viewConfig['showAssignRoles'];
@@ -68,6 +77,23 @@ define([
             };
 
             smwu.renderGrid(gridElId, gridConfig);
+        },
+
+        renderServer: function (serverId) {
+            var detailTemplate = contrail.getTemplate4Id(smwc.TMPL_2ROW_GROUP_DETAIL),
+                serverTemplate = contrail.getTemplate4Id(smwc.TMPL_SERVER),
+                ajaxConfig = {}, that = this;
+
+            ajaxConfig.type = "GET";
+            ajaxConfig.cache = "true";
+            ajaxConfig.url = smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + "?id=" + serverId;
+
+            that.$el.html(serverTemplate({server_id: serverId}));
+
+            contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
+                var actionConfigItem = null, i = 0;
+                that.$el.find("#server-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig}));
+            }, function () {});
         }
     });
 

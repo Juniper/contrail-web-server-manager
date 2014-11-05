@@ -31,7 +31,7 @@ define([
                 },
                 body: {
                     options: {
-                        autoRefresh: 60,
+                        autoRefresh: false,
                         forceFitColumns: true,
                         checkboxSelectable: true,
                         detail: {

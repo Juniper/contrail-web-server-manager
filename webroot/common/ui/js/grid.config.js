@@ -201,7 +201,11 @@ define([
                         }
                     }
                     },
-                    { id: "server_id", field: "id", name: "Hostname", width: 80, minWidth: 15 }
+                    { id: "server_id", field: "id", name: "ID", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+                        onClick: function (e, dc) {
+                            loadFeature({p: 'setting_sm_servers', q: {'server_id': dc['id']}});
+                        }
+                    } }
                 ],
                 commonColumnsSet2 = [
                     {
