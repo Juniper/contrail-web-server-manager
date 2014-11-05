@@ -35,6 +35,7 @@ require([
     initSMWebCache();
     initBackboneValidation(_);
     initCustomKOBindings(Knockout);
+    initDomEvents();
 });
 
 function initSMWebCache() {
@@ -145,3 +146,18 @@ function initCustomKOBindings(Knockout) {
         return r;
     };
 };
+
+function initDomEvents() {
+    $(document).on('click', '.group-detail-action-item', function() {
+        if (!$(this).hasClass('selected')) {
+            var thisParent = $(this).parents('.group-detail-container'),
+                newSelectedView = $(this).data('view');
+
+            thisParent.find('.group-detail-item').hide();
+            thisParent.find('.group-detail-' + newSelectedView).show();
+
+            thisParent.find('.group-detail-action-item').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+}
