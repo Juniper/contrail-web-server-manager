@@ -313,6 +313,10 @@ define([
                 'base_image_id': {
                     required: true,
                     msg: smwm.getRequiredMessage('base_image_id')
+                },
+                'gateway': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('gateway')
                 }
             },
             provisionValidation: {
@@ -347,7 +351,7 @@ define([
                     msg: smwm.getInvalidErrorMessage('email')
                 },
                 'gateway': {
-                    required: false,
+                    required: true,
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('gateway')
                 },
