@@ -94,7 +94,7 @@ define([
         getFormErrorText: function(prefixId) {
             var modelErrors = this.model().attributes.errors.attributes,
                 errorText = smwm.get(smwm.SHOULD_BE_VALID, smwl.get(prefixId)),
-                filteredErrors = _.omit(_.invert(modelErrors), 'false');
+                filteredErrors = _.omit(_.invert(modelErrors), 'false', '');
             _.each(filteredErrors, function (value, key) {
                 errorText = errorText + smwl.getFirstCharUpperCase(value.split('_error')[0]) + ", ";
             });
