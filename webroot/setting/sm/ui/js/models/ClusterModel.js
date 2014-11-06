@@ -8,6 +8,98 @@ define([
     'knockout',
     'common/ui/js/models/ContrailModel'
 ], function (_, Knockback, Knockout, ContrailModel) {
+
+    var configureValidation = {
+        'id': {
+            required: true,
+            msg: smwm.getRequiredMessage('id')
+        },
+        'email': {
+            required: false,
+            pattern: 'email',
+            msg: smwm.getInvalidErrorMessage('email')
+        },
+        'parameters.domain': {
+            required: true,
+            msg: smwm.getRequiredMessage('domain')
+        },
+        'parameters.subnet_mask': {
+            required: true,
+            pattern: smwc.PATTERN_SUBNET_MASK,
+            msg: smwm.getInvalidErrorMessage('subnet_mask')
+        },
+        'parameters.gateway': {
+            required: false,
+            pattern: smwc.PATTERN_IP_ADDRESS,
+            msg: smwm.getInvalidErrorMessage('gateway')
+        },
+
+        'parameters.analytics_data_ttl': {
+            required: true,
+            pattern: 'number',
+            msg: smwm.getInvalidErrorMessage('analytics_data_ttl')
+        },
+        'parameters.router_asn': {
+            required: true,
+            pattern: 'number',
+            msg: smwm.getInvalidErrorMessage('router_asn')
+        },
+        'parameters.encapsulation_priority': {
+            required: true,
+            msg: smwm.getRequiredMessage('encapsulation_priority')
+        },
+
+        'parameters.openstack_mgmt_ip': {
+            required: false,
+            pattern: smwc.PATTERN_IP_ADDRESS,
+            msg: smwm.getInvalidErrorMessage('openstack_mgmt_ip')
+        },
+        'parameters.compute_non_mgmt_ip': {
+            required: false,
+            pattern: smwc.PATTERN_IP_ADDRESS,
+            msg: smwm.getInvalidErrorMessage('compute_non_mgmt_ip')
+        },
+        'parameters.compute_non_mgmt_gway': {
+            required: false,
+            pattern: smwc.PATTERN_IP_ADDRESS,
+            msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
+        },
+
+        'parameters.keystone_username': {
+            required: true,
+            msg: smwm.getRequiredMessage('keystone_username')
+        },
+        'parameters.keystone_password': {
+            required: true,
+            msg: smwm.getRequiredMessage('keystone_password')
+        },
+        'parameters.password': {
+            required: true,
+            msg: smwm.getRequiredMessage('password')
+        },
+
+        'parameters.database_dir': {
+            required: true,
+            msg: smwm.getRequiredMessage('database_dir')
+        },
+        'parameters.service_token': {
+            required: true,
+            msg: smwm.getRequiredMessage('service_token')
+        }
+    };
+
+    var getValidationByKey = function (key) {
+        if (key == "configureValidation") {
+            return configureValidation;
+        } else if (key == "provisionValidation") {
+            configureValidation['package_image_id'] = {
+                required: true,
+                msg: smwm.getRequiredMessage('package_image_id')
+            };
+            return configureValidation;
+        }
+    };
+
     var ClusterModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getClusterModel(),
@@ -270,12 +362,7 @@ define([
                     msg: smwm.getRequiredMessage('base_image_id')
                 }
             },
-            provisionValidation: {
-                'package_image_id': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('package_image_id')
-                }
-            },
+            provisionValidation: getValidationByKey("provisionValidation"),
             addValidation: {
                 'id': {
                     required: true,
@@ -287,84 +374,7 @@ define([
                     msg: smwm.getInvalidErrorMessage('email')
                 }
             },
-            configureValidation: {
-                'id': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('id')
-                },
-                'email': {
-                    required: false,
-                    pattern: 'email',
-                    msg: smwm.getInvalidErrorMessage('email')
-                },
-                'parameters.domain': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('domain')
-                },
-                'parameters.subnet_mask': {
-                    required: true,
-                    pattern: smwc.PATTERN_SUBNET_MASK,
-                    msg: smwm.getInvalidErrorMessage('subnet_mask')
-                },
-                'parameters.gateway': {
-                    required: false,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('gateway')
-                },
-
-                'parameters.analytics_data_ttl': {
-                    required: true,
-                    pattern: 'number',
-                    msg: smwm.getInvalidErrorMessage('analytics_data_ttl')
-                },
-                'parameters.router_asn': {
-                    required: true,
-                    pattern: 'number',
-                    msg: smwm.getInvalidErrorMessage('router_asn')
-                },
-                'parameters.encapsulation_priority': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('encapsulation_priority')
-                },
-
-                'parameters.openstack_mgmt_ip': {
-                    required: false,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('openstack_mgmt_ip')
-                },
-                'parameters.compute_non_mgmt_ip': {
-                    required: false,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('compute_non_mgmt_ip')
-                },
-                'parameters.compute_non_mgmt_gway': {
-                    required: false,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
-                },
-
-                'parameters.keystone_username': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('keystone_username')
-                },
-                'parameters.keystone_password': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('keystone_password')
-                },
-                'parameters.password': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('password')
-                },
-
-                'parameters.database_dir': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('database_dir')
-                },
-                'parameters.service_token': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('service_token')
-                }
-            }
+            configureValidation: getValidationByKey("configureValidation")
         }
     });
 
