@@ -233,31 +233,30 @@
     </div>
 </script>
 
-<script type="text/x-handlebars-template" id="sm-cluster-template">
-    <div id="cluster-header" class="row-fluid margin-0-0-15">
+<script type="text/x-handlebars-template" id="sm-detail-page-template">
+    <div id="{{prefix}}-header" class="row-fluid margin-0-0-15">
         <div class="row-fluid detail-header-row">
-            <h4 class="margin-0-5 pull-left padding-5-0">{{cluster_id}}</h4>
-            <div id="cluster-actions" class="pull-right horizontal-actions">
+            <h4 class="margin-0-5 pull-left padding-5-0">{{prefixId}}</h4>
+            <div id="{{prefix}}-actions" class="pull-right">
+                <div class="dropdown pull-right margin-5-0">
+                    <a class="dropdown-toggle margin-10 font-size-14" data-toggle="dropdown"><i class="icon-cog grey"></i></a>
+                    <ul class="dropdown-menu dropdown-caret pull-right" role="menu" aria-labelledby="dLabel">
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div id="cluster-details"></div>
-    <div id="cluster-server-list"></div>
+    <div id="{{prefix}}-details"></div>
+    <div id="{{prefix}}-server-list"></div>
 </script>
 
-<script type="text/x-handlebars-template" id="sm-server-template">
-    <div id="server-header" class="row-fluid margin-0-0-15">
-        <div class="row-fluid detail-header-row">
-            <h4 class="margin-0-5 pull-left padding-5-0">{{server_id}}</h4>
-            <div id="server-actions" class="pull-right horizontal-actions">
-            </div>
-        </div>
-    </div>
-    <div id="server-details"></div>
-</script>
-
-<script type="text/x-handlebars-template" id="sm-cluster-action-template">
-    <a class="horizontal-action-item" title="{{title}}">
-        <i class="{{iconClass}}"></i>
-    </a>
+<script type="text/x-handlebars-template" id="sm-detail-page-action-template">
+    {{#IfCompare divider true operator='=='}}
+         <li class="divider"></li>
+    {{/IfCompare}}
+    <li>
+        <a class="tooltip-success" data-rel="tooltip" data-placement="left" data-original-title={{title}}">
+            <i class="{{iconClass}} margin-right-10"></i> {{title}}
+        </a>
+    </li>
 </script>

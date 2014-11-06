@@ -70,27 +70,23 @@ define([
 
         renderCluster: function (clusterId) {
             var detailTemplate = contrail.getTemplate4Id(smwc.TMPL_2ROW_GROUP_DETAIL),
-                clusterTemplate = contrail.getTemplate4Id(smwc.TMPL_CLUSTER),
-                clusterActionTemplate = contrail.getTemplate4Id(smwc.TMPL_CLUSTER_ACTION),
+                clusterTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE),
+                clusterActionTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE_ACTION),
                 ajaxConfig = {}, that = this;
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
             ajaxConfig.url = smwu.getObjectDetailUrl(smwc.CLUSTER_PREFIX_ID, smwc.SERVERS_STATE_PROCESSOR) + "&id=" + clusterId;
 
-            that.$el.html(clusterTemplate({cluster_id: clusterId}));
+            that.$el.html(clusterTemplate({prefix: 'cluster', prefixId: clusterId}));
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
-                var actionConfigItem = null, i = 0;
-                $.each(clusterActionCallbackConfig, function(rowActionCallbackConfigKey, rowActionCallbackConfigValue) {
-                    actionConfigItem = $(clusterActionTemplate(rowActionConfig[i]));
-                    that.$el.find("#cluster-actions").append(actionConfigItem);
+                var actionConfigItem = null;
+                $.each(detailActionConfig, function(detailActionConfigKey, detailActionConfigValue) {
+                    actionConfigItem = $(clusterActionTemplate(detailActionConfigValue));
+                    $("#cluster-actions").find('.dropdown-menu').append(actionConfigItem);
 
-                    actionConfigItem.on('click', function() {
-                        rowActionCallbackConfigValue(response[0]);
+                    $(actionConfigItem).on('click', function(){
+                        detailActionConfigValue.onClick(response[0])
                     });
-                    actionConfigItem.tooltip({
-                        placement: 'bottom'
-                    });
-                    i++;
                 });
 
                 that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig, advancedViewOptions: false}));
@@ -104,73 +100,77 @@ define([
         }
     });
 
-    var clusterActionCallbackConfig = {
-        renderAddServers: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem);
-
-            clusterEditView.model = clusterModel;
-            clusterEditView.renderAddServers({"title": smwl.TITLE_ADD_SERVERS, callback: function () {
-                loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
-            }});
-        },
-        renderRemoveServers: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem);
-
-            clusterEditView.model = clusterModel;
-            clusterEditView.renderRemoveServers({"title": smwl.TITLE_REMOVE_SERVERS, callback: function () {
-                loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
-            }});
-        },
-        renderAssignRoles: function(dataItem) {
+    var detailActionConfig = [
+        smwgc.getAddServersAction(function (dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                title = smwl.TITLE_ADD_SERVERS + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderAssignRoles({"title": smwl.TITLE_ASSIGN_ROLES, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderAddServers({"title": title, callback: function () {
                 loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
             }});
-        },
-        renderConfigure: function(dataItem) {
+        }),
+        smwgc.getRemoveServersAction(function (dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                title = smwl.TITLE_REMOVE_SERVERS + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderConfigure({"title": smwl.TITLE_EDIT_CONFIG, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderRemoveServers({"title": title, callback: function () {
                 loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
             }});
-        },
-        renderReimage: function(dataItem) {
+        }),
+        smwgc.getAssignRoleAction(function (dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderReimage({"title": smwl.TITLE_REIMAGE, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderAssignRoles({"title": title, callback: function () {
                 loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
             }});
-        },
-        renderProvision: function(dataItem) {
+        }),
+        smwgc.getConfigureAction(function (dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = [dataItem];
+                title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderProvision({"title": smwl.TITLE_PROVISION_CLUSTER, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderConfigure({"title": title, callback: function () {
                 loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
             }});
-        },
-        renderDelete: function (dataItem) {
+        }),
+        smwgc.getReimageAction(function (dataItem) {
             var clusterModel = new ClusterModel(dataItem),
-                checkedRow = dataItem;
+                title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
-            clusterEditView.renderDeleteCluster({"title": smwl.TITLE_DEL_CLUSTER, checkedRows: checkedRow, callback: function () {
+            clusterEditView.renderReimage({"title": title, callback: function () {
+                loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        }, true),
+        smwgc.getProvisionAction(function (dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                title = smwl.TITLE_PROVISION_CLUSTER + ' ('+ dataItem['id'] +')';
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderProvision({"title": title, callback: function () {
+                loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem['id']}});
+            }});
+        }),
+        smwgc.getDeleteAction(function (dataItem) {
+            var clusterModel = new ClusterModel(dataItem),
+                checkedRow = dataItem
+                title = smwl.TITLE_DEL_CLUSTER + ' ('+ dataItem['id'] +')';
+
+            clusterEditView.model = clusterModel;
+            clusterEditView.renderDeleteCluster({"title": title, checkedRows: checkedRow, callback: function () {
                 loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {}});
             }});
-        }
-    };
+        }, true)
+    ];
 
-    var rowActionCallbackConfig = {
-        renderAddServers: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
+    var rowActionConfig = [
+        smwgc.getAddServersAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
                 title = smwl.TITLE_ADD_SERVERS + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
@@ -178,9 +178,10 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        },
-        renderRemoveServers: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
+        }),
+        smwgc.getRemoveServersAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
                 title = smwl.TITLE_REMOVE_SERVERS + ' ('+ dataItem['id'] +')';
 
             clusterEditView.model = clusterModel;
@@ -188,9 +189,10 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        },
-        renderAssignRoles: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
+        }),
+        smwgc.getAssignRoleAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
 
@@ -199,9 +201,10 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        },
-        renderConfigure: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
+        }),
+        smwgc.getConfigureAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
 
@@ -210,9 +213,10 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        },
-        renderReimage: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
+        }),
+        smwgc.getReimageAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
 
@@ -221,9 +225,10 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        },
-        renderProvision: function(dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
+        }, true),
+        smwgc.getProvisionAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_PROVISION_CLUSTER + ' ('+ dataItem['id'] +')';
 
@@ -232,9 +237,10 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        },
-        renderDelete: function (dataItem) {
-            var clusterModel = new ClusterModel(dataItem),
+        }),
+        smwgc.getDeleteAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
                 checkedRow = dataItem,
                 title = smwl.TITLE_DEL_CLUSTER + ' ('+ dataItem['id'] +')';
 
@@ -243,37 +249,6 @@ define([
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
-        }
-    };
-
-    var rowActionConfig = [
-        smwgc.getAddServersAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderAddServers(dataItem);
-        }),
-        smwgc.getRemoveServersAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderRemoveServers(dataItem);
-        }),
-        smwgc.getAssignRoleAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderAssignRoles(dataItem)
-        }),
-        smwgc.getConfigureAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderConfigure(dataItem);
-        }),
-        smwgc.getReimageAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderReimage(dataItem);
-        }, true),
-        smwgc.getProvisionAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderProvision(dataItem);
-        }),
-        smwgc.getDeleteAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex);
-            rowActionCallbackConfig.renderDelete(dataItem);
         }, true)
     ];
 

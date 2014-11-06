@@ -81,21 +81,106 @@ define([
 
         renderServer: function (serverId) {
             var detailTemplate = contrail.getTemplate4Id(smwc.TMPL_2ROW_GROUP_DETAIL),
-                serverTemplate = contrail.getTemplate4Id(smwc.TMPL_SERVER),
+                serverTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE),
+                serverActionTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE_ACTION),
                 ajaxConfig = {}, that = this;
 
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
             ajaxConfig.url = smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + "?id=" + serverId;
 
-            that.$el.html(serverTemplate({server_id: serverId}));
+            that.$el.html(serverTemplate({prefix: smwc.SERVER_PREFIX_ID, prefixId: serverId}));
 
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
-                var actionConfigItem = null, i = 0;
-                that.$el.find("#server-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig, advancedViewOptions: false}));
+                var actionConfigItem = null,
+                    detailActionConfig = getDetailActionConfig(false);
+
+                $.each(detailActionConfig, function(detailActionConfigKey, detailActionConfigValue) {
+                    actionConfigItem = $(serverActionTemplate(detailActionConfigValue));
+                    $('#' + smwc.SERVER_PREFIX_ID + '-actions').find('.dropdown-menu').append(actionConfigItem);
+
+                    $(actionConfigItem).on('click', function(){
+                        detailActionConfigValue.onClick(response[0])
+                    });
+                });
+
+                that.$el.find('#' + smwc.SERVER_PREFIX_ID + '-details').html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig, advancedViewOptions: false}));
             }, function () {});
         }
     });
+
+    function getDetailActionConfig(showAssignRoles) {
+        var rowActionConfig = [
+            smwgc.getConfigureAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderConfigure({"title": title, checkedRows: checkedRow, callback: function () {
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                }});
+            }),
+            smwgc.getTagAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderTagServers({
+                    title: title,
+                    checkedRows: checkedRow,
+                    callback: function () {
+                        loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                    },
+                    lockEditingByDefault: false
+                });
+            }),
+            smwgc.getReimageAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderReimage({"title": title, checkedRows: checkedRow, callback: function () {
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                }});
+            }, true),
+            smwgc.getProvisionAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderProvisionServers({"title": title, checkedRows: checkedRow, callback: function () {
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                }});
+            }),
+            smwgc.getDeleteAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderDeleteServer({"title": title, checkedRows: checkedRow, callback: function () {
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS});
+                }});
+            }, true)
+        ];
+        if (showAssignRoles) {
+            rowActionConfig.push(smwgc.getAssignRoleAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                }});
+            }));
+        }
+        return rowActionConfig;
+    };
 
     function getRowActionConfig(showAssignRoles) {
         var rowActionConfig = [
