@@ -45,6 +45,10 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.SERVER_PREFIX_ID));
+                }
             }
         },
         configureServers: function (checkedRows, callbackObj) {
@@ -111,6 +115,10 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.SERVER_PREFIX_ID));
+                }
             }
         },
         editRoles: function (checkedRows, callbackObj) {
@@ -145,11 +153,15 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.SERVER_PREFIX_ID));
+                }
             }
         },
         editTags: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'editTagsValidation')) {
+            if (this.model().isValid(true, smwc.KEY_EDIT_TAGS_VALIDATION)) {
                 var putData = {}, serverAttrsEdited = {}, serversEdited = [],
                     serverAttrs = this.model().attributes,
                     locks = this.model().attributes.locks.attributes,
@@ -196,11 +208,15 @@ define([
                     console.log(error);
                     that.showErrorAttr(smwc.SERVER_PREFIX_ID + '_form', error.responseText);
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.SERVER_PREFIX_ID));
+                }
             }
         },
         reimage: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'reimageValidation')) {
+            if (this.model().isValid(true, smwc.KEY_REIMAGE_VALIDATION)) {
                 var serverAttrs = this.model().attributes,
                     putData = {}, servers = [],
                     that = this;
@@ -228,11 +244,15 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            }  else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.SERVER_PREFIX_ID));
+                }
             }
         },
         provision: function (checkedRows, callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'provisionValidation')) {
+            if (this.model().isValid(true, smwc.KEY_PROVISION_VALIDATION)) {
                 var serverAttrs = this.model().attributes,
                     putData = {}, servers = [],
                     that = this;
@@ -261,6 +281,10 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.SERVER_PREFIX_ID));
+                }
             }
         },
         deleteServer: function (checkedRow, callbackObj) {

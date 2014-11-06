@@ -87,8 +87,20 @@ define([
             errors.set(errorObj);
         },
 
-       checkIfInputDisabled: function(disabledFlag, lockFlag) {
+        checkIfInputDisabled: function(disabledFlag, lockFlag) {
             return disabledFlag || lockFlag;
+        },
+
+        getFormErrorText: function(prefixId) {
+            var modelErrors = this.model().attributes.errors.attributes,
+                errorText = smwm.get(smwm.SHOULD_BE_VALID, smwl.get(prefixId)),
+                filteredErrors = _.omit(_.invert(modelErrors), 'false');
+            _.each(filteredErrors, function (value, key) {
+                errorText = errorText + smwl.getFirstCharUpperCase(value.split('_error')[0]) + ", ";
+            });
+            // Replace last comma by a dot
+            errorText = errorText.slice(0, -2) + ".";
+            return {responseText: errorText};
         }
     });
 

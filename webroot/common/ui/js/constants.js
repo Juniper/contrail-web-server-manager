@@ -80,7 +80,10 @@ define([
 
         this.KEY_VALIDATION = 'validation';
         this.KEY_CONFIGURE_VALIDATION = 'configureValidation';
+        this.KEY_EDIT_TAGS_VALIDATION = 'editTagsValidation';
         this.KEY_ADD_VALIDATION = 'addValidation';
+        this.KEY_REIMAGE_VALIDATION = 'reimageValidation';
+        this.KEY_PROVISION_VALIDATION = 'provisionValidation';
 
         this.TMPL_ACCORDIAN_VIEW = "sm-accordian-view-template";
         this.TMPL_DROPDOWN_VIEW = "sm-dropdown-view-template";

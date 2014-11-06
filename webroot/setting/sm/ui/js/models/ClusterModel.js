@@ -47,6 +47,10 @@ define([
                     }
                     returnFlag = false;
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.CLUSTER_PREFIX_ID));
+                }
             }
 
             return returnFlag;
@@ -165,7 +169,7 @@ define([
         },
         reimage: function (callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'reimageValidation')) {
+            if (this.model().isValid(true, smwc.KEY_REIMAGE_VALIDATION)) {
                 var clusterAttrs = this.model().attributes,
                     putData = {}, clusters = [],
                     that = this;
@@ -193,11 +197,15 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.CLUSTER_PREFIX_ID));
+                }
             }
         },
         provision: function (callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'provisionValidation')) {
+            if (this.model().isValid(true, smwc.KEY_PROVISION_VALIDATION)) {
                 var clusterAttrs = this.model().attributes,
                     putData = {}, clusters = [],
                     that = this;
@@ -225,6 +233,10 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.CLUSTER_PREFIX_ID));
+                }
             }
         },
         deleteCluster: function (checkedRow, callbackObj) {
