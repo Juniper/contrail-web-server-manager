@@ -213,8 +213,24 @@ define([
                     },
                     lockEditingByDefault: false
                 });
-            }),
-            smwgc.getReimageAction(function (rowIndex) {
+            })
+        ];
+
+        if (showAssignRoles) {
+            rowActionConfig.push(smwgc.getAssignRoleAction(function (rowIndex) {
+                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                    serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            }));
+        }
+        rowActionConfig = rowActionConfig.concat([smwgc.getReimageAction(function (rowIndex) {
                 var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
@@ -250,21 +266,8 @@ define([
                     dataView.refreshData();
                 }});
             }, true)
-        ];
-        if (showAssignRoles) {
-            rowActionConfig.push(smwgc.getAssignRoleAction(function (rowIndex) {
-                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
-                    serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem],
-                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+        ]);
 
-                serverEditView.model = serverModel;
-                serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
-                    var dataView = $(gridElId).data("contrailGrid")._dataView;
-                    dataView.refreshData();
-                }});
-            }));
-        }
         return rowActionConfig;
     };
 
