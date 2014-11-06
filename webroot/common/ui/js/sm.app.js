@@ -2,7 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var smwc, smwgc, smwu, smwl, smwv, smwm;
+var smwc, smwgc, smwu, smwl, smwv, smwm, smwmc;
 
 require.config({
     baseUrl: '/',
@@ -24,13 +24,15 @@ require([
     'common/ui/js/utils',
     'common/ui/js/labels',
     'common/ui/js/messages',
+    'common/ui/js/model.config',
     'knockout'
-], function (_, validation, Constants, GridConfig, Utils, Labels, Messages, Knockout) {
+], function (_, validation, Constants, GridConfig, Utils, Labels, Messages, DeafultModelConfig, Knockout) {
     smwc = new Constants();
     smwu = new Utils();
     smwl = new Labels();
     smwm = new Messages();
     smwgc = new GridConfig();
+    smwmc = new DeafultModelConfig();
     smwv = validation;
     initSMWebCache();
     initBackboneValidation(_);

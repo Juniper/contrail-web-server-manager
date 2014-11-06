@@ -7,31 +7,9 @@ define([
     'common/ui/js/models/ContrailModel'
 ], function (_, ContrailModel) {
     var ServerModel = ContrailModel.extend({
-        defaultConfig: {
-            'id': null,
-            'cluster_id': null,
-            'domain': null,
-            'discovered': null,
-            'gateway': null,
-            'email': null,
-            'subnet_mask': null,
-            'static_ip': null,
-            'mac_address': null,
-            'base_image_id': null,
-            'package_image_id': null,
-            'ip_address': null,
-            'password': null,
-            'ipmi_address': null,
-            'ipmi_username': null,
-            'ipmi_password': null,
-            'host_name': null,
-            'intf_data': null,
-            'intf_bond': null,
-            'intf_control': null,
-            'parameters': {},
-            'tag': {},
-            'roles': ['compute']
-        },
+
+        defaultConfig: smwmc.getServerModel(),
+
         configure: function (checkedRows, callbackObj) {
             if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
                 var ajaxConfig = {};

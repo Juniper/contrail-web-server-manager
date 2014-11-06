@@ -9,33 +9,9 @@ define([
     'common/ui/js/models/ContrailModel'
 ], function (_, Knockback, Knockout, ContrailModel) {
     var ClusterModel = ContrailModel.extend({
-        defaultConfig: {
-            id: null,
-            email: null,
-            base_image_id: null,
-            package_image_id: null,
-            parameters: {
-                domain: null,
-                gateway: null,
-                subnet_mask: null,
-                openstack_mgmt_ip: null,
-                openstack_passwd: null,
-                analytics_data_ttl: null,
-                router_asn: null,
-                multi_tenancy: 'False',
-                haproxy: 'disable',
-                use_certificates: 'False',
-                compute_non_mgmt_ip: null,
-                compute_non_mgmt_gway: null,
-                keystone_tenant: null,
-                keystone_username: null,
-                keystone_password: null,
-                service_token: null
-            },
-            status: {},
-            tag: {},
-            roles: {}
-        },
+
+        defaultConfig: smwmc.getClusterModel(),
+
         configure: function (callbackObj, ajaxMethod, validation) {
             var ajaxConfig = {}, returnFlag = false;
 
@@ -309,30 +285,40 @@ define([
                     pattern: 'email',
                     msg: smwm.getInvalidErrorMessage('email')
                 },
+                'parameters.domain': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('domain')
+                },
+                'parameters.subnet_mask': {
+                    required: true,
+                    pattern: smwc.PATTERN_SUBNET_MASK,
+                    msg: smwm.getInvalidErrorMessage('subnet_mask')
+                },
                 'parameters.gateway': {
                     required: false,
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('gateway')
                 },
-                'parameters.subnet_mask': {
-                    required: false,
-                    pattern: smwc.PATTERN_SUBNET_MASK,
-                    msg: smwm.getInvalidErrorMessage('subnet_mask')
-                },
-                'parameters.openstack_mgmt_ip': {
-                    required: false,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('openstack_mgmt_ip')
-                },
-                'parameters.router_asn': {
-                    required: false,
-                    pattern: 'number',
-                    msg: smwm.getInvalidErrorMessage('router_asn')
-                },
+
                 'parameters.analytics_data_ttl': {
                     required: true,
                     pattern: 'number',
                     msg: smwm.getInvalidErrorMessage('analytics_data_ttl')
+                },
+                'parameters.router_asn': {
+                    required: true,
+                    pattern: 'number',
+                    msg: smwm.getInvalidErrorMessage('router_asn')
+                },
+                'parameters.encapsulation_priority': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('encapsulation_priority')
+                },
+
+                'parameters.openstack_mgmt_ip': {
+                    required: false,
+                    pattern: smwc.PATTERN_IP_ADDRESS,
+                    msg: smwm.getInvalidErrorMessage('openstack_mgmt_ip')
                 },
                 'parameters.compute_non_mgmt_ip': {
                     required: false,
@@ -344,6 +330,7 @@ define([
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
                 },
+
                 'parameters.keystone_username': {
                     required: true,
                     msg: smwm.getRequiredMessage('keystone_username')
@@ -352,9 +339,14 @@ define([
                     required: true,
                     msg: smwm.getRequiredMessage('keystone_password')
                 },
-                'parameters.openstack_passwd': {
+                'parameters.password': {
                     required: true,
-                    msg: smwm.getRequiredMessage('openstack_passwd')
+                    msg: smwm.getRequiredMessage('password')
+                },
+
+                'parameters.database_dir': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('database_dir')
                 },
                 'parameters.service_token': {
                     required: true,

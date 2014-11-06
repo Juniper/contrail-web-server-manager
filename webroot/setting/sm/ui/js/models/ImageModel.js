@@ -9,14 +9,9 @@ define([
     'common/ui/js/models/ContrailModel'
 ], function (_, Knockback, Knockout, ContrailModel) {
     var ImageModel = ContrailModel.extend({
-        defaultConfig: {
-            'id': null,
-            'category': smwc.CATEGORY_IMAGE,
-            'type': null,
-            'version': null,
-            'path': null,
-            'parameters': {}
-        },
+
+        defaultConfig: smwmc.getImageModel(smwc.CATEGORY_IMAGE),
+
         configure: function (callbackObj) {
             var ajaxConfig = {};
             if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
