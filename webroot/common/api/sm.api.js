@@ -27,7 +27,7 @@ function getObjects(req, res) {
 
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             responseArray = responseJSON[objectName];
             resultArray = filterObjectsDetails(responseArray, filterInNull);
@@ -50,7 +50,7 @@ function getObjectsDetails(req, res) {
 
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             responseArray = responseJSON[objectName];
             filteredResponseArray = filterObjectsDetails(responseArray, filterInNull);
@@ -87,7 +87,7 @@ function computeServerStates(res, filteredResponseArray) {
             cluster, clusterStatus, totalServers;
 
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             responseArray = responseJSON[smConstants.KEY_SERVER];
             for (var i = 0; i < responseArray.length; i++) {
@@ -197,7 +197,7 @@ function putObjects(req, res, appdata) {
 
     sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
@@ -216,7 +216,7 @@ function postObjects(req, res, appdata) {
     check4DuplicateId(res, objectName, postData[objectName][0]['id'], function () {
         sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
             if (error != null) {
-                commonUtils.handleJSONResponse(error, res);
+                commonUtils.handleJSONResponse(formatErrorMessage(error), res);
             } else {
                 commonUtils.handleJSONResponse(null, res, resultJSON);
             }
@@ -236,7 +236,7 @@ function deleteObjects(req, res, appdata) {
 
     sm.del(objectUrl, appdata, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             commonUtils.handleJSONResponse(null, res, responseArray);
         }
@@ -258,7 +258,7 @@ function provision(req, res, appdata) {
             });
         }, function (error, results) {
             if (error != null) {
-                commonUtils.handleJSONResponse(error, res);
+                commonUtils.handleJSONResponse(formatErrorMessage(error), res);
             } else {
                 commonUtils.handleJSONResponse(null, res, results);
             }
@@ -283,7 +283,7 @@ function reimage(req, res, appdata) {
             });
         }, function (error, results) {
             if (error != null) {
-                commonUtils.handleJSONResponse(error, res);
+                commonUtils.handleJSONResponse(formatErrorMessage(error), res);
             } else {
                 commonUtils.handleJSONResponse(null, res, results);
             }
@@ -329,7 +329,7 @@ function check4DuplicateId(res, objectName, id, callback) {
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
             logutils.logger.error(error.stack);
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else if (responseJSON[objectName] && responseJSON[objectName].length == 0) {
             callback();
         } else {
@@ -337,6 +337,21 @@ function check4DuplicateId(res, objectName, id, callback) {
         }
     });
 };
+
+function formatErrorMessage(error) {
+    var message;
+    if (error['message'] != null) {
+        try {
+            message = JSON.parse(error['message']);
+            if (message['return_msg'] != null) {
+                error['message'] = message['return_msg'];
+            }
+        } catch (error) {
+            //Ignore
+        }
+    }
+    return error;
+}
 
 exports.getObjects = getObjects;
 exports.putObjects = putObjects;
