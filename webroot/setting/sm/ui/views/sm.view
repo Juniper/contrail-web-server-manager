@@ -199,10 +199,12 @@
 
 <script type="text/x-handlebars-template" id="sm-grid-2-row-group-detail-template">
     <div class="group-detail-container">
+        {{#IfCompare advancedViewOptions false operator='!=' }}
         <div class="row-fluid group-detail-action">
             <a class="group-detail-action-item pull-right selected" title="Basic List View" data-view="basic-list"><i class="icon-list"></i></a>
             <a class="group-detail-action-item pull-right" title="Advanced JSON View" data-view="advanced-json"><i class="icon-code"></i></a>
         </div>
+        {{/IfCompare}}
         <div class="row-fluid group-detail-basic-list group-detail-item">
         {{#each templateConfig}}
             <div class="span6">

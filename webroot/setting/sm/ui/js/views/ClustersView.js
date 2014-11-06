@@ -93,7 +93,7 @@ define([
                     i++;
                 });
 
-                that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig}));
+                that.$el.find("#cluster-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig, advancedViewOptions: false}));
                 requirejs(["/setting/sm/ui/js/views/ServersView.js"], function (ServersView) {
                     var serversView = new ServersView({
                         el: that.$el.find("#cluster-server-list")

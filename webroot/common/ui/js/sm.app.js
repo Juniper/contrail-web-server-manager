@@ -158,6 +158,10 @@ function initDomEvents() {
 
             thisParent.find('.group-detail-action-item').removeClass('selected');
             $(this).addClass('selected');
+
+            if (contrail.checkIfExist($(this).parents('.slick-row-detail').data('cgrid'))) {
+                $(this).parents('.contrail-grid').data('contrailGrid').adjustDetailRowHeight($(this).parents('.slick-row-detail').data('cgrid'));
+            }
         }
     });
 }

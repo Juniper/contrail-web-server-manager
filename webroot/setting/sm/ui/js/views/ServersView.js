@@ -92,7 +92,7 @@ define([
 
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
                 var actionConfigItem = null, i = 0;
-                that.$el.find("#server-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig}));
+                that.$el.find("#server-details").html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig, advancedViewOptions: false}));
             }, function () {});
         }
     });
