@@ -6,14 +6,14 @@ define([
     'underscore',
     'backbone'
 ], function (_, Backbone) {
-    var FormInputView = Backbone.View.extend({
+    var FormCheckboxView = Backbone.View.extend({
         render: function () {
-            var inputTemplate = contrail.getTemplate4Id(smwc.TMPL_INPUT_VIEW),
+            var checkBoxTemplate = contrail.getTemplate4Id("sm-checkbox-view-template"),
                 viewConfig = this.attributes.viewConfig,
                 elId = this.attributes.elementId,
                 validation = this.attributes.validation,
-                path = viewConfig[smwc.KEY_PATH],
-                type = (viewConfig[smwc.KEY_TYPE] != null) ? viewConfig[smwc.KEY_TYPE] : 'text',
+                path = viewConfig['path'],
+                type = (viewConfig['type'] != null) ? viewConfig['type'] : 'checkbox',
                 lockEditingByDefault = this.attributes.lockEditingByDefault,
                 labelValue = (elId != null) ? smwl.get(elId) : smwl.get(path),
                 tmplParameters;
@@ -25,14 +25,15 @@ define([
 
             tmplParameters = {
                 label: labelValue, id: elId, name: elId, disabled: viewConfig['disabled'],
-                dataBindValue: viewConfig[smwc.KEY_DATABIND_VALUE],
+                dataBindValue: viewConfig['dataBindValue'],
                 lockAttr: lockEditingByDefault, type: type,
+                isChecked: viewConfig['dataBindValue'],
                 class: "span12", path: path, validation: validation
             };
-
-            this.$el.html(inputTemplate(tmplParameters));
+            console.log(tmplParameters);
+            this.$el.html(checkBoxTemplate(tmplParameters));
         }
     });
 
-    return FormInputView;
+    return FormCheckboxView;
 });

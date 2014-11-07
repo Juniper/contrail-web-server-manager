@@ -24,12 +24,12 @@ define([
                 self.model.showErrorAttr(stepValue.elementId, false);
                 if(stepValue.onInitRender == true) {
                     stepValue.onInitWizard = function(params) {
-                        smUtils.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
+                        smwu.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
                     }
                 }
                 else {
                     stepValue.onInitFromNext = function (params) {
-                        smUtils.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
+                        smwu.renderView4Config($("#" + stepValue.elementId), self.model, stepValue, validation, lockEditingByDefault);
                     }
                 }
             });

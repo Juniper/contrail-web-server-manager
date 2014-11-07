@@ -7,8 +7,8 @@ var logutils = require(process.mainModule.exports["corePath"] + '/src/serverroot
     coreConfig = require(process.mainModule.exports["corePath"] + '/config/config.global.js'),
     coreConstants = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/global');
 
-var constants = require('../../common/api/sm.constants'),
-    messages = require('../../common/api/sm.messages'),
+var smConstants = require('../../common/api/sm.constants'),
+    smMessages = require('../../common/api/sm.messages'),
     sm = require('../../common/api/sm'),
     redis = require("redis");
 
@@ -21,12 +21,12 @@ smCache.TAG_NAMES = [];
 
 redisClient.select(coreConstants.SM_DFLT_REDIS_DB, function (error) {
     if (error) {
-        logutils.logger.error(messages.get(messages.ERROR_REDIS_DB_SELECT, error));
+        logutils.logger.error(smMessages.get(smMessages.ERROR_REDIS_DB_SELECT, error));
     }
 });
 
 smCache.initTagNamesCache = function (callback) {
-    var tagUrl = '/tag?detail';
+    var tagUrl = smConstants.TAG_DETAIL_URL;
 
     sm.get(tagUrl, function (error, responseJSON) {
         var tagName, tagNames = [];
@@ -34,7 +34,7 @@ smCache.initTagNamesCache = function (callback) {
             logutils.logger.error(error.stack);
         } else {
             for (var i = 0; i < 7; i++) {
-                tagName = responseJSON['tag' + (i + 1)];
+                tagName = responseJSON[smConstants.KEY_TAG + (i + 1)];
                 if (tagName != null) {
                     tagNames.push(tagName);
                 }
@@ -53,18 +53,18 @@ smCache.deleteRedisCache = function (keyPrefix) {
         if (!error && keysArray.length > 0) {
             redisClient.del(keysArray, function (error) {
                 if (error) {
-                    logutils.logger.error('Error in delete cache for prefix ' + keyPrefix);
+                    logutils.logger.error(smMessages.get(smMessages.ERROR_DELETE_CACHE_4_PREFIX, keyPrefix));
                 }
             });
         } else {
-            logutils.logger.error('Error in delete cache for prefix ' + keyPrefix);
+            logutils.logger.error(smMessages.get(smMessages.ERROR_DELETE_CACHE_4_PREFIX, keyPrefix));
         }
     });
 };
 
 smCache.handleTagValues = function (res, objectUrl, tagName) {
     var responseJSON = {}, tagValues = {},
-        redisKey = constants.REDIS_TAG_VALUES;
+        redisKey = smConstants.REDIS_TAG_VALUES;
 
     this.initTagNamesCache(function () {
         for(var i = 0; i < smCache.TAG_NAMES.length; i++) {
@@ -82,9 +82,9 @@ smCache.handleTagValues = function (res, objectUrl, tagName) {
                     if (error != null) {
                         commonUtils.handleJSONResponse(error, res);
                     } else {
-                        servers = resultJSON['server'];
+                        servers = resultJSON[smConstants.KEY_SERVER];
                         for (var i = 0; i < servers.length; i++) {
-                            tags = servers[i]['tag'];
+                            tags = servers[i][smConstants.KEY_TAG];
                             for (key in tags) {
                                 if (tagValues[key] == null) {
                                     tagValues[key] = [];
@@ -98,7 +98,7 @@ smCache.handleTagValues = function (res, objectUrl, tagName) {
                     }
                     responseJSON = (tagName != null) ? (tagValues[tagName] != null ? tagValues[tagName] : []) : tagValues;
                     commonUtils.handleJSONResponse(null, res, responseJSON);
-                    redisClient.setex(redisKey, constants.REDIS_CACHE_EXPIRE, JSON.stringify(tagValues));
+                    redisClient.setex(redisKey, smConstants.REDIS_CACHE_EXPIRE, JSON.stringify(tagValues));
 
                 });
             } else {

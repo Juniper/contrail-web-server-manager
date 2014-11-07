@@ -20,6 +20,9 @@ function ClustersPageLoader() {
             clustersView.render({hashParams: hashParams});
         });
     };
+    this.updateViewByHash = function (hashObj, lastHashObj) {
+        this.load({hashParams : hashObj});
+    };
     this.destroy = function () {
     };
 };
@@ -33,8 +36,11 @@ function ServersPageLoader() {
 
         requirejs([pathServersView], function (ServersView) {
             var serversView = new ServersView();
-            serversView.render({serverColumnsType: smConstants.SERVER_PREFIX_ID, hashParams: hashParams});
+            serversView.render({serverColumnsType: smwc.SERVER_PREFIX_ID, hashParams: hashParams});
         });
+    };
+    this.updateViewByHash = function (hashObj, lastHashObj) {
+        this.load({hashParams : hashObj});
     };
     this.destroy = function () {
     };
@@ -51,6 +57,9 @@ function ImagesPageLoader() {
             imagesView.render();
         });
     };
+    this.updateViewByHash = function (hashObj, lastHashObj) {
+        this.load({hashParams : hashObj});
+    };
     this.destroy = function () {
     };
 };
@@ -65,6 +74,9 @@ function PackagesPageLoader() {
             var packagesView = new PackagesView();
             packagesView.render();
         });
+    };
+    this.updateViewByHash = function (hashObj, lastHashObj) {
+        this.load({hashParams : hashObj});
     };
     this.destroy = function () {};
 };

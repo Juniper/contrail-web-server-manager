@@ -8,28 +8,27 @@ define([
     'setting/sm/ui/js/models/ImageModel',
     'setting/sm/ui/js/views/ImageEditView'
 ], function (_, Backbone, ImageModel, ImageEditView) {
-    var prefixId = smConstants.IMAGE_PREFIX_ID,
+    var prefixId = smwc.IMAGE_PREFIX_ID,
         imageEditView = new ImageEditView(),
-        gridElId = '#' + prefixId + '-results';
+        gridElId = '#' + prefixId + smwc.RESULTS_SUFFIX_ID;
 
     var ImagesView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
-            var directoryTemplate = contrail.getTemplate4Id(smConstants.SM_PREFIX_ID + "-template"),
-                gridElId = '#' + prefixId + '-results';
+            var directoryTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + smwc.TMPL_SUFFIX_ID);
 
             this.$el.html(directoryTemplate({name: prefixId}));
 
             var gridConfig = {
                 header: {
                     title: {
-                        text: smLabels.TITLE_IMAGES
+                        text: smwl.TITLE_IMAGES
                     },
                     advanceControls: headerActionConfig
                 },
                 columnHeader: {
-                    columns: smGridConfig.IMAGE_COLUMNS
+                    columns: smwgc.IMAGE_COLUMNS
                 },
                 body: {
                     options: {
@@ -43,33 +42,33 @@ define([
                             }
                         },
                         detail: {
-                            template: $('#sm-grid-2-row-group-detail-template').html(),
+                            template: $('#' + smwc.TMPL_2ROW_GROUP_DETAIL).html(),
                             templateConfig: detailTemplateConfig
                         }
                     },
                     dataSource: {
                         remote: {
                             ajaxConfig: {
-                                url: smUtils.getObjectDetailUrl(prefixId, 'filterInImages')
+                                url: smwu.getObjectDetailUrl(prefixId, 'filterInImages')
                             }
                         }
                     }
                 }
             };
 
-            smUtils.renderGrid(gridElId, gridConfig);
+            smwu.renderGrid(gridElId, gridConfig);
         }
     });
 
     var rowActionConfig = [
-        smGridConfig.getDeleteAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + '-results').data('contrailGrid')._dataView.getItem(rowIndex),
+        smwgc.getDeleteAction(function (rowIndex) {
+            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 imageModel = new ImageModel(dataItem),
                 checkedRow = dataItem,
-                _title = smLabels.TITLE_DELETE_IMAGE + ' ('+ dataItem['id'] +')';
+                title = smwl.TITLE_DELETE_IMAGE + ' ('+ dataItem['id'] +')';
 
             imageEditView.model = imageModel;
-            imageEditView.renderDeleteImage({"title": _title, checkedRows: checkedRow, callback: function () {
+            imageEditView.renderDeleteImage({"title": title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
                 dataView.refreshData();
             }});
@@ -79,13 +78,13 @@ define([
     var headerActionConfig = [
         {
             "type": "link",
-            "title": smLabels.TITLE_ADD_IMAGE,
+            "title": smwl.TITLE_ADD_IMAGE,
             "iconClass": "icon-plus",
             "onClick": function () {
                 var imageModel = new ImageModel();
 
                 imageEditView.model = imageModel;
-                imageEditView.render({"title": smLabels.TITLE_ADD_IMAGE, callback: function () {
+                imageEditView.render({"title": smwl.TITLE_ADD_IMAGE, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
@@ -96,8 +95,8 @@ define([
     var detailTemplateConfig = [
         [
             {
-                title: smLabels.TITLE_DETAILS,
-                keys: ['id', 'type', 'version', 'path']
+                title: smwl.TITLE_DETAILS,
+                keys: ['id', 'category', 'type', 'version', 'path', 'parameters.kickstart', 'parameters.kickseed', 'parameters.puppet_manifest_version']
             }
         ]
     ];

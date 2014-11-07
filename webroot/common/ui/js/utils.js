@@ -8,10 +8,11 @@ define([
     'common/ui/js/views/FormGridView',
     'common/ui/js/views/FormMultiselectView',
     'common/ui/js/views/FormDropdownView',
+    'common/ui/js/views/FormCheckboxView',
     'common/ui/js/views/AccordianView',
     'common/ui/js/views/SectionView',
     'common/ui/js/views/WizardView'
-], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, AccordianView, SectionView, WizardView) {
+], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, FormCheckboxView, AccordianView, SectionView, WizardView) {
     var Utils = function () {
         var self = this;
         this.renderGrid = function (elementId, gridConfig) {
@@ -22,7 +23,7 @@ define([
                         iconCssClass: 'blue'
                     },
                     defaultControls: {
-                        refreshable: false,
+                        refreshable: true,
                         collapseable: false
                     }
                 },
@@ -30,7 +31,7 @@ define([
                 },
                 body: {
                     options: {
-                        autoRefresh: 600,
+                        autoRefresh: false,
                         forceFitColumns: true,
                         checkboxSelectable: true,
                         detail: {
@@ -178,23 +179,23 @@ define([
         };
 
         this.getObjectDetailUrl = function (objectName, postProcessor) {
-            var url = '/sm/objects/details/' + objectName;
+            var url = smwc.URL_OBJ_DETAILS + objectName;
             url += (postProcessor != null) ? ("?postProcessor=" + postProcessor) : '';
             return url;
         };
 
         this.getObjectUrl = function (objectName) {
-            return '/sm/objects/' + objectName;
+            return smwc.URL_OBJECTS + objectName;
         };
 
         this.getTagsUrl = function (qs) {
-            var url = '/sm/tags/values/';
+            var url = smwc.URL_TAG_VALUES;
             url += (qs != null) ? qs : '';
             return url;
         };
 
         this.getTagValueUrl = function (value) {
-            return '/sm/tags/values/' + value;
+            return smwc.URL_TAG_VALUES + value;
         };
 
         this.formatElementId = function (strArray) {
@@ -232,8 +233,8 @@ define([
 
             $.each(testobj, function (attribute, value) {
                 if (_.isArray(value)) {
-                    if (contrail.checkIfExist(locks[attribute + '_locked'])) {
-                        lock = locks[attribute + '_locked'];
+                    if (contrail.checkIfExist(locks[attribute + smwc.LOCKED_SUFFIX_ID])) {
+                        lock = locks[attribute + smwc.LOCKED_SUFFIX_ID];
                         if (lock === true) {
                             delete testobj[attribute];
                         }
@@ -244,7 +245,7 @@ define([
                 // check if value is a key or object
                 // if object make a recursive call on value
                 else if (_.isObject(value)) {
-                    testobj[attribute] = smUtils.getEditConfigObj(value, locks);
+                    testobj[attribute] = smwu.getEditConfigObj(value, locks);
                     if ($.isEmptyObject(testobj[attribute])) {
                         delete testobj[attribute];
                     }
@@ -256,8 +257,8 @@ define([
                     if(contrail.checkIfExist(value) && (typeof value == 'string')) {
                         testobj[attribute] = value.trim();
                     }
-                    if (contrail.checkIfExist(locks[attribute + '_locked'])) {
-                        lock = locks[attribute + '_locked'];
+                    if (contrail.checkIfExist(locks[attribute + smwc.LOCKED_SUFFIX_ID])) {
+                        lock = locks[attribute + smwc.LOCKED_SUFFIX_ID];
                         if (lock === true) {
                             delete testobj[attribute];
                         }
@@ -271,9 +272,9 @@ define([
 
         this.renderView4Config = function (parentElement, model, viewObj, validation, lockEditingByDefault) {
             var viewName = viewObj['view'],
-                elementId = viewObj['elementId'],
-                validation = (validation != null) ? validation : 'validation',
-                viewAttributes = {viewConfig: viewObj['viewConfig'], elementId: elementId, validation: validation, lockEditingByDefault: lockEditingByDefault},
+                elementId = viewObj[smwc.KEY_ELEMENT_ID],
+                validation = (validation != null) ? validation : smwc.KEY_VALIDATION,
+                viewAttributes = {viewConfig: viewObj[smwc.KEY_VIEW_CONFIG], elementId: elementId, validation: validation, lockEditingByDefault: lockEditingByDefault},
                 elementView;
 
             switch (viewName) {
@@ -289,6 +290,12 @@ define([
 
                 case "FormDropdownView":
                     elementView = new FormDropdownView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "FormCheckboxView":
+                    console.log('here');
+                    elementView = new FormCheckboxView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 
@@ -314,6 +321,17 @@ define([
 
             }
         };
+
+        this.removeRolesFromServers = function(serversObj) {
+            var servers = serversObj[smwc.SERVER_PREFIX_ID],
+                server;
+            for (var i = 0; i < servers.length; i++) {
+                server = servers[i];
+                if(server['cluster_id'] == "") {
+                    server['roles'] = [];
+                }
+            }
+        }
     };
     return Utils;
 });

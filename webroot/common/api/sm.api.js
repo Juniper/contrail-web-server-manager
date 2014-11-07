@@ -6,18 +6,18 @@ var commonUtils = require(process.mainModule.exports["corePath"] + '/src/serverr
     logutils = require(process.mainModule.exports["corePath"] + '/src/serverroot/utils/log.utils');
 
 var sm = require('../../common/api/sm'),
-    constants = require('../../common/api/sm.constants'),
-    cache = require('../../common/api/sm.cache'),
-    messages = require('../../common/api/sm.messages'),
+    smConstants = require('../../common/api/sm.constants'),
+    smCache = require('../../common/api/sm.cache'),
+    smMessages = require('../../common/api/sm.messages'),
     url = require('url'),
     qs = require('querystring'),
     async = require('async'),
     _ = require('underscore');
 
 function getObjects(req, res) {
-    var objectName = req.param(constants.KEY_NAME),
+    var objectName = req.param(smConstants.KEY_NAME),
         urlParts = url.parse(req.url, true),
-        filterInNull = req.param(constants.KEY_FILTER_IN_NULL),
+        filterInNull = req.param(smConstants.KEY_FILTER_IN_NULL),
         objectUrl = '/' + objectName,
         qsObj = urlParts.query,
         responseArray, resultArray;
@@ -27,7 +27,7 @@ function getObjects(req, res) {
 
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             responseArray = responseJSON[objectName];
             resultArray = filterObjectsDetails(responseArray, filterInNull);
@@ -37,9 +37,9 @@ function getObjects(req, res) {
 };
 
 function getObjectsDetails(req, res) {
-    var objectName = req.param(constants.KEY_NAME),
-        filterInNull = req.param(constants.KEY_FILTER_IN_NULL),
-        postProcessor = req.param(constants.KEY_POST_PROCESSOR),
+    var objectName = req.param(smConstants.KEY_NAME),
+        filterInNull = req.param(smConstants.KEY_FILTER_IN_NULL),
+        postProcessor = req.param(smConstants.KEY_POST_PROCESSOR),
         urlParts = url.parse(req.url, true),
         objectUrl = '/' + objectName,
         qsObj = urlParts.query,
@@ -50,7 +50,7 @@ function getObjectsDetails(req, res) {
 
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             responseArray = responseJSON[objectName];
             filteredResponseArray = filterObjectsDetails(responseArray, filterInNull);
@@ -61,16 +61,16 @@ function getObjectsDetails(req, res) {
 
 function processResultsCB(res, filteredResponseArray, postProcessor) {
     switch (postProcessor) {
-        case constants.FUNC_COMPUTE_SERVER_STATES:
+        case smConstants.FUNC_COMPUTE_SERVER_STATES:
             computeServerStates(res, filteredResponseArray);
             break;
 
-        case constants.FUNC_FILTER_IN_IMAGES:
-            filterImagesPackages(res, filteredResponseArray, constants.IMAGE_TYPES);
+        case smConstants.FUNC_FILTER_IN_IMAGES:
+            filterImagesPackages(res, filteredResponseArray, smConstants.IMAGE_TYPES, smConstants.KEY_IMAGE);
             break;
 
-        case constants.FUNC_FILTER_IN_PACKAGES:
-            filterImagesPackages(res, filteredResponseArray, constants.PACKAGE_TYPES);
+        case smConstants.FUNC_FILTER_IN_PACKAGES:
+            filterImagesPackages(res, filteredResponseArray, smConstants.PACKAGE_TYPES, smConstants.KEY_PACKAGE);
             break;
 
         default:
@@ -79,7 +79,7 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
 };
 
 function computeServerStates(res, filteredResponseArray) {
-    var objectUrl = constants.URL_SERVERS_DETAILS,
+    var objectUrl = smConstants.URL_SERVERS_DETAILS,
         responseArray;
 
     sm.get(objectUrl, function (error, responseJSON) {
@@ -87,15 +87,15 @@ function computeServerStates(res, filteredResponseArray) {
             cluster, clusterStatus, totalServers;
 
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
-            responseArray = responseJSON[constants.KEY_SERVER];
+            responseArray = responseJSON[smConstants.KEY_SERVER];
             for (var i = 0; i < responseArray.length; i++) {
-                clusterId = responseArray[i][constants.KEY_CLUSTER_ID];
-                serverStatus = responseArray[i][constants.KEY_STATUS];
+                clusterId = responseArray[i][smConstants.KEY_CLUSTER_ID];
+                serverStatus = responseArray[i][smConstants.KEY_STATUS];
 
                 if (clusterId == null || clusterId == '') {
-                    clusterId = constants.KEY_EMPTY_CLUSTER;
+                    clusterId = smConstants.KEY_EMPTY_CLUSTER;
                 }
 
                 if (clusterStatusMap[clusterId] == null) {
@@ -111,7 +111,7 @@ function computeServerStates(res, filteredResponseArray) {
 
             for (var j = 0; j < filteredResponseArray.length; j++) {
                 cluster = filteredResponseArray[j];
-                clusterId = cluster[constants.KEY_ID];
+                clusterId = cluster[smConstants.KEY_ID];
                 clusterStatus = clusterStatusMap[clusterId];
                 if (clusterStatus != null) {
                     clusterStatus['total_servers'] = getTotalServers4Cluster(clusterStatus);
@@ -161,12 +161,13 @@ function getTotalServers4Cluster(clusterStatus) {
     return totalServers;
 };
 
-function filterImagesPackages(res, filteredResponseArray, types) {
-    var image, type, responseArray = [];
+function filterImagesPackages(res, filteredResponseArray, types, imageCategory) {
+    var image, type, responseArray = [], category;
     for (var i = 0; i < filteredResponseArray.length; i++) {
         image = filteredResponseArray[i];
         type = image['type'];
-        if (types.indexOf(type) != -1) {
+        category = image['category'];
+        if((category != null && category == imageCategory) || types.indexOf(type) != -1) {
             responseArray.push(image);
         }
     }
@@ -190,32 +191,32 @@ function filterObjectsDetails(responseArray, filterInNull) {
 // PUT method of web-server api should be used only to edit object.
 // To create new objects use POST method of web-server api.
 function putObjects(req, res, appdata) {
-    var objectName = req.param(constants.KEY_NAME),
+    var objectName = req.param(smConstants.KEY_NAME),
         objectUrl = '/' + objectName,
         postData = req.body;
 
     sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             commonUtils.handleJSONResponse(null, res, resultJSON);
         }
     });
 
-    cache.deleteRedisCache(constants.REDIS_TAG_VALUES);
+    smCache.deleteRedisCache(smConstants.REDIS_TAG_VALUES);
 };
 
 // POST method of web-server api should be used only to create new objects; it checks for duplicate id.
 // To create objects use PUT method of web-server api.
 function postObjects(req, res, appdata) {
-    var objectName = req.param(constants.KEY_NAME),
+    var objectName = req.param(smConstants.KEY_NAME),
         objectUrl = '/' + objectName,
         postData = req.body;
 
     check4DuplicateId(res, objectName, postData[objectName][0]['id'], function () {
         sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
             if (error != null) {
-                commonUtils.handleJSONResponse(error, res);
+                commonUtils.handleJSONResponse(formatErrorMessage(error), res);
             } else {
                 commonUtils.handleJSONResponse(null, res, resultJSON);
             }
@@ -224,7 +225,7 @@ function postObjects(req, res, appdata) {
 };
 
 function deleteObjects(req, res, appdata) {
-    var objectName = req.param(constants.KEY_NAME),
+    var objectName = req.param(smConstants.KEY_NAME),
         urlParts = url.parse(req.url, true),
         objectUrl = '/' + objectName,
         qsObj = urlParts.query,
@@ -235,7 +236,7 @@ function deleteObjects(req, res, appdata) {
 
     sm.del(objectUrl, appdata, function (error, responseJSON) {
         if (error != null) {
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
             commonUtils.handleJSONResponse(null, res, responseArray);
         }
@@ -243,7 +244,7 @@ function deleteObjects(req, res, appdata) {
 };
 
 function provision(req, res, appdata) {
-    var provisionUrl = '/server/provision',
+    var provisionUrl = smConstants.PROVISON_URL,
         postData = req.body;
 
     if (postData != null) {
@@ -257,23 +258,23 @@ function provision(req, res, appdata) {
             });
         }, function (error, results) {
             if (error != null) {
-                commonUtils.handleJSONResponse(error, res);
+                commonUtils.handleJSONResponse(formatErrorMessage(error), res);
             } else {
                 commonUtils.handleJSONResponse(null, res, results);
             }
         });
     } else {
-        commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": messages.ERROR_POST_DATA_NULL}, res);
+        commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": smMessages.ERROR_POST_DATA_NULL}, res);
     }
 };
 
 function reimage(req, res, appdata) {
-    var provisionUrl = '/server/reimage',
+    var reimageUrl = smConstants.REIMAGE_URL,
         postData = req.body;
 
     if (postData != null) {
         async.map(postData, function (item, callback) {
-            sm.post(provisionUrl, item, appdata, function (error, resultJSON) {
+            sm.post(reimageUrl, item, appdata, function (error, resultJSON) {
                 if (error != null) {
                     callback(error);
                 } else {
@@ -282,41 +283,41 @@ function reimage(req, res, appdata) {
             });
         }, function (error, results) {
             if (error != null) {
-                commonUtils.handleJSONResponse(error, res);
+                commonUtils.handleJSONResponse(formatErrorMessage(error), res);
             } else {
                 commonUtils.handleJSONResponse(null, res, results);
             }
         });
     } else {
-        commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": messages.ERROR_POST_DATA_NULL}, res);
+        commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": smMessages.ERROR_POST_DATA_NULL}, res);
     }
 };
 
 function getTagValues(req, res) {
-    var tagName = req.param(constants.KEY_NAME),
-        objectUrl = constants.URL_SERVERS_DETAILS,
+    var tagName = req.param(smConstants.KEY_NAME),
+        objectUrl = smConstants.URL_SERVERS_DETAILS,
         urlParts = url.parse(req.url, true),
         qsObj = urlParts.query;
 
     filterInAllowedParams(qsObj);
     objectUrl += '&' + qs.stringify(qsObj);
 
-    cache.handleTagValues(res, objectUrl, tagName);
+    smCache.handleTagValues(res, objectUrl, tagName);
 };
 
 function getTagNames(req, res) {
-    if (cache.TAG_NAMES.length == 0) {
-        cache.initTagNamesCache(function () {
-            commonUtils.handleJSONResponse(null, res, cache.TAG_NAMES);
+    if (smCache.TAG_NAMES.length == 0) {
+        smCache.initTagNamesCache(function () {
+            commonUtils.handleJSONResponse(null, res, smCache.TAG_NAMES);
         });
     } else {
-        commonUtils.handleJSONResponse(null, res, cache.TAG_NAMES);
+        commonUtils.handleJSONResponse(null, res, smCache.TAG_NAMES);
     }
 };
 
 function filterInAllowedParams(qsObj) {
     for (var key in qsObj) {
-        if (constants.ALLOWED_FORWARDING_PARAMS.indexOf(key) == -1) {
+        if (smConstants.ALLOWED_FORWARDING_PARAMS.indexOf(key) == -1) {
             delete qsObj[key];
         }
     }
@@ -328,14 +329,29 @@ function check4DuplicateId(res, objectName, id, callback) {
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {
             logutils.logger.error(error.stack);
-            commonUtils.handleJSONResponse(error, res);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else if (responseJSON[objectName] && responseJSON[objectName].length == 0) {
             callback();
         } else {
-            commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": messages.ERROR_DUPLICATE_OBJ_ID}, res);
+            commonUtils.handleJSONResponse({"custom": true, "responseCode": global.HTTP_STATUS_BAD_REQUEST, "message": smMessages.get(smMessages.ERROR_DUPLICATE_OBJ_ID, objectName)}, res);
         }
     });
 };
+
+function formatErrorMessage(error) {
+    var message;
+    if (error['message'] != null) {
+        try {
+            message = JSON.parse(error['message']);
+            if (message['return_msg'] != null) {
+                error['message'] = message['return_msg'];
+            }
+        } catch (error) {
+            //Ignore
+        }
+    }
+    return error;
+}
 
 exports.getObjects = getObjects;
 exports.putObjects = putObjects;

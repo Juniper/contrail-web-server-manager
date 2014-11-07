@@ -8,70 +8,148 @@ define([
     'knockout',
     'common/ui/js/models/ContrailModel'
 ], function (_, Knockback, Knockout, ContrailModel) {
-    var ClusterModel = ContrailModel.extend({
-        defaultConfig: {
-            id: null,
-            email: null,
-            base_image_id: null,
-            package_image_id: null,
-            parameters: {
-                domain: null,
-                gateway: null,
-                subnet_mask: null,
-                openstack_mgmt_ip: null,
-                openstack_passwd: null,
-                analytics_data_ttl: null,
-                router_asn: null,
-                multi_tenancy: 'False',
-                haproxy: 'disable',
-                use_certificates: 'False',
-                compute_non_mgmt_ip: null,
-                compute_non_mgmt_gway: null,
-                keystone_tenant: null,
-                keystone_username: null,
-                keystone_password: null
+
+    var getValidationByKey = function (key) {
+        var configureValidation = {
+            'id': {
+                required: true,
+                msg: smwm.getRequiredMessage('id')
             },
-            status: {},
-            tag: {},
-            roles: {}
-        },
-        configure: function (callbackObj, ajaxMethod) {
-            var ajaxConfig = {},
-                returnFlag = false;
-            if (this.model().isValid(true, 'configureValidation')) {
-                // TODO: Check for form-level validation if required
-                if (true) {
-                    var putData = {}, clusterAttrsEdited = [],
-                        clusterAttrs = this.model().attributes,
-                        locks = this.model().attributes.locks.attributes,
-                        that = this;
+            'email': {
+                required: false,
+                pattern: 'email',
+                msg: smwm.getInvalidErrorMessage('email')
+            },
+            'parameters.domain': {
+                required: true,
+                msg: smwm.getRequiredMessage('domain')
+            },
+            'parameters.subnet_mask': {
+                required: true,
+                pattern: smwc.PATTERN_SUBNET_MASK,
+                msg: smwm.getInvalidErrorMessage('subnet_mask')
+            },
+            'parameters.gateway': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('gateway')
+            },
 
-                    clusterAttrsEdited.push(smUtils.getEditConfigObj(clusterAttrs, locks));
-                    putData[smConstants.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
+            'parameters.analytics_data_ttl': {
+                required: true,
+                pattern: 'number',
+                msg: smwm.getInvalidErrorMessage('analytics_data_ttl')
+            },
+            'parameters.router_asn': {
+                required: true,
+                pattern: 'number',
+                msg: smwm.getInvalidErrorMessage('router_asn')
+            },
+            'parameters.encapsulation_priority': {
+                required: true,
+                msg: smwm.getRequiredMessage('encapsulation_priority')
+            },
 
-                    ajaxConfig.async = false;
-                    ajaxConfig.type = contrail.checkIfExist(ajaxMethod) ? ajaxMethod : "PUT";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.CLUSTER_PREFIX_ID);
-                    contrail.ajaxHandler(ajaxConfig, function () {
-                        if (contrail.checkIfFunction(callbackObj.init)) {
-                            callbackObj.init();
-                        }
-                    }, function (response) {
-                        console.log(response);
-                        if (contrail.checkIfFunction(callbackObj.success)) {
-                            callbackObj.success();
-                        }
-                        returnFlag = true;
-                    }, function (error) {
-                        console.log(error);
-                        if (contrail.checkIfFunction(callbackObj.error)) {
-                            callbackObj.error(error);
-                        }
-                        returnFlag = false;
-                    });
-                } else {
-                    // TODO: Show form-level error message if any
+            'parameters.openstack_mgmt_ip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('openstack_mgmt_ip')
+            },
+            'parameters.compute_non_mgmt_ip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('compute_non_mgmt_ip')
+            },
+            'parameters.compute_non_mgmt_gway': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
+            },
+
+            'parameters.keystone_tenant': {
+                required: true,
+                msg: smwm.getRequiredMessage('keystone_tenant')
+            },
+            'parameters.keystone_username': {
+                required: true,
+                msg: smwm.getRequiredMessage('keystone_username')
+            },
+            'parameters.keystone_password': {
+                required: true,
+                msg: smwm.getRequiredMessage('keystone_password')
+            },
+            'parameters.openstack_passwd': {
+                required: true,
+                msg: smwm.getRequiredMessage('openstack_passwd')
+            },
+            'parameters.password': {
+                required: true,
+                msg: smwm.getRequiredMessage('password')
+            },
+
+            'parameters.database_dir': {
+                required: true,
+                msg: smwm.getRequiredMessage('database_dir')
+            },
+            'parameters.service_token': {
+                required: true,
+                msg: smwm.getRequiredMessage('service_token')
+            }
+        };
+
+        if (key == "configureValidation") {
+            return configureValidation;
+        } else if (key == "provisionValidation") {
+            configureValidation['package_image_id'] = {
+                required: true,
+                msg: smwm.getRequiredMessage('package_image_id')
+            };
+            return configureValidation;
+        }
+    };
+
+    var ClusterModel = ContrailModel.extend({
+
+        defaultConfig: smwmc.getClusterModel(),
+
+        configure: function (callbackObj, ajaxMethod, validation) {
+            var ajaxConfig = {}, returnFlag = false;
+
+            validation = (validation == null) ? smwc.KEY_CONFIGURE_VALIDATION : validation;
+
+            if (this.model().isValid(true, validation)) {
+                var putData = {}, clusterAttrsEdited = [],
+                    clusterAttrs = this.model().attributes,
+                    locks = this.model().attributes.locks.attributes,
+                    that = this;
+
+                clusterAttrsEdited.push(smwu.getEditConfigObj(clusterAttrs, locks));
+                putData[smwc.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
+
+                ajaxConfig.async = false;
+                ajaxConfig.type = contrail.checkIfExist(ajaxMethod) ? ajaxMethod : "PUT";
+                ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.url = smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID);
+                contrail.ajaxHandler(ajaxConfig, function () {
+                    if (contrail.checkIfFunction(callbackObj.init)) {
+                        callbackObj.init();
+                    }
+                }, function (response) {
+                    console.log(response);
+                    if (contrail.checkIfFunction(callbackObj.success)) {
+                        callbackObj.success();
+                    }
+                    returnFlag = true;
+                }, function (error) {
+                    console.log(error);
+                    if (contrail.checkIfFunction(callbackObj.error)) {
+                        callbackObj.error(error);
+                    }
+                    returnFlag = false;
+                });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.CLUSTER_PREFIX_ID));
                 }
             }
 
@@ -80,59 +158,57 @@ define([
         addServer: function (serverList, callbackObj) {
             var ajaxConfig = {},
                 returnFlag = false;
-            if (this.model().isValid(true, 'configureValidation')) {
-                // TODO: Check for form-level validation if required
-                if (true) {
-                    var clusterAttrs = this.model().attributes,
-                        putData = {}, servers = [],
-                        that = this;
 
-                    $.each(serverList, function (key, value) {
-                        servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
-                    });
-                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+            var clusterAttrs = this.model().attributes,
+                putData = {}, servers = [],
+                that = this;
 
-                    ajaxConfig.async = false;
-                    ajaxConfig.type = "PUT";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+            $.each(serverList, function (key, value) {
+                servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
+            });
+            putData[smwc.SERVER_PREFIX_ID] = servers;
 
-                    contrail.ajaxHandler(ajaxConfig, function () {
-                        if (contrail.checkIfFunction(callbackObj.init)) {
-                            callbackObj.init();
-                        }
-                    }, function (response) {
-                        console.log(response);
-                        if (contrail.checkIfFunction(callbackObj.success)) {
-                            callbackObj.success();
-                        }
-                        returnFlag = true;
-                    }, function (error) {
-                        console.log(error);
-                        if (contrail.checkIfFunction(callbackObj.error)) {
-                            callbackObj.error(error);
-                        }
-                        returnFlag = false;
-                    });
-                } else {
-                    // TODO: Show form-level error message if any
+            ajaxConfig.async = false;
+            ajaxConfig.type = "PUT";
+            ajaxConfig.data = JSON.stringify(putData);
+            ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
+
+            contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
                 }
-            }
+            }, function (response) {
+                console.log(response);
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
+                }
+                returnFlag = true;
+            }, function (error) {
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
+                returnFlag = false;
+            });
+
             return returnFlag;
         },
         removeServer: function (serverList, callbackObj) {
             var ajaxConfig = {},
                 returnFlag = false,
                 putData = {}, servers = [];
+
             $.each(serverList, function (key, value) {
                 servers.push({'id': value['id'], 'cluster_id': ""});
             });
-            putData[smConstants.SERVER_PREFIX_ID] = servers;
+
+            putData[smwc.SERVER_PREFIX_ID] = servers;
+            smwu.removeRolesFromServers(putData);
 
             ajaxConfig.async = false;
             ajaxConfig.type = "PUT";
             ajaxConfig.data = JSON.stringify(putData);
-            ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
+            ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
             console.log(ajaxConfig);
 
             contrail.ajaxHandler(ajaxConfig, function () {
@@ -156,119 +232,110 @@ define([
             return returnFlag;
         },
         assignRoles: function (serverList, callbackObj) {
-            var ajaxConfig = {},
-                returnFlag = false;
-            if (this.model().isValid(true, 'configureValidation')) {
-                // TODO: Check for form-level validation if required
-                if (true) {
-                    var putData = {}, servers = [],
-                        that = this;
+            var ajaxConfig = {}, returnFlag = false,
+                putData = {}, servers = [],
+                that = this;
 
-                    $.each(serverList, function (key, value) {
-                        servers.push({'id': value['id'], 'roles': value['roles']});
-                    });
+            $.each(serverList, function (key, value) {
+                servers.push({'id': value['id'], 'roles': value['roles']});
+            });
 
-                    putData[smConstants.SERVER_PREFIX_ID] = servers;
+            putData[smwc.SERVER_PREFIX_ID] = servers;
 
-                    ajaxConfig.async = false;
-                    ajaxConfig.type = "PUT";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = smUtils.getObjectUrl(smConstants.SERVER_PREFIX_ID);
-                    console.log(ajaxConfig);
-                    contrail.ajaxHandler(ajaxConfig, function () {
-                        if (contrail.checkIfFunction(callbackObj.init)) {
-                            callbackObj.init();
-                        }
-                    }, function (response) {
-                        console.log(response);
-                        if (contrail.checkIfFunction(callbackObj.success)) {
-                            callbackObj.success();
-                        }
-                        returnFlag = true;
-                    }, function (error) {
-                        console.log(error);
-                        if (contrail.checkIfFunction(callbackObj.error)) {
-                            callbackObj.error(error);
-                        }
-                        returnFlag = false;
-                    });
-                } else {
-                    // TODO: Show form-level error message if any
+            ajaxConfig.async = false;
+            ajaxConfig.type = "PUT";
+            ajaxConfig.data = JSON.stringify(putData);
+            ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
+            console.log(ajaxConfig);
+            contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
                 }
-            }
+            }, function (response) {
+                console.log(response);
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
+                }
+                returnFlag = true;
+            }, function (error) {
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
+                returnFlag = false;
+            });
+
             return returnFlag;
         },
         reimage: function (callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'reimageValidation')) {
-                if (true) {
-                    var clusterAttrs = this.model().attributes,
-                        putData = {}, clusters = [],
-                        that = this;
+            if (this.model().isValid(true, smwc.KEY_REIMAGE_VALIDATION)) {
+                var clusterAttrs = this.model().attributes,
+                    putData = {}, clusters = [],
+                    that = this;
 
-                    clusters.push({'cluster_id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id']});
-                    putData = clusters;
+                clusters.push({'cluster_id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id']});
+                putData = clusters;
 
-                    ajaxConfig.type = "POST";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = '/sm/server/reimage';
+                ajaxConfig.type = "POST";
+                ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.url = smwc.URL_SERVER_REIMAGE;
 
-                    console.log(ajaxConfig);
-                    contrail.ajaxHandler(ajaxConfig, function () {
-                        if (contrail.checkIfFunction(callbackObj.init)) {
-                            callbackObj.init();
-                        }
-                    }, function (response) {
-                        console.log(response);
-                        if (contrail.checkIfFunction(callbackObj.success)) {
-                            callbackObj.success();
-                        }
-                    }, function (error) {
-                        console.log(error);
-                        if (contrail.checkIfFunction(callbackObj.error)) {
-                            callbackObj.error(error);
-                        }
-                    });
-
-                } else {
-                    // TODO: Show form-level error message if any
+                console.log(ajaxConfig);
+                contrail.ajaxHandler(ajaxConfig, function () {
+                    if (contrail.checkIfFunction(callbackObj.init)) {
+                        callbackObj.init();
+                    }
+                }, function (response) {
+                    console.log(response);
+                    if (contrail.checkIfFunction(callbackObj.success)) {
+                        callbackObj.success();
+                    }
+                }, function (error) {
+                    console.log(error);
+                    if (contrail.checkIfFunction(callbackObj.error)) {
+                        callbackObj.error(error);
+                    }
+                });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.CLUSTER_PREFIX_ID));
                 }
             }
         },
         provision: function (callbackObj) {
             var ajaxConfig = {};
-            if (this.model().isValid(true, 'provisionValidation')) {
-                if (true) {
-                    var clusterAttrs = this.model().attributes,
-                        putData = {}, clusters = [],
-                        that = this;
+            if (this.model().isValid(true, smwc.KEY_PROVISION_VALIDATION)) {
+                var clusterAttrs = this.model().attributes,
+                    putData = {}, clusters = [],
+                    that = this;
 
-                    clusters.push({'cluster_id': clusterAttrs['id'], 'package_image_id': clusterAttrs['package_image_id']});
-                    putData = clusters;
+                clusters.push({'cluster_id': clusterAttrs['id'], 'package_image_id': clusterAttrs['package_image_id']});
+                putData = clusters;
 
-                    ajaxConfig.type = "POST";
-                    ajaxConfig.data = JSON.stringify(putData);
-                    ajaxConfig.url = '/sm/server/provision';
+                ajaxConfig.type = "POST";
+                ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.url = smwc.URL_SERVER_PROVISION;
 
-                    console.log(ajaxConfig);
-                    contrail.ajaxHandler(ajaxConfig, function () {
-                        if (contrail.checkIfFunction(callbackObj.init)) {
-                            callbackObj.init();
-                        }
-                    }, function (response) {
-                        console.log(response);
-                        if (contrail.checkIfFunction(callbackObj.success)) {
-                            callbackObj.success();
-                        }
-                    }, function (error) {
-                        console.log(error);
-                        if (contrail.checkIfFunction(callbackObj.error)) {
-                            callbackObj.error(error);
-                        }
-                    });
-
-                } else {
-                    // TODO: Show form-level error message if any
+                console.log(ajaxConfig);
+                contrail.ajaxHandler(ajaxConfig, function () {
+                    if (contrail.checkIfFunction(callbackObj.init)) {
+                        callbackObj.init();
+                    }
+                }, function (response) {
+                    console.log(response);
+                    if (contrail.checkIfFunction(callbackObj.success)) {
+                        callbackObj.success();
+                    }
+                }, function (error) {
+                    console.log(error);
+                    if (contrail.checkIfFunction(callbackObj.error)) {
+                        callbackObj.error(error);
+                    }
+                });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.CLUSTER_PREFIX_ID));
                 }
             }
         },
@@ -277,7 +344,7 @@ define([
                 clusterId = checkedRow['id'];
 
             ajaxConfig.type = "DELETE";
-            ajaxConfig.url = '/sm/objects/cluster?id=' + clusterId;
+            ajaxConfig.url = smwc.URL_OBJ_CLUSTER_ID + clusterId;
 
             console.log(ajaxConfig);
             contrail.ajaxHandler(ajaxConfig, function () {
@@ -300,61 +367,22 @@ define([
             reimageValidation: {
                 'base_image_id': {
                     required: true,
-                    msg: smMessages.getRequiredMessage('base_image_id')
+                    msg: smwm.getRequiredMessage('base_image_id')
                 }
             },
-            provisionValidation: {
-                'package_image_id': {
-                    required: true,
-                    msg: smMessages.getRequiredMessage('package_image_id')
-                }
-            },
-            configureValidation: {
+            provisionValidation: getValidationByKey("provisionValidation"),
+            addValidation: {
                 'id': {
                     required: true,
-                    msg: smMessages.getRequiredMessage('id')
+                    msg: smwm.getRequiredMessage('id')
                 },
                 'email': {
                     required: false,
                     pattern: 'email',
-                    msg: smMessages.getInvalidErrorMessage('email')
-                },
-                'parameters.gateway': {
-                    required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('gateway')
-                },
-                'parameters.subnet_mask': {
-                    required: false,
-                    pattern: smConstants.PATTERN_SUBNET_MASK,
-                    msg: smMessages.getInvalidErrorMessage('subnet_mask')
-                },
-                'parameters.openstack_mgmt_ip': {
-                    required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('openstack_mgmt_ip')
-                },
-                'parameters.router_asn': {
-                    required: false,
-                    pattern: 'number',
-                    msg: smMessages.getInvalidErrorMessage('router_asn')
-                },
-                'parameters.analytics_data_ttl': {
-                    required: false,
-                    pattern: 'number',
-                    msg: smMessages.getInvalidErrorMessage('analytics_data_ttl')
-                },
-                'parameters.compute_non_mgmt_ip': {
-                    required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_ip')
-                },
-                'parameters.compute_non_mgmt_gway': {
-                    required: false,
-                    pattern: smConstants.PATTERN_IP_ADDRESS,
-                    msg: smMessages.getInvalidErrorMessage('compute_non_mgmt_gway')
+                    msg: smwm.getInvalidErrorMessage('email')
                 }
-            }
+            },
+            configureValidation: getValidationByKey("configureValidation")
         }
     });
 

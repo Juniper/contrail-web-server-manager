@@ -91,6 +91,7 @@ define([
             "haproxy": "HA Proxy",
             "encapsulation_priority": "Encapsulation Priority",
             "keystone_username": "Keystone Username",
+            "keystone_password": "Keystone Password",
             "storage_virsh_uuid": "Storage Virsh UUID",
             "storage_fsid": "Storage FSID",
             "new_servers": "New Servers",
@@ -102,6 +103,10 @@ define([
             "external_bgp": "External BGP",
             "database_dir": "Database Dir",
             "database_token": "Database Token",
+            "service_token": "Service Token",
+
+            //Images
+            'puppet_manifest_version': "Puppet Manifest Version",
 
             //Roles
             "config": "Config",
@@ -178,6 +183,9 @@ define([
         this.TITLE_FILTER_SERVERS = 'Filter Servers';
         this.TITLE_SELECT_SERVERS = 'Select Servers';
         this.TITLE_SELECTED_SERVERS = 'Selected Servers';
+
+        this.TITLE_SAVE_NEXT = 'Save &amp; Next';
+        this.TITLE_NEXT = 'Next';
 
         this.SELECT_IMAGE = 'Select Image';
         this.TITLE_DELETE_IMAGE = 'Delete Image';

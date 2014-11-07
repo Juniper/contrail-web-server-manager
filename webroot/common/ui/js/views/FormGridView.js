@@ -17,7 +17,7 @@ define([
                 header: {
                     defaultControls: {
                         exportable: false,
-                        refreshable: false,
+                        refreshable: true,
                         searchable: true
                     }
                 },
@@ -40,7 +40,7 @@ define([
 
             var gridConfig = $.extend(true, {}, defaultFormGridConfig, viewConfig.elementConfig);
 
-            smUtils.renderGrid(this.$el, gridConfig);
+            smwu.renderGrid(this.$el, gridConfig);
         }
     });
 

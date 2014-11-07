@@ -15,8 +15,8 @@ define([
                 editingLockAttrs, _this = this,
                 modelAttributes = (modelConfig == null) ? this.defaultConfig : modelConfig;
 
-            errorAttributes = generateAttributes(modelAttributes, smConstants.ERROR_SUFFIX_ID, false);
-            editingLockAttrs = generateAttributes(modelAttributes, smConstants.LOCKED_SUFFIX_ID, true);
+            errorAttributes = generateAttributes(modelAttributes, smwc.ERROR_SUFFIX_ID, false);
+            editingLockAttrs = generateAttributes(modelAttributes, smwc.LOCKED_SUFFIX_ID, true);
 
             modelConfig = $.extend(true, {}, this.defaultConfig, modelConfig, {errors: new Backbone.Model(errorAttributes), locks: new Backbone.Model(editingLockAttrs)});
 
@@ -47,53 +47,71 @@ define([
 
         validateAttr: function (attributePath, validation) {
             var attr = getAttributeFromPath(attributePath),
-                errors = this.model().get("errors"),
+                errors = this.model().get(smwc.KEY_MODEL_ERRORS),
                 attrErrorObj = {}, isValid;
 
             isValid = this.model().isValid(attributePath, validation);
-            attrErrorObj[attr + smConstants.ERROR_SUFFIX_ID] = (isValid == true) ? false : isValid;
+            attrErrorObj[attr + smwc.ERROR_SUFFIX_ID] = (isValid == true) ? false : isValid;
             errors.set(attrErrorObj);
         },
 
         initLockAttr: function (attributePath, lockFlag) {
             var attribute = getAttributeFromPath(attributePath),
-                locks = this.model().get("locks"),
-                errors = this.model().get("errors"),
+                locks = this.model().get(smwc.KEY_MODEL_LOCKS),
+                errors = this.model().get(smwc.KEY_MODEL_ERRORS),
                 lockObj = {}, attrErrorObj = {};
 
-            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = lockFlag;
+            lockObj[attribute + smwc.LOCKED_SUFFIX_ID] = lockFlag;
             locks.set(lockObj);
 
-            attrErrorObj[attribute + smConstants.ERROR_SUFFIX_ID] = false
+            attrErrorObj[attribute + smwc.ERROR_SUFFIX_ID] = false
             errors.set(attrErrorObj);
         },
 
         toggleLockAttr: function(attributePath) {
             var attribute = getAttributeFromPath(attributePath),
-                locks = this.model().get("locks"),
-                lockedStatus = locks.attributes[attribute + smConstants.LOCKED_SUFFIX_ID],
+                locks = this.model().get(smwc.KEY_MODEL_LOCKS),
+                lockedStatus = locks.attributes[attribute + smwc.LOCKED_SUFFIX_ID],
                 lockObj = {};
 
-            lockObj[attribute + smConstants.LOCKED_SUFFIX_ID] = !lockedStatus;
+            lockObj[attribute + smwc.LOCKED_SUFFIX_ID] = !lockedStatus;
             locks.set(lockObj);
         },
 
         showErrorAttr: function(attributePath, msg) {
             var attribute = getAttributeFromPath(attributePath),
-                errors = this.model().get("errors"),
+                errors = this.model().get(smwc.KEY_MODEL_ERRORS),
                 errorObj = {};
 
-            errorObj[attribute + smConstants.ERROR_SUFFIX_ID] = msg;
+            errorObj[attribute + smwc.ERROR_SUFFIX_ID] = msg;
             errors.set(errorObj);
         },
 
-       checkIfInputDisabled: function(disabledFlag, lockFlag) {
+        checkIfInputDisabled: function(disabledFlag, lockFlag) {
             return disabledFlag || lockFlag;
+        },
+
+        getFormErrorText: function (prefixId) {
+            var modelErrors = this.model().attributes.errors.attributes,
+                errorText = smwm.get(smwm.SHOULD_BE_VALID, smwl.get(prefixId));
+
+            _.each(modelErrors, function (value, key) {
+                if (_.isFunction(modelErrors[key]) || (modelErrors[key] == 'false') || (modelErrors[key] == '')) {
+                    delete modelErrors[key];
+                } else {
+                    if (-1 == (key.indexOf('_form_error'))) {
+                        errorText = errorText + smwl.getFirstCharUpperCase(key.split('_error')[0]) + ", ";
+                    }
+                }
+            });
+            // Replace last comma by a dot
+            errorText = errorText.slice(0, -2) + ".";
+            return {responseText: errorText};
         }
     });
 
     var generateAttributes = function (attributes, suffix, defaultValue) {
-        var flattenAttributes = smUtils.flattenObject(attributes),
+        var flattenAttributes = smwu.flattenObject(attributes),
             errorAttributes = {};
 
         _.each(flattenAttributes, function (value, key) {
