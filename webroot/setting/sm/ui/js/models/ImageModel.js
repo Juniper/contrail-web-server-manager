@@ -44,6 +44,10 @@ define([
                         callbackObj.error(error);
                     }
                 });
+            } else {
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(this.getFormErrorText(smwc.IMAGE_PREFIX_ID));
+                }
             }
         },
         deleteImage: function (checkedRow, callbackObj) {
