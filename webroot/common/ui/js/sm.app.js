@@ -150,20 +150,35 @@ function initCustomKOBindings(Knockout) {
 };
 
 function initDomEvents() {
-    $(document).on('click', '.group-detail-action-item', function() {
-        if (!$(this).hasClass('selected')) {
-            var thisParent = $(this).parents('.group-detail-container'),
-                newSelectedView = $(this).data('view');
+    $(document)
+        .off('click', '.group-detail-action-item', function(event) {})
+        .on('click', '.group-detail-action-item', function(event) {
+            if (!$(this).hasClass('selected')) {
+                var thisParent = $(this).parents('.group-detail-container'),
+                    newSelectedView = $(this).data('view');
 
-            thisParent.find('.group-detail-item').hide();
-            thisParent.find('.group-detail-' + newSelectedView).show();
+                thisParent.find('.group-detail-item').hide();
+                thisParent.find('.group-detail-' + newSelectedView).show();
 
-            thisParent.find('.group-detail-action-item').removeClass('selected');
-            $(this).addClass('selected');
+                thisParent.find('.group-detail-action-item').removeClass('selected');
+                $(this).addClass('selected');
 
-            if (contrail.checkIfExist($(this).parents('.slick-row-detail').data('cgrid'))) {
-                $(this).parents('.contrail-grid').data('contrailGrid').adjustDetailRowHeight($(this).parents('.slick-row-detail').data('cgrid'));
+                if (contrail.checkIfExist($(this).parents('.slick-row-detail').data('cgrid'))) {
+                    $(this).parents('.contrail-grid').data('contrailGrid').adjustDetailRowHeight($(this).parents('.slick-row-detail').data('cgrid'));
+                }
             }
-        }
-    });
+        });
+
+    $(document)
+        .off('click', '.input-type-toggle-action', function(event) {})
+        .on('click', '.input-type-toggle-action', function(event) {
+            var input = $(this).parent().find('input');
+            if(input.prop('type') == 'text') {
+                input.prop('type', 'password');
+                $(this).removeClass('blue');
+            } else {
+                input.prop('type', 'text');
+                $(this).addClass('blue');
+            }
+        });
 }

@@ -135,7 +135,23 @@ define([
                     },
                     lockEditingByDefault: false
                 });
-            }),
+            })
+        ];
+
+        if (showAssignRoles) {
+            rowActionConfig.push(smwgc.getAssignRoleAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                }});
+            }));
+        }
+
+        rowActionConfig = rowActionConfig.concat([
             smwgc.getReimageAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
@@ -158,7 +174,7 @@ define([
             }),
             smwgc.getDeleteAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem],
+                    checkedRow = dataItem,
                     title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
 
                 serverEditView.model = serverModel;
@@ -166,19 +182,8 @@ define([
                     loadFeature({p: smwc.URL_HASH_SM_SERVERS});
                 }});
             }, true)
-        ];
-        if (showAssignRoles) {
-            rowActionConfig.push(smwgc.getAssignRoleAction(function (dataItem) {
-                var serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem],
-                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+        ]);
 
-                serverEditView.model = serverModel;
-                serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
-                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
-                }});
-            }));
-        }
         return rowActionConfig;
     };
 

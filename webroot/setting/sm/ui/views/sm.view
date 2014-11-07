@@ -111,8 +111,16 @@
         </div>
     </div>
     <div class="row-fluid form-element">
-        <input type="{{type}}" name="{{id}}" class="{{class}}" data-bind="{{#if disabled}}disable: {{disabled}}, {{/if}}{{#if lockAttr}}disable: locks().{{name}}_locked, {{/if}} value: {{dataBindValue}}, event: { focusout: function() { validateAttr('{{path}}', '{{validation}}') } }"/>
+        {{#IfCompare type 'password' operator='==='}}
+        <div class="input-append inset span12">
+            <input type="{{type}}" name="{{id}}" class="span12 {{class}}" data-bind="{{#if disabled}}disable: {{disabled}}, {{/if}}{{#if lockAttr}}disable: locks().{{name}}_locked, {{/if}} value: {{dataBindValue}}, event: { focusout: function() { validateAttr('{{path}}', '{{validation}}') } }"/>
+            <span class="add-on input-type-toggle-action"><i class="icon-eye-open"></i></span>
+        </div>
         <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
+        {{else}}
+            <input type="{{type}}" name="{{id}}" class="{{class}}" data-bind="{{#if disabled}}disable: {{disabled}}, {{/if}}{{#if lockAttr}}disable: locks().{{name}}_locked, {{/if}} value: {{dataBindValue}}, event: { focusout: function() { validateAttr('{{path}}', '{{validation}}') } }"/>
+            <span class="help-block red" data-bind="visible: errors().{{name}}_error, text: errors().{{name}}_error"></span>
+        {{/IfCompare}}
     </div>
 </script>
 
