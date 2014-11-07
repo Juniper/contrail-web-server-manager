@@ -91,12 +91,18 @@ define([
             return disabledFlag || lockFlag;
         },
 
-        getFormErrorText: function(prefixId) {
+        getFormErrorText: function (prefixId) {
             var modelErrors = this.model().attributes.errors.attributes,
-                errorText = smwm.get(smwm.SHOULD_BE_VALID, smwl.get(prefixId)),
-                filteredErrors = _.omit(_.invert(modelErrors), 'false', '');
-            _.each(filteredErrors, function (value, key) {
-                errorText = errorText + smwl.getFirstCharUpperCase(value.split('_error')[0]) + ", ";
+                errorText = smwm.get(smwm.SHOULD_BE_VALID, smwl.get(prefixId));
+
+            _.each(modelErrors, function (value, key) {
+                if (_.isFunction(modelErrors[key]) || (modelErrors[key] == 'false') || (modelErrors[key] == '')) {
+                    delete modelErrors[key];
+                } else {
+                    if (-1 == (key.indexOf('_form_error'))) {
+                        errorText = errorText + smwl.getFirstCharUpperCase(key.split('_error')[0]) + ", ";
+                    }
+                }
             });
             // Replace last comma by a dot
             errorText = errorText.slice(0, -2) + ".";
