@@ -19,7 +19,7 @@ define([
                     subnet_mask: '255.255.255.0',
 
                     openstack_mgmt_ip: null,
-                    openstack_passwd: null,
+                    openstack_passwd: 'contrail123',
 
                     analytics_data_ttl: '168',
                     router_asn: '64512',
@@ -31,7 +31,7 @@ define([
                     compute_non_mgmt_ip: null,
                     compute_non_mgmt_gway: null,
 
-                    keystone_tenant: null,
+                    keystone_tenant: 'admin',
                     keystone_username: 'admin',
                     keystone_password: 'contrail123',
                     password: 'c0ntrail123',

@@ -66,6 +66,10 @@ define([
                 msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
             },
 
+            'parameters.keystone_tenant': {
+                required: true,
+                msg: smwm.getRequiredMessage('keystone_tenant')
+            },
             'parameters.keystone_username': {
                 required: true,
                 msg: smwm.getRequiredMessage('keystone_username')
@@ -73,6 +77,10 @@ define([
             'parameters.keystone_password': {
                 required: true,
                 msg: smwm.getRequiredMessage('keystone_password')
+            },
+            'parameters.openstack_passwd': {
+                required: true,
+                msg: smwm.getRequiredMessage('openstack_passwd')
             },
             'parameters.password': {
                 required: true,
