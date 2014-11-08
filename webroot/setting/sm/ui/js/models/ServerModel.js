@@ -317,6 +317,10 @@ define([
                 'gateway': {
                     required: true,
                     msg: smwm.getRequiredMessage('gateway')
+                },
+                'parameters.interface_name': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('interface_name')
                 }
             },
             provisionValidation: {
@@ -355,10 +359,9 @@ define([
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('gateway')
                 },
-                'mac_address': {
+                'parameters.interface_name': {
                     required: true,
-                    pattern: smwc.PATTERN_MAC_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('mac_address')
+                    msg: smwm.getRequiredMessage('interface_name')
                 },
                 'subnet_mask': {
                     required: false,

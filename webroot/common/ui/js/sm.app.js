@@ -151,7 +151,7 @@ function initCustomKOBindings(Knockout) {
 
 function initDomEvents() {
     $(document)
-        .off('click', '.group-detail-action-item', function(event) {})
+        .off('click', '.group-detail-action-item')
         .on('click', '.group-detail-action-item', function(event) {
             if (!$(this).hasClass('selected')) {
                 var thisParent = $(this).parents('.group-detail-container'),
@@ -170,7 +170,7 @@ function initDomEvents() {
         });
 
     $(document)
-        .off('click', '.input-type-toggle-action', function(event) {})
+        .off('click', '.input-type-toggle-action')
         .on('click', '.input-type-toggle-action', function(event) {
             var input = $(this).parent().find('input');
             if(input.prop('type') == 'text') {
