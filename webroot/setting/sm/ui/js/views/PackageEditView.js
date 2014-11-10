@@ -84,19 +84,13 @@ define([
                 {
                     columns: [
                         {elementId: 'id', view: "FormInputView", viewConfig: {path: "id", dataBindValue: "id", class: "span6"}},
-                        {elementId: 'type', view: "FormInputView", viewConfig: {path: "type", dataBindValue: "type", class: "span6"}},
+                        {elementId: 'type', view: "FormInputView", viewConfig: {path: "type", dataBindValue: "type", class: "span6"}}
                     ]
                 },
                 {
                     columns: [
                         {elementId: 'version', view: "FormInputView", viewConfig: {path: 'version', dataBindValue: "version", class: "span6"}},
                         {elementId: 'path', view: "FormInputView", viewConfig: {path: "path", dataBindValue: "path", class: "span6"}}
-                    ]
-                },
-                {
-                    columns: [
-                        {elementId: 'kickstart', view: "FormInputView", viewConfig: {path: 'parameters.kickstart', dataBindValue: "parameters().kickstart", class: "span6"}},
-                        {elementId: 'kickseed', view: "FormInputView", viewConfig: {path: "parameters.kickseed", dataBindValue: "parameters().kickseed", class: "span6"}}
                     ]
                 }
             ]
