@@ -53,6 +53,7 @@ define([
 
         this.URL_TAG_NAMES = '/sm/tags/names';
         this.URL_OBJ_DETAILS ='/sm/objects/details/';
+        this.URL_SERVER_IPMI_INFO ='/sm/server/ipmiinfo/';
         this.URL_OBJECTS = '/sm/objects/';
         this.URL_TAG_VALUES = '/sm/tags/values/';
         this.URL_SERVER_PROVISION = '/sm/server/provision';

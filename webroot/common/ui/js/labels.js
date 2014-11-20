@@ -156,6 +156,7 @@ define([
         this.TITLE_PACKAGES = 'Packages';
         this.TITLE_PACKAGE = 'Package';
 
+        this.SENSORS_INFO = 'Sensors Information';
         this.SELECT_CLUSTER = 'Select Cluster';
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
         this.TITLE_DEL_CLUSTER = 'Delete Cluster';

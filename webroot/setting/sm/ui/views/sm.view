@@ -256,6 +256,7 @@
     </div>
     <div id="{{prefix}}-details"></div>
     <div id="{{prefix}}-server-list"></div>
+    <div id="{{prefix}}-ipmi-info"></div>
 </script>
 
 <script type="text/x-handlebars-template" id="sm-detail-page-action-template">

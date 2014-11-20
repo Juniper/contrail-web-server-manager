@@ -69,6 +69,19 @@ define([
             }
         ];
 
+        this.SERVER_IPMI_INFO_COLUMNS = [
+            { id: "sensor", field: "sensor", name: "Name", width: 120, minWidth: 15 },
+            { id: "sensor_type", field: "sensor_type", name: "Type", width: 120, minWidth: 15 },
+            { id: "reading", field: "reading", name: "Reading", width: 120, minWidth: 15,
+                formatter: function (r, c, v, cd, dc) {
+                    var unit = dc['unit'],
+                        reading = dc['reading'];
+                    return reading + " " + unit;
+                }
+            },
+            { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+        ];
+
         this.getConfigureAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_CONFIG,
@@ -198,7 +211,7 @@ define([
                 commonColumnsSet1 = [
                     { id: "discovered", field: "discovered", resizable: false, sortable: false, width: 30,
                         searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
-                        if (dc['discovered'] == true) {
+                        if (dc['discovered'] == 'true') {
                             return '<div class="padding-2-0;"><i class="icon-circle blue"></i></div>';
                         }
                     }

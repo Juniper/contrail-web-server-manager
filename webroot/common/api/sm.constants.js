@@ -27,6 +27,7 @@ smConstants.REDIS_CACHE_EXPIRE = 3600;
 
 smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id'];
 smConstants.SM_API_SERVER = 'sm_api_server'
+smConstants.SM_INTROSPECT_SERVER = 'sm_introspect_server'
 
 smConstants.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5'];
 smConstants.PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package', 'contrail-storage-ubuntu-package'];
@@ -34,6 +35,7 @@ smConstants.PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package
 smConstants.REIMAGE_URL = '/server/reimage';
 smConstants.PROVISON_URL = '/server/provision'
 smConstants.TAG_DETAIL_URL = '/tag?detail';
+smConstants.SM_IPMI_INFO_INTROSPECT_URL = '/Snh_SandeshUVECacheReq?x=SMIpmiInfo';
 
 // Export this as a module.
 module.exports = smConstants;
