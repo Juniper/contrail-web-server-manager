@@ -61,7 +61,6 @@ define([
                         sortable: {
                             defaultSortCols: {
                                 'discovered': {sortAsc: false},
-                                'tag': {sortAsc: true},
                                 'status': {sortAsc: true}
                             }
                         }
@@ -93,7 +92,8 @@ define([
 
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
                 var actionConfigItem = null,
-                    detailActionConfig = getDetailActionConfig(false);
+                    detailActionConfig = getDetailActionConfig(false),
+                    gridConfig, ipmiElId;
 
                 $.each(detailActionConfig, function(detailActionConfigKey, detailActionConfigValue) {
                     actionConfigItem = $(serverActionTemplate(detailActionConfigValue));
@@ -105,9 +105,47 @@ define([
                 });
 
                 that.$el.find('#' + smwc.SERVER_PREFIX_ID + '-details').html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig, advancedViewOptions: false}));
+
+                ipmiElId = '#' + smwc.SERVER_PREFIX_ID + "-ipmi-info";
+                gridConfig = getIPMIInfoGridConfig(serverId);
+                smwu.renderGrid(ipmiElId, gridConfig);
             }, function () {});
         }
     });
+
+    function getIPMIInfoGridConfig(serverId) {
+        return {
+            header: {
+                title: {
+                    text: smwl.SENSORS_INFO
+                }
+            },
+            columnHeader: {
+                columns: smwgc.SERVER_IPMI_INFO_COLUMNS
+            },
+            body: {
+                options: {
+                    detail: false,
+                    checkboxSelectable: false
+                },
+                dataSource: {
+                    remote: {
+                        ajaxConfig: {
+                            url: smwu.getIPMIInfoUrl(serverId)
+                        }
+                    }
+                }
+            },
+            footer : {
+                pager : {
+                    options : {
+                        pageSize : 10,
+                        pageSizeSelect : [10, 20, 50, 100, 200 ]
+                    }
+                }
+            }
+        };
+    }
 
     function getDetailActionConfig(showAssignRoles) {
         var rowActionConfig = [

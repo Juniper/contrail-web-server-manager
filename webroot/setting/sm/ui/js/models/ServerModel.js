@@ -314,10 +314,6 @@ define([
                     required: true,
                     msg: smwm.getRequiredMessage('base_image_id')
                 },
-                'gateway': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('gateway')
-                },
                 'parameters.interface_name': {
                     required: true,
                     msg: smwm.getRequiredMessage('interface_name')
@@ -355,7 +351,7 @@ define([
                     msg: smwm.getInvalidErrorMessage('email')
                 },
                 'gateway': {
-                    required: true,
+                    required: false,
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('gateway')
                 },

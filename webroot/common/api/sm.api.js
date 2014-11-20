@@ -6,12 +6,14 @@ var commonUtils = require(process.mainModule.exports["corePath"] + '/src/serverr
     logutils = require(process.mainModule.exports["corePath"] + '/src/serverroot/utils/log.utils');
 
 var sm = require('../../common/api/sm'),
+    introspect = require('../../common/api/introspect.api'),
     smConstants = require('../../common/api/sm.constants'),
     smCache = require('../../common/api/sm.cache'),
     smMessages = require('../../common/api/sm.messages'),
     url = require('url'),
     qs = require('querystring'),
     async = require('async'),
+    jsonPath = require('JSONPath').eval,
     _ = require('underscore');
 
 function getObjects(req, res) {
@@ -315,6 +317,29 @@ function getTagNames(req, res) {
     }
 };
 
+function getServerIPMIInfo (req, res) {
+    var serverId = req.param("id"),
+        url = smConstants.SM_IPMI_INFO_INTROSPECT_URL,
+        ipmiInfo, formattedResult = [], sensorStats;
+
+    introspect.get(url, function(error, result) {
+        if(error) {
+            logutils.logger.error(error.stack);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
+        } else {
+            ipmiInfo = jsonPath(result, "$..smipmiinfo");
+            for(var i = 0; i < ipmiInfo.length; i++) {
+                sensorStats = ipmiInfo[i];
+                if(sensorStats['name'] == serverId) {
+                    formattedResult = sensorStats['sensor_state']['list']['ipmisensor'];
+                    break;
+                }
+            }
+            commonUtils.handleJSONResponse(null, res, formattedResult);
+        }
+    });
+};
+
 function filterInAllowedParams(qsObj) {
     for (var key in qsObj) {
         if (smConstants.ALLOWED_FORWARDING_PARAMS.indexOf(key) == -1) {
@@ -360,5 +385,6 @@ exports.deleteObjects = deleteObjects;
 exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;
+exports.getServerIPMIInfo = getServerIPMIInfo
 exports.provision = provision;
 exports.reimage = reimage;

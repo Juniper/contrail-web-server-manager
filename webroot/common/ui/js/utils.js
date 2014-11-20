@@ -184,6 +184,11 @@ define([
             return url;
         };
 
+        this.getIPMIInfoUrl = function (server) {
+            var url = smwc.URL_SERVER_IPMI_INFO + server;
+            return url;
+        };
+
         this.getObjectUrl = function (objectName) {
             return smwc.URL_OBJECTS + objectName;
         };
