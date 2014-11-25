@@ -190,6 +190,7 @@ define([
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
             { id: "server_id", field: "id", name: "Hostname", width: 75, minWidth: 75 },
+            { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 80 },
             {
                 id: "tag", field: "tag", name: "Tags", width: 125, minWidth: 125,
                 formatter: function (r, c, v, cd, dc) {

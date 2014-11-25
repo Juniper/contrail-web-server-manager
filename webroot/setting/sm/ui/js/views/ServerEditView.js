@@ -49,7 +49,7 @@ define([
 
         renderConfigure: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                disableId, modelAttr, that = this;
 
             smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.configure(options['checkedRows'], {
@@ -73,7 +73,10 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(true), "configureValidation");
+            modelAttr = this.model.model().get('id');
+            disableId = (modelAttr == null || modelAttr == '') ? false : true;
+
+            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(disableId), "configureValidation");
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
