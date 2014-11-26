@@ -125,7 +125,7 @@ function computeServerStates(res, filteredResponseArray) {
                     clusterStatus['inprovision_servers'] = clusterStatus['total_servers'] - clusterStatus['new_servers'] - clusterStatus['configured_servers'] - clusterStatus['provisioned_servers'] - clusterStatus['inreimage_servers'] - clusterStatus['reimaged_servers'];
                     filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: clusterStatus}});
                 } else {
-                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0, new_servers: 0, configured_servers: 0, provisioned_servers: 0, inprovision_servers: 0}}});
+                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0, new_servers: 0, configured_servers: 0, inreimage_servers: 0, reimaged_servers: 0, inprovision_servers: 0, provisioned_servers: 0}}});
                 }
             }
             commonUtils.handleJSONResponse(null, res, filteredResponseArray);
