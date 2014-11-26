@@ -26,12 +26,12 @@ define([
         ];
 
         this.CLUSTER_COLUMNS = [
-            { id: "cluster_id", field: "id", name: "Name", width: 120, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+            { id: "cluster_id", field: "id", name: "Name", width: 150, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
                 onClick: function (e, dc) {
                     loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['id']}});
                 }
             }},
-            { id: "email", field: "email", name: "Email", width: 120, minWidth: 15 },
+            { id: "email", field: "email", name: "Email", width: 150, minWidth: 15 },
             { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
@@ -44,6 +44,20 @@ define([
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['configured_servers'];
+                }
+            },
+            { id: "inreimage_servers", field: "", name: "In-Reimage Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+                formatter: function (r, c, v, cd, dc) {
+                    var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
+                        serverStatus = uiParams['servers_status'];
+                    return serverStatus['inreimage_servers'];
+                }
+            },
+            { id: "reimaged_servers", field: "", name: "Reimaged Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+                formatter: function (r, c, v, cd, dc) {
+                    var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
+                        serverStatus = uiParams['servers_status'];
+                    return serverStatus['reimaged_servers'];
                 }
             },
             { id: "inprovision_servers", field: "", name: "In-Provision Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
