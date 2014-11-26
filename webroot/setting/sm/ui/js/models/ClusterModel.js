@@ -279,6 +279,7 @@ define([
 
                 ajaxConfig.type = "POST";
                 ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.timeout = smwc.TIMEOUT;
                 ajaxConfig.url = smwc.URL_SERVER_REIMAGE;
 
                 console.log(ajaxConfig);
@@ -315,6 +316,7 @@ define([
 
                 ajaxConfig.type = "POST";
                 ajaxConfig.data = JSON.stringify(putData);
+                ajaxConfig.timeout = smwc.TIMEOUT;
                 ajaxConfig.url = smwc.URL_SERVER_PROVISION;
 
                 console.log(ajaxConfig);
