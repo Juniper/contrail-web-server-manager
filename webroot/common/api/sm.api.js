@@ -117,42 +117,20 @@ function computeServerStates(res, filteredResponseArray) {
                 clusterStatus = clusterStatusMap[clusterId];
                 if (clusterStatus != null) {
                     clusterStatus['total_servers'] = getTotalServers4Cluster(clusterStatus);
-                    clusterStatus['new_servers'] = getNewServers4Cluster(clusterStatus);
-                    clusterStatus['configured_servers'] = getConfiguredServers4Cluster(clusterStatus);
-                    clusterStatus['provisioned_servers'] = getProvisionedServers4Cluster(clusterStatus);
-                    clusterStatus['inprovision_servers'] = clusterStatus['total_servers'] - clusterStatus['new_servers'] - clusterStatus['configured_servers'] - clusterStatus['provisioned_servers'];
+                    clusterStatus['new_servers'] = getServerCount4State(clusterStatus, 'server_discovered');
+                    clusterStatus['configured_servers'] = getServerCount4State(clusterStatus, 'server_added');
+                    clusterStatus['provisioned_servers'] = getServerCount4State(clusterStatus, 'provision_completed');
+                    clusterStatus['inreimage_servers'] = getServerCount4State(clusterStatus, 'reimage_started') + getServerCount4State(clusterStatus, 'restart_issued');
+                    clusterStatus['reimaged_servers'] = getServerCount4State(clusterStatus, 'reimage_completed');
+                    clusterStatus['inprovision_servers'] = clusterStatus['total_servers'] - clusterStatus['new_servers'] - clusterStatus['configured_servers'] - clusterStatus['provisioned_servers'] - clusterStatus['inreimage_servers'] - clusterStatus['reimaged_servers'];
                     filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: clusterStatus}});
                 } else {
-                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0, new_servers: 0, configured_servers: 0, provisioned_servers: 0, inprovision_servers: 0}}});
+                    filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0, new_servers: 0, configured_servers: 0, inreimage_servers: 0, reimaged_servers: 0, inprovision_servers: 0, provisioned_servers: 0}}});
                 }
             }
             commonUtils.handleJSONResponse(null, res, filteredResponseArray);
         }
     });
-};
-
-function getNewServers4Cluster(clusterStatus) {
-    var newServers = 0;
-    if (clusterStatus['server_discovered'] != null) {
-        newServers = clusterStatus['server_discovered'];
-    }
-    return newServers;
-};
-
-function getConfiguredServers4Cluster(clusterStatus) {
-    var configuredServers = 0;
-    if (clusterStatus['server_added'] != null) {
-        configuredServers = clusterStatus['server_added'];
-    }
-    return configuredServers;
-};
-
-function getProvisionedServers4Cluster(clusterStatus) {
-    var provisionedServers = 0;
-    if (clusterStatus['provision_completed'] != null) {
-        provisionedServers = clusterStatus['provision_completed'];
-    }
-    return provisionedServers;
 };
 
 function getTotalServers4Cluster(clusterStatus) {
@@ -161,6 +139,14 @@ function getTotalServers4Cluster(clusterStatus) {
         totalServers += clusterStatus[key];
     }
     return totalServers;
+};
+
+function getServerCount4State(clusterStatus, state) {
+    var serverCount = 0;
+    if (clusterStatus[state] != null) {
+        serverCount = clusterStatus[state];
+    }
+    return serverCount;
 };
 
 function filterImagesPackages(res, filteredResponseArray, types, imageCategory) {

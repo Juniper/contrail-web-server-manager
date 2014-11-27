@@ -332,9 +332,7 @@ define([
                 server;
             for (var i = 0; i < servers.length; i++) {
                 server = servers[i];
-                if(server['cluster_id'] == "") {
-                    server['roles'] = [];
-                }
+                server['roles'] = [];
             }
         }
     };

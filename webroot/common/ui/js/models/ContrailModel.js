@@ -21,7 +21,7 @@ define([
             modelConfig = $.extend(true, {}, this.defaultConfig, modelConfig, {errors: new Backbone.Model(errorAttributes), locks: new Backbone.Model(editingLockAttrs)});
 
             model = new Backbone.Model(modelConfig);
-            model = _.extend(model, this.validations);
+            model = _.extend(model, this.validations, {_originalAttributes: modelAttributes});
 
             Knockback.ViewModel.prototype.constructor.call(this, model);
 

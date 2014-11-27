@@ -15,6 +15,7 @@ define([
                 var ajaxConfig = {};
                 var putData = {}, serverAttrsEdited = [], serversEdited = [],
                     serverAttrs = this.model().attributes,
+                    originalAttrs = this.model()._originalAttributes,
                     locks = this.model().attributes.locks.attributes,
                     that = this;
 
@@ -24,7 +25,9 @@ define([
                 }
 
                 putData[smwc.SERVER_PREFIX_ID] = serversEdited;
-                smwu.removeRolesFromServers(putData);
+                if(originalAttrs['cluster_id'] != serverAttrsEdited['cluster_id']) {
+                    smwu.removeRolesFromServers(putData);
+                }
 
                 ajaxConfig.type = "PUT";
                 ajaxConfig.data = JSON.stringify(putData);
