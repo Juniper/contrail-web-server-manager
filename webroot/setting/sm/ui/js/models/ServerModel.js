@@ -318,10 +318,6 @@ define([
                 'base_image_id': {
                     required: true,
                     msg: smwm.getRequiredMessage('base_image_id')
-                },
-                'parameters.interface_name': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('interface_name')
                 }
             },
             provisionValidation: {
