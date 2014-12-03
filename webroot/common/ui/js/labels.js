@@ -160,6 +160,7 @@ define([
 
         this.SENSORS_INFO = 'Sensors Information';
         this.SELECT_CLUSTER = 'Select Cluster';
+        this.SELECT_TYPE = 'Select Type';
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
         this.TITLE_DEL_CLUSTER = 'Delete Cluster';
         this.TITLE_DEL_CLUSTERS = 'Delete Clusters';

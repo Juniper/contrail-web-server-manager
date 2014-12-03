@@ -97,7 +97,10 @@ define([
         this.TMPL_DETAIL_PAGE = "sm-detail-page-template";
         this.TMPL_DETAIL_PAGE_ACTION = "sm-detail-page-action-template";
         this.TMPL_DELETE_IMAGE = "sm-delete-image-template";
-        this.TMPL_DELETE_PACKAGE = "sm-delete-package-template"
+        this.TMPL_DELETE_PACKAGE = "sm-delete-package-template";
+
+        this.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5'];
+        this.PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package', 'contrail-storage-ubuntu-package'];
     }
     return Constants;
 });
