@@ -239,7 +239,7 @@ define([
                 ],
                 commonColumnsSet2 = [
                     {
-                        id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150,
+                        id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, sortable: false,
                         formatter: function (r, c, v, cd, dc) {
                             var tagTemplate = contrail.getTemplate4Id("sm-tags-template"),
                                 tagHTML = tagTemplate({tags: dc.tag, colors: smwc.CACHED_TAG_COLORS, allowLink: true});

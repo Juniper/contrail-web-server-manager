@@ -84,7 +84,7 @@ define([
                 {
                     columns: [
                         {elementId: 'id', view: "FormInputView", viewConfig: {path: "id", dataBindValue: "id", class: "span6"}},
-                        {elementId: 'type', view: "FormInputView", viewConfig: {path: "type", dataBindValue: "type", class: "span6"}}
+                        {elementId: 'type', view: "FormDropdownView", viewConfig: {path: "type", dataBindValue: "type", class: "span6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.PACKAGE_TYPES}}}
                     ]
                 },
                 {
