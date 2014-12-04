@@ -92,10 +92,13 @@ define([
         createServers: function (callbackObj, ajaxMethod) {
             if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
                 var ajaxConfig = {};
-                var putData = {}, serversCreated = [], that = this,
-                    serverAttrs = this.model().attributes;
-                serversCreated.push(serverAttrs),
+                var putData = {}, serverAttrsEdited = [], serversCreated = [],
+                    serverAttrs = this.model().attributes,
+                    locks = this.model().attributes.locks.attributes,
                     that = this;
+
+                serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
+                serversCreated.push(serverAttrsEdited);
 
                 putData[smwc.SERVER_PREFIX_ID] = serversCreated;
 
