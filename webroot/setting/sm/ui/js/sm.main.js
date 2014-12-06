@@ -13,15 +13,16 @@ function ClustersPageLoader() {
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathClustersView = rootDir + '/js/views/ClustersView.js',
             hashParams = paramObject['hashParams'];
-        ;
 
-        requirejs([pathClustersView], function (ClustersView) {
-            var clustersView = new ClustersView();
-            clustersView.render({hashParams: hashParams});
+        check4SMInit(function () {
+            requirejs([pathClustersView], function (ClustersView) {
+                var clustersView = new ClustersView();
+                clustersView.render({hashParams: hashParams});
+            });
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
-        this.load({hashParams : hashObj});
+        this.load({hashParams: hashObj});
     };
     this.destroy = function () {
     };
@@ -34,13 +35,15 @@ function ServersPageLoader() {
             pathServersView = rootDir + '/js/views/ServersView.js',
             hashParams = paramObject['hashParams'];
 
-        requirejs([pathServersView], function (ServersView) {
-            var serversView = new ServersView();
-            serversView.render({serverColumnsType: smwc.SERVER_PREFIX_ID, hashParams: hashParams});
+        check4SMInit(function () {
+            requirejs([pathServersView], function (ServersView) {
+                var serversView = new ServersView();
+                serversView.render({serverColumnsType: smwc.SERVER_PREFIX_ID, hashParams: hashParams});
+            });
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
-        this.load({hashParams : hashObj});
+        this.load({hashParams: hashObj});
     };
     this.destroy = function () {
     };
@@ -52,13 +55,15 @@ function ImagesPageLoader() {
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathImagesView = rootDir + '/js/views/ImagesView.js';
 
-        requirejs([pathImagesView], function (ImagesView) {
-            var imagesView = new ImagesView();
-            imagesView.render();
+        check4SMInit(function () {
+            requirejs([pathImagesView], function (ImagesView) {
+                var imagesView = new ImagesView();
+                imagesView.render();
+            });
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
-        this.load({hashParams : hashObj});
+        this.load({hashParams: hashObj});
     };
     this.destroy = function () {
     };
@@ -70,13 +75,27 @@ function PackagesPageLoader() {
             rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
             pathPackagesView = rootDir + '/js/views/PackagesView.js';
 
-        requirejs([pathPackagesView], function (PackagesView) {
-            var packagesView = new PackagesView();
-            packagesView.render();
+        check4SMInit(function () {
+            requirejs([pathPackagesView], function (PackagesView) {
+                var packagesView = new PackagesView();
+                packagesView.render();
+            });
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
-        this.load({hashParams : hashObj});
+        this.load({hashParams: hashObj});
     };
-    this.destroy = function () {};
+    this.destroy = function () {
+    };
+};
+
+function check4SMInit(callback) {
+    if (!smInitComplete) {
+        requirejs(['sm-init'], function () {
+            smInitComplete = true;
+            callback()
+        });
+    } else {
+        callback();
+    }
 };
