@@ -340,7 +340,7 @@ define([
                     msg: smwm.getInvalidErrorMessage('ip_address')
                 },
                 'ipmi_address': {
-                    required: false,
+                    required: true,
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('ipmi_address')
                 },
