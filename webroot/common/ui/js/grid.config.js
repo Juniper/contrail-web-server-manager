@@ -184,6 +184,7 @@ define([
                     name: smwl.get(roleValue),
                     width: 60, minWidth: 60,
                     cssClass: 'text-center',
+                    sortable: {sortBy: 'formattedValue'},
                     formatter: function (r, c, v, cd, dc) {
                         if($.isEmptyObject(dc.roles)) {
                             return ''
