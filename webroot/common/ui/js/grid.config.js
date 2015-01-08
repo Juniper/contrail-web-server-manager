@@ -281,6 +281,41 @@ define([
 
             return serverColumns;
         };
+        
+        this.getBaremetalServerColumns = function (baremetalServerColumnsType) {
+            var serverColumns = 
+                [{   
+                   id:'serverId',
+                   field:'serverId',
+                   name:'Server'
+                },
+                {   
+                   id:'mac',
+                   field:'mac',
+                   name:'Mac Address'
+                },
+                {   
+                   id:'ip',
+                   field:'ip',
+                   name:'IP Address'
+                },
+                {   
+                   id:'physical_router',
+                   field:'physical_router',
+                   name:'Physical Router'
+                },
+                {   
+                   id:'interface',
+                   field:'interface',
+                   name:'Interface'
+                },
+                {   
+                   id:'vn',
+                   field:'vn',
+                   name:'Virtual Network'
+                }];
+            return serverColumns;
+        };
     }
 
     return GridConfig;

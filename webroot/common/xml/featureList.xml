@@ -11,4 +11,7 @@
     <item>
         <feature>smMonitoring</feature>
     </item>
+    <item>
+        <feature>baremetal</feature>
+    </item>    
 </featureLists>

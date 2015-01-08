@@ -59,6 +59,7 @@ define([
                     },
                     success: function () {
                         options['callback']();
+                        $('#server-interfaces-grid').data('contrailDynamicgrid')._grid.destroy();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
@@ -69,6 +70,7 @@ define([
                 });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
+                $('#server-interfaces-grid').data('contrailDynamicgrid')._grid.destroy();
                 smwv.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
@@ -128,6 +130,7 @@ define([
                     },
                     success: function () {
                         options['callback']();
+                        $('#server-interfaces-grid').data('contrailDynamicgrid')._grid.destroy();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
@@ -138,6 +141,7 @@ define([
                 }, "POST");
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
+                $('#server-interfaces-grid').data('contrailDynamicgrid')._grid.destroy();
                 smwv.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
@@ -329,19 +333,13 @@ define([
                         {
                             columns: [
                                 {elementId: 'id', view: "FormInputView", viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "span6"}},
-                                {elementId: 'mac_address', view: "FormInputView", viewConfig: {path: 'mac_address', dataBindValue: 'mac_address', class: "span6"}}
+                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "span6"}}
                             ]
                         },
                         {
                             columns: [
                                 {elementId: 'host_name', view: "FormInputView", viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}},
                                 {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
-                            ]
-                        },
-                        {
-                            columns: [
-                                {elementId: 'ip_address', view: "FormInputView", viewConfig: {path: "ip_address", dataBindValue: "ip_address", class: "span6"}},
-                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "span6"}}
                             ]
                         },
                         {
@@ -355,11 +353,292 @@ define([
                                 {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
                                 {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "span6"}}
                             ]
+                        }
+                    ]
+                }
+            },
+            {
+                elementId: smwu.formatElementId([prefixId, smwl.TITLE_INTERFACES]),
+                title: smwl.TITLE_INTERFACES,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+                                {
+                                    elementId: 'server-interfaces-grid',
+                                    view: "FormDynamicGridView",
+                                    viewConfig: {
+                                        path: 'network.interfaces',
+                                        class: "span12",
+                                        modelAttributePath: 'network.interfaces',
+                                        elementConfig: {
+                                            options: {
+                                                uniqueColumn: 'name',
+                                                events: {
+                                                    onUpdate: function () {
+                                                        var interfaces = $('#server-interfaces-grid').data('contrailDynamicgrid')._grid.getData(),
+                                                            managementInterfacePrevData = $('#management_interface_dropdown').data('contrailDropdown').getAllData(),
+                                                            managementInterfacePrevValue = $('#management_interface_dropdown').data('contrailDropdown').value(),
+                                                            managementInterfaceData = [],
+                                                            controlDataInterfacePrevData = $('#control_data_interface_dropdown').data('contrailDropdown').getAllData(),
+                                                            controlDataInterfacePrevValue = $('#control_data_interface_dropdown').data('contrailDropdown').value(),
+                                                            controlDataInterfaceData = [],
+                                                            bondMemberInterfaces = [];
+
+                                                        $.each(interfaces, function(interfaceKey, interfaceValue) {
+                                                            bondMemberInterfaces = bondMemberInterfaces.concat(interfaceValue.member_interfaces);
+                                                        });
+
+                                                        $.each(interfaces, function (interfaceKey, interfaceValue) {
+                                                            if (interfaceValue.name != '' && bondMemberInterfaces.indexOf(interfaceValue.name) == -1) {
+                                                                if (interfaceValue.type == 'physical' && interfaceValue.dhcp) {
+                                                                    managementInterfaceData.push({
+                                                                        id: interfaceValue.name,
+                                                                        text: interfaceValue.name
+                                                                    });
+                                                                }
+
+                                                                controlDataInterfaceData.push({
+                                                                    id: interfaceValue.name,
+                                                                    text: interfaceValue.name
+                                                                });
+                                                            }
+                                                        });
+
+                                                        if (JSON.stringify(managementInterfacePrevData) != JSON.stringify(managementInterfaceData)) {
+                                                            $('#management_interface_dropdown').data('contrailDropdown').setData(managementInterfaceData);
+                                                            $('#management_interface_dropdown').data('contrailDropdown').value(managementInterfacePrevValue)
+                                                        }
+                                                        if (JSON.stringify(controlDataInterfacePrevData) != JSON.stringify(controlDataInterfaceData)) {
+                                                            $('#control_data_interface_dropdown').data('contrailDropdown').setData(controlDataInterfaceData)
+                                                            $('#control_data_interface_dropdown').data('contrailDropdown').value(controlDataInterfacePrevValue);
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            columns: [
+                                                {
+                                                    id: "name", name: "Name", field: "name", width: 85,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    validator: function (value) {
+                                                        var valid = true,
+                                                            interfaces = $('#server-interfaces-grid').data('contrailDynamicgrid')._grid.getData();
+
+                                                        $.each(interfaces, function(interfaceKey, interfaceValue) {
+                                                            if (interfaceValue.name == value) {
+                                                                valid = false;
+                                                                return
+                                                            }
+                                                        });
+
+                                                        return {
+                                                            valid: valid,
+                                                            message: (!valid) ? 'Duplicate name' : null
+                                                        }
+
+                                                    },
+                                                    elementConfig: {
+                                                        placeholder: 'Name'
+                                                    }
+                                                },
+                                                {
+                                                    id: "mac_address", name: "MAC Address", field: "mac_address", width: 130,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    validator: function (value) {
+                                                        var pattern = new RegExp(smwc.PATTERN_MAC_ADDRESS),
+                                                            valid = pattern.test(value);
+
+                                                        return {
+                                                            valid: valid,
+                                                            message: (!valid) ? smwm.getInvalidErrorMessage('subnet_mask') : null
+                                                        }
+
+                                                    },
+                                                    elementConfig: {
+                                                        placeholder: 'MAC Address'
+                                                    }
+                                                },
+                                                {
+                                                    id: "type", name: "Type", field: "type", width: 60,
+                                                    defaultValue: 'physical',
+                                                    editor: ContrailGrid.Editors.ContrailDropdown,
+                                                    elementConfig: {
+                                                        width: 'element',
+                                                        placeholder: 'Select Type',
+                                                        dataTextField: "text",
+                                                        dataValueField: "value",
+                                                        data: smwc.INTERFACE_TYPES
+                                                    }
+
+                                                },
+                                                {
+                                                    id: "dhcp",
+                                                    name: "DHCP",
+                                                    field: "dhcp",
+                                                    width: 45,
+                                                    editor: ContrailGrid.Editors.Checkbox,
+                                                    editEnabler: function(item) {
+                                                        var interfaces = $('#server-interfaces-grid').data('contrailDynamicgrid')._grid.getData(),
+                                                            disableFlag = true;
+                                                        $.each(interfaces, function(interfaceKey, interfaceValue) {
+                                                            if (interfaceValue.member_interfaces != null && interfaceValue.member_interfaces.indexOf(item.name) != -1) {
+                                                                disableFlag = false;
+                                                                return;
+                                                            }
+                                                        });
+
+                                                        return disableFlag;
+                                                    },
+                                                    formatter: ContrailGrid.Formatters.Checkbox
+                                                },
+                                                {
+                                                    id: "ip_address",
+                                                    name: "IP/Mask",
+                                                    field: "ip_address",
+                                                    width: 110,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    validator: function (value) {
+                                                        var pattern = new RegExp(smwc.PATTERN_SUBNET_MASK),
+                                                            valid = pattern.test(value);
+
+                                                        return {
+                                                            valid: valid,
+                                                            message: (!valid) ? smwm.getInvalidErrorMessage('subnet_mask') : null
+                                                        }
+
+                                                    },
+                                                    elementConfig: {
+                                                        placeholder: 'IP/Mask'
+                                                    }
+                                                },
+                                                {
+                                                    id: "default_gateway", name: "Gateway", field: "default_gateway", width: 70,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    validator: function (value) {
+                                                        var pattern = new RegExp(smwc.PATTERN_IP_ADDRESS),
+                                                            valid = pattern.test(value);
+
+                                                        return {
+                                                            valid: valid,
+                                                            message: (!valid) ? smwm.getInvalidErrorMessage('subnet_mask') : null
+                                                        }
+
+                                                    },
+                                                    elementConfig: {
+                                                        placeholder: 'Gateway'
+                                                    }
+                                                },
+                                                {
+                                                    id: "members",
+                                                    name: "Members",
+                                                    field: "member_interfaces",
+                                                    width: 90,
+                                                    editor: ContrailGrid.Editors.ContrailMultiselect,
+                                                    formatter: function (r, c, v, cd, dc) {
+                                                        return (dc.type == 'bond') ? ContrailGrid.Formatters.ContrailMultiselect(r, c, v, cd, dc) : '';
+                                                    },
+                                                    editEnabler: function (dc) {
+                                                        return (dc.type == 'bond');
+                                                    },
+                                                    initSetData: function (args, $contrailMultiselect) {
+                                                        var gridData = args.grid.getData(),
+                                                            interfaceData = [];
+
+                                                        $.each(gridData, function (gridDataKey, gridDataValue) {
+                                                            if (gridDataValue.type == 'physical' && contrail.checkIfExist(gridDataValue.name) && gridDataValue.name != '' && !gridDataValue.dhcp) {
+                                                                interfaceData.push(gridDataValue.name);
+                                                            }
+                                                        });
+
+                                                        $contrailMultiselect.setData(interfaceData)
+
+                                                    },
+                                                    elementConfig: {
+                                                        placeholder: 'Select Members',
+                                                        width: 'element',
+                                                        dataTextField: "id",
+                                                        dataValueField: "id",
+                                                        data: []
+                                                    }
+                                                },
+                                                {
+                                                    id: "tor", name: "TOR", field: "tor", width: 70,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    elementConfig: {
+                                                        placeholder: 'TOR'
+                                                    }
+                                                },
+                                                {
+                                                    id: "tor_port", name: "TOR Port", field: "tor_port", width: 70,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    elementConfig: {
+                                                        placeholder: 'TOR Port'
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
                         },
                         {
                             columns: [
-                                {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
-                                {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
+                                {
+                                    elementId: 'management_interface',
+                                    view: "FormDropdownView",
+                                    viewConfig: {
+                                        path: 'network.management_interface', dataBindValue: 'network().management_interface', class: "span6",
+                                        elementConfig: {
+                                            placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE, dataTextField: "id", dataValueField: "id",
+                                            data: [],
+                                            onInit: function (serverModel) {
+                                                var managementInterfaces = [],
+                                                    managementInterfaceValue = serverModel.attributes.network.management_interface,
+                                                    controlDataInterfaces = [],
+                                                    controlDataInterfaceValue = serverModel.attributes.contrail.control_data_interface,
+                                                    bondMemberInterfaces = [];
+
+                                                $.each(serverModel.attributes.network.interfaces, function(interfaceKey, interfaceValue) {
+                                                    bondMemberInterfaces = bondMemberInterfaces.concat(interfaceValue.member_interfaces);
+                                                });
+
+                                                $.each(serverModel.attributes.network.interfaces, function(interfaceKey, interfaceValue) {
+                                                    if (bondMemberInterfaces.indexOf(interfaceValue.name) == -1) {
+                                                        if (interfaceValue.type == 'physical' && interfaceValue.dhcp) {
+                                                            managementInterfaces.push({
+                                                                id: interfaceValue.name,
+                                                                text: interfaceValue.name
+                                                            });
+                                                        }
+
+                                                        controlDataInterfaces.push({
+                                                            id: interfaceValue.name,
+                                                            text: interfaceValue.name
+                                                        });
+                                                    }
+                                                });
+
+                                                setTimeout(function(){
+                                                    $('#management_interface_dropdown').data('contrailDropdown').setData(managementInterfaces);
+                                                    $('#management_interface_dropdown').data('contrailDropdown').value(managementInterfaceValue);
+                                                    serverModel.attributes.network.management_interface = managementInterfaceValue
+
+                                                    $('#control_data_interface_dropdown').data('contrailDropdown').setData(controlDataInterfaces);
+                                                    $('#control_data_interface_dropdown').data('contrailDropdown').value(controlDataInterfaceValue);
+                                                    serverModel.attributes.contrail.control_data_interface = controlDataInterfaceValue;
+
+                                                }, 1000);
+                                            }
+                                        }
+                                    }
+                                }
                             ]
                         }
                     ]
@@ -395,31 +674,85 @@ define([
                                     viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                                 }
                             ]
-                        }
-                    ]
-                }
-            },
-            {
-                elementId: smwu.formatElementId([prefixId, smwl.TITLE_INTERFACES]),
-                title: smwl.TITLE_INTERFACES,
-                view: "SectionView",
-                viewConfig: {
-                    rows: [
-                        {
-                            columns: [
-                                {elementId: 'interface_name', view: "FormInputView", viewConfig: {path: 'parameters.interface_name', dataBindValue: 'parameters().interface_name', class: "span6"}},
-                                {elementId: 'intf_bond', view: "FormInputView", viewConfig: {path: 'intf_bond', dataBindValue: 'intf_bond', class: "span6"}}
-                            ]
                         },
                         {
                             columns: [
-                                {elementId: 'intf_data', view: "FormInputView", viewConfig: {path: 'intf_data', dataBindValue: 'intf_data', class: "span6"}},
-                                {elementId: 'intf_control', view: "FormInputView", viewConfig: {path: 'intf_control', dataBindValue: 'intf_control', class: "span6"}}
+                                {
+                                    elementId: 'control_data_interface',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'contrail.control_data_interface', dataBindValue: 'contrail().control_data_interface', class: "span6", elementConfig: {placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE, dataTextField: "id", dataValueField: "id", data: []}}
+                                }
                             ]
                         }
                     ]
                 }
             }
+            /*
+            {
+                elementId: smwu.formatElementId([prefixId, smwl.TITLE_ROUTE_CONFIGRATIONS]),
+                title: smwl.TITLE_ROUTE_CONFIGRATIONS,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+                                {
+                                    elementId: 'server-routes-grid',
+                                    view: "FormDynamicGridView",
+                                    viewConfig: {
+                                        path: 'id',
+                                        class: "span12",
+                                        modelAttributePath: 'routes',
+                                        elementConfig: {
+                                            options: {
+                                                uniqueColumn: 'network'
+                                            },
+                                            columns: [
+                                                {
+                                                    id: "network", name: "IP Address/Mask", field: "network", width: 310,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    validator: function (value) {
+                                                        var pattern = new RegExp(smwc.PATTERN_SUBNET_MASK),
+                                                            valid = pattern.test(value);
+
+                                                        return {
+                                                            valid: valid,
+                                                            message: (!valid) ? smwm.getInvalidErrorMessage('subnet_mask') : null
+                                                        }
+
+                                                    },
+                                                    elementConfig: {
+                                                        placeholder: 'IP Address/Mask'
+                                                    }
+                                                },
+                                                {
+                                                    id: "gateway", name: "Gateway", field: "gateway", width: 280,
+                                                    editor: ContrailGrid.Editors.Text,
+                                                    formatter: ContrailGrid.Formatters.Text,
+                                                    validator: function (value) {
+                                                        var pattern = new RegExp(smwc.PATTERN_IP_ADDRESS),
+                                                            valid = pattern.test(value);
+
+                                                        return {
+                                                            valid: valid,
+                                                            message: (!valid) ? smwm.getInvalidErrorMessage('subnet_mask') : null
+                                                        }
+
+                                                    },
+                                                    elementConfig: {
+                                                        placeholder: 'Gateway'
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }*/
         ]
         };
 

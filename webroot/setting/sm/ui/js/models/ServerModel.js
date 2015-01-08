@@ -106,6 +106,8 @@ define([
                 ajaxConfig.data = JSON.stringify(putData);
                 ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
 
+                console.log(ajaxConfig);
+
                 contrail.ajaxHandler(ajaxConfig, function () {
                     if (contrail.checkIfFunction(callbackObj.init)) {
                         callbackObj.init();
@@ -334,39 +336,23 @@ define([
                     required: true,
                     msg: smwm.getRequiredMessage('id')
                 },
-                'ip_address': {
+                'network.management_interface': {
                     required: true,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('ip_address')
+                    msg: smwm.getRequiredMessage('management_interface')
+                },
+                'contrail.control_data_interface': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('control_data_interface')
                 },
                 'ipmi_address': {
                     required: true,
                     pattern: smwc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('ipmi_address')
                 },
-                'mac_address': {
-                    required: true,
-                    pattern: smwc.PATTERN_MAC_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('mac_address')
-                },
                 'email': {
                     required: false,
                     pattern: 'email',
                     msg: smwm.getInvalidErrorMessage('email')
-                },
-                'gateway': {
-                    required: false,
-                    pattern: smwc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('gateway')
-                },
-                'parameters.interface_name': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('interface_name')
-                },
-                'subnet_mask': {
-                    required: false,
-                    pattern: smwc.PATTERN_SUBNET_MASK,
-                    msg: smwm.getInvalidErrorMessage('subnet_mask')
                 }
             },
             editTagsValidation: {}

@@ -6,13 +6,14 @@ define([
     'underscore',
     'common/ui/js/views/FormInputView',
     'common/ui/js/views/FormGridView',
+    'common/ui/js/views/FormDynamicGridView',
     'common/ui/js/views/FormMultiselectView',
     'common/ui/js/views/FormDropdownView',
     'common/ui/js/views/FormCheckboxView',
     'common/ui/js/views/AccordianView',
     'common/ui/js/views/SectionView',
     'common/ui/js/views/WizardView'
-], function (_, FormInputView, FormGridView, FormMultiselectView, FormDropdownView, FormCheckboxView, AccordianView, SectionView, WizardView) {
+], function (_, FormInputView, FormGridView, FormDynamicGridView, FormMultiselectView, FormDropdownView, FormCheckboxView, AccordianView, SectionView, WizardView) {
     var Utils = function () {
         var self = this;
         this.renderGrid = function (elementId, gridConfig) {
@@ -130,7 +131,7 @@ define([
 
         this.disableModalLoading = function (modalId, callback) {
             setTimeout(function () {
-                $('#' + modalId).find('.modal-body').animate({scrollTop: 0})
+                $('#' + modalId).find('.modal-body').animate({scrollTop: 0});
 
                 $('#' + modalId).find('.modal-header h6 .modal-loading-icon').remove();
                 $('#' + modalId).find('.modal-header .icon-remove').removeClass('icon-muted');
@@ -316,6 +317,11 @@ define([
 
                 case "FormGridView":
                     elementView = new FormGridView({el: parentElement, model: model, attributes: viewAttributes});
+                    elementView.render();
+                    break;
+
+                case "FormDynamicGridView":
+                    elementView = new FormDynamicGridView({el: parentElement, model: model, attributes: viewAttributes});
                     elementView.render();
                     break;
 

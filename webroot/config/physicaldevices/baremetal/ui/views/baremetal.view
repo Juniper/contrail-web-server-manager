@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
+-->
+<script type="text/x-handlebars-template" id="bm-template" xmlns="http://www.w3.org/1999/html">
+    <div id="{{name}}-container" class="row-fluid ">
+        <div id="{{name}}-results" class="row-fluid"></div>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="bm-edit-form-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{prefixId}}_form_error">
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{prefixId}}_form_error"></span>
+    </div>
+    <form name="{{prefixId}}Form" id="bm-{{prefixId}}-form" onsubmit="return false;" class="">
+    </form>
+</script>
+
+<script type="text/x-handlebars-template" id="bm-delete-server-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete baremetal interface <b>{{mac}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="baremetal-detail-page-template">
+    <div>
+        <div class="row-fluid
+            <div class="row-fluid">
+                <div class="span2"><label>Server</label></div>
+                <div class="span10"> {{serverId}}</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2"><label>Mac Address</label></div>
+                <div class="span10"> {{mac}}</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2"><label>IP Address</label></div>
+                <div class="span10"> {{ip}}</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2"><label>Physical Router</label></div>
+                <div class="span10">{{physical_router}}</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2"><label>Interface</label></div>
+                <div class="span10">{{interface}}</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2"><label>Virtual Network</label></div>
+                <div class="span10">{{vn}}</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2"><label>Vlan</label></div>
+                <div class="span10">{{vlan}}</div>
+            </div>
+        </div>
+    </div>
+</script>
+

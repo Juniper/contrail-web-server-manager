@@ -23,13 +23,17 @@ define([
             this.model.initLockAttr(path, lockEditingByDefault);
 
             tmplParameters = {
-                label: labelValue, id: elId, name: elId,
+                label: labelValue, id: elId + '_dropdown', name: elId,
                 dataBindValue: viewConfig[smwc.KEY_DATABIND_VALUE],
                 lockAttr: lockEditingByDefault,
                 class: "span12", elementConfig: elementConfig
             };
 
             this.$el.html(dropdownTemplate(tmplParameters));
+
+            if (contrail.checkIfFunction(elementConfig.onInit)) {
+                elementConfig.onInit(this.model.model());
+            }
         }
     });
 

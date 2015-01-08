@@ -11,7 +11,9 @@ define([
         this.PACKAGE_PREFIX_ID = 'package';
         this.CLUSTER_PREFIX_ID = 'cluster';
         this.SERVER_PREFIX_ID = 'server';
+        this.BAREMETAL_PREFIX_ID = 'baremetal';
         this.SM_PREFIX_ID = 'sm';
+        this.BM_PREFIX_ID = 'bm';
 
         this.TMPL_SUFFIX_ID = "-template";
         this.RESULTS_SUFFIX_ID = "-results";
@@ -41,9 +43,21 @@ define([
             {'id': 'disable', 'text': 'Disable'}
 
         ];
+
+        this.INTERFACE_TYPES = [
+            {
+                text: 'physical',
+                value: 'physical'
+            },
+            {
+                text: 'bond',
+                value: 'bond'
+            }
+        ];
+
         this.FLAGS = [
-            {'id': 'False', 'text': 'False'},
-            {'id': 'True', 'text': 'True'}
+            {'id': 'false', 'text': 'False'},
+            {'id': 'true', 'text': 'True'}
         ];
         this.PATTERN_IP_ADDRESS  = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
         this.PATTERN_SUBNET_MASK = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(\d|[1-2]\d|3[0-2]))?$/;
@@ -62,12 +76,23 @@ define([
         this.URL_OBJ_SERVER_ID = '/sm/objects/server?id=';
         this.URL_SERVER_REIMAGE = '/sm/server/reimage';
         this.URL_OBJ_IMAGE_ID = '/sm/objects/image?id=';
-
+        this.URL_BAREMETAL_SERVER = '/api/tenants/config/baremetal-details';
+        this.URL_BAREMETAL_ADD = '/api/tenants/config/baremetal';
+        this.URL_NETWORKS = '/api/admin/config/get-data?type=virtual-network';
+        this.URL_PHYSICAL_INTERFACES = '/api/tenants/config/physical-interfaces/';
+        this.URL_PHYSICAL_INTERFACE = '/api/tenants/config/physical-interface/';
+        this.URL_DELETE_PORT = '/api/tenants/config/delete-port/';
+        this.URL_CREATE_PORT = '/api/tenants/config/create-port';
+        this.URL_PORTS = '/api/tenants/config/ports';
+        this.URL_VM = '/api/tenants/config/li-virtual-machine';
+        this.URL_PHYSICAL_ROUTERS_LIST = '/api/tenants/config/physical-routers-list';
+        this.URL_MAP_VIRTUAL_MACHINE_REFS = '/api/tenants/config/map-virtual-machine-refs/';
         this.CACHED_TAG_COLORS = {};
 
         this.URL_HASH_SM_CLUSTERS = 'setting_sm_clusters';
         this.URL_HASH_SM_SERVERS = 'setting_sm_servers';
-
+        this.URL_HASH_BM_SERVERS = 'config_pd_baremetal';
+        
         this.KEY_MODEL_ERRORS = 'errors';
         this.KEY_MODEL_LOCKS = 'locks';
         this.KEY_ELEMENT_ID = 'elementId';
@@ -94,6 +119,7 @@ define([
         this.TMPL_SECTION_VIEW = "sm-section-view-template";
         this.TMPL_EDIT_FORM = "sm-edit-form-template";
         this.TMPL_2ROW_GROUP_DETAIL = "sm-grid-2-row-group-detail-template";
+        this.TMPL_BAREMETAL_PAGE_DETAIL = "baremetal-detail-page-template";
         this.TMPL_DETAIL_PAGE = "sm-detail-page-template";
         this.TMPL_DETAIL_PAGE_ACTION = "sm-detail-page-action-template";
         this.TMPL_DELETE_IMAGE = "sm-delete-image-template";
@@ -101,6 +127,8 @@ define([
 
         this.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5'];
         this.PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package', 'contrail-storage-ubuntu-package'];
+        
+        this.TMPL_BM_EDIT_FORM = "bm-edit-form-template";
     }
     return Constants;
 });
