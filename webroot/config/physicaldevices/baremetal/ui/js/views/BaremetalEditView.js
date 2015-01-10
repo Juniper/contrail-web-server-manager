@@ -491,23 +491,35 @@ define([
                             var mac = intfsMap[interfaceMapping['interface']];
                             var subNet = '';
                             var subNetArry = interfaceMapping['vn'].split(' ');
-                            var isIPinRange = true;
-                            if(subNetArry.length > 2) {
-                                  for(var i = 2; i < subNetArry.length; i++) {
-                                      if(subNetArry[i] != undefined) {
-                                          subNet = subNetArry[i].replace('(', '').replace(')', '').replace(',','');
-                                          if(isIPBoundToRange(subNet.trim(), ip)){
-                                              isIPinRange = true;
-                                              break
-                                          } else {
-                                              isIPinRange = false;
+                            var interfaces = selectedServer['network']['interfaces'];
+                            var intfIP = null;
+                            if(interfaces != null){
+                                for(var i=0; i < interfaces.length; i++){
+                                    if(interfaces[i]['name'] == interfaceMapping['interface']){
+                                        intfIP = interfaces[i]['ip_address']; 
+                                        break;
+                                    }
+                                }
+                            }
+                            if(intfIP != null){
+                                var isIPinRange = true;
+                                if(subNetArry.length > 2) {
+                                      for(var i = 2; i < subNetArry.length; i++) {
+                                          if(subNetArry[i] != undefined) {
+                                              subNet = subNetArry[i].replace('(', '').replace(')', '').replace(',','');
+                                              if(isIPBoundToRange(subNet.trim(), intfIP)){
+                                                  isIPinRange = true;
+                                                  break
+                                              } else {
+                                                  isIPinRange = false;
+                                              }
                                           }
                                       }
-                                  }
-                            }
-                            if(!isIPinRange) {
-                                baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'IP ' + ip + ' is not in the CIDR ' + subNet);
-                                return;
+                                }
+                                if(!isIPinRange) {
+                                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'IP ' + intfIP + ' is not in the CIDR ' + subNet);
+                                    return;
+                                }
                             }
                             var vnData = vnsMap[interfaceMapping['vn']];
                             var moreDetails = getMoreDetailsForInterface(selectedServer['network']['interfaces'], mac);
@@ -519,7 +531,8 @@ define([
                                 moreDetails : moreDetails,
                                 "serverId" : selectedServer.id,
     //                            'base_image_id' : selectedImage,
-                               'isReimage' : isReimage
+                               'isReimage' : isReimage,
+                               'interfaceIp' : intfIP 
                             }; 
                             configureBaremetal(data,params,baremetalModel);
                         });

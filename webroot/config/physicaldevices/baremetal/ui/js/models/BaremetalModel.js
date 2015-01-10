@@ -31,13 +31,16 @@ define([
             
             var nwIpamRefs = vnData['network_ipam_refs'];
             var subnetUUID;
-            for(var i = 0 ; i < nwIpamRefs.length; i++){
-                if(isIPBoundToRange(nwIpamRefs[i]['subnet']['ipam_subnet'], details['ip_address'].trim())){
-                    subnetUUID = nwIpamRefs[i]['subnet']['subnet_uuid'];
-                    break;
+            if(details['ip_address'] != null){
+                for(var i = 0 ; i < nwIpamRefs.length; i++){
+                    if(isIPBoundToRange(nwIpamRefs[i]['subnet']['ipam_subnet'], details['ip_address'].trim())){
+                        subnetUUID = nwIpamRefs[i]['subnet']['subnet_uuid'];
+                        break;
+                    }
                 }
+            } else {
+                subnetUUID = nwIpamRefs[0]['subnet']['subnet_uuid'];
             }
-            
             var postObj = {
                     "virtual-machine-interface": {
                         "parent_type": "project",
@@ -59,7 +62,7 @@ define([
                             {
                                 "instance_ip_address": [
                                     {
-                                        "fixedIp": details['ip_address'],
+                                        "fixedIp": (details['ip_address'] == null) ? '' : details['ip_address'] ,
                                         "domain": curDomain,
                                         "project": curProject
                                     }
