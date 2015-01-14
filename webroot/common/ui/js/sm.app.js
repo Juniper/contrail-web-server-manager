@@ -7,10 +7,6 @@ var smwc, smwgc, smwu, smwl, smwv, smwm, smwmc, smInitComplete = false;
 require.config({
     baseUrl: '/',
     paths: {
-        'underscore': 'assets/underscore/underscore-min',
-        'backbone': 'assets/backbone/backbone-min',
-        'text': 'assets/requirejs/text',
-        'knockout': 'assets/knockout/knockout-3.0.0',
         'knockback': 'assets/backbone/knockback.min',
         'validation': 'assets/backbone/backbone-validation-amd',
         'constants': 'common/ui/js/constants',
