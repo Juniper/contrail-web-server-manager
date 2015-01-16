@@ -6,7 +6,7 @@ define([
     'underscore',
     'knockback',
     'knockout',
-    'common/ui/js/models/ContrailModel'
+    'contrail-model'
 ], function (_, Knockback, Knockout, ContrailModel) {
     var ImageModel = ContrailModel.extend({
 
@@ -21,7 +21,7 @@ define([
                     that = this;
 
                 locks['category' + smwc.LOCKED_SUFFIX_ID] = false;
-                imageAttrsEdited.push(smwu.getEditConfigObj(imageAttrs, locks));
+                imageAttrsEdited.push(cowu.getEditConfigObj(imageAttrs, locks));
                 putData[smwc.IMAGE_PREFIX_ID] = imageAttrsEdited;
 
                 ajaxConfig.type = "POST";

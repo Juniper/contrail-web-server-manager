@@ -6,7 +6,7 @@ define([
     'underscore',
     'knockback',
     'knockout',
-    'common/ui/js/models/ContrailModel'
+    'contrail-model'
 ], function (_, Knockback, Knockout, ContrailModel) {
     
     var BaremetalModel = ContrailModel.extend({

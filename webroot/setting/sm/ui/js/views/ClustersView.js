@@ -65,7 +65,7 @@ define([
                 }
             };
 
-            smwu.renderGrid(gridElId, gridConfig);
+            cowu.renderGrid(gridElId, gridConfig);
         },
 
         renderCluster: function (clusterId) {

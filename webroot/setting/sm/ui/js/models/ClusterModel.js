@@ -6,7 +6,7 @@ define([
     'underscore',
     'knockback',
     'knockout',
-    'common/ui/js/models/ContrailModel'
+    'contrail-model'
 ], function (_, Knockback, Knockout, ContrailModel) {
 
     var getValidationByKey = function (key) {
@@ -123,7 +123,7 @@ define([
                     locks = this.model().attributes.locks.attributes,
                     that = this;
 
-                clusterAttrsEdited.push(smwu.getEditConfigObj(clusterAttrs, locks));
+                clusterAttrsEdited.push(cowu.getEditConfigObj(clusterAttrs, locks));
                 putData[smwc.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
 
                 ajaxConfig.async = false;

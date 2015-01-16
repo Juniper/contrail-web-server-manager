@@ -17,52 +17,52 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 //var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
                 that.model.configure({
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
 
         renderReimage: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.reimage({
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
@@ -70,89 +70,89 @@ define([
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
 
         renderAddCluster: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).find('.contrailWizard').data('contrailWizard').destroy();
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
 
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
 
         renderProvision: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.provision({
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionViewConfig);
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionViewConfig);
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
 
         renderAddServers: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, true, options['callback']));
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, true, options['callback']));
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
 
         renderRemoveServers: function (options) {
@@ -160,51 +160,51 @@ define([
                 that = this,
                 callbackObj = {
                     init: function () {
-                        that.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        that.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                        cowu.disableModalLoading(modalId, function () {
+                            that.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 };
 
-            smwu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, callbackObj));
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, callbackObj));
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
 
         renderAssignRoles: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout,
+            cowu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout,
                 'onSave': function () {
                     return saveAssignRoles(that.model, {
                         init: function () {
                             that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
-                            smwu.enableModalLoading(modalId);
+                            cowu.enableModalLoading(modalId);
                         },
                         success: function () {
                             options['callback']();
                             $("#" + modalId).modal('hide');
                         },
                         error: function (error) {
-                            smwu.disableModalLoading(modalId, function () {
+                            cowu.disableModalLoading(modalId, function () {
                                 that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                             });
                         }
@@ -214,16 +214,16 @@ define([
 
                 }, 'onCancel': function () {
                     Knockback.release(that.model, document.getElementById(modalId));
-                    smwv.unbind(that);
+                    kbValidation.unbind(that);
                     $("#" + modalId).modal('hide');
                 }
             });
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
 
         renderDeleteCluster: function (options) {
@@ -233,18 +233,18 @@ define([
                 checkedRows = options['checkedRows'],
                 clustersToBeDeleted = {'clusterId': [], 'elementId': elId};
             clustersToBeDeleted['clusterId'].push(checkedRows['id']);
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
                 that.model.deleteCluster(options['checkedRows'], {
                     init: function () {
                         that.model.showErrorAttr(elId, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(elId, error.responseText);
                         });
                     }
@@ -256,12 +256,12 @@ define([
             this.model.showErrorAttr(elId, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         }
     });
 
     var createClusterViewConfig = [{
-        elementId: smwu.formatElementId([prefixId, smwl.TITLE_DETAILS]),
+        elementId: cowu.formatElementId([prefixId, smwl.TITLE_DETAILS]),
         title: smwl.TITLE_DETAILS,
         view: "SectionView",
         viewConfig: {
@@ -279,7 +279,7 @@ define([
 
     var configureClusterViewConfig = [
         {
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_OPENSTACK]),
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_OPENSTACK]),
             title: smwl.TITLE_OPENSTACK,
             view: "SectionView",
             viewConfig: {
@@ -311,7 +311,7 @@ define([
             }
         },
         {
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_CONTRAIL]),
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_CONTRAIL]),
             title: smwl.TITLE_CONTRAIL,
             view: "SectionView",
             viewConfig: {
@@ -349,7 +349,7 @@ define([
             }
         },
         {
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_SERVERS_CONFIG]),
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_SERVERS_CONFIG]),
             title: smwl.TITLE_SERVERS_CONFIG,
             view: "SectionView",
             viewConfig: {
@@ -391,7 +391,7 @@ define([
         viewConfig = viewConfig.concat(configureClusterViewConfig);
         viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = true;
         return {
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]),
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]),
             view: "AccordianView",
             viewConfig: viewConfig
         }
@@ -420,12 +420,12 @@ define([
         var gridPrefix = 'add-server',
             url = 'filterInNull=cluster_id',
             addServerViewConfig = {
-            elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS]),
+            elementId:  cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS]),
             view: "WizardView",
             viewConfig: {
                 steps: [
                     {
-                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_SELECT_SERVERS]),
+                        elementId:  cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_SELECT_SERVERS]),
                         title: smwl.TITLE_SELECT_SERVERS,
                         view: "SectionView",
                         viewConfig: {
@@ -466,7 +466,7 @@ define([
                         }
                     },
                     {
-                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]),
+                        elementId:  cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]),
                         title: smwl.TITLE_ADD_TO_CLUSTER,
                         view: "SectionView",
                         viewConfig: {
@@ -490,18 +490,18 @@ define([
                         onInitRender: false,
                         onLoadFromNext: function(params) {
                             $('#add-server-confirm-servers').data('contrailGrid')._dataView.setData($('#add-server-filtered-servers').data('serverData').selectedServers);
-                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+                            clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
 
                         },
                         onNext: function(params) {
                             var currentSelectedServers = $('#add-server-confirm-servers').data('contrailGrid')._dataView.getItems();
                             var callbackObj = {
                                 init: function () {
-                                    clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
-                                    smwu.enableModalLoading(modalId);
+                                    clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+                                    cowu.enableModalLoading(modalId);
                                 },
                                 success: function () {
-                                    smwu.disableModalLoading(modalId, function () {
+                                    cowu.disableModalLoading(modalId, function () {
                                         callback();
                                         if (modalHideFlag) {
                                             $("#" + modalId).modal('hide');
@@ -509,8 +509,8 @@ define([
                                     });
                                 },
                                 error: function (error) {
-                                    smwu.disableModalLoading(modalId, function () {
-                                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                                    cowu.disableModalLoading(modalId, function () {
+                                        clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                                     });
                                 }
                             }
@@ -528,12 +528,12 @@ define([
         var gridPrefix = 'remove-server',
             url = 'cluster_id=' + clusterModel.model().attributes.id,
             removeServerViewConfig = {
-            elementId:  smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS]),
+            elementId:  cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS]),
             view: "WizardView",
             viewConfig: {
                 steps: [
                     {
-                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_SELECT_SERVERS]),
+                        elementId:  cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_SELECT_SERVERS]),
                         title: smwl.TITLE_SELECT_SERVERS,
                         view: "SectionView",
                         viewConfig: {
@@ -574,7 +574,7 @@ define([
                         }
                     },
                     {
-                        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]),
+                        elementId:  cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]),
                         title: smwl.TITLE_REMOVE_FROM_CLUSTER,
                         view: "SectionView",
                         viewConfig: {
@@ -598,7 +598,7 @@ define([
                         onInitRender: false,
                         onLoadFromNext: function(params) {
                             $('#remove-server-confirm-servers').data('contrailGrid')._dataView.setData($('#remove-server-filtered-servers').data('serverData').selectedServers);
-                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+                            clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
                         },
                         onNext: function(params) {
                             var currentSelectedServers = $('#remove-server-confirm-servers').data('contrailGrid')._dataView.getItems();
@@ -616,7 +616,7 @@ define([
     function getAssignRolesViewConfig(clusterModel) {
         var clusterModelAttrs = clusterModel.model().attributes,
             assignRolesViewConfig = {
-                elementId:  smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]),
+                elementId:  cowu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]),
                 title: smwl.TITLE_SELECT_SERVERS,
                 view: "SectionView",
                 viewConfig: {
@@ -1072,7 +1072,7 @@ define([
     }
 
     var provisionViewConfig = {
-        elementId:  smwu.formatElementId([prefixId, smwl.TITLE_PROVISIONING]),
+        elementId:  cowu.formatElementId([prefixId, smwl.TITLE_PROVISIONING]),
         view: "SectionView",
         viewConfig: {
             rows: [
@@ -1105,7 +1105,7 @@ define([
 
     function getAddClusterViewConfig(clusterModel, callback) {
         var addClusterViewConfig = {
-                elementId: smwu.formatElementId([prefixId, smwl.TITLE_ADD_CLUSTER]),
+                elementId: cowu.formatElementId([prefixId, smwl.TITLE_ADD_CLUSTER]),
                 view: "WizardView",
                 viewConfig: {
                     steps: []
@@ -1121,7 +1121,7 @@ define([
             Appending Configure Server Steps
          */
         configureStepViewConfig = {
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]),
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]),
             view: "AccordianView",
             viewConfig: createClusterViewConfig,
             title: smwl.TITLE_CREATE,
@@ -1130,17 +1130,17 @@ define([
             onNext: function (params) {
                 return params.model.configure({
                     init: function () {
-                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             callback();
                         });
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
-                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                        cowu.disableModalLoading(modalId, function () {
+                            clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }, "POST", smwc.KEY_ADD_VALIDATION);
@@ -1195,22 +1195,22 @@ define([
                     url: smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + '?cluster_id=' + clusterModel.model().attributes.id
                 });
                 $('#assign-roles-filtered-servers').data('contrailGrid').refreshData();
-                clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
+                clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
             },
             onNext: function (params) {
                 return saveAssignRoles(clusterModel, {
                     init: function () {
-                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             callback();
                         });
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
-                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                        cowu.disableModalLoading(modalId, function () {
+                            clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }, function() {});
@@ -1233,7 +1233,7 @@ define([
          Appending Configure Cluster Steps
          */
         openstackStepViewConfig = {
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]),
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]),
             view: "AccordianView",
             title: smwl.TITLE_CONFIGURE,
             stepType: 'step',
@@ -1242,18 +1242,18 @@ define([
             onNext: function (params) {
                 return params.model.configure({
                     init: function () {
-                        clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, false);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             callback();
                             $('#' + modalId).modal('hide');
                         });
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
-                            clusterModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                        cowu.disableModalLoading(modalId, function () {
+                            clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });

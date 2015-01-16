@@ -17,33 +17,33 @@ define([
                 editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.configure({
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
+            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
 
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
         renderDeleteImage: function (options) {
             var textTemplate = contrail.getTemplate4Id(smwc.TMPL_DELETE_IMAGE),
@@ -52,18 +52,18 @@ define([
                 checkedRows = options['checkedRows'],
                 ImageToBeDeleted = {'imageId': [], 'elementId': elId};
             ImageToBeDeleted['imageId'].push(checkedRows['id']);
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(ImageToBeDeleted), 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(ImageToBeDeleted), 'onSave': function () {
                 that.model.deleteImage(options['checkedRows'],{
                     init: function () {
                         that.model.showErrorAttr(elId, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(elId, error.responseText);
                         });
                     }
@@ -75,7 +75,7 @@ define([
             this.model.showErrorAttr(elId, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         }
 
     });

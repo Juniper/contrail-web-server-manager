@@ -75,7 +75,7 @@ define([
                 }
             };
 
-            smwu.renderGrid(gridElId, gridConfig);
+            cowu.renderGrid(gridElId, gridConfig);
         },
 
         renderServer: function (serverId) {
@@ -108,7 +108,7 @@ define([
 
                 ipmiElId = '#' + smwc.SERVER_PREFIX_ID + "-ipmi-info";
                 gridConfig = getIPMIInfoGridConfig(serverId);
-                smwu.renderGrid(ipmiElId, gridConfig);
+                cowu.renderGrid(ipmiElId, gridConfig);
             }, function () {});
         }
     });

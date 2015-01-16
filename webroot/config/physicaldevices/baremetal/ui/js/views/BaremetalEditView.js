@@ -22,44 +22,44 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).find('.contrailWizard').data('contrailWizard').destroy();
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, 
+            cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model,
                     getAddBaremetalViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
 
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID, false);
-            this.model.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
             
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
         
         renderEditBaremetal: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
             var data = options['checkedRows'];
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                var vnTxt = $('#'+ smwu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]) + '_dropdown').data('contrailDropdown').value();
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                var vnTxt = $('#'+ cowu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]) + '_dropdown').data('contrailDropdown').value();
                 var newVN = vnsMap[vnTxt];
                 data[0]['newVNUuid'] = newVN;
                 that.model.editBaremetal(data,{
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, error.responseText);
                         });
                     }
@@ -67,11 +67,11 @@ define([
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, 
+            cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model,
                     getEditViewConfig(options['checkedRows']), "configureValidation");
             //TODO: As a workaround doing get vn sepearatly for edit        
             that.model.getVN({
@@ -81,7 +81,7 @@ define([
                 },
                 success: function(res) {
                     var formattedData = parseVns(res);
-                    var vnDropdown = $('#'+ smwu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]) + '_dropdown').data('contrailDropdown');
+                    var vnDropdown = $('#'+ cowu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]) + '_dropdown').data('contrailDropdown');
                     vnDropdown.setData(formattedData);
                     var selText = '';
                     for(var i =0; i < formattedData.length; i++) {
@@ -93,7 +93,7 @@ define([
                     vnDropdown.value(selText);
                 },
                 error: function(error) {
-                    smwu.disableModalLoading(modalId, function () {
+                    cowu.disableModalLoading(modalId, function () {
                         that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, error.responseText);
                     });
                 }
@@ -101,25 +101,25 @@ define([
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
             
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
         
         renderReimage: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.reimage(options['checkedRows'],{
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
@@ -127,15 +127,15 @@ define([
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
-                smwv.unbind(that);
+                kbValidation.unbind(that);
                 $("#" + modalId).modal('hide');
             }});
 
-            smwu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
             this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         },
         
         renderDeleteBaremetal: function (options) {
@@ -146,18 +146,18 @@ define([
                 serversToBeDeleted = {'serverId': [], 'elementId': elId};
             serversToBeDeleted['serverId'].push(checkedRows['id']);
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
                 that.model.deleteBaremetal(options['checkedRows'], {
                     init: function () {
                         that.model.showErrorAttr(elId, false);
-                        smwu.enableModalLoading(modalId);
+                        cowu.enableModalLoading(modalId);
                     },
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
                     },
                     error: function (error) {
-                        smwu.disableModalLoading(modalId, function () {
+                        cowu.disableModalLoading(modalId, function () {
                             that.model.showErrorAttr(elId, error.responseText);
                         });
                     }
@@ -169,12 +169,12 @@ define([
             this.model.showErrorAttr(elId, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
-            smwv.bind(this);
+            kbValidation.bind(this);
         }
     });
     
     var selectServerViewConfig = [{
-        elementId: smwu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER]),
+        elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER]),
         title: smwl.TITLE_SELECT_BAREMETAL_SERVER,
         view: "SectionView",
 
@@ -183,7 +183,7 @@ define([
                 {
                     columns: [
                         {
-                            elementId: smwu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]),
+                            elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]),
                             view: "FormGridView",
                             viewConfig: {
                                 path: 'id',
@@ -198,7 +198,7 @@ define([
     }];      
     
     var configureServerViewConfig = [{
-        elementId: smwu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE]),
+        elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE]),
         title: smwl.TITLE_SELECT_INTERFACE,
         view: "SectionView",
         viewConfig: {
@@ -207,7 +207,7 @@ define([
                     columns : [
 
                                {
-                                   elementId: smwu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE, smwl.TITLE_BAREMETAL_INTERFACES]),
+                                   elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE, smwl.TITLE_BAREMETAL_INTERFACES]),
                                    view: "FormDynamicGridView",
                                    viewConfig: {
                                        path: 'network.interfaces',
@@ -275,7 +275,7 @@ define([
                                                        return (dc.type == 'bond');
                                                    },
                                                    initSetData: function (args, $contrailDropdown) {
-                                                       var checkedRows =  $('#' + smwu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]))
+                                                       var checkedRows =  $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]))
                                                                            .data('contrailGrid').getCheckedRows()[0];
 //                                                       var dummydata = smwc.DUMMY_DATA[0];//TODO remove and use the original data from checked rows
                                                        if(checkedRows != null){
@@ -342,7 +342,7 @@ define([
     
     },
     {
-        elementId: smwu.formatElementId([prefixId, smwl.TITLE_SELECT_IMAGE]),
+        elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_IMAGE]),
         title: smwl.TITLE_SELECT_IMAGE,
         view: "SectionView",
         viewConfig: {
@@ -362,10 +362,7 @@ define([
                                     dataValueField : "id",
                                     dataSource : {
                                         type : 'remote',
-                                        url : smwu
-                                                .getObjectDetailUrl(
-                                                        smwc.IMAGE_PREFIX_ID,
-                                                        'filterInImages')
+                                        url : smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')
                                     }
                                 }
                             }
@@ -390,7 +387,7 @@ define([
     }];
 
     var configureInterfacesViewConfig = [{
-        elementId: smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_INTERFACES]),
+        elementId: cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_INTERFACES]),
         title: smwl.TITLE_CONFIGURE_INTERFACES,
         view: "SectionView",
         viewConfig: {
@@ -419,7 +416,7 @@ define([
     
     function getAddBaremetalViewConfig(baremetalModel, callback) {
         var addBaremetalViewConfig = {
-                elementId: smwu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER]),
+                elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER]),
                 view: "WizardView",
                 viewConfig: {
                     steps: []
@@ -434,19 +431,19 @@ define([
         Appending Select Server Steps
         */
         selectServerStepViewConfig = [{
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]),
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]),
             view: "AccordianView",
             viewConfig: selectServerViewConfig,
             title: smwl.TITLE_CREATE,
             stepType: 'step',
             onInitRender: true,
             onNext: function (params) {
-                var checkedRows =  $('#' + smwu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS])).data('contrailGrid').getCheckedRows();
+                var checkedRows =  $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS])).data('contrailGrid').getCheckedRows();
                 if(checkedRows.length == 0){
-                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select a server');
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select a server');
                     return false
                 } else if(checkedRows.length > 1){
-                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select only one server');
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select only one server');
                     return false;
                 } else {
                     baremetalModel.selectedServer = checkedRows[0]
@@ -468,16 +465,16 @@ define([
         Appending Configure Server Steps
         */
         configureServerStepViewConfig = [{
-                elementId: smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]),
+                elementId: cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]),
                 view: "AccordianView",
                 viewConfig: configureServerViewConfig,
                 title: smwl.TITLE_CONFIGURE_SERVER,
                 stepType: 'step',
                 onInitRender: true,
                 onNext: function (params) {
-                    var interfaceMappings = $('#' + smwu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE , smwl.TITLE_BAREMETAL_INTERFACES]))
+                    var interfaceMappings = $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE , smwl.TITLE_BAREMETAL_INTERFACES]))
                                                 .data('contrailDynamicgrid')._grid.getData();
-                    var selectedServer = $('#' + smwu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]))
+                    var selectedServer = $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]))
                                                 .data('contrailGrid').getCheckedRows()[0];
 //                    var serverAttrs = parms.model().attributes;
 //                    var selectedImage = $('#base_image_id').data('contrailDropdown').value();
@@ -485,7 +482,7 @@ define([
                    var serverManagementMac = selectedServer['mac_address'];
                    var ip = selectedServer.ip_address.trim();
                     if(interfaceMappings.length == 0){
-                        baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'Please map atleast one interface');
+                        baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'Please map atleast one interface');
                     } else if(!checkIfInterfaceRepeated(interfaceMappings)){
                         $.each(interfaceMappings,function(i,interfaceMapping){
                             var mac = intfsMap[interfaceMapping['interface']];
@@ -517,7 +514,7 @@ define([
                                       }
                                 }
                                 if(!isIPinRange) {
-                                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'IP ' + intfIP + ' is not in the CIDR ' + subNet);
+                                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'IP ' + intfIP + ' is not in the CIDR ' + subNet);
                                     return;
                                 }
                             }
@@ -537,7 +534,7 @@ define([
                             configureBaremetal(data,params,baremetalModel);
                         });
                     } else {
-                        baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select different interfaces');
+                        baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select different interfaces');
                     }
                 },
                 buttons: {
@@ -577,16 +574,16 @@ define([
     function configureBaremetal(data,params,baremetalModel){
         params.model.createVMI(data, {
             init: function () {
-                baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
-                smwu.enableModalLoading(modalId);
+                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+                cowu.enableModalLoading(modalId);
             },
             success: function (response) {
                 var vmiDetails = response['virtual-machine-interface']['fq_name'];
                 createVM(vmiDetails,data,params,baremetalModel);
             },
             error: function (error) {
-                smwu.disableModalLoading(modalId, function () {
-                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                cowu.disableModalLoading(modalId, function () {
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                 });
             }
         });
@@ -595,14 +592,14 @@ define([
     function createVM(vmiDetails,data,params,baremetalModel){
         params.model.createVM(vmiDetails[2], data.serverId,  {
             init: function () {
-                baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
             },
             success: function () {
                 createLogicalInterface(data,vmiDetails,params,baremetalModel);
             },
             error: function (error) {
-                smwu.disableModalLoading(modalId, function () {
-                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                cowu.disableModalLoading(modalId, function () {
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                 });
             }
         });
@@ -611,10 +608,10 @@ define([
     function createLogicalInterface(data,vmiDetails,params,baremetalModel){
         params.model.createLogicalInterface(data,vmiDetails, {
             init: function () {
-                baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
             },
             success: function () {
-                smwu.disableModalLoading(modalId, function () {
+                cowu.disableModalLoading(modalId, function () {
                     $('#' + modalId).modal('hide');
                     //reimage if it is specified
                    if(data['isReimage']){
@@ -624,8 +621,8 @@ define([
                                 loadFeature({p: smwc.URL_HASH_BM_SERVERS});
                             },
                             error:function(error){
-                                smwu.disableModalLoading(modalId, function () {
-                                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                                cowu.disableModalLoading(modalId, function () {
+                                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                                 });
 //                                loadFeature({p: smwc.URL_HASH_BM_SERVERS});
                             }
@@ -636,8 +633,8 @@ define([
                 });
             },
             error: function (error) {
-                smwu.disableModalLoading(modalId, function () {
-                    baremetalModel.showErrorAttr(smwu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                cowu.disableModalLoading(modalId, function () {
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
                 });
             }
         });
@@ -761,9 +758,7 @@ define([
                                     dataValueField : "id",
                                     dataSource : {
                                         type : 'remote',
-                                        url : smwu.getObjectDetailUrl(
-                                                smwc.IMAGE_PREFIX_ID,
-                                                'filterInImages')
+                                        url : smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')
                                     }
                                 }
                             }
@@ -779,14 +774,14 @@ define([
     function getEditViewConfig(checkedRows){
         var selectedServer = checkedRows[0];
         var editViewConfig = {
-                elementId: smwu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_SERVER]),
+                elementId: cowu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_SERVER]),
                 view: "SectionView",
                 viewConfig: {
                     rows: [
                         {
                             columns: [
                                 {
-                                    elementId: smwu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]),
+                                    elementId: cowu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]),
                                     view: "FormDropdownView",
                                     viewConfig:{
                                         path : 'network.interfaces',

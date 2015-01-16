@@ -56,7 +56,7 @@ define([
                 }
             };
 
-            smwu.renderGrid(gridElId, gridConfig);
+            cowu.renderGrid(gridElId, gridConfig);
         }
     });
 

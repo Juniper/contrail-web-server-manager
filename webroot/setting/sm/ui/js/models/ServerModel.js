@@ -4,7 +4,7 @@
 
 define([
     'underscore',
-    'common/ui/js/models/ContrailModel'
+    'contrail-model'
 ], function (_, ContrailModel) {
     var ServerModel = ContrailModel.extend({
 
@@ -19,7 +19,7 @@ define([
                     locks = this.model().attributes.locks.attributes,
                     that = this;
 
-                serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
+                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
                 for (var i = 0; i < checkedRows.length; i++) {
                     serversEdited.push(serverAttrsEdited);
                 }
@@ -61,7 +61,7 @@ define([
                 locks = this.model().attributes.locks.attributes,
                 that = this;
 
-            serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
+            serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
             $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
                 serversEdited.push($.extend(true, {}, serverAttrsEdited, {id: checkedRowsValue.id}));
             });
@@ -97,7 +97,7 @@ define([
                     locks = this.model().attributes.locks.attributes,
                     that = this;
 
-                serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
+                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
                 serversCreated.push(serverAttrsEdited);
 
                 putData[smwc.SERVER_PREFIX_ID] = serversCreated;
@@ -186,7 +186,7 @@ define([
                         }
                     });
 
-                    serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
+                    serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
 
                     $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
                         serversEdited.push({'id': checkedRowsValue.id, 'tag': serverAttrsEdited['tag']});

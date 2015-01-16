@@ -7,11 +7,11 @@ Handlebars.registerHelper('getSMLabel', function (labelKey) {
 });
 
 Handlebars.registerHelper('getJSONValueByPath', function (path, obj) {
-    return smwu.getJSONValueByPath(path, obj);
+    return cowu.getJSONValueByPath(path, obj);
 });
 
 Handlebars.registerHelper('IfValidJSONValueByPath', function (path, obj, index, options) {
-    var result = (smwu.getJSONValueByPath(path, obj) != "-") ? true : false;
+    var result = (cowu.getJSONValueByPath(path, obj) != "-") ? true : false;
     if(result || index == 0) {
         return options.fn(this);
     } else {
