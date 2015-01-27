@@ -51,13 +51,14 @@ define([
             "last_update": "Last Updated",
 
             //Server
-            "ipmi_address": "IPMI",
+            "ipmi_address": "IPMI Address",
             "ipmi_username": "IPMI Username",
             "ipmi_password": "IPMI Password",
-            "base_image_id": "Default Image",
+            "base_image_id": "Base Image",
             'baremetal_edit_vn' : 'Virtual Network',
             "reimaged_id": "Installed Image",
-            "package_image_id": "Default Package",
+            "package_image_id": "Package",
+            "storage_repo_id": "Package",
             "provisioned_id": "Installed Package",
             "roles": "Roles",
             "mac_address": "MAC Address",
@@ -71,6 +72,9 @@ define([
             "host_name": "Host Name",
             "management_interface": "Management Interface",
             "control_data_interface": "Control Data Interface",
+            "live_migration": "Live Migration",
+            "live_migration_nfs_vm_host": "Live Migration VM Host",
+            "live_migration_storage_scope": "Live Migration Storage Scope",
 
             //Tags
             "reservedby": "Reserved By",
@@ -109,6 +113,15 @@ define([
             "database_dir": "Database Dir",
             "database_token": "Database Token",
             "service_token": "Service Token",
+            "storage_mon_secret": "Monitoring Key",
+            "osd_bootstrap_key": "OSD Bootstrap Key",
+            "admin_key": "Admin Key",
+            "internal_vip": "Internal VIP",
+            "external_vip": "External VIP",
+            "contrail_internal_vip": "Contrail Internal VIP",
+            "contrail_external_vip": "Contrail External VIP",
+            "nfs_server": "NFS Server",
+            "nfs_glance_path": "NFS Glance Path",
 
             //Images
             'puppet_manifest_version': "Puppet Manifest Version",
@@ -121,14 +134,19 @@ define([
             "collector": "Collector",
             "webui": "Webui",
             "database": "Database",
+            "storage-compute": "Storage Compute",
+            "storage-master": "Storage Master",
             "assign_roles": "Assign Roles"
         };
 
         this.TITLE_DETAILS = "Details";
         this.TITLE_SERVERS_CONFIG = "Servers Config";
         this.TITLE_CONTRAIL = "Contrail";
+        this.TITLE_CONTRAIL_CONTROLLER = "Contrail Controller";
         this.TITLE_STORAGE = "Storage";
+        this.TITLE_CONTRAIL_STORAGE = "Contrail Storage";
         this.TITLE_OPENSTACK = "Openstack";
+        this.TITLE_HA_CONFIG = "HA Config";
         this.TITLE_SYSTEM_MANAGEMENT = "System Management";
         this.TITLE_INTERFACES = "Interfaces";
         this.TITLE_PHYSICAL_INTERFACES = "Physical Interfaces";

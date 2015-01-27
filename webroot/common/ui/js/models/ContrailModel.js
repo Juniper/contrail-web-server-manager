@@ -10,6 +10,10 @@ define([
 ], function (_, Backbone, Knockout, Knockback) {
     var ContrailViewModel = Knockback.ViewModel.extend({
 
+        formatModelConfig: function(modelConfig) {
+            return modelConfig;
+        },
+
         constructor: function (modelConfig) {
             var model, errorAttributes,
                 editingLockAttrs, _this = this,
@@ -20,6 +24,7 @@ define([
 
             modelConfig = $.extend(true, {}, this.defaultConfig, modelConfig, {errors: new Backbone.Model(errorAttributes), locks: new Backbone.Model(editingLockAttrs)});
 
+            modelConfig = this.formatModelConfig(modelConfig);
             model = new Backbone.Model(modelConfig);
             model = _.extend(model, this.validations, {_originalAttributes: modelAttributes});
 

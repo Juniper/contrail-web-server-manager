@@ -14,7 +14,7 @@ define([
                 base_image_id: null,
                 package_image_id: null,
                 parameters: {
-                    domain: 'contrail.juniper.net',
+                    domain: 'englab.juniper.net',
                     gateway: null,
                     subnet_mask: '255.255.255.0',
 
@@ -37,7 +37,18 @@ define([
                     password: 'c0ntrail123',
 
                     database_dir: '/home/cassandra',
-                    service_token: 'contrail123'
+                    service_token: 'contrail123',
+
+                    storage_mon_secret: null,
+                    osd_bootstrap_key: null,
+                    admin_key: null,
+
+                    internal_vip: null,
+                    external_vip: null,
+                    contrail_vip: null,
+                    contrail_vip: null,
+                    nfs_server: null,
+                    nfs_glance_path: null
                 },
                 status: {},
                 tag: {},
@@ -67,7 +78,14 @@ define([
                 'intf_data': null,
                 'intf_bond': null,
                 'intf_control': null,
-                'parameters': {},
+                'parameters': {
+                    "storage_repo_id": null,
+                    "partition": null,
+                    "disks": [],
+                    "live_migration": 'disable',
+                    "live_migration_nfs_vm_host": null,
+                    "live_migration_storage_scope": null
+                },
                 'tag': {},
                 'roles': ['compute'],
                 'contrail': {

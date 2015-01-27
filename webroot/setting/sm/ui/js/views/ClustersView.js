@@ -263,8 +263,16 @@ define([
                 keys: ['parameters.openstack_mgmt_ip', 'parameters.keystone_tenant', 'parameters.keystone_username']
             },
             {
-                title: smwl.TITLE_CONTRAIL,
+                title: smwl.TITLE_SERVERS_CONFIG,
+                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'base_image_id', 'package_image_id']
+            },
+            {
+                title: smwl.TITLE_CONTRAIL_CONTROLLER,
                 keys: ['parameters.analytics_data_ttl', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates', 'parameters.external_bgp', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.database_dir']
+            },
+            {
+                title: smwl.TITLE_CONTRAIL_STORAGE,
+                keys: ['parameters.storage_mon_secret', 'parameters.osd_bootstrap_key', 'parameters.admin_key']
             }
         ],
         [
@@ -273,8 +281,8 @@ define([
                 keys: ['ui_added_parameters.servers_status.total_servers', 'ui_added_parameters.servers_status.new_servers', 'ui_added_parameters.servers_status.configured_servers', 'ui_added_parameters.servers_status.inreimage_servers', 'ui_added_parameters.servers_status.reimaged_servers', 'ui_added_parameters.servers_status.inprovision_servers', 'ui_added_parameters.servers_status.provisioned_servers']
             },
             {
-                title: smwl.TITLE_SERVERS_CONFIG,
-                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'base_image_id', 'package_image_id']
+                title: smwl.TITLE_HA_CONFIG,
+                keys: ['parameters.internal_vip', 'parameters.external_vip', 'parameters.contrail_internal_vip', 'parameters.contrail_external_vip', 'parameters.nfs_server', 'parameters.nfs_glance_path']
             },
             {
                 title: smwl.TITLE_STORAGE,

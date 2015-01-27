@@ -311,8 +311,35 @@ define([
             }
         },
         {
-            elementId: smwu.formatElementId([prefixId, smwl.TITLE_CONTRAIL]),
-            title: smwl.TITLE_CONTRAIL,
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_HA_PARAMS]),
+            title: smwl.TITLE_HA_CONFIG,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'internal_vip', view: "FormInputView", viewConfig: {path: 'parameters.internal_vip', dataBindValue: 'parameters().internal_vip', class: "span6"}},
+                            {elementId: 'external_vip', view: "FormInputView", viewConfig: {path: 'parameters.external_vip', dataBindValue: 'parameters().external_vip', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'contrail_internal_vip', view: "FormInputView", viewConfig: {path: 'parameters.contrail_internal_vip', dataBindValue: 'parameters().contrail_internal_vip', class: "span6"}},
+                            {elementId: 'contrail_external_vip', view: "FormInputView", viewConfig: {path: 'parameters.contrail_external_vip', dataBindValue: 'parameters().contrail_external_vip', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'nfs_server', view: "FormInputView", viewConfig: {path: 'parameters.nfs_server', dataBindValue: 'parameters().nfs_server', class: "span6"}},
+                            {elementId: 'nfs_glance_path', view: "FormInputView", viewConfig: {path: 'parameters.nfs_glance_path', dataBindValue: 'parameters().nfs_glance_path', class: "span6"}}
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_CONTRAIL_CONTROLLER]),
+            title: smwl.TITLE_CONTRAIL_CONTROLLER,
             view: "SectionView",
             viewConfig: {
                 rows: [
@@ -345,6 +372,26 @@ define([
                             {elementId: 'encapsulation_priority', view: "FormInputView", viewConfig: {path: 'parameters.encapsulation_priority', dataBindValue: 'parameters().encapsulation_priority', class: "span6"}}
                         ]
                     }
+                ]
+            }
+        },
+        {
+            elementId: smwu.formatElementId([prefixId, smwl.TITLE_CONTRAIL_STORAGE]),
+            title: smwl.TITLE_CONTRAIL_STORAGE,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {elementId: 'storage_mon_secret', view: "FormInputView", viewConfig: {path: 'parameters.storage_mon_secret', dataBindValue: 'parameters().storage_mon_secret', class: "span6"}},
+                            {elementId: 'osd_bootstrap_key', view: "FormInputView", viewConfig: {path: 'parameters.osd_bootstrap_key', dataBindValue: 'parameters().osd_bootstrap_key', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
+                            {elementId: 'admin_key', view: "FormInputView", viewConfig: {path: 'parameters.admin_key', dataBindValue: 'parameters().admin_key', class: "span6"}},
+                        ]
+                    },
                 ]
             }
         },
@@ -1112,15 +1159,15 @@ define([
                 }
             },
             steps = [],
-            configureStepViewConfig = null,
+            createStepViewConfig = null,
             addServerStepViewConfig = null,
             assignRolesStepViewConfig = null,
-            openstackStepViewConfig = null;
+            configureStepViewConfig = null;
 
         /*
             Appending Configure Server Steps
          */
-        configureStepViewConfig = {
+        createStepViewConfig = {
             elementId: smwu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]),
             view: "AccordianView",
             viewConfig: createClusterViewConfig,
@@ -1154,8 +1201,8 @@ define([
                 }
             }
         };
-        configureStepViewConfig.viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = false;
-        steps = steps.concat(configureStepViewConfig);
+        createStepViewConfig.viewConfig[0].viewConfig.rows[0].columns[0].viewConfig.disabled = false;
+        steps = steps.concat(createStepViewConfig);
 
         /*
             Appending Add Server Steps
@@ -1232,7 +1279,7 @@ define([
         /*
          Appending Configure Cluster Steps
          */
-        openstackStepViewConfig = {
+        configureStepViewConfig = {
             elementId: smwu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]),
             view: "AccordianView",
             title: smwl.TITLE_CONFIGURE,
@@ -1270,7 +1317,7 @@ define([
                 }
             }
         };
-        steps = steps.concat(openstackStepViewConfig);
+        steps = steps.concat(configureStepViewConfig);
 
         addClusterViewConfig.viewConfig.steps = steps;
 

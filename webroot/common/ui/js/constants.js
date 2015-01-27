@@ -27,7 +27,7 @@ define([
         this.SM_API_SERVER = 'sm-api-server';
         this.DFLT_SERVER_IP = '127.0.0.1';
 
-        this.ROLES_ARRAY = ['config', 'openstack', 'control', 'compute', 'collector', 'webui', 'database'];
+        this.ROLES_ARRAY = ['config', 'openstack', 'control', 'compute', 'collector', 'webui', 'database', 'storage-compute', 'storage-master'];
         this.ROLES_OBJECTS = [
             {'id': 'config', 'text': 'Config'},
             {'id': 'openstack', 'text': 'Openstack'},
@@ -35,7 +35,9 @@ define([
             {'id': 'compute', 'text': 'Compute'},
             {'id': 'collector', 'text': 'Collector'},
             {'id': 'webui', 'text': 'Webui'},
-            {'id': 'database', 'text': 'Database'}
+            {'id': 'database', 'text': 'Database'},
+            {'id': 'storage-compute', 'text': 'Storage Compute'},
+            {'id': 'storage-master', 'text': 'Storage Master'}
         ];
 
         this.STATES = [
@@ -58,6 +60,11 @@ define([
         this.FLAGS = [
             {'id': 'false', 'text': 'False'},
             {'id': 'true', 'text': 'True'}
+        ];
+
+        this.STORAGE_SCOPE = [
+            {'id': 'global', 'text': 'Global'},
+            {'id': 'local', 'text': 'Local'}
         ];
         this.PATTERN_IP_ADDRESS  = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
         this.PATTERN_SUBNET_MASK = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(\d|[1-2]\d|3[0-2]))?$/;

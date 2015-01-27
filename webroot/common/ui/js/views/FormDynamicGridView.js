@@ -110,7 +110,7 @@ define([
             });
 
             grid.onActiveCellChanged.subscribe(function (e, args) {
-                if (contrail.checkIfFunction(options.events.onUpdate)) {
+                if (contrail.checkIfExist(options.events) && contrail.checkIfFunction(options.events.onUpdate)) {
                     options.events.onUpdate();
                 }
             });
@@ -137,7 +137,7 @@ define([
                     data.splice(rowIndex, 1);
                     thisGrid.setData(data);
 
-                    if (contrail.checkIfFunction(options.events.onUpdate)) {
+                    if (contrail.checkIfExist(options.events) && contrail.checkIfFunction(options.events.onUpdate)) {
                         options.events.onUpdate();
                     }
                 });

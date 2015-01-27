@@ -321,8 +321,12 @@ define([
                 keys: ['id', 'mac_address', 'host_name', 'domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'static_ip', 'parameters.partition']
             },
             {
-                title: smwl.TITLE_PROVISIONING,
-                keys: [ 'cluster_id', 'email', 'base_image_id', 'reimaged_id', 'package_image_id', 'provisioned_id']
+                title: smwl.TITLE_CONTRAIL_CONTROLLER,
+                keys: ['package_image_id', 'contrail.control_data_interface']
+            },
+            {
+                title: smwl.TITLE_CONTRAIL_STORAGE,
+                keys: ['parameters.storage_repo_id', 'parameters.live_migration', 'parameters.live_migration_nfs_vm_host', 'parameters.live_migration_storage_scope', 'parameters.disks']
             }
         ],
         [
@@ -341,6 +345,10 @@ define([
             {
                 title: smwl.TITLE_INTERFACES,
                 keys: ['parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control']
+            },
+            {
+                title: smwl.TITLE_PROVISIONING,
+                keys: [ 'cluster_id', 'email', 'base_image_id', 'reimaged_id', 'provisioned_id', 'network.management_interface']
             }
         ]
     ];

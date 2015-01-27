@@ -10,6 +10,47 @@ define([
 
         defaultConfig: smwmc.getServerModel(),
 
+        formatModelConfig: function (modelConfig) {
+            if(modelConfig.contrail == null || modelConfig.contrail == '') {
+                modelConfig.contrail = {
+                    'control_data_interface': null
+                };
+            }
+
+            if(modelConfig.network == null || modelConfig.network == '') {
+                modelConfig.network = {
+                    'management_interface': null,
+                    'interfaces': []
+                };
+            }
+
+            if (contrail.checkIfExist(modelConfig.parameters.disks)) {
+                var storageDisks = [];
+
+                $.each(modelConfig.parameters.disks, function(diskKey, diskValue) {
+                    storageDisks.push({disk: diskValue});
+                })
+
+                modelConfig.parameters.disks = storageDisks;
+            }
+
+            return modelConfig;
+        },
+
+        getServerStorageDisks: function (serverAttributes) {
+            var storageDisks = [];
+
+            $.each(serverAttributes.parameters.disks, function(diskKey, diskValue) {
+                if (typeof diskValue === 'string') {
+                    storageDisks.push(diskValue);
+                } else if (typeof diskValue === 'object') {
+                    storageDisks.push(diskValue.disk);
+                }
+            });
+
+            return storageDisks;
+        },
+
         configure: function (checkedRows, callbackObj) {
             if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
                 var ajaxConfig = {};
@@ -17,12 +58,15 @@ define([
                     serverAttrs = this.model().attributes,
                     originalAttrs = this.model()._originalAttributes,
                     locks = this.model().attributes.locks.attributes,
-                    that = this;
+                    that = this,
+                    storageDisks = [];
 
+                storageDisks = this.getServerStorageDisks(serverAttrs);
                 serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
                 for (var i = 0; i < checkedRows.length; i++) {
                     serversEdited.push(serverAttrsEdited);
                 }
+                serverAttrsEdited.parameters.disks = storageDisks;
 
                 putData[smwc.SERVER_PREFIX_ID] = serversEdited;
                 if(originalAttrs['cluster_id'] != serverAttrsEdited['cluster_id']) {

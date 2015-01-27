@@ -87,6 +87,28 @@ define([
                 msg: smwm.getRequiredMessage('password')
             },
 
+            'parameters.internal_vip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('internal_vip')
+            },
+            'parameters.external_vip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('external_vip')
+            },
+            'parameters.contrail_internal_vip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('contrail_internal_vip')
+            },
+            'parameters.contrail_external_vip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('contrail_external_vip')
+            },
+
+
             'parameters.database_dir': {
                 required: true,
                 msg: smwm.getRequiredMessage('database_dir')
