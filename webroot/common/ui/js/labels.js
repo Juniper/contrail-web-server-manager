@@ -86,10 +86,13 @@ define([
             //Cluster
             "cluster_id": "Cluster",
             "analytics_data_ttl": "Analytics Data TTL",
+            "analytics_syslog_port": "Analytics Syslog Port",
+            "analytics_data_dir": "Analytics Data Dir",
+            "ssd_data_dir": "SSD Data Dir",
             "ext_bgp": "External BGP",
             "openstack_mgmt_ip": "Openstack Management IP",
             "openstack_passwd": "Openstack Password",
-            "keystone_tenant": "Keystone Tenant",
+            "keystone_tenant": "Keystone Admin Tenant",
             "subnet_mask": "Subnet Mask",
             "router_asn": "Router ASN",
             "multi_tenancy": "Multi Tenancy",
@@ -97,8 +100,12 @@ define([
             "use_certificates": "Use Certificates",
             "haproxy": "HA Proxy",
             "encapsulation_priority": "Encapsulation Priority",
-            "keystone_username": "Keystone Username",
-            "keystone_password": "Keystone Password",
+            "hc_interval": "Health Check Interval",
+            "keystone_ip": "Keystone IP",
+            "keystone_username": "Keystone Admin Username",
+            "keystone_password": "Keystone Admin Password",
+            "keystone_service_tenant": "Keystone Service Tenant",
+            "keystone_region_name": "Keystone Region Name",
             "storage_virsh_uuid": "Storage Virsh UUID",
             "storage_fsid": "Storage FSID",
             "new_servers": "New Servers",
@@ -140,13 +147,14 @@ define([
         };
 
         this.TITLE_DETAILS = "Details";
-        this.TITLE_SERVERS_CONFIG = "Servers Config";
+        this.TITLE_SERVERS_CONFIG = "Servers Defaults";
         this.TITLE_CONTRAIL = "Contrail";
         this.TITLE_CONTRAIL_CONTROLLER = "Contrail Controller";
         this.TITLE_STORAGE = "Storage";
         this.TITLE_CONTRAIL_STORAGE = "Contrail Storage";
         this.TITLE_OPENSTACK = "Openstack";
-        this.TITLE_HA_CONFIG = "HA Config";
+        this.TITLE_HA_CONFIG = "High Availability";
+        this.TITLE_ANALYTICS_CONFIG = "Analytics";
         this.TITLE_SYSTEM_MANAGEMENT = "System Management";
         this.TITLE_INTERFACES = "Interfaces";
         this.TITLE_PHYSICAL_INTERFACES = "Physical Interfaces";

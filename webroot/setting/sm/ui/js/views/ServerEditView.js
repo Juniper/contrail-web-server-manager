@@ -51,7 +51,7 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 disableId, modelAttr, that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.configure(options['checkedRows'], {
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
@@ -122,7 +122,7 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
 
-            smwu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            smwu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.createServers({
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
@@ -664,7 +664,7 @@ define([
                                             },
                                             columns: [
                                                 {
-                                                    id: "disk", name: "Storage Disks", field: "disk", width: 580,
+                                                    id: "disk", name: "Storage Disks", field: "disk", width: 720,
                                                     editor: ContrailGrid.Editors.Text,
                                                     formatter: ContrailGrid.Formatters.Text,
                                                     validator: function (value) {
@@ -694,20 +694,6 @@ define([
                                 }
                             ]
                         }
-                        //{
-                        //    columns: [
-                        //        {
-                        //            elementId: 'storage_repo_id',
-                        //            view: "FormDropdownView",
-                        //            viewConfig: {path: 'parameters.storage_repo_id', dataBindValue: 'storage_repo_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
-                        //        },
-                        //        {
-                        //            elementId: 'control_data_interface',
-                        //            view: "FormDropdownView",
-                        //            viewConfig: {path: 'contrail.control_data_interface', dataBindValue: 'contrail().control_data_interface', class: "span6", elementConfig: {placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE, dataTextField: "id", dataValueField: "id", data: []}}
-                        //        }
-                        //    ]
-                        //}
                     ]
                 }
             },
@@ -756,7 +742,8 @@ define([
 
                                                 $.each(serverModel.attributes.network.interfaces, function(interfaceKey, interfaceValue) {
                                                     if (bondMemberInterfaces.indexOf(interfaceValue.name) == -1) {
-                                                        if (interfaceValue.type == 'physical' && interfaceValue.dhcp) {
+                                                        if ((!contrail.checkIfExist(interfaceValue.type) || (contrail.checkIfExist(interfaceValue.type) &&interfaceValue.type == 'physical'))
+                                                            && interfaceValue.dhcp) {
                                                             managementInterfaces.push({
                                                                 id: interfaceValue.name,
                                                                 text: interfaceValue.name
@@ -872,24 +859,14 @@ define([
                     rows: [
                         {
                             columns: [
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
+                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}},
+                                {elementId: 'partition', view: "FormInputView", viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "span6"}}
                             ]
                         },
                         {
                             columns: [
                                 {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
                                 {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password',  type: 'password', dataBindValue: 'ipmi_password', class: "span6"}}
-                            ]
-                        },
-                        //{
-                        //    columns: [
-                        //        {elementId: 'gateway', view: "FormInputView", viewConfig: {path: "gateway", dataBindValue: "gateway", class: "span6"}},
-                        //        {elementId: 'subnet_mask', view: "FormInputView", viewConfig: {path: 'subnet_mask', dataBindValue: 'subnet_mask', class: "span6"}}
-                        //    ]
-                        //},
-                        {
-                            columns: [
-                                {elementId: 'partition', view: "FormInputView", viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "span6"}},
                             ]
                         }
                     ]
@@ -968,11 +945,6 @@ define([
                                     elementId: 'base_image_id',
                                     view: "FormDropdownView",
                                     viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
-                                },
-                                {
-                                    elementId: 'package_image_id',
-                                    view: "FormDropdownView",
-                                    viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
                                 }
                             ]
                         }

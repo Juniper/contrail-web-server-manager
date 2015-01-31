@@ -33,3 +33,11 @@ Handlebars.registerHelper('printJSON', function(jsonObject) {
 Handlebars.registerHelper('getKeyValue4Object', function(object, key) {
     return object[key];
 });
+
+Handlebars.registerHelper('formatGridJSON2HTML', function(rawdata, options) {
+    var rawDataClone = $.extend(true,{}, rawdata);
+    if (contrail.checkIfExist(rawDataClone.cgrid)) {
+        delete rawDataClone.cgrid;
+    }
+    return contrail.formatJSON2HTML(rawDataClone,2);
+});

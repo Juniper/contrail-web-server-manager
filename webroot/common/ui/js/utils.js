@@ -36,7 +36,7 @@ define([
                         forceFitColumns: true,
                         checkboxSelectable: true,
                         detail: {
-                            template: '<pre>{{{formatJSON2HTML this}}}</pre>'
+                            template: '<pre>{{{formatGridJSON2HTML this}}}</pre>'
                         }
                     },
                     dataSource: {

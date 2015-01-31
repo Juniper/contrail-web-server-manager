@@ -19,35 +19,43 @@ define([
                     subnet_mask: '255.255.255.0',
 
                     openstack_mgmt_ip: null,
-                    openstack_passwd: 'contrail123',
 
-                    analytics_data_ttl: '168',
+                    analytics_data_ttl: '48',
+                    analytics_syslog_port: "-1",
+                    analytics_data_dir: "",
+                    ssd_data_dir: "",
+
                     router_asn: '64512',
                     multi_tenancy: 'True',
                     haproxy: 'disable',
                     use_certificates: 'False',
                     encapsulation_priority: 'MPLSoUDP,MPLSoGRE,VXLAN',
+                    hc_interval: '5',
 
                     compute_non_mgmt_ip: null,
                     compute_non_mgmt_gway: null,
 
+                    keystone_ip: '',
                     keystone_tenant: 'admin',
                     keystone_username: 'admin',
                     keystone_password: 'contrail123',
+                    keystone_service_tenant: 'service',
+                    keystone_region_name: 'RegionOne',
+
                     password: 'c0ntrail123',
 
-                    database_dir: '/home/cassandra',
+                    database_dir: '/var/lib/cassandra',
                     service_token: 'contrail123',
 
                     storage_mon_secret: null,
                     osd_bootstrap_key: null,
                     admin_key: null,
 
-                    internal_vip: null,
-                    external_vip: null,
-                    contrail_vip: null,
-                    contrail_vip: null,
-                    nfs_server: null,
+                    internal_vip: "",
+                    external_vip: "",
+                    contrail_vip: "",
+                    contrail_vip: "",
+                    nfs_server: "",
                     nfs_glance_path: null
                 },
                 status: {},

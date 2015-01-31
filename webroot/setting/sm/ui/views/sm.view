@@ -236,7 +236,7 @@
         {{/each}}
         </div>
         <div class="row-fluid group-detail-advanced-json group-detail-item hide">
-            {{{formatJSON2HTML dc}}}
+            {{{formatGridJSON2HTML dc}}}
         </div>
     </div>
 </script>

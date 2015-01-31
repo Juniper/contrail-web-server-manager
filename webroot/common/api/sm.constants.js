@@ -31,7 +31,7 @@ smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id'];
 smConstants.SM_API_SERVER = 'sm_api_server'
 smConstants.SM_INTROSPECT_SERVER = 'sm_introspect_server'
 
-smConstants.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5'];
+smConstants.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5', 'fedora'];
 smConstants.PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package', 'contrail-storage-ubuntu-package'];
 smConstants.CONTRAIL_CONTROLLER_PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package'];
 smConstants.CONTRAIL_STORAGE_PACKAGE_TYPES = ['contrail-storage-ubuntu-package'];

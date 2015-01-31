@@ -70,6 +70,11 @@ define([
                 required: true,
                 msg: smwm.getRequiredMessage('keystone_tenant')
             },
+            'parameters.keystone_ip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('keystone_ip')
+            },
             'parameters.keystone_username': {
                 required: true,
                 msg: smwm.getRequiredMessage('keystone_username')
@@ -77,10 +82,6 @@ define([
             'parameters.keystone_password': {
                 required: true,
                 msg: smwm.getRequiredMessage('keystone_password')
-            },
-            'parameters.openstack_passwd': {
-                required: true,
-                msg: smwm.getRequiredMessage('openstack_passwd')
             },
             'parameters.password': {
                 required: true,
@@ -106,6 +107,11 @@ define([
                 required: false,
                 pattern: smwc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('contrail_external_vip')
+            },
+            'parameters.nfs_server': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('nfs_server')
             },
 
 

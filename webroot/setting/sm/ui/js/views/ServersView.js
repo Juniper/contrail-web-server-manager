@@ -342,10 +342,10 @@ define([
                 title: smwl.TITLE_TAGS,
                 keys: ['tag.datacenter', 'tag.floor', 'tag.hall', 'tag.rack', 'tag.user_tag']
             },
-            {
-                title: smwl.TITLE_INTERFACES,
-                keys: ['parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control']
-            },
+            //{
+            //    title: smwl.TITLE_INTERFACES,
+            //    keys: ['parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control']
+            //},
             {
                 title: smwl.TITLE_PROVISIONING,
                 keys: [ 'cluster_id', 'email', 'base_image_id', 'reimaged_id', 'provisioned_id', 'network.management_interface']
