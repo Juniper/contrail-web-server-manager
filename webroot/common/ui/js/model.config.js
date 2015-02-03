@@ -53,8 +53,8 @@ define([
 
                     internal_vip: "",
                     external_vip: "",
-                    contrail_vip: "",
-                    contrail_vip: "",
+                    contrail_internal_vip: "",
+                    contrail_external_vip: "",
                     nfs_server: "",
                     nfs_glance_path: null
                 },
