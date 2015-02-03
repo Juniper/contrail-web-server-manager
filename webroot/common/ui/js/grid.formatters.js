@@ -15,7 +15,7 @@
     });
 
     function TextFormatter (row, cell, value, columnDef, dataContext) {
-        return value;
+        return contrail.checkIfExist(value) ? value : '';
     }
 
     function CheckboxFormatter (row, cell, value, columnDef, dataContext) {

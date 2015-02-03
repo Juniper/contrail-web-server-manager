@@ -397,7 +397,7 @@ define([
 
                                                         $.each(interfaces, function (interfaceKey, interfaceValue) {
                                                             if (interfaceValue.name != '' && bondMemberInterfaces.indexOf(interfaceValue.name) == -1) {
-                                                                if (interfaceValue.type == 'physical' && interfaceValue.dhcp) {
+                                                                if ((!contrail.checkIfExist(interfaceValue.type) || (contrail.checkIfExist(interfaceValue.type) &&interfaceValue.type == 'physical')) && interfaceValue.dhcp) {
                                                                     managementInterfaceData.push({
                                                                         id: interfaceValue.name,
                                                                         text: interfaceValue.name
