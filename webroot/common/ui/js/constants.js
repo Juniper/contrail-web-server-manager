@@ -132,7 +132,7 @@ define([
         this.TMPL_DELETE_IMAGE = "sm-delete-image-template";
         this.TMPL_DELETE_PACKAGE = "sm-delete-package-template";
 
-        this.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5'];
+        this.IMAGE_TYPES = ['ubuntu', 'centos', 'redhat', 'esxi5.1', 'esxi5.5', 'fedora'];
         this.PACKAGE_TYPES = ['contrail-ubuntu-package', 'contrail-centos-package', 'contrail-storage-ubuntu-package'];
         
         this.TMPL_BM_EDIT_FORM = "bm-edit-form-template";
