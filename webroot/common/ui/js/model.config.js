@@ -68,7 +68,7 @@ define([
             return {
                 'id': null,
                 'cluster_id': null,
-                'domain': "contrail.juniper.net",
+                'domain': "englab.juniper.net",
                 'discovered': null,
                 'gateway': null,
                 'email': null,
