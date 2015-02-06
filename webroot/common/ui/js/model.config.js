@@ -47,16 +47,16 @@ define([
                     database_dir: '/var/lib/cassandra',
                     service_token: 'contrail123',
 
-                    storage_mon_secret: null,
-                    osd_bootstrap_key: null,
-                    admin_key: null,
+                    storage_mon_secret: "AQBM78tTEMz+GhAA3WiOXQI7UVdIy0YFFuTGdw==",
+                    osd_bootstrap_key: "AQCq7NFTeJUoBhAAlTVpxwWQJtBej/JDNhT6+Q==",
+                    admin_key: "AQDIgtNTgPLWARAAK6gs/fj8m88LnY9DwxJdYA==",
 
                     internal_vip: "",
                     external_vip: "",
                     contrail_internal_vip: "",
                     contrail_external_vip: "",
                     nfs_server: "",
-                    nfs_glance_path: null
+                    nfs_glance_path: ""
                 },
                 status: {},
                 tag: {},
@@ -87,12 +87,12 @@ define([
                 'intf_bond': null,
                 'intf_control': null,
                 'parameters': {
-                    "storage_repo_id": null,
-                    "partition": null,
+                    "storage_repo_id": "",
+                    "partition": "",
                     "disks": [],
                     "live_migration": 'disable',
-                    "live_migration_nfs_vm_host": null,
-                    "live_migration_storage_scope": null
+                    "live_migration_nfs_vm_host": "",
+                    "live_migration_storage_scope": ""
                 },
                 'tag': {},
                 'roles': ['compute'],
