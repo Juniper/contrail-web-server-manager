@@ -50,13 +50,20 @@ define([
                     storage_mon_secret: "AQBM78tTEMz+GhAA3WiOXQI7UVdIy0YFFuTGdw==",
                     osd_bootstrap_key: "AQCq7NFTeJUoBhAAlTVpxwWQJtBej/JDNhT6+Q==",
                     admin_key: "AQDIgtNTgPLWARAAK6gs/fj8m88LnY9DwxJdYA==",
+                    live_migration: 'disable',
+                    live_migration_nfs_vm_host: "",
+                    live_migration_storage_scope: "",
 
                     internal_vip: "",
                     external_vip: "",
                     contrail_internal_vip: "",
                     contrail_external_vip: "",
                     nfs_server: "",
-                    nfs_glance_path: ""
+                    nfs_glance_path: "",
+
+                    kernel_upgrade: 'yes',
+                    kernel_version: '3.13.0-34'
+
                 },
                 status: {},
                 tag: {},
@@ -87,12 +94,11 @@ define([
                 'intf_bond': null,
                 'intf_control': null,
                 'parameters': {
-                    "storage_repo_id": "",
-                    "partition": "",
-                    "disks": [],
-                    "live_migration": 'disable',
-                    "live_migration_nfs_vm_host": "",
-                    "live_migration_storage_scope": ""
+                    storage_repo_id: "",
+                    partition: "",
+                    kernel_upgrade: 'yes',
+                    kernel_version: '3.13.0-34',
+                    disks: []
                 },
                 'tag': {},
                 'roles': ['compute'],

@@ -49,6 +49,8 @@ define([
             "ip_address": "IP Address",
             "status": "Status",
             "last_update": "Last Updated",
+            "kernel_upgrade": "Kernel Upgrade",
+            "kernel_version": "Kernel Version",
 
             //Server
             "ipmi_address": "IPMI Address",
@@ -73,7 +75,7 @@ define([
             "management_interface": "Management Interface",
             "control_data_interface": "Control Data Interface",
             "live_migration": "Live Migration",
-            "live_migration_nfs_vm_host": "Live Migration VM Host",
+            "live_migration_nfs_vm_host": "Live Migration NFS Host",
             "live_migration_storage_scope": "Live Migration Storage Scope",
 
             //Tags

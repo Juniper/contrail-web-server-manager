@@ -411,9 +411,37 @@ define([
                     },
                     {
                         columns: [
-                            {elementId: 'admin_key', view: "FormInputView", viewConfig: {path: 'parameters.admin_key', dataBindValue: 'parameters().admin_key', class: "span6"}},
+                            {
+                                elementId: 'admin_key',
+                                view: "FormInputView",
+                                viewConfig: {
+                                    path: 'parameters.admin_key',
+                                    dataBindValue: 'parameters().admin_key',
+                                    class: "span6"
+                                }
+                            },
+                            {
+                                elementId: 'live_migration',
+                                view: "FormDropdownView",
+                                viewConfig: {
+                                    path: 'parameters.live_migration',
+                                    dataBindValue: 'parameters().live_migration',
+                                    class: "span6",
+                                    elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES}
+                                }
+                            }
                         ]
                     },
+                    {
+                        columns: [
+                            {
+                                elementId: 'live_migration_nfs_vm_host',
+                                view: "FormDropdownView",
+                                viewConfig: {path: 'parameters.live_migration_nfs_vm_host', dataBindValue: 'parameters().live_migration_nfs_vm_host', class: "span6", elementConfig: {allowClear: true, placeholder: smwl.TITLE_SELECT_SERVER, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectUrl(smwc.SERVER_PREFIX_ID)}}}
+                            },
+                            {elementId: 'live_migration_storage_scope', view: "FormDropdownView", viewConfig: {path: 'parameters.live_migration_storage_scope', dataBindValue: 'parameters().live_migration_storage_scope', class: "span6", elementConfig: {placeholder: smwl.TITLE_SELECT, dataTextField: "text", dataValueField: "id", data: smwc.STORAGE_SCOPE}}},
+                        ]
+                    }
                 ]
             }
         },
@@ -447,6 +475,21 @@ define([
                                 view: "FormDropdownView",
                                 viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                             }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'kernel_upgrade',
+                                view: 'FormDropdownView',
+                                viewConfig: {
+                                    path: 'parameters.kernel_upgrade',
+                                    dataBindValue: 'parameters().kernel_upgrade',
+                                    class: "span6",
+                                    elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES_YES_NO}
+                                }
+                            },
+                            {elementId: 'kernel_version', view: "FormInputView", viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "span6"}}
                         ]
                     }
                 ]

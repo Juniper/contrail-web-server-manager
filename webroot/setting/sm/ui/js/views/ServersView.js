@@ -326,7 +326,7 @@ define([
             },
             {
                 title: smwl.TITLE_CONTRAIL_STORAGE,
-                keys: ['parameters.storage_repo_id', 'parameters.live_migration', 'parameters.live_migration_nfs_vm_host', 'parameters.live_migration_storage_scope', 'parameters.disks']
+                keys: ['parameters.storage_repo_id', 'parameters.disks']
             }
         ],
         [
@@ -348,7 +348,7 @@ define([
             //},
             {
                 title: smwl.TITLE_PROVISIONING,
-                keys: [ 'cluster_id', 'email', 'base_image_id', 'reimaged_id', 'provisioned_id', 'network.management_interface']
+                keys: [ 'cluster_id', 'email', 'base_image_id', 'reimaged_id', 'provisioned_id', 'network.management_interface', 'parameters.kernel_upgrade', 'parameters.kernel_version']
             }
         ]
     ];
