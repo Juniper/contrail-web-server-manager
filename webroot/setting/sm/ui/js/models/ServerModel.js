@@ -139,9 +139,13 @@ define([
                 var putData = {}, serverAttrsEdited = [], serversCreated = [],
                     serverAttrs = this.model().attributes,
                     locks = this.model().attributes.locks.attributes,
-                    that = this;
+                    that = this,
+                    storageDisks = [];
 
+                storageDisks = this.getServerStorageDisks(serverAttrs);
                 serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
+                serverAttrsEdited.parameters.disks = storageDisks;
+
                 serversCreated.push(serverAttrsEdited);
 
                 putData[smwc.SERVER_PREFIX_ID] = serversCreated;
