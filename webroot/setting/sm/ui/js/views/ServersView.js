@@ -88,9 +88,8 @@ define([
             ajaxConfig.cache = "true";
             ajaxConfig.url = smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + "?id=" + serverId;
 
-            that.$el.html(serverTemplate({prefix: smwc.SERVER_PREFIX_ID, prefixId: serverId}));
-
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
+                that.$el.html(serverTemplate({prefix: smwc.SERVER_PREFIX_ID, prefixId: serverId}));
                 var actionConfigItem = null,
                     detailActionConfig = getDetailActionConfig(false),
                     gridConfig, ipmiElId;

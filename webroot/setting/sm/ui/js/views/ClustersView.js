@@ -77,8 +77,8 @@ define([
             ajaxConfig.cache = "true";
             ajaxConfig.url = smwu.getObjectDetailUrl(smwc.CLUSTER_PREFIX_ID, smwc.SERVERS_STATE_PROCESSOR) + "&id=" + clusterId;
 
-            that.$el.html(clusterTemplate({prefix: 'cluster', prefixId: clusterId}));
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
+                that.$el.html(clusterTemplate({prefix: 'cluster', prefixId: clusterId}));
                 var actionConfigItem = null;
                 $.each(detailActionConfig, function(detailActionConfigKey, detailActionConfigValue) {
                     actionConfigItem = $(clusterActionTemplate(detailActionConfigValue));
