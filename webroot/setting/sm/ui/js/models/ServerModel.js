@@ -388,10 +388,10 @@ define([
                     required: true,
                     msg: smwm.getRequiredMessage('management_interface')
                 },
-                //'contrail.control_data_interface': {
-                //    required: true,
-                //    msg: smwm.getRequiredMessage('control_data_interface')
-                //},
+                'contrail.control_data_interface': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('control_data_interface')
+                },
                 'ipmi_address': {
                     required: true,
                     pattern: smwc.PATTERN_IP_ADDRESS,
