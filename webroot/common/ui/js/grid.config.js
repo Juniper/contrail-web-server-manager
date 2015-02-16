@@ -10,71 +10,71 @@ define([
         this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
 
         this.IMAGE_COLUMNS = [
-            { id: "image_id", field: "id", name: "Name", width: 120, minWidth: 15 },
-            { id: "category", field: "category", name: "Category", width: 120, minWidth: 15 },
-            { id: "image_type", field: "type", name: "Type", width: 120, minWidth: 15 },
-            { id: "image_version", field: "version", name: "Version", width: 120, minWidth: 15 },
-            { id: "image_path", field: "path", name: "Path", width: 300, minWidth: 15 }
+            { id: "image_id", field: "id", name: "Name", width: 120, minWidth: 100 },
+            { id: "category", field: "category", name: "Category", width: 120, minWidth: 50 },
+            { id: "image_type", field: "type", name: "Type", width: 120, minWidth: 100 },
+            { id: "image_version", field: "version", name: "Version", width: 120, minWidth: 50 },
+            { id: "image_path", field: "path", name: "Path", width: 300, minWidth: 100 }
         ];
 
         this.PACKAGE_COLUMNS = [
-            { id: "package_id", field: "id", name: "Name", width: 120, minWidth: 15 },
-            { id: "package_category", field: "category", name: "Category", width: 120, minWidth: 15 },
-            { id: "package_type", field: "type", name: "Type", width: 120, minWidth: 15 },
-            { id: "package_version", field: "version", name: "Version", width: 120, minWidth: 15 },
-            { id: "package_path", field: "path", name: "Path", width: 300, minWidth: 15 }
+            { id: "package_id", field: "id", name: "Name", width: 120, minWidth: 100 },
+            { id: "package_category", field: "category", name: "Category", width: 120, minWidth: 50 },
+            { id: "package_type", field: "type", name: "Type", width: 120, minWidth: 100 },
+            { id: "package_version", field: "version", name: "Version", width: 120, minWidth: 50 },
+            { id: "package_path", field: "path", name: "Path", width: 300, minWidth: 100 }
         ];
 
         this.CLUSTER_COLUMNS = [
-            { id: "cluster_id", field: "id", name: "Name", width: 150, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+            { id: "cluster_id", field: "id", name: "Name", width: 150, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
                 onClick: function (e, dc) {
                     loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['id']}});
                 }
             }},
-            { id: "email", field: "email", name: "Email", width: 150, minWidth: 15 },
-            { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+            { id: "email", field: "email", name: "Email", width: 150, minWidth: 100 },
+            { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['new_servers'];
                 }
             },
-            { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+            { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['configured_servers'];
                 }
             },
-            { id: "inreimage_servers", field: "", name: "In-Reimage Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+            { id: "inreimage_servers", field: "", name: "In-Reimage Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['inreimage_servers'];
                 }
             },
-            { id: "reimaged_servers", field: "", name: "Reimaged Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+            { id: "reimaged_servers", field: "", name: "Reimaged Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['reimaged_servers'];
                 }
             },
-            { id: "inprovision_servers", field: "", name: "In-Provision Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+            { id: "inprovision_servers", field: "", name: "In-Provision Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['inprovision_servers'];
                 }
             },
-            { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+            { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['provisioned_servers'];
                 }
             },
-            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 15, sortable : {sortBy: 'formattedValue'},
+            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[smwc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
@@ -182,7 +182,7 @@ define([
                 columns.push({
                     id: roleValue, field: "roles",
                     name: smwl.get(roleValue),
-                    width: 60, minWidth: 60,
+                    width: 50, minWidth: 50,
                     cssClass: 'text-center',
                     sortable: {sortBy: 'formattedValue'},
                     formatter: function (r, c, v, cd, dc) {
@@ -218,7 +218,7 @@ define([
                         }
                     }
                     },
-                    { id: "server_id", field: "id", name: "ID", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+                    { id: "server_id", field: "id", name: "ID", width: 80, minWidth: 80, cssClass: 'cell-hyperlink-blue', events: {
                         onClick: function (e, dc) {
                             loadFeature({p: 'setting_sm_servers', q: {'server_id': dc['id']}});
                         }
@@ -239,8 +239,8 @@ define([
                             }
                         }
                     },
-                    { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 15 },
-                    { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+                    { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 80 },
+                    { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 100, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
                         onClick: function (e, dc) {
                             if(dc['ipmi_address'] != null && dc['ipmi_address'] != '') {
                                 window.open("http://" + dc['ipmi_address']);
@@ -251,7 +251,7 @@ define([
 
             if (serverColumnsType == smwc.SERVER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat([
-                    { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 15, cssClass: 'cell-hyperlink-blue', events: {
+                    { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 80, cssClass: 'cell-hyperlink-blue', events: {
                         onClick: function (e, dc) {
                             loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['cluster_id']}});
                         }
@@ -262,7 +262,7 @@ define([
                 serverColumns = commonColumnsSet1.concat(commonColumnsSet2).concat(this.getGridColumns4Roles());
             }
             serverColumns = serverColumns.concat([
-                { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+                { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
             ]);
 
             return serverColumns;
