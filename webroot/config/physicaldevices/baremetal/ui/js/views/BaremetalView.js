@@ -6,7 +6,7 @@ define([
 ], function (_, Backbone, BaremetalModel, BaremetalEditView) {
          var prefixId = smwc.BAREMETAL_PREFIX_ID,
          baremetalEditView = new BaremetalEditView(),
-         gridElId = '#' + prefixId + smwc.RESULTS_SUFFIX_ID;
+         gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID;
 
     var BaremetalView = Backbone.View.extend({
         el: $(contentContainer),
@@ -21,7 +21,7 @@ define([
         },
         
         renderServersList: function (viewConfig) {
-            var bmTemplate = contrail.getTemplate4Id(smwc.BM_PREFIX_ID + smwc.TMPL_SUFFIX_ID),
+            var bmTemplate = contrail.getTemplate4Id(smwc.BM_PREFIX_ID + cowc.TMPL_SUFFIX_ID),
                 serverColumnsType = viewConfig['serverColumnsType'],
                 showAssignRoles = viewConfig['showAssignRoles'];
             
@@ -64,11 +64,11 @@ define([
             };
 
             cowu.renderGrid(gridElId, gridConfig);
-        },
+        }
     });
     var rowActionConfig = [
         smwgc.getConfigureAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 baremetalModel = new BaremetalModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_EDIT_CONFIG;
@@ -80,7 +80,7 @@ define([
             }});
         }),
         smwgc.getReimageAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 baremetalModel = new BaremetalModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_REIMAGE;//+ ' ('+ dataItem['id'] +')';
@@ -92,7 +92,7 @@ define([
             }});
         }, true),
         smwgc.getDeleteAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 baremetalModel = new BaremetalModel(dataItem),
                 checkedRow = dataItem,
                 title = smwl.TITLE_DEL_SERVER;

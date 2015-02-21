@@ -9,6 +9,9 @@ define([
         this.getInvalidErrorMessage = function(fieldKey) {
             return "Please enter a valid " + smwl.getInLowerCase(fieldKey) + '.';
         };
+        this.getShortInvalidErrorMessage = function(fieldKey) {
+            return "Invalid " + smwl.getInLowerCase(fieldKey) + '.';
+        };
         this.getRequiredMessage = function(fieldKey) {
             return smwl.getFirstCharUpperCase(fieldKey) + ' is required.';
         };

@@ -4,10 +4,8 @@
 
 define([
     'underscore',
-    'knockback',
-    'knockout',
     'contrail-model'
-], function (_, Knockback, Knockout, ContrailModel) {
+], function (_, ContrailModel) {
 
     var getValidationByKey = function (key) {
         var configureValidation = {
@@ -26,12 +24,12 @@ define([
             },
             'parameters.subnet_mask': {
                 required: true,
-                pattern: smwc.PATTERN_SUBNET_MASK,
+                pattern: cowc.PATTERN_SUBNET_MASK,
                 msg: smwm.getInvalidErrorMessage('subnet_mask')
             },
             'parameters.gateway': {
                 required: false,
-                pattern: smwc.PATTERN_IP_ADDRESS,
+                pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('gateway')
             },
 
@@ -52,23 +50,28 @@ define([
 
             'parameters.openstack_mgmt_ip': {
                 required: false,
-                pattern: smwc.PATTERN_IP_ADDRESS,
+                pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('openstack_mgmt_ip')
             },
             'parameters.compute_non_mgmt_ip': {
                 required: false,
-                pattern: smwc.PATTERN_IP_ADDRESS,
+                pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('compute_non_mgmt_ip')
             },
             'parameters.compute_non_mgmt_gway': {
                 required: false,
-                pattern: smwc.PATTERN_IP_ADDRESS,
+                pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
             },
 
             'parameters.keystone_tenant': {
                 required: true,
                 msg: smwm.getRequiredMessage('keystone_tenant')
+            },
+            'parameters.keystone_ip': {
+                required: false,
+                pattern: smwc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('keystone_ip')
             },
             'parameters.keystone_username': {
                 required: true,
@@ -78,13 +81,35 @@ define([
                 required: true,
                 msg: smwm.getRequiredMessage('keystone_password')
             },
-            'parameters.openstack_passwd': {
-                required: true,
-                msg: smwm.getRequiredMessage('openstack_passwd')
-            },
             'parameters.password': {
                 required: true,
                 msg: smwm.getRequiredMessage('password')
+            },
+
+            'parameters.internal_vip': {
+                required: false,
+                pattern: cowc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('internal_vip')
+            },
+            'parameters.external_vip': {
+                required: false,
+                pattern: cowc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('external_vip')
+            },
+            'parameters.contrail_internal_vip': {
+                required: false,
+                pattern: cowc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('contrail_internal_vip')
+            },
+            'parameters.contrail_external_vip': {
+                required: false,
+                pattern: cowc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('contrail_external_vip')
+            },
+            'parameters.nfs_server': {
+                required: false,
+                pattern: cowc.PATTERN_IP_ADDRESS,
+                msg: smwm.getInvalidErrorMessage('nfs_server')
             },
 
             'parameters.database_dir': {

@@ -12,8 +12,10 @@ define([
         editTemplate = contrail.getTemplate4Id(smwc.TMPL_BM_EDIT_FORM);
 
     var selectedBaremetal = null;
-    var vnsMap = {};
-    var intfsMap = {};
+    var localVnsMap = {};
+//    var intfsMap = {};
+    var baremetalInterfaces = [];
+    var virtualNetworks = []
     
     var BaremetalEditView = Backbone.View.extend({
         modalElementId: '#' + modalId,
@@ -21,7 +23,8 @@ define([
         renderAddBaremetal: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
                 that = this;
-
+            //fetch the virtual networks for pupulating the dropdown
+            this.model.getVirtualNetworks();
             cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 
             }, 'onCancel': function () {
@@ -33,9 +36,9 @@ define([
 
             cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model,
                     getAddBaremetalViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
-
-            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID, false);
-            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+            
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + cowc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, false);
             
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);
@@ -47,8 +50,9 @@ define([
             var data = options['checkedRows'];
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 var vnTxt = $('#'+ cowu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]) + '_dropdown').data('contrailDropdown').value();
-                var newVN = vnsMap[vnTxt];
-                data[0]['newVNUuid'] = newVN;
+                var newVN = localVnsMap[vnTxt];
+                data[0]['vnData'] = newVN;
+
                 that.model.editBaremetal(data,{
                     init: function () {
                         that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, false);
@@ -77,7 +81,7 @@ define([
             that.model.getVN({
                 init : function() {
                     that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, false);
-                    //smwu.enableModalLoading(modalId);
+                    //cowu.enableModalLoading(modalId);
                 },
                 success: function(res) {
                     var formattedData = parseVns(res);
@@ -98,7 +102,7 @@ define([
                     });
                 }
             })        
-            this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
             
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);
@@ -111,7 +115,7 @@ define([
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.reimage(options['checkedRows'],{
                     init: function () {
-                        that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+                        that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -120,7 +124,7 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
+                            that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });
@@ -132,7 +136,7 @@ define([
             }});
 
             cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
-            this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);
@@ -204,7 +208,7 @@ define([
         viewConfig: {
             rows: [
                 {
-                    columns : [
+                   /* columns : [
 
                                {
                                    elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE, smwl.TITLE_BAREMETAL_INTERFACES]),
@@ -218,39 +222,39 @@ define([
                                                uniqueColumn: 'interface',
                                                events: {
                                                    onUpdate: function () {
-                                                       /*var interfaces = $('#baremetal_select_interface_baremetal_interfaces').data('contrailDynamicgrid')._grid.getData(),
-                                                           managementInterfacePrevData = $('#management_interface_dropdown').data('contrailDropdown').getAllData(),
-                                                           managementInterfaceData = [],
-                                                           controlDataInterfacePrevData = $('#control_data_interface_dropdown').data('contrailDropdown').getAllData(),
-                                                           controlDataInterfaceData = [],
-                                                           bondMemberInterfaces = [];
-
-                                                       $.each(interfaces, function(interfaceKey, interfaceValue) {
-                                                           bondMemberInterfaces = bondMemberInterfaces.concat(interfaceValue.member_interfaces);
-                                                       });
-
-                                                       $.each(interfaces, function (interfaceKey, interfaceValue) {
-                                                           if (interfaceValue.name != '' && bondMemberInterfaces.indexOf(interfaceValue.name) == -1) {
-                                                               if (interfaceValue.type == 'physical') {
-                                                                   managementInterfaceData.push({
-                                                                       id: interfaceValue.name,
-                                                                       text: interfaceValue.name
-                                                                   });
-                                                               }
-
-                                                               controlDataInterfaceData.push({
-                                                                   id: interfaceValue.name,
-                                                                   text: interfaceValue.name
-                                                               });
-                                                           }
-                                                       });
-
-                                                       if (JSON.stringify(managementInterfacePrevData) != JSON.stringify(managementInterfaceData)) {
-                                                           $('#management_interface_dropdown').data('contrailDropdown').setData(managementInterfaceData)
-                                                       }
-                                                       if (JSON.stringify(controlDataInterfacePrevData) != JSON.stringify(controlDataInterfaceData)) {
-                                                           $('#control_data_interface_dropdown').data('contrailDropdown').setData(controlDataInterfaceData)
-                                                       }*/
+//                                                       var interfaces = $('#baremetal_select_interface_baremetal_interfaces').data('contrailDynamicgrid')._grid.getData(),
+//                                                           managementInterfacePrevData = $('#management_interface_dropdown').data('contrailDropdown').getAllData(),
+//                                                           managementInterfaceData = [],
+//                                                           controlDataInterfacePrevData = $('#control_data_interface_dropdown').data('contrailDropdown').getAllData(),
+//                                                           controlDataInterfaceData = [],
+//                                                           bondMemberInterfaces = [];
+//
+//                                                       $.each(interfaces, function(interfaceKey, interfaceValue) {
+//                                                           bondMemberInterfaces = bondMemberInterfaces.concat(interfaceValue.member_interfaces);
+//                                                       });
+//
+//                                                       $.each(interfaces, function (interfaceKey, interfaceValue) {
+//                                                           if (interfaceValue.name != '' && bondMemberInterfaces.indexOf(interfaceValue.name) == -1) {
+//                                                               if (interfaceValue.type == 'physical') {
+//                                                                   managementInterfaceData.push({
+//                                                                       id: interfaceValue.name,
+//                                                                       text: interfaceValue.name
+//                                                                   });
+//                                                               }
+//
+//                                                               controlDataInterfaceData.push({
+//                                                                   id: interfaceValue.name,
+//                                                                   text: interfaceValue.name
+//                                                               });
+//                                                           }
+//                                                       });
+//
+//                                                       if (JSON.stringify(managementInterfacePrevData) != JSON.stringify(managementInterfaceData)) {
+//                                                           $('#management_interface_dropdown').data('contrailDropdown').setData(managementInterfaceData)
+//                                                       }
+//                                                       if (JSON.stringify(controlDataInterfacePrevData) != JSON.stringify(controlDataInterfaceData)) {
+//                                                           $('#control_data_interface_dropdown').data('contrailDropdown').setData(controlDataInterfaceData)
+//                                                       }
                                                    }
                                                }
                                            },
@@ -335,7 +339,58 @@ define([
                                    }
                                }
                            
-                    ]
+                    ]*/
+                    columns: [
+                              {
+                                  elementId: cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE, smwl.TITLE_BAREMETAL_INTERFACES]),
+                                  view: "FormEditableGridView",
+                                  viewConfig: {
+                                      path: "interfaces",
+//                                      validation: 'bondValidation',
+                                      collection: "filterInterfaces()",
+                                        columns : [
+                                            {
+                                                elementId : 'baremetal_interface',
+                                                name : 'Baremetal Interface',
+                                                view : "GridDropdownView",
+                                                class : "",
+                                                width : 200,
+                                                viewConfig : {
+                                                    path : 'baremetal_interface',
+                                                    dataBindValue : 'baremetal_interface()',
+                                                    width : 200,
+                                                    elementConfig : {
+                                                        placeholder : 'Select baremetal interface',
+                                                        data : '$root.getBaremetalInterfaces()'
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                elementId : 'vn',
+                                                name : 'Virtual Network',
+                                                view : "GridDropdownView",
+                                                class : "",
+                                                width : 500,
+                                                viewConfig : {
+                                                    path : 'vn',
+                                                    dataBindValue : 'vn()',
+                                                    width : 500,
+                                                    elementConfig : {
+                                                        placeholder : 'Select Virtual Network',
+                                                        data : '$root.populateVirtualNetworks()'
+                                                    }
+                                                }
+                                            }
+                                      ],
+                                      rowActions: [
+                                          {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'icon-minus'}
+                                      ],
+                                      gridActions: [
+                                          {onClick: "function() { addInterface(); }", buttonTitle: "Add"}
+                                      ]
+                                  }
+                              }
+                          ]
                 }
             ]
         }
@@ -440,10 +495,10 @@ define([
             onNext: function (params) {
                 var checkedRows =  $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS])).data('contrailGrid').getCheckedRows();
                 if(checkedRows.length == 0){
-                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select a server');
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + cowc.FORM_SUFFIX_ID,'Please select a server');
                     return false
                 } else if(checkedRows.length > 1){
-                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select only one server');
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + cowc.FORM_SUFFIX_ID,'Please select only one server');
                     return false;
                 } else {
                     baremetalModel.selectedServer = checkedRows[0]
@@ -472,8 +527,16 @@ define([
                 stepType: 'step',
                 onInitRender: true,
                 onNext: function (params) {
-                    var interfaceMappings = $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE , smwl.TITLE_BAREMETAL_INTERFACES]))
-                                                .data('contrailDynamicgrid')._grid.getData();
+                    var htmlDataRows = $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE , smwl.TITLE_BAREMETAL_INTERFACES])).find('.data-row');
+                    var interfaceMappings = [];
+                    for(var i =0 ; i < htmlDataRows.length; i++){
+                        var bmIntf = $(htmlDataRows[i]).find('#baremetal_interface').find('select').val();
+                        var vn = $(htmlDataRows[i]).find('#vn').find('select').val();
+                        interfaceMappings.push({'interface' : bmIntf, 'vn':vn});
+                    }
+                    
+//                    var interfaceMappings = $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_INTERFACE , smwl.TITLE_BAREMETAL_INTERFACES]))
+//                                                .data('contrailDynamicgrid')._grid.getData();
                     var selectedServer = $('#' + cowu.formatElementId([prefixId, smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]))
                                                 .data('contrailGrid').getCheckedRows()[0];
 //                    var serverAttrs = parms.model().attributes;
@@ -482,10 +545,10 @@ define([
                    var serverManagementMac = selectedServer['mac_address'];
                    var ip = selectedServer.ip_address.trim();
                     if(interfaceMappings.length == 0){
-                        baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'Please map atleast one interface');
+                        baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID,'Please map atleast one interface');
                     } else if(!checkIfInterfaceRepeated(interfaceMappings)){
                         $.each(interfaceMappings,function(i,interfaceMapping){
-                            var mac = intfsMap[interfaceMapping['interface']];
+                            var mac = params.model.baremetalIntfMap[interfaceMapping['interface']];
                             var subNet = '';
                             var subNetArry = interfaceMapping['vn'].split(' ');
                             var interfaces = selectedServer['network']['interfaces'];
@@ -514,11 +577,11 @@ define([
                                       }
                                 }
                                 if(!isIPinRange) {
-                                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'IP ' + intfIP + ' is not in the CIDR ' + subNet);
+                                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID,'IP ' + intfIP + ' is not in the CIDR ' + subNet);
                                     return;
                                 }
                             }
-                            var vnData = vnsMap[interfaceMapping['vn']];
+                            var vnData = params.model.vnsMap[interfaceMapping['vn']];
                             var moreDetails = getMoreDetailsForInterface(selectedServer['network']['interfaces'], mac);
                             var data = {
                                 "vnData" : vnData,
@@ -534,7 +597,7 @@ define([
                             configureBaremetal(data,params,baremetalModel);
                         });
                     } else {
-                        baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID,'Please select different interfaces');
+                        baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID,'Please select different interfaces');
                     }
                 },
                 buttons: {
@@ -574,7 +637,7 @@ define([
     function configureBaremetal(data,params,baremetalModel){
         params.model.createVMI(data, {
             init: function () {
-                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, false);
                 cowu.enableModalLoading(modalId);
             },
             success: function (response) {
@@ -583,7 +646,7 @@ define([
             },
             error: function (error) {
                 cowu.disableModalLoading(modalId, function () {
-                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, error.responseText);
                 });
             }
         });
@@ -592,14 +655,14 @@ define([
     function createVM(vmiDetails,data,params,baremetalModel){
         params.model.createVM(vmiDetails[2], data.serverId,  {
             init: function () {
-                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, false);
             },
             success: function () {
                 createLogicalInterface(data,vmiDetails,params,baremetalModel);
             },
             error: function (error) {
                 cowu.disableModalLoading(modalId, function () {
-                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, error.responseText);
                 });
             }
         });
@@ -608,7 +671,7 @@ define([
     function createLogicalInterface(data,vmiDetails,params,baremetalModel){
         params.model.createLogicalInterface(data,vmiDetails, {
             init: function () {
-                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, false);
+                baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, false);
             },
             success: function () {
                 cowu.disableModalLoading(modalId, function () {
@@ -622,7 +685,7 @@ define([
                             },
                             error:function(error){
                                 cowu.disableModalLoading(modalId, function () {
-                                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, error.responseText);
                                 });
 //                                loadFeature({p: smwc.URL_HASH_BM_SERVERS});
                             }
@@ -634,7 +697,7 @@ define([
             },
             error: function (error) {
                 cowu.disableModalLoading(modalId, function () {
-                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + smwc.FORM_SUFFIX_ID, error.responseText);
+                    baremetalModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, error.responseText);
                 });
             }
         });
@@ -784,9 +847,9 @@ define([
                                     elementId: cowu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]),
                                     view: "FormDropdownView",
                                     viewConfig:{
-                                        path : 'network.interfaces',
+                                        path : 'interfaces',
                                         class : "span6",
-                                        dataBindValue : 'network.interfaces',
+                                        dataBindValue : 'interfaces()',
                                        elementConfig: {
                                            width: 'element',
                                            placeholder: 'Select Network',
@@ -862,7 +925,7 @@ define([
                     textVN += ' (' + subnetStr + ')';  
                 }
                 vnDataSrc.push({ text : textVN, value : textVN, key : vn.uuid, vnData : JSON.stringify(vn)});
-                vnsMap[textVN] = JSON.stringify(vn);//store in the map for using while saving
+                localVnsMap[textVN] = JSON.stringify(vn);//store in the map for using while saving
             }
         } else {
             vnDataSrc.push({text : 'No Virtual Network found', value : 'empty'});

@@ -9,7 +9,7 @@ define([
     'setting/sm/ui/js/views/ServerEditView'
 ], function (_, Backbone, ServerModel, ServerEditView) {
     var prefixId = smwc.SERVER_PREFIX_ID,
-        gridElId = '#' + prefixId + smwc.RESULTS_SUFFIX_ID,
+        gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID,
         serverEditView = new ServerEditView();
 
     var ServersView = Backbone.View.extend({
@@ -25,7 +25,7 @@ define([
         },
 
         renderServersList: function (viewConfig) {
-            var smTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + smwc.TMPL_SUFFIX_ID),
+            var smTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + cowc.TMPL_SUFFIX_ID),
                 serverColumnsType = viewConfig['serverColumnsType'],
                 showAssignRoles = viewConfig['showAssignRoles'];
 
@@ -55,8 +55,7 @@ define([
                             }
                         },
                         detail: {
-                            template: $('#' + smwc.TMPL_2ROW_GROUP_DETAIL).html(),
-                            templateConfig: detailTemplateConfig
+                            template: cowu.generateDetailTemplateHTML(detailTemplateConfig, 'server-manager')
                         },
                         sortable: {
                             defaultSortCols: {
@@ -79,18 +78,17 @@ define([
         },
 
         renderServer: function (serverId) {
-            var detailTemplate = contrail.getTemplate4Id(smwc.TMPL_2ROW_GROUP_DETAIL),
-                serverTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE),
-                serverActionTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE_ACTION),
+            var detailTemplate = contrail.getTemplate4Id(cowc.TMPL_2ROW_GROUP_DETAIL),
+                serverTemplate = contrail.getTemplate4Id(cowc.TMPL_DETAIL_PAGE),
+                serverActionTemplate = contrail.getTemplate4Id(cowc.TMPL_DETAIL_PAGE_ACTION),
                 ajaxConfig = {}, that = this;
 
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
             ajaxConfig.url = smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + "?id=" + serverId;
 
-            that.$el.html(serverTemplate({prefix: smwc.SERVER_PREFIX_ID, prefixId: serverId}));
-
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
+                that.$el.html(serverTemplate({prefix: smwc.SERVER_PREFIX_ID, prefixId: serverId}));
                 var actionConfigItem = null,
                     detailActionConfig = getDetailActionConfig(false),
                     gridConfig, ipmiElId;
@@ -228,7 +226,7 @@ define([
     function getRowActionConfig(showAssignRoles) {
         var rowActionConfig = [
             smwgc.getConfigureAction(function (rowIndex) {
-                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
                     title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
@@ -240,7 +238,7 @@ define([
                 }});
             }),
             smwgc.getTagAction(function (rowIndex) {
-                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
                     title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')';
@@ -261,7 +259,7 @@ define([
 
         if (showAssignRoles) {
             rowActionConfig.push(smwgc.getAssignRoleAction(function (rowIndex) {
-                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
                     title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
@@ -274,7 +272,7 @@ define([
             }));
         }
         rowActionConfig = rowActionConfig.concat([smwgc.getReimageAction(function (rowIndex) {
-                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
                     title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
@@ -286,7 +284,7 @@ define([
                 }});
             }, true),
             smwgc.getProvisionAction(function (rowIndex) {
-                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
                     title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')';
@@ -298,7 +296,7 @@ define([
                 }});
             }),
             smwgc.getDeleteAction(function (rowIndex) {
-                var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
                     title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
@@ -314,36 +312,189 @@ define([
         return rowActionConfig;
     };
 
-    var detailTemplateConfig = [
-        [
-            {
-                title: smwl.TITLE_SYSTEM_MANAGEMENT,
-                keys: ['id', 'mac_address', 'host_name', 'domain', 'ip_address', 'ipmi_address', 'gateway', 'subnet_mask', 'static_ip', 'parameters.partition']
-            },
-            {
-                title: smwl.TITLE_PROVISIONING,
-                keys: [ 'cluster_id', 'email', 'base_image_id', 'reimaged_id', 'package_image_id', 'provisioned_id']
-            }
-        ],
-        [
-            {
-                title: smwl.TITLE_STATUS,
-                keys: ['status', 'last_update', 'state']
-            },
-            {
-                title: smwl.TITLE_ROLES,
-                keys: ['roles']
-            },
-            {
-                title: smwl.TITLE_TAGS,
-                keys: ['tag.datacenter', 'tag.floor', 'tag.hall', 'tag.rack', 'tag.user_tag']
-            },
-            {
-                title: smwl.TITLE_INTERFACES,
-                keys: ['parameters.interface_name', 'intf_bond', 'intf_data', 'intf_control']
-            }
-        ]
-    ];
+    var detailTemplateConfig = {
+        templateGenerator: 'ColumnSectionTemplateGenerator',
+        templateGeneratorConfig: {
+            columns: [
+                {
+                    class: 'span6',
+                    rows: [
+                        {
+                            templateGenerator: 'BlockListTemplateGenerator',
+                            title: smwl.TITLE_SYSTEM_MANAGEMENT,
+                            templateGeneratorConfig: [
+                                {
+                                    key: 'id',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'mac_address',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'host_name',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'domain',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'ip_address',
+                                    valueType: 'link'
+                                },
+                                {
+                                    key: 'ipmi_address',
+                                    valueType: 'link'
+                                },
+                                {
+                                    key: 'gateway',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'subnet_mask',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'static_ip',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'parameters.partition',
+                                    valueType: 'text'
+                                }
+                            ]
+                        },
+                        {
+                            templateGenerator: 'BlockListTemplateGenerator',
+                            title: smwl.TITLE_CONTRAIL_CONTROLLER,
+                            templateGeneratorConfig: [
+                                {
+                                    key: 'package_image_id',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'contrail.control_data_interface',
+                                    valueType: 'text'
+                                }
+                            ]
+                        },
+                        {
+                            templateGenerator: 'BlockListTemplateGenerator',
+                            title: smwl.TITLE_CONTRAIL_STORAGE,
+                            templateGeneratorConfig: [
+                                {
+                                    key: 'parameters.storage_repo_id',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'parameters.disks',
+                                    valueType: 'text'
+                                }
+                            ]
+                        },
+                    ]
+                },
+                {
+                    class: 'span6',
+                    rows: [
+                        {
+                            templateGenerator: 'BlockListTemplateGenerator',
+                            title: smwl.TITLE_STATUS,
+                            templateGeneratorConfig: [
+                                {
+                                    key: 'status',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'last_update',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'state',
+                                    valueType: 'text'
+                                },
+                            ]
+                        },
+                        {
+                            templateGenerator: 'BlockListTemplateGenerator',
+                            title: smwl.TITLE_ROLES,
+                            templateGeneratorConfig: [
+                                {
+                                    key: 'roles',
+                                    valueType: 'text'
+                                },
+                            ]
+                        },
+                        {
+                            templateGenerator: 'BlockListTemplateGenerator',
+                            title: smwl.TITLE_TAGS,
+                            templateGeneratorConfig: [
+                                {
+                                    key: 'tag.datacenter',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'tag.floor',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'tag.hall',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'tag.rack',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'tag.user_tag',
+                                    valueType: 'text'
+                                },
+                            ]
+                        },
+                        {
+                            templateGenerator: 'BlockListTemplateGenerator',
+                            title: smwl.TITLE_PROVISIONING,
+                            templateGeneratorConfig: [
+                                {
+                                    key: 'cluster_id',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'email',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'base_image_id',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'reimaged_id',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'provisioned_id',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'network.management_interface',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'parameters.kernel_upgrade',
+                                    valueType: 'text'
+                                },
+                                {
+                                    key: 'parameters.kernel_version',
+                                    valueType: 'text'
+                                },
+                            ]
+                        },
+                    ]
+                }
+            ]
+        }
+    };
 
     return ServersView;
 
@@ -519,10 +670,10 @@ define([
 
     function applyServerTagFilter(event, ui) {
         var checkedRows = $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').getChecked();
-        $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.setFilterArgs({
+        $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.setFilterArgs({
             checkedRows: checkedRows
         });
-        $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.setFilter(serverTagGridFilter);
+        $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.setFilter(serverTagGridFilter);
     };
 
     /*

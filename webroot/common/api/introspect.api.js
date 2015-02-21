@@ -2,6 +2,7 @@
  Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
+
 var  rest = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/rest.api');
 
 var smConfig = require('../../common/api/sm.config'),

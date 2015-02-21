@@ -10,7 +10,7 @@ define([
 ], function (_, Backbone, ClusterModel, ClusterEditView) {
     var prefixId = smwc.CLUSTER_PREFIX_ID,
         clusterEditView = new ClusterEditView(),
-        gridElId = '#' + prefixId + smwc.RESULTS_SUFFIX_ID;
+        gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID;
 
     var ClusterView = Backbone.View.extend({
         el: $(contentContainer),
@@ -25,7 +25,7 @@ define([
         },
 
         renderClustersList: function () {
-            var directoryTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + smwc.TMPL_SUFFIX_ID);
+            var directoryTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + cowc.TMPL_SUFFIX_ID);
 
             this.$el.html(directoryTemplate({name: prefixId}));
 
@@ -51,7 +51,7 @@ define([
                             }
                         },
                         detail: {
-                            template: $('#' + smwc.TMPL_2ROW_GROUP_DETAIL).html(),
+                            template: $('#' + cowc.TMPL_2ROW_GROUP_DETAIL).html(),
                             templateConfig: detailTemplateConfig
                         }
                     },
@@ -69,16 +69,16 @@ define([
         },
 
         renderCluster: function (clusterId) {
-            var detailTemplate = contrail.getTemplate4Id(smwc.TMPL_2ROW_GROUP_DETAIL),
-                clusterTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE),
-                clusterActionTemplate = contrail.getTemplate4Id(smwc.TMPL_DETAIL_PAGE_ACTION),
+            var detailTemplate = contrail.getTemplate4Id(cowc.TMPL_2ROW_GROUP_DETAIL),
+                clusterTemplate = contrail.getTemplate4Id(cowc.TMPL_DETAIL_PAGE),
+                clusterActionTemplate = contrail.getTemplate4Id(cowc.TMPL_DETAIL_PAGE_ACTION),
                 ajaxConfig = {}, that = this;
             ajaxConfig.type = "GET";
             ajaxConfig.cache = "true";
             ajaxConfig.url = smwu.getObjectDetailUrl(smwc.CLUSTER_PREFIX_ID, smwc.SERVERS_STATE_PROCESSOR) + "&id=" + clusterId;
 
-            that.$el.html(clusterTemplate({prefix: 'cluster', prefixId: clusterId}));
             contrail.ajaxHandler(ajaxConfig, function () {}, function (response) {
+                that.$el.html(clusterTemplate({prefix: 'cluster', prefixId: clusterId}));
                 var actionConfigItem = null;
                 $.each(detailActionConfig, function(detailActionConfigKey, detailActionConfigValue) {
                     actionConfigItem = $(clusterActionTemplate(detailActionConfigValue));
@@ -169,7 +169,7 @@ define([
 
     var rowActionConfig = [
         smwgc.getAddServersAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 title = smwl.TITLE_ADD_SERVERS + ' ('+ dataItem['id'] +')';
 
@@ -180,7 +180,7 @@ define([
             }});
         }),
         smwgc.getRemoveServersAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 title = smwl.TITLE_REMOVE_SERVERS + ' ('+ dataItem['id'] +')';
 
@@ -191,7 +191,7 @@ define([
             }});
         }),
         smwgc.getAssignRoleAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
@@ -203,7 +203,7 @@ define([
             }});
         }),
         smwgc.getConfigureAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
@@ -215,7 +215,7 @@ define([
             }});
         }),
         smwgc.getReimageAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
@@ -227,7 +227,7 @@ define([
             }});
         }, true),
         smwgc.getProvisionAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_PROVISION_CLUSTER + ' ('+ dataItem['id'] +')';
@@ -239,7 +239,7 @@ define([
             }});
         }),
         smwgc.getDeleteAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 checkedRow = dataItem,
                 title = smwl.TITLE_DEL_CLUSTER + ' ('+ dataItem['id'] +')';
@@ -260,11 +260,19 @@ define([
             },
             {
                 title: smwl.TITLE_OPENSTACK,
-                keys: ['parameters.openstack_mgmt_ip', 'parameters.keystone_tenant', 'parameters.keystone_username']
+                keys: ['parameters.openstack_mgmt_ip', 'parameters.keystone_ip', 'parameters.keystone_tenant', 'parameters.keystone_service_tenant', 'parameters.keystone_username', 'parameters.keystone_region_name']
             },
             {
-                title: smwl.TITLE_CONTRAIL,
-                keys: ['parameters.analytics_data_ttl', 'parameters.haproxy', 'parameters.multi_tenancy', 'parameters.use_certificates', 'parameters.external_bgp', 'parameters.encapsulation_priority', 'parameters.router_asn', 'parameters.database_dir']
+                title: smwl.TITLE_CONTRAIL_CONTROLLER,
+                keys: ['parameters.encapsulation_priority', 'parameters.external_bgp', 'parameters.multi_tenancy', 'parameters.router_asn', 'parameters.use_certificates', 'parameters.database_dir', 'parameters.hc_interval']
+            },
+            {
+                title: smwl.TITLE_HA_CONFIG,
+                keys: ['parameters.haproxy', 'parameters.internal_vip', 'parameters.external_vip', 'parameters.contrail_internal_vip', 'parameters.contrail_external_vip', 'parameters.nfs_server', 'parameters.nfs_glance_path']
+            },
+            {
+                title: smwl.TITLE_ANALYTICS_CONFIG,
+                keys: ['parameters.analytics_data_ttl', 'parameters.analytics_syslog_port', 'parameters.analytics_data_dir', 'parameters.ssd_data_dir']
             }
         ],
         [
@@ -273,13 +281,13 @@ define([
                 keys: ['ui_added_parameters.servers_status.total_servers', 'ui_added_parameters.servers_status.new_servers', 'ui_added_parameters.servers_status.configured_servers', 'ui_added_parameters.servers_status.inreimage_servers', 'ui_added_parameters.servers_status.reimaged_servers', 'ui_added_parameters.servers_status.inprovision_servers', 'ui_added_parameters.servers_status.provisioned_servers']
             },
             {
-                title: smwl.TITLE_SERVERS_CONFIG,
-                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'base_image_id', 'package_image_id']
+                title: smwl.TITLE_CONTRAIL_STORAGE,
+                keys: ['parameters.storage_virsh_uuid', 'parameters.storage_fsid','parameters.storage_mon_secret', 'parameters.osd_bootstrap_key', 'parameters.admin_key', 'parameters.live_migration', 'parameters.live_migration_nfs_vm_host', 'parameters.live_migration_storage_scope']
             },
             {
-                title: smwl.TITLE_STORAGE,
-                keys: ['parameters.uuid', 'parameters.storage_virsh_uuid', 'parameters.storage_fsid']
-            },
+                title: smwl.TITLE_SERVERS_CONFIG,
+                keys: ['parameters.domain', 'parameters.gateway', 'parameters.subnet_mask', 'base_image_id', 'package_image_id', 'parameters.kernel_upgrade', 'parameters.kernel_version']
+            }
         ]
     ];
 

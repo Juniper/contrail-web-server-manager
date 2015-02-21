@@ -8,7 +8,7 @@ define([
     'knockback'
 ], function (_, Backbone, Knockback) {
     var prefixId = smwc.IMAGE_PREFIX_ID,
-        editTemplate = contrail.getTemplate4Id(smwc.TMPL_EDIT_FORM),
+        editTemplate = contrail.getTemplate4Id(cowc.TMPL_EDIT_FORM),
         modalId = 'configure-' + prefixId;
 
     var ImageEditView = Backbone.View.extend({
@@ -20,7 +20,7 @@ define([
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 that.model.configure({
                     init: function () {
-                        that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+                        that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -29,7 +29,7 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, error.responseText);
+                            that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });
@@ -41,7 +41,7 @@ define([
 
             cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
 
-            this.model.showErrorAttr(prefixId + smwc.FORM_SUFFIX_ID, false);
+            this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);
         },

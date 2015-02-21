@@ -10,59 +10,26 @@ define([
 ], function (_, Backbone, PackageModel, PackageEditView) {
     var prefixId = smwc.PACKAGE_PREFIX_ID,
         packageEditView = new PackageEditView(),
-        gridElId = '#' + prefixId + smwc.RESULTS_SUFFIX_ID;
+        gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID;
 
     var PackagesView = Backbone.View.extend({
         el: $(contentContainer),
 
         render: function () {
-            var directoryTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + smwc.TMPL_SUFFIX_ID);
+            var directoryTemplate = contrail.getTemplate4Id(smwc.SM_PREFIX_ID + cowc.TMPL_SUFFIX_ID);
 
             this.$el.html(directoryTemplate({name: prefixId}));
 
-            var gridConfig = {
-                header: {
-                    title: {
-                        text: smwl.TITLE_PACKAGES
-                    },
-                    advanceControls: headerActionConfig
-                },
-                columnHeader: {
-                    columns: smwgc.PACKAGE_COLUMNS
-                },
-                body: {
-                    options: {
-                        actionCell: rowActionConfig,
-                        checkboxSelectable: {
-                            onNothingChecked: function(e){
-                                $('#btnDeleteRepos').addClass('disabled-link');
-                            },
-                            onSomethingChecked: function(e){
-                                $('#btnDeleteRepos').removeClass('disabled-link');
-                            }
-                        },
-                        detail: {
-                            template: $('#' + smwc.TMPL_2ROW_GROUP_DETAIL).html(),
-                            templateConfig: detailTemplateConfig
-                        }
-                    },
-                    dataSource: {
-                        remote: {
-                            ajaxConfig: {
-                                url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')
-                            }
-                        }
-                    }
-                }
-            };
-
             cowu.renderGrid(gridElId, gridConfig);
+        },
+        getGridConfig : function () {
+            return gridConfig;
         }
     });
 
     var rowActionConfig = [
         smwgc.getDeleteAction(function (rowIndex) {
-            var dataItem = $('#' + prefixId + smwc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 packageModel = new PackageModel(dataItem),
                 checkedRow = dataItem,
                 title = smwl.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')';
@@ -100,6 +67,42 @@ define([
             }
         ]
     ];
+
+    var gridConfig = {
+        header: {
+            title: {
+                text: smwl.TITLE_PACKAGES
+            },
+            advanceControls: headerActionConfig
+        },
+        columnHeader: {
+            columns: smwgc.PACKAGE_COLUMNS
+        },
+        body: {
+            options: {
+                actionCell: rowActionConfig,
+                checkboxSelectable: {
+                    onNothingChecked: function(e){
+                        $('#btnDeleteRepos').addClass('disabled-link');
+                    },
+                    onSomethingChecked: function(e){
+                        $('#btnDeleteRepos').removeClass('disabled-link');
+                    }
+                },
+                detail: {
+                    template: $('#' + cowc.TMPL_2ROW_GROUP_DETAIL).html(),
+                    templateConfig: detailTemplateConfig
+                }
+            },
+            dataSource: {
+                remote: {
+                    ajaxConfig: {
+                        url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')
+                    }
+                }
+            }
+        }
+    };
 
     return PackagesView;
 });

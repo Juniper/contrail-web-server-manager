@@ -41,6 +41,7 @@ define([
                 server['roles'] = [];
             }
         }
+
     };
     return SMUtils;
 });

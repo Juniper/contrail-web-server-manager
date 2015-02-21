@@ -302,13 +302,13 @@
       // Mix in validation on a model whenever a model is
       // added to a collection
       var collectionAdd = function(model) {
-        bindModel(this.view, model, this.options);
+        bindModel(this.view, model.attributes.model(), this.options);
       };
   
       // Remove validation from a model whenever a model is
       // removed from a collection
       var collectionRemove = function(model) {
-        unbindModel(model);
+        unbindModel(model.attributes.model());
       };
   
       // Returns the public methods on Backbone.Validation
@@ -335,12 +335,12 @@
                   'See http://thedersen.com/projects/backbone-validation/#using-form-model-validation for more information.';
           }
   
-          if(model) {
+          if(view.model !== 'undefined' && model) {
             bindModel(view, model, options);
           }
-          else if(collection) {
+          if(typeof collection !== 'undefined' && collection) {
             collection.each(function(model){
-              bindModel(view, model, options);
+              bindModel(view, model.attributes.model(), options);
             });
             collection.bind('add', collectionAdd, {view: view, options: options});
             collection.bind('remove', collectionRemove);
@@ -353,13 +353,13 @@
           options = _.extend({}, options);
           var model = options.model || view.model,
               collection = options.collection || view.collection;
-  
-          if(model) {
+
+          if(view.model !== 'undefined' && model) {
             unbindModel(model);
           }
-          else if(collection) {
+          if(typeof collection !== 'undefined' && collection) {
             collection.each(function(model){
-              unbindModel(model);
+              unbindModel(model.attributes.model());
             });
             collection.unbind('add', collectionAdd);
             collection.unbind('remove', collectionRemove);

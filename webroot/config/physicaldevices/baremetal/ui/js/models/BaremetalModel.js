@@ -4,30 +4,44 @@
 
 define([
     'underscore',
-    'knockback',
+    'backbone',
     'knockout',
-    'contrail-model'
-], function (_, Knockback, Knockout, ContrailModel) {
+    'contrail-model',
+    'config/physicaldevices/baremetal/ui/js/models/BaremetalInterfacesModel',
+], function (_, Backbone, Knockout, ContrailModel, BaremetalInterfacesModel) {
     
     var BaremetalModel = ContrailModel.extend({
         
-        defaultConfig: $.extend(smwmc.getServerModel(),
-                {'baremetal_reimage':null}),
+        defaultConfig: smwmc.getBaremetalModel(),
+        
+        currentVNs:[],//List of all the vns for populating the dropdown in popup
+        
+        baremetalIntfMap:{},
+        
+        vnsMap:{},
+        
+        formatModelConfig: function (modelConfig) {
+            var interfaces = modelConfig['interfaces'],
+                interfaceModels = [], interfaceModel,
+                interfaceCollectionModel;
+
+            for(var i = 0; i < interfaces.length; i++) {
+                interfaceModel = new BaremetalInterfacesModel(interfaces[i]);
+                interfaceModels.push(interfaceModel)
+            }
+
+            interfaceCollectionModel = new Backbone.Collection(interfaceModels);
+            modelConfig['interfaces'] = interfaceCollectionModel;
+            return modelConfig;
+        },
         
         //Creates the VMI
         createVMI: function (data, callbackObj) {
             var ajaxConfig = {};
             var details = data['moreDetails'];
-//            if (this.model().isValid(true, 'configureBaremetalValidation')) {
-               /* var postObj = {};
-                postObj = {"vnUUID": data['vnUUID'], "fixedIPs":[details['ip_address']], "macAddress":data['macAddress']};
-                ajaxConfig.type = "POST";
-                ajaxConfig.data = JSON.stringify(postObj);
-                ajaxConfig.url = smwc.URL_CREATE_PORT;
-                */
             var vnData = JSON.parse(data['vnData']);
-            var curDomain = getCookie('domain');
-            var curProject = getCookie('project');
+            var domain = vnData['fq_name'][0];
+            var project = vnData['fq_name'][1]
             
             var nwIpamRefs = vnData['network_ipam_refs'];
             var subnetUUID;
@@ -39,14 +53,16 @@ define([
                     }
                 }
             } else {
-                subnetUUID = nwIpamRefs[0]['subnet']['subnet_uuid'];
+                if(nwIpamRefs != null && nwIpamRefs.length > 0){
+                    subnetUUID = nwIpamRefs[0]['subnet']['subnet_uuid'];
+                }
             }
             var postObj = {
                     "virtual-machine-interface": {
                         "parent_type": "project",
                         "fq_name": [
-                            curDomain,
-                            curProject
+                            domain,
+                            project
                         ],
                         "virtual_network_refs": [
                             {
@@ -63,11 +79,21 @@ define([
                                 "instance_ip_address": [
                                     {
                                         "fixedIp": (details['ip_address'] == null) ? '' : details['ip_address'] ,
-                                        "domain": curDomain,
-                                        "project": curProject
+                                        "domain": domain,
+                                        "project": project
                                     }
                                 ],
                                 "subnet_uuid": subnetUUID
+                            }
+                        ],
+                        "virtual_machine_interface_device_owner" : "",
+                        "security_group_refs" : [
+                            {
+                                "to" :[
+                                    domain,
+                                    project,
+                                    "default"
+                                ]
                             }
                         ]
                     }
@@ -193,7 +219,7 @@ define([
                             postObject["logical-interface"]["parent_type"] = "physical-interface";
                             postObject["logical-interface"]["parent_uuid"] = intfUUID;
                             postObject["logical-interface"]["name"] = name;  
-                            postObject["logical-interface"]["logical_interface_vlan_tag"] = '0';//vlan always zero
+                            postObject["logical-interface"]["logical_interface_vlan_tag"] = 0;//vlan always zero
                             postObject["logical-interface"]['virtual_machine_interface_refs'] = [{"to" : [vmiDetails[0], vmiDetails[1], vmiDetails[2]]}];
                             postObject["logical-interface"]["logical_interface_type"] = 'l2';
                             ajaxConfig.type = "POST";
@@ -234,7 +260,7 @@ define([
         getVN: function (callbackObj) {
             var ajaxConfig = {};
             ajaxConfig.type = "GET";
-            ajaxConfig.url = smwc.URL_NETWORKS;
+            ajaxConfig.url = smwc.URL_NETWORKS_DETAILS;
             console.log(ajaxConfig);
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
@@ -252,94 +278,118 @@ define([
                 }
             });
         },        
+        
+        /* Adds new row to the interfaces dynamic grid */
+        addInterface: function(baremetalInterfaces,vns) {
+            var interfaces = this.model().attributes['interfaces'];
+            var newInterface = new BaremetalInterfacesModel({"baremetal_interface" : [],"vn" : null});
+            interfaces.add([newInterface]);
+        },
+        
+        /* Deletes the row from the interfaces dynamic grid */
+        deleteInterface: function(data, kbInterface) {
+            var interfaceCollection = data.model().collection,
+                intf = kbInterface.model();
+
+            interfaceCollection.remove(intf);
+        },
+        filterInterfaces: function() {
+            return Knockout.computed(function () {
+                var kbInterfaces = this.interfaces(),
+                    interfaces = this.model().attributes.interfaces,
+                    phyInterfaces = [], model, type;
+
+                for (var i = 0; i < interfaces.length; i++) {
+                        phyInterfaces.push(kbInterfaces[i]);
+                }
+                return phyInterfaces;
+            }, this);
+        },
+        
+        getBaremetalInterfaces: function(){
+          var checkedRows =  $('#' + cowu.formatElementId(['baremetal', smwl.TITLE_SELECT_BAREMETAL_SERVER, smwl.TITLE_FILTER_BAREMETALS]))
+                                                                                                  .data('contrailGrid').getCheckedRows()[0];
+          var self = this;
+          if(checkedRows != null){
+              var interfaceData = [];
+              var interfaces = jsonPath(checkedRows,'$.network.interfaces')[0];
+              var intNames = [];
+              var baremetalInterfaces = [];
+              if(interfaces){
+                  $.each(interfaces,function(i,intf){
+                      baremetalInterfaces.push(intf.name);
+                      self.baremetalIntfMap[intf.name] = intf.mac_address;
+                  });
+              }
+              return Knockout.computed(function () {
+                  return baremetalInterfaces;
+              }, this);
+          }
+       },
+       
+       getVirtualNetworks: function(){
+           var ajaxConfig = {};
+           var self = this;
+           ajaxConfig.type = "GET";
+           ajaxConfig.url = smwc.URL_NETWORKS_DETAILS;
+           contrail.ajaxHandler(ajaxConfig, function () {
+           },function (response){
+               self.currentVNs = self.parseVns(response);
+           }, function (error) {
+               console.log(error);
+           });
+        },
+        
+        populateVirtualNetworks : function(){
+            var self = this;
+            return Knockout.computed(function () {
+                return self.currentVNs;
+            }, this);
+        },
+        
+        parseVns:  function(result){
+            var vnDataSrc = [];//[{text : 'None', value : 'none'}];
+            var self = this;
+            if(result != null && result['data'] != null && result['data'].length > 0) {
+                var vns =  result['data'];
+                for(var i = 0; i < vns.length; i++) {
+                    var vn = vns[i]['virtual-network'];
+                    var fqn = vn.fq_name;
+                    var subnetStr = '';
+                    if('network_ipam_refs' in vn) {
+                        var ipamRefs = vn['network_ipam_refs'];
+                        for(var j = 0; j < ipamRefs.length; j++) {
+                            if('subnet' in ipamRefs[j]) {
+                                if(subnetStr === '') {
+                                    subnetStr = ipamRefs[j].subnet.ipam_subnet;
+                                } else {
+                                    subnetStr += ', ' + ipamRefs[j].subnet.ipam_subnet;
+                                }
+                            }
+                        }
+                    }
+                    var textVN = fqn[2] + " (" + fqn[0] + ":" + fqn[1] + ")";
+                    if(subnetStr != '') {
+                        textVN += ' (' + subnetStr + ')';  
+                    }
+//                    vnDataSrc.push({ text : textVN, value : textVN, key : vn.uuid, vnData : JSON.stringify(vn)});
+                    self.vnsMap[textVN] = JSON.stringify(vn);//store in the map for using while saving
+                    vnDataSrc.push(textVN);
+                }
+            } else {
+                vnDataSrc.push({text : 'No Virtual Network found', value : 'empty'});
+            }
+            return vnDataSrc;
+        },
+       
         /**
+         * editBaremetal function edits the existing mapping of the interface and VN.
          * 1. Delete the VMI
          * 2. Create the new VMI with the new VN
          * 3. Create the VM associated to the VMI
          * 4. Get the current logical interface data
          * 5. Update the VMI ref to the logical interface
          */
-       /* editBaremetal: function (data, callbackObj) {
-            var ajaxConfig = {};
-            data = data[0];//assuming only one edit is allowed
-            var vmiUuid = data['vmiUuid'];
-            var vnUuid = data['vnUuid'];
-            var self = this;
-            //First delete the VMI
-            self.deleteVMI(data, {
-                init: function () {
-                    callbackObj.init();
-                },
-                success: function (response) {
-                  //Second create the new VMI with the new VN
-                    self.createVMI(data,{
-                        init: function () {
-                            
-                        },
-                        success: function (response) {
-                            var vmiDetails = response['virtual-machine-interface']['fq_name'];
-                            data['vmiUuid'] = vmiDetails[2];
-                            data['vmiDetails'] = vmiDetails;
-                            //Third create the VM associated to the VMI
-                            self.createVM(vmiDetails[2],{
-                                init: function(){
-                                    
-                                },
-                                success: function (response){
-                                    //Fourth Get the current logical interface data
-//                                    ajaxConfig.type = "GET";
-//                                    ajaxConfig.data = JSON.stringify(postObject);
-//                                    ajaxConfig.url = smwc.URL_PHYSICAL_INTERFACES + pRouterUUID + '/Logical' + '/' + response.uuid;
-//                                    contrail.ajaxHandler(ajaxConfig, function () {
-//                                        //Init
-//                                    }, function (response) {
-                                        console.log(response);
-                                        var ajaxConfig = response;
-                                        var postObj = {};
-                                        var vmiDetails = data['vmiDetails'];
-                                        postObject["logical-interface"]['virtual_machine_interface_refs'] = [{"to" : [vmiDetails[0], vmiDetails[1], vmiDetails[2]]}];
-                                        postObject['uuid'] = data['liUuid'];
-                                        ajaxConfig.type = "PUT";
-                                        ajaxConfig.data = JSON.stringify(postObject);
-                                        ajaxConfig.url = smwc.URL_PHYSICAL_INTERFACES + pRouterUUID + '/Logical' + '/' + data['liUuid'];
-                                        console.log(ajaxConfig);
-                                        //Fifth Update the VMI ref to the logical interface
-                                        contrail.ajaxHandler(ajaxConfig, function () {
-                                            if (contrail.checkIfFunction(callbackObj.init)) {
-                                                callbackObj.init();
-                                            }
-                                        }, function (response) {
-                                            console.log(response);
-                                            if (contrail.checkIfFunction(callbackObj.success)) {
-                                                callbackObj.success(response);
-                                            }
-                                        }, function (error) {
-                                            console.log(error);
-                                            if (contrail.checkIfFunction(callbackObj.error)) {
-                                                callbackObj.error(error);
-                                            }
-                                        });//createLogicalInterface
-                                    
-//                                    }, function (error) {
-//                                        //error
-//                                    });//getLogicalInterface
-                                },
-                                error: function(error){
-                                    
-                                }
-                            });//createVM
-                        },
-                        error: function (error) {
-                        }
-                    
-                    });//createVMI
-                },
-                error: function (error) {
-                    callbackObj.error(error);
-                }
-            });//deleteVMI
-        },*/
-        
         editBaremetal: function (data, callbackObj) {
             var ajaxConfig = {};
             data = data[0];//assuming only one edit is allowed
@@ -358,8 +408,8 @@ define([
                 postObject["logical-interface"]["parent_type"] = "physical-interface";
                 postObject["logical-interface"]["parent_uuid"] = data['piUuid'];
                 postObject["logical-interface"]["name"] = data['interface'];  
-                postObject["logical-interface"]["logical_interface_vlan_tag"] = 0;
-                postObject["logical-interface"] ['virtual_machine_interface_refs'] = [];
+                postObject["logical-interface"]["logical_interface_vlan_tag"] = 0;//By default we set the vlan tag as 0
+                postObject["logical-interface"]['virtual_machine_interface_refs'] = [];
                 postObject["logical-interface"]["logical_interface_type"] = 'l2';
                 postObject["logical-interface"]["uuid"] = data['liUuid'];
                 
@@ -381,7 +431,10 @@ define([
                         success: function (response) {
                             var postData = {};
 //                          TODO use this with ip postObj = {"vnUUID": data['vnUUID'], "fixedIPs":[details['ip_address']], "macAddress":data['macAddress']};
-                            postData = {"vnUUID": data['newVNUuid'], "macAddress":data['mac']};
+                            var moreDetails =  { tor:data['physical_router'],
+                                    ip_address:data['ip']};
+                            var vnData = data['vnData'];
+                            postData = {"vnUUID": vnData['uuid'], "macAddress":data['mac'],"vnData":vnData, "moreDetails": moreDetails};
                           // create the new VMI with the new VN
                             self.createVMI(postData,{
                                 init: function () {

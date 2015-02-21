@@ -75,6 +75,14 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
             filterImagesPackages(res, filteredResponseArray, smConstants.PACKAGE_TYPES, smConstants.KEY_PACKAGE);
             break;
 
+        case smConstants.FUNC_FILTER_IN_CONTRAIL_CONTROLLER_PACKAGES:
+            filterImagesPackages(res, filteredResponseArray, smConstants.CONTRAIL_CONTROLLER_PACKAGE_TYPES, smConstants.KEY_PACKAGE);
+            break;
+
+        case smConstants.FUNC_FILTER_IN_CONTRAIL_STORAGE_PACKAGES:
+            filterImagesPackages(res, filteredResponseArray, smConstants.CONTRAIL_STORAGE_PACKAGE_TYPES, smConstants.KEY_PACKAGE);
+            break;
+
         default:
             commonUtils.handleJSONResponse(null, res, filteredResponseArray);
     }
@@ -155,7 +163,7 @@ function filterImagesPackages(res, filteredResponseArray, types, imageCategory) 
         image = filteredResponseArray[i];
         type = image['type'];
         category = image['category'];
-        if((category != null && category == imageCategory) || types.indexOf(type) != -1) {
+        if((category == null || category == imageCategory) && types.indexOf(type) != -1) {
             responseArray.push(image);
         }
     }
