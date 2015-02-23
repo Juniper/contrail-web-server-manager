@@ -55,7 +55,7 @@ define([
                             }
                         },
                         detail: {
-                            template: cowu.generateDetailTemplateHTML(detailTemplateConfig, 'server-manager')
+                            template: cowu.generateDetailTemplateHTML(detailTemplateConfig, cowc.APP_CONTRAIL_SM)
                         },
                         sortable: {
                             defaultSortCols: {
@@ -78,7 +78,7 @@ define([
         },
 
         renderServer: function (serverId) {
-            var detailTemplate = contrail.getTemplate4Id(cowc.TMPL_2ROW_GROUP_DETAIL),
+            var detailTemplate = cowu.generateDetailTemplate(detailTemplateConfig, cowc.APP_CONTRAIL_SM),
                 serverTemplate = contrail.getTemplate4Id(cowc.TMPL_DETAIL_PAGE),
                 serverActionTemplate = contrail.getTemplate4Id(cowc.TMPL_DETAIL_PAGE_ACTION),
                 ajaxConfig = {}, that = this;
@@ -102,7 +102,7 @@ define([
                     });
                 });
 
-                that.$el.find('#' + smwc.SERVER_PREFIX_ID + '-details').html(detailTemplate({dc: response[0], templateConfig: detailTemplateConfig, advancedViewOptions: false}));
+                that.$el.find('#' + smwc.SERVER_PREFIX_ID + '-details').html(detailTemplate(response[0]));
 
                 ipmiElId = '#' + smwc.SERVER_PREFIX_ID + "-ipmi-info";
                 gridConfig = getIPMIInfoGridConfig(serverId);
