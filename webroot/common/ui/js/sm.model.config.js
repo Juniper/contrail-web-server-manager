@@ -94,6 +94,8 @@ define([
                 'intf_control': null,
                 'parameters': {
                     storage_repo_id: "",
+                    storage_chassis_id: "",
+                    storage_chassis_id_input: "",
                     partition: "",
                     kernel_upgrade: 'yes',
                     kernel_version: '3.13.0-34',

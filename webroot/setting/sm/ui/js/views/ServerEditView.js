@@ -522,6 +522,20 @@ define([
                         {
                             columns: [
                                 {
+                                    elementId: 'storage_chassis_id',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'parameters.storage_chassis_id', dataBindValue: 'parameters().storage_chassis_id', class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
+                                },
+                                {
+                                    elementId: 'storage_chassis_id_input',
+                                    view: "FormInputView",
+                                    viewConfig: {path: 'parameters.storage_chassis_id_input', dataBindValue: 'parameters().storage_chassis_id_input', class: "span6"}
+                                }
+                            ]
+                        },
+                        {
+                            columns: [
+                                {
                                     elementId: 'disks',
                                     view: "FormEditableGridView",
                                     viewConfig: {
@@ -690,6 +704,20 @@ define([
                                     elementId: 'storage_repo_id',
                                     view: "FormDropdownView",
                                     viewConfig: {path: 'parameters.storage_repo_id', dataBindValue: 'parameters().storage_repo_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
+                                }
+                            ]
+                        },
+                        {
+                            columns: [
+                                {
+                                    elementId: 'storage_chassis_id',
+                                    view: "FormDropdownView",
+                                    viewConfig: {path: 'parameters.storage_chassis_id', dataBindValue: 'parameters().storage_chassis_id', class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
+                                },
+                                {
+                                    elementId: 'storage_chassis_id_input',
+                                    view: "FormInputView",
+                                    viewConfig: {path: 'parameters.storage_chassis_id_input', dataBindValue: 'parameters().storage_chassis_id_input', class: "span6"}
                                 }
                             ]
                         }

@@ -390,6 +390,10 @@ define([
                                 {
                                     key: 'parameters.disks',
                                     valueType: 'text'
+                                },
+                                {
+                                    key: 'parameters.storage_chassis_id',
+                                    valueType: 'text'
                                 }
                             ]
                         },

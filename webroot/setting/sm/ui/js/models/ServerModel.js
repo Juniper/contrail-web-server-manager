@@ -117,6 +117,9 @@ define([
                 delete serverAttrsEdited['disks'];
 
                 for (var i = 0; i < checkedRows.length; i++) {
+                    /* START handling for storage chassis id */
+                    serverAttrsEdited['parameters'] = smwu.handleChassisId(serverAttrsEdited['parameters']);
+                    /* END handling for storage chassis id */
                     serversEdited.push(serverAttrsEdited);
                 }
 
@@ -159,6 +162,14 @@ define([
 
             serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
             $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
+
+                /* START handling for storage chassis id */
+                if(_.has(serverAttrsEdited, 'parameters')){
+                    if(_.has(serverAttrsEdited['parameters'], 'storage_chassis_id') || _.has(serverAttrsEdited['parameters'], 'storage_chassis_id_input')){
+                        serverAttrsEdited['parameters'] = smwu.handleChassisId(serverAttrsEdited['parameters']);
+                    }
+                }
+                /* END handling for storage chassis id */
                 serversEdited.push($.extend(true, {}, serverAttrsEdited, {id: checkedRowsValue.id}));
             });
 

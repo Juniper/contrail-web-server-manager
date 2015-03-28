@@ -61,6 +61,8 @@ define([
             "reimaged_id": "Installed Image",
             "package_image_id": "Package",
             "storage_repo_id": "Package",
+            "storage_chassis_id" : "Chassis ID",
+            "storage_chassis_id_input" : "Add New Chassis ID",
             "provisioned_id": "Installed Package",
             "roles": "Roles",
             "mac_address": "MAC Address",
@@ -255,6 +257,7 @@ define([
         this.SELECT_IMAGE = 'Select Image';
         this.TITLE_DELETE_IMAGE = 'Delete Image';
         this.SELECT_PACKAGE = 'Select Package';
+        this.SELECT_CHASSIS_ID = 'Select Chassis Id';
         this.TITLE_DELETE_PACKAGE = 'Delete Package';
         this.SELECT_ROLES = 'Select Roles';
         this.SEARCH_ROLES = 'Search Roles';
