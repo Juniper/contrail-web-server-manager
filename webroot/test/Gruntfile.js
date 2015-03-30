@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         {pattern: 'views/**/*.view', included: false},
         {pattern: 'common/**/*.js', included: false},
         {pattern: 'setting/**/*.js', included: false},
-        {pattern: 'setting/**/*.view', included: false},
+        {pattern: 'setting/**/*.tmpl', included: false},
 
         {pattern: 'test/common/sm.test.app.js'},
         {pattern: 'test/common/*.js', included: false},
