@@ -62,6 +62,12 @@
         <callback>smapi.getTagNames</callback>
     </item>
     <item>
+        <url>/sm/chassis/ids</url>
+        <method>get</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.getChassisIds</callback>
+    </item>
+    <item>
         <url>/sm/tags/values/:name</url>
         <method>get</method>
         <feature>smConfigure</feature>

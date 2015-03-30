@@ -100,6 +100,8 @@ define([
         this.URL_VM = '/api/tenants/config/li-virtual-machine';
         this.URL_PHYSICAL_ROUTERS_LIST = '/api/tenants/config/physical-routers-list';
         this.URL_MAP_VIRTUAL_MACHINE_REFS = '/api/tenants/config/map-virtual-machine-refs/';
+        this.URL_CHASSIS_ID = '/sm/chassis/ids';
+
         this.CACHED_TAG_COLORS = {};
 
         this.URL_HASH_SM_CLUSTERS = 'setting_sm_clusters';

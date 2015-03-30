@@ -64,6 +64,9 @@ define([
                 storageDisks = this.getServerStorageDisks(serverAttrs);
                 serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
                 for (var i = 0; i < checkedRows.length; i++) {
+                    /* START handling for storage chassis id */
+                    serverAttrsEdited['parameters'] = smwu.handleChassisId(serverAttrsEdited['parameters']);
+                    /* END handling for storage chassis id */
                     serversEdited.push(serverAttrsEdited);
                 }
                 serverAttrsEdited.parameters.disks = storageDisks;
@@ -107,6 +110,13 @@ define([
 
             serverAttrsEdited = smwu.getEditConfigObj(serverAttrs, locks);
             $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
+                /* START handling for storage chassis id */
+                if(_.has(serverAttrsEdited, 'parameters')){
+                    if(_.has(serverAttrsEdited['parameters'], 'storage_chassis_id') || _.has(serverAttrsEdited['parameters'], 'storage_chassis_id_input')){
+                        serverAttrsEdited['parameters'] = smwu.handleChassisId(serverAttrsEdited['parameters']);
+                    }
+                }
+                /* END handling for storage chassis id */
                 serversEdited.push($.extend(true, {}, serverAttrsEdited, {id: checkedRowsValue.id}));
             });
 

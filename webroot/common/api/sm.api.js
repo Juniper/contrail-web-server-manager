@@ -311,6 +311,18 @@ function getTagNames(req, res) {
     }
 };
 
+function getChassisIds(req, res) {
+    var chassisIdUrl = smConstants.CHASSIS_ID_URL;
+
+    sm.get(chassisIdUrl, function (error, responseJSON) {
+        if (error) {
+            logutils.logger.error(error.stack);
+        } else {
+            commonUtils.handleJSONResponse(null, res, responseJSON['chassis_id']);
+        }
+    });
+};
+
 function getServerIPMIInfo (req, res) {
     var serverId = req.param("id"),
         url = smConstants.SM_IPMI_INFO_INTROSPECT_URL,
@@ -379,6 +391,7 @@ exports.deleteObjects = deleteObjects;
 exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;
+exports.getChassisIds = getChassisIds;
 exports.getServerIPMIInfo = getServerIPMIInfo
 exports.provision = provision;
 exports.reimage = reimage;

@@ -325,7 +325,7 @@ define([
             },
             {
                 title: smwl.TITLE_CONTRAIL_STORAGE,
-                keys: ['parameters.storage_repo_id', 'parameters.disks']
+                keys: ['parameters.storage_repo_id', 'parameters.disks', 'parameters.storage_chassis_id']
             }
         ],
         [
