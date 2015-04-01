@@ -260,7 +260,7 @@ define([
         getVN: function (callbackObj) {
             var ajaxConfig = {};
             ajaxConfig.type = "GET";
-            ajaxConfig.url = smwc.URL_NETWORKS_DETAILS;
+            ajaxConfig.url = smwc.URL_NETWORKS;
             console.log(ajaxConfig);
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
@@ -331,7 +331,7 @@ define([
            var ajaxConfig = {};
            var self = this;
            ajaxConfig.type = "GET";
-           ajaxConfig.url = smwc.URL_NETWORKS_DETAILS;
+           ajaxConfig.url = smwc.URL_NETWORKS;
            contrail.ajaxHandler(ajaxConfig, function () {
            },function (response){
                self.currentVNs = self.parseVns(response);

@@ -10,19 +10,19 @@ define([
         this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
 
         this.IMAGE_COLUMNS = [
-            { id: "image_id", field: "id", name: "Name", width: 120, minWidth: 100 },
-            { id: "category", field: "category", name: "Category", width: 120, minWidth: 50 },
-            { id: "image_type", field: "type", name: "Type", width: 120, minWidth: 100 },
-            { id: "image_version", field: "version", name: "Version", width: 120, minWidth: 50 },
-            { id: "image_path", field: "path", name: "Path", width: 300, minWidth: 100 }
+            {id: "image_id", field: "id", name: "Name", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "category", field: "category", name: "Category", width: 60, minWidth: 50},
+            {id: "image_type", field: "type", name: "Type", width: 120, minWidth: 100},
+            {id: "image_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
+            {id: "image_path", field: "path", name: "Path", width: 300, minWidth: 100, cssClass: 'word-break-normal'}
         ];
 
         this.PACKAGE_COLUMNS = [
-            { id: "package_id", field: "id", name: "Name", width: 120, minWidth: 100 },
-            { id: "package_category", field: "category", name: "Category", width: 120, minWidth: 50 },
-            { id: "package_type", field: "type", name: "Type", width: 120, minWidth: 100 },
-            { id: "package_version", field: "version", name: "Version", width: 120, minWidth: 50 },
-            { id: "package_path", field: "path", name: "Path", width: 300, minWidth: 100 }
+            {id: "package_id", field: "id", name: "Name", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "package_category", field: "category", name: "Category", width: 60, minWidth: 50},
+            {id: "package_type", field: "type", name: "Type", width: 120, minWidth: 100},
+            {id: "package_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
+            {id: "package_path", field: "path", name: "Path", width: 300, minWidth: 100, cssClass: 'word-break-normal'}
         ];
 
         this.CLUSTER_COLUMNS = [
@@ -83,17 +83,39 @@ define([
             }
         ];
 
-        this.SERVER_IPMI_INFO_COLUMNS = [
-            { id: "sensor", field: "sensor", name: "Name", width: 120, minWidth: 15 },
-            { id: "sensor_type", field: "sensor_type", name: "Type", width: 120, minWidth: 15 },
-            { id: "reading", field: "reading", name: "Reading", width: 120, minWidth: 15,
+        this.SERVER_SENSORS_COLUMNS = [
+            {id: "sensor", field: "sensor", name: "Name", width: 120, minWidth: 15},
+            {id: "sensor_type", field: "sensor_type", name: "Type", width: 120, minWidth: 15},
+            {
+                id: "reading", field: "reading", name: "Reading", width: 120, minWidth: 15,
                 formatter: function (r, c, v, cd, dc) {
                     var unit = dc['unit'],
                         reading = dc['reading'];
                     return reading + " " + unit;
                 }
             },
-            { id: "status", field: "status", name: "Status", width: 120, minWidth: 15 }
+            {id: "status", field: "status", name: "Status", width: 120, minWidth: 15}
+        ];
+
+        this.SERVER_FRU_COLUMNS = [
+            {id: "fru_description", field: "fru_description", name: "Description", width: 120, minWidth: 20},
+            {id: "product_name", field: "product_name", name: "Product Name", width: 120, minWidth: 15},
+            {id: "chassis_type", field: "chassis_type", name: "Chassis Type", width: 120, minWidth: 15},
+            {id: "board_product_name", field: "board_product_name", name: "Board Product Name", width: 120, minWidth: 15},
+            {id: "board_mfg_date", field: "board_mfg_date", name: "Board Manufacture Date", width: 120, minWidth: 15}
+        ];
+
+        this.SERVER_DISKUSAGE_COLUMNS = [
+            {id: "disk_name", field: "disk_name", name: "Disk Name", width: 80, minWidth: 15},
+            {id: "read_MB", field: "read_MB", name: "Read (MB)", width: 80, minWidth: 15},
+            {id: "write_MB", field: "write_MB", name: "Write (MB)", width: 80, minWidth: 15}
+        ];
+
+        this.SERVER_INTERFACE_COLUMNS = [
+            {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
+            {id: "ip_addr", field: "ip_addr", name: "IP Address", width: 120, minWidth: 20},
+            {id: "netmask", field: "netmask", name: "Netmask", width: 120, minWidth: 20},
+            {id: "macaddress", field: "macaddress", name: "MAC Address", width: 120, minWidth: 20},
         ];
 
         this.getConfigureAction = function (onClickFunction, divider) {
@@ -178,15 +200,20 @@ define([
 
         this.getGridColumns4Roles = function () {
             var columns = [];
-            $.each(smwc.ROLES_ARRAY, function(roleKey, roleValue) {
+            $.each(smwc.ROLES_ARRAY, function (roleKey, roleValue) {
+                var width = 60;
+                if(roleValue.indexOf('storage-') != -1) {
+                    width = 100;
+                }
                 columns.push({
                     id: roleValue, field: "roles",
                     name: smwl.get(roleValue),
-                    width: 50, minWidth: 50,
+                    width: width,
+                    minWidth: width,
                     cssClass: 'text-center',
                     sortable: {sortBy: 'formattedValue'},
                     formatter: function (r, c, v, cd, dc) {
-                        if($.isEmptyObject(dc.roles)) {
+                        if ($.isEmptyObject(dc.roles)) {
                             return ''
                         } else {
                             return (dc.roles.indexOf(roleValue) != -1) ? '<i class="icon-ok green"></i>' : '';
@@ -194,7 +221,7 @@ define([
                     },
                     exportConfig: {
                         allow: true,
-                        advFormatter: function(dc) {
+                        advFormatter: function (dc) {
                             return (dc.roles.indexOf(roleValue) != -1);
                         }
                     }
@@ -204,8 +231,8 @@ define([
         };
 
         this.EDIT_SERVERS_ROLES_COLUMNS = ([
-            { id: "server_id", field: "id", name: "Hostname", width: 75, minWidth: 75 },
-            { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 80 }
+            {id: "server_id", field: "id", name: "Hostname", width: 75, minWidth: 75},
+            {id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 80}
         ]);
 
         this.getServerColumns = function (serverColumnsType) {
@@ -224,7 +251,7 @@ define([
                         }
                     } }
                 ],
-                commonColumnsSet2 = [
+                tagColumnsSet = [
                     {
                         id: "tag", field: "tag", name: "Tags", width: 150, minWidth: 150, sortable: false,
                         formatter: function (r, c, v, cd, dc) {
@@ -238,15 +265,18 @@ define([
                                 return JSON.stringify(dc.tag);
                             }
                         }
-                    },
-                    { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 80 },
+                    }
+                ],
+                ipColumnsSet = [
+                    { id: "ip_address", field: "ip_address", name: "IP", width: 80, minWidth: 80 }
+                    /*
                     { id: "ipmi_address", field: "ipmi_address", name: "IPMI", width: 100, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
                         onClick: function (e, dc) {
                             if(dc['ipmi_address'] != null && dc['ipmi_address'] != '') {
                                 window.open("http://" + dc['ipmi_address']);
                             }
                         }
-                    }}
+                    }}*/
                 ];
 
             if (serverColumnsType == smwc.SERVER_PREFIX_ID) {
@@ -257,52 +287,53 @@ define([
                         }
                     }}
                 ]);
-                serverColumns = serverColumns.concat(commonColumnsSet2);
+                serverColumns = serverColumns.concat(tagColumnsSet).concat(ipColumnsSet);
             } else if (serverColumnsType == smwc.CLUSTER_PREFIX_ID) {
-                serverColumns = commonColumnsSet1.concat(commonColumnsSet2).concat(this.getGridColumns4Roles());
+                serverColumns = commonColumnsSet1.concat(ipColumnsSet).concat(this.getGridColumns4Roles());
             }
+
             serverColumns = serverColumns.concat([
                 { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
             ]);
 
             return serverColumns;
         };
-        
+
         this.getBaremetalServerColumns = function (baremetalServerColumnsType) {
-            var serverColumns = 
-                [{   
-                   id:'serverId',
-                   field:'serverId',
-                   name:'Server'
+            var serverColumns =
+                [{
+                    id: 'serverId',
+                    field: 'serverId',
+                    name: 'Server'
                 },
-                {   
-                   id:'mac',
-                   field:'mac',
-                   name:'Mac Address'
+                {
+                    id: 'mac',
+                    field: 'mac',
+                    name: 'Mac Address'
                 },
-                {   
-                   id:'ip',
-                   field:'ip',
-                   name:'IP Address'
+                {
+                    id: 'ip',
+                    field: 'ip',
+                    name: 'IP Address'
                 },
-                {   
-                   id:'physical_router',
-                   field:'physical_router',
-                   name:'Physical Router'
+                {
+                    id: 'physical_router',
+                    field: 'physical_router',
+                    name: 'Physical Router'
                 },
-                {   
-                   id:'interface',
-                   field:'interface',
-                   name:'Interface'
+                {
+                    id: 'interface',
+                    field: 'interface',
+                    name: 'Interface'
                 },
-                {   
-                   id:'vn',
-                   field:'vn',
-                   name:'Virtual Network'
+                {
+                    id: 'vn',
+                    field: 'vn',
+                    name: 'Virtual Network'
                 }];
             return serverColumns;
         };
-    }
+    };
 
     return GridConfig;
 });

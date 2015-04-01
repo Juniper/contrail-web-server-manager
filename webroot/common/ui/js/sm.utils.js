@@ -14,7 +14,7 @@ define([
             return url;
         };
 
-        this.getIPMIInfoUrl = function (server) {
+        this.getServerSensorsUrl = function (server) {
             var url = smwc.URL_SERVER_IPMI_INFO + server;
             return url;
         };
@@ -42,6 +42,22 @@ define([
             }
         };
 
+        this.getQueryString4ServersUrl = function(hashParams) {
+            var queryString = '', tagKey, tagQueryArray = [];
+
+            if (hashParams['cluster_id'] != null) {
+                queryString += '?cluster_id=' + hashParams['cluster_id'];
+            }
+
+            if (hashParams['tag'] != null) {
+                for (tagKey in hashParams['tag']) {
+                    tagQueryArray.push(tagKey + "=" + hashParams['tag'][tagKey]);
+                }
+                queryString += '?tag=' + tagQueryArray.join(',');
+            }
+            return queryString;
+        };
+
         this.handleChassisId = function (params) {
             if (contrail.checkIfExist(params['storage_chassis_id_input'])) {
                 if (params['storage_chassis_id_input'] != "") {
@@ -52,5 +68,6 @@ define([
             return params;
         };
     };
+
     return SMUtils;
 });
