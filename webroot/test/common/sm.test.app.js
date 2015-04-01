@@ -2,7 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var cowu, cowc, smwc, smwgc, smwu, smwl, smwv, smwm, smwgc, smwmc, allTestFiles = [];
+var cowu, cowc, smwc, smwgc, smwu, smwl, smwv, smwm, smwgc, smwmc, smwru, smwdt, allTestFiles = [];
 
 var smTestKarma = window.__karma__;
 
@@ -68,6 +68,7 @@ requirejs.config({
         "vectorizer"                : "assets/joint/js/vectorizer",
         "joint.layout.DirectedGraph": "assets/joint/js/joint.layout.DirectedGraph",
         "joint.contrail"            : "js/joint.contrail",
+        "dagre"                     : "assets/joint/js/dagre",
         "lodash"                    : "assets/joint/js/lodash",
         "jquery.panzoom"            : "assets/jquery/js/jquery.panzoom.min",
         "jquery.ui.position"        : "assets/jquery-contextMenu/js/jquery.ui.position",
@@ -80,17 +81,22 @@ requirejs.config({
         "validation"                : "assets/backbone/backbone-validation-amd",
         "text"                      : "assets/requirejs/text",
         "core-utils"                : "js/core-utils",
+        "contrail-view-model"       : "js/models/ContrailViewModel",
         "contrail-model"            : "js/models/ContrailModel",
         "contrail-list-model"       : "js/models/ContrailListModel",
+        'contrail-graph-model'      : 'js/models/ContrailGraphModel',
         "contrail-remote-data-handler": "js/models/ContrailRemoteDataHandler",
+        "core-cache"                : "js/core-cache",
+        "graph-view"                : 'js/views/GraphView',
         "core-init"                 : "js/core-init",
         "core-constants"            : "js/core-constants",
         "sm-constants"              : "common/ui/js/sm.constants",
-        "sm-grid-config"            : "common/ui/js/sm.grid.config",
         "sm-utils"                  : "common/ui/js/sm.utils",
         "sm-labels"                 : "common/ui/js/sm.labels",
         "sm-messages"               : "common/ui/js/sm.messages",
         "sm-model-config"           : "common/ui/js/sm.model.config",
+        "sm-grid-config"            : 'common/ui/js/sm.grid.config',
+        "sm-detail-tmpls"           : 'common/ui/js/sm.detail.tmpls',
         "sm-init"                   : "common/ui/js/sm.init",
         "sm-test-init"              : "test/sm.test.init",
         "sm-test-utils"             : "test/common/sm.test.utils",
@@ -258,6 +264,9 @@ requirejs.config({
         'joint.contrail'            : {
             deps: ['joint', 'joint.layout.DirectedGraph']
         },
+        'dagre'                     : {
+            deps: ['jquery']
+        },
         'text'                      : {
             deps: ['jquery']
         },
@@ -267,11 +276,20 @@ requirejs.config({
         'contrail-model'            : {
             deps: ['jquery', 'underscore', 'backbone', 'knockout', 'knockback']
         },
+        'contrail-view-model': {
+            deps: ['jquery', 'underscore', 'backbone', 'slick.core']
+        },
         'contrail-list-model': {
             deps: ['contrail-remote-data-handler']
         },
+        'contrail-graph-model': {
+            deps: ['jquery', 'underscore', 'backbone', 'joint.contrail', 'joint.layout.DirectedGraph', 'slick.core']
+        },
         'contrail-remote-data-handler': {
             deps: ['jquery', 'underscore']
+        },
+        'graph-view': {
+            deps: ['jquery', 'underscore', 'backbone', 'joint', 'joint.contrail']
         },
         'core-init'                 : {
             deps: ['underscore', 'validation', 'core-utils', 'knockout']
@@ -286,13 +304,18 @@ var depArray = [
     'core-utils',
     'core-constants',
     'knockout',
+    'core-cache',
     'contrail-common',
     'sm-constants',
     'sm-utils',
-    'sm-grid-config',
     'sm-labels',
     'sm-messages',
     'sm-model-config',
+<<<<<<< HEAD
+=======
+    'sm-grid-config',
+    'sm-detail-tmpls',
+>>>>>>> Partial-Bug: #1436527 Add Inventory & Monitoring Tabs under Server in Server Manager. Align to Model-View framework changes in Web-Core.
     'text!views/contrail-common.view', 'text!setting/sm/ui/templates/sm.tmpl',
     'sm-test-utils', 'sm-test-mockdata', 'sm-test-slickgrid', 'sm-test-messages',
     'jquery-ui', 'jquery.xml2json', 'jquery.ba-bbq', 'jquery.timer',
@@ -308,19 +331,21 @@ var depArray = [
 
 require(['jquery', 'knockout'], function ($, Knockout) {
     window.ko = Knockout;
-    require(depArray, function ($, _, validation, CoreUtils, CoreConstants, Knockout, cc, Constants, SMUtils, GridConfig, Labels, Messages, DeafultModelConfig, ccView, smView, SMTestUtils, SMTestMockData, SMTestSlickGrid, SMTestMessages) {
+    require(depArray, function ($, _, validation, CoreUtils, CoreConstants, Knockout, Cache, cc, SMConstants, SMUtils, Labels, Messages, DeafultModelConfig, GridConfig, DetailTemplates, ccView, smView, SMTestUtils, SMTestMockData, SMTestSlickGrid, SMTestMessages) {
         cowu = new CoreUtils();
         cowc = new CoreConstants();
+        cowch = new Cache();
         kbValidation = validation;
         initBackboneValidation(_);
         initCustomKOBindings(Knockout);
         initDomEvents();
-        smwc = new Constants();
+        smwc = new SMConstants();
         smwu = new SMUtils();
         smwl = new Labels();
         smwm = new Messages();
-        smwgc = new GridConfig();
         smwmc = new DeafultModelConfig();
+        smwgc = new GridConfig();
+        smwdt = new DetailTemplates();
 
         window.smtu = new SMTestUtils();
         window.smtMockData = new SMTestMockData();
@@ -351,11 +376,15 @@ require(['jquery', 'knockout'], function ($, Knockout) {
         $("body").append('<link rel="stylesheet" href="/base/css/contrail.custom.css" />');
         $("body").append('<link rel="stylesheet" href="/base/css/contrail.font.css" />');
 
-        require(allTestFiles, function () {
-            requirejs.config({
-                // dynamically load all test files
-                deps: allTestFiles,
-                callback: window.__karma__.start
+        requirejs(['common/ui/js/sm.render'], function(SMRenderUtils) {
+            smwru = new SMRenderUtils();
+            smInitComplete = true;
+            require(allTestFiles, function () {
+                requirejs.config({
+                    // dynamically load all test files
+                    deps: allTestFiles,
+                    callback: window.__karma__.start
+                });
             });
         });
 

@@ -10,17 +10,8 @@ var smConfig = require('../../common/api/sm.config'),
     assert = require('assert');
     sm = module.exports;
 
-var smServerIP = smConfig.DFLT_SERVER_IP,
-    smServerPort = smConfig.DFLT_SERVER_PORT;
-
-if (smConfig.sm) {
-    if (smConfig.sm.server_ip) {
-        smServerIP = smConfig.sm.server_ip;
-    }
-    if (smConfig.sm.server_port) {
-        smServerPort = smConfig.sm.server_port;
-    }
-}
+var smServerIP = smConfig.sm.server_ip,
+    smServerPort = smConfig.sm.server_port;
 
 var smREST = rest.getAPIServer({
     apiName: smConstants.SM_API_SERVER,

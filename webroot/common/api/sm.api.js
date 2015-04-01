@@ -16,6 +16,10 @@ var sm = require('../../common/api/sm'),
     jsonPath = require('JSONPath').eval,
     _ = require('underscore');
 
+var rest = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/rest.api'),
+    smConfig = require('../../common/api/sm.config'),
+    analytics = rest.getAPIServer({apiName:global.label.OPS_API_SERVER, server:smConfig.sm.analytics_ip, port:smConfig.sm.analytics_port });
+
 function getObjects(req, res) {
     var objectName = req.param(smConstants.KEY_NAME),
         urlParts = url.parse(req.url, true),
@@ -316,6 +320,7 @@ function getChassisIds(req, res) {
 
     sm.get(chassisIdUrl, function (error, responseJSON) {
         if (error) {
+            commonUtils.handleJSONResponse(null, res, []);
             logutils.logger.error(error.stack);
         } else {
             commonUtils.handleJSONResponse(null, res, responseJSON['chassis_id']);
@@ -344,6 +349,42 @@ function getServerIPMIInfo (req, res) {
             commonUtils.handleJSONResponse(null, res, formattedResult);
         }
     });
+};
+
+function getMonitoringInfo4Servers (req, res) {
+    var urlParts = url.parse(req.url, true),
+        qsObj = urlParts.query,
+        monitoringUrl;
+
+    filterInAllowedParams(qsObj);
+    monitoringUrl = smConstants.SM_SERVER_MONITORING_INFO_URL + '?' + qs.stringify(qsObj);
+
+    sm.get(monitoringUrl, commonUtils.doEnsureExecution(function(error, result) {
+        if(error) {
+            logutils.logger.error(error.stack);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, result);
+        }
+    }, global.DEFAULT_CB_TIMEOUT));
+};
+
+function getInventoryInfo4Servers (req, res) {
+    var urlParts = url.parse(req.url, true),
+        qsObj = urlParts.query,
+        inventoryUrl;
+
+    filterInAllowedParams(qsObj);
+    inventoryUrl = smConstants.SM_SERVER_INVENTORY_INFO_URL + '?' + qs.stringify(qsObj);
+
+    sm.get(inventoryUrl, commonUtils.doEnsureExecution(function(error, result) {
+        if(error) {
+            logutils.logger.error(error.stack);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, result);
+        }
+    }, global.DEFAULT_CB_TIMEOUT));
 };
 
 function filterInAllowedParams(qsObj) {
@@ -393,5 +434,7 @@ exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;
 exports.getChassisIds = getChassisIds;
 exports.getServerIPMIInfo = getServerIPMIInfo
+exports.getMonitoringInfo4Servers = getMonitoringInfo4Servers
+exports.getInventoryInfo4Servers = getInventoryInfo4Servers
 exports.provision = provision;
 exports.reimage = reimage;

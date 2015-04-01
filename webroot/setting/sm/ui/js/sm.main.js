@@ -9,16 +9,29 @@ var clustersPageLoader = new ClustersPageLoader(),
 
 function ClustersPageLoader() {
     this.load = function (paramObject) {
-        var currMenuObj = globalObj.currMenuObj,
-            rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathClustersView = rootDir + '/js/views/ClustersView.js',
-            hashParams = paramObject['hashParams'];
+        var hashParams = paramObject['hashParams'],
+            clusterId = hashParams['cluster_id'];
+
+        $(contentContainer).empty();
 
         check4SMInit(function () {
-            requirejs([pathClustersView], function (ClustersView) {
-                var clustersView = new ClustersView();
-                clustersView.render({hashParams: hashParams});
-            });
+            if(contrail.checkIfExist(clusterId)) {
+                var clusterViewConfig = {
+                    elementId: smwl.SM_CLUSTER_VIEW_ID,
+                    view: "ClusterView",
+                    app: cowc.APP_CONTRAIL_SM,
+                    viewConfig: {clusterId: clusterId}
+                };
+                cowu.renderView4Config(contentContainer, null, clusterViewConfig);
+            } else {
+                var clusterListViewConfig = {
+                    elementId: smwl.SM_CLUSTER_LIST_VIEW_ID,
+                    view: "ClusterListView",
+                    app: cowc.APP_CONTRAIL_SM,
+                    viewConfig: {}
+                };
+                cowu.renderView4Config(contentContainer, null, clusterListViewConfig);
+            }
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
@@ -30,16 +43,29 @@ function ClustersPageLoader() {
 
 function ServersPageLoader() {
     this.load = function (paramObject) {
-        var currMenuObj = globalObj.currMenuObj,
-            rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathServersView = rootDir + '/js/views/ServersView.js',
-            hashParams = paramObject['hashParams'];
+        var hashParams = paramObject['hashParams'],
+            serverId = hashParams['server_id'];
+
+        $(contentContainer).empty();
 
         check4SMInit(function () {
-            requirejs([pathServersView], function (ServersView) {
-                var serversView = new ServersView();
-                serversView.render({serverColumnsType: smwc.SERVER_PREFIX_ID, hashParams: hashParams});
-            });
+            if(contrail.checkIfExist(serverId)) {
+                var serverViewConfig = {
+                    elementId: smwl.SM_SERVER_VIEW_ID,
+                    view: "ServerView",
+                    app: cowc.APP_CONTRAIL_SM,
+                    viewConfig: {serverId: serverId}
+                };
+                cowu.renderView4Config(contentContainer, null, serverViewConfig);
+            } else {
+                var serverListViewConfig = {
+                    elementId: smwl.SM_SERVER_LIST_VIEW_ID,
+                    view: "ServerListView",
+                    app: cowc.APP_CONTRAIL_SM,
+                    viewConfig: {serverColumnsType: smwc.SERVER_PREFIX_ID, hashParams: hashParams}
+                };
+                cowu.renderView4Config(contentContainer, null, serverListViewConfig);
+            }
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
@@ -51,15 +77,15 @@ function ServersPageLoader() {
 
 function ImagesPageLoader() {
     this.load = function (hashParams) {
-        var currMenuObj = globalObj.currMenuObj,
-            rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathImagesView = rootDir + '/js/views/ImagesView.js';
-
+        $(contentContainer).empty();
         check4SMInit(function () {
-            requirejs([pathImagesView], function (ImagesView) {
-                var imagesView = new ImagesView();
-                imagesView.render();
-            });
+            var imageListViewConfig = {
+                elementId: smwl.SM_IMAGE_LIST_VIEW_ID,
+                view: "ImageListView",
+                app: cowc.APP_CONTRAIL_SM,
+                viewConfig: {}
+            };
+            cowu.renderView4Config(contentContainer, null, imageListViewConfig);
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
@@ -71,15 +97,15 @@ function ImagesPageLoader() {
 
 function PackagesPageLoader() {
     this.load = function (hashParams) {
-        var currMenuObj = globalObj.currMenuObj,
-            rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathPackagesView = rootDir + '/js/views/PackagesView.js';
-
+        $(contentContainer).empty();
         check4SMInit(function () {
-            requirejs([pathPackagesView], function (PackagesView) {
-                var packagesView = new PackagesView();
-                packagesView.render();
-            });
+            var packageListViewConfig = {
+                elementId: smwl.SM_PACKAGE_LIST_VIEW_ID,
+                view: "PackageListView",
+                app: cowc.APP_CONTRAIL_SM,
+                viewConfig: {}
+            };
+            cowu.renderView4Config(contentContainer, null, packageListViewConfig);
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
@@ -92,8 +118,11 @@ function PackagesPageLoader() {
 function check4SMInit(callback) {
     if (!smInitComplete) {
         requirejs(['sm-init'], function () {
-            smInitComplete = true;
-            callback()
+            requirejs(['sm-render'], function(SMRenderUtils) {
+                smwru = new SMRenderUtils();
+                smInitComplete = true;
+                callback()
+            });
         });
     } else {
         callback();
