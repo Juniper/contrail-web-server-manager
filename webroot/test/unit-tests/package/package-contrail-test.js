@@ -4,10 +4,11 @@
 
 define([
     'sm-test-utils',
-    'setting/sm/ui/js/views/PackagesView',
+    'setting/sm/ui/js/views/PackageGridView',
+    'setting/sm/ui/js/views/PackageListView',
     'sm-test-mockdata',
     'sm-test-slickgrid'
-], function (SMTestUtils, PackagesView, SMTestMockdata, SMTestSlickGrid) {
+], function (SMTestUtils, PackageGridView, PackageListView, SMTestMockdata, SMTestSlickGrid) {
     module('Package - Server Manager Tests', {
         setup   : function () {
             this.server = sinon.fakeServer.create();
@@ -23,11 +24,9 @@ define([
 
     var prefixId = smwc.PACKAGE_PREFIX_ID,
         gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID,
-        packagesView = new PackagesView();
+        packageListView = new PackageListView();
 
-//    test("Test 1", function() {
-//        ok(1 == 1);
-//    });
+
     asyncTest("Test Load Package ", function (assert) {
         expect(0);
         var fakeServer = this.server;
@@ -41,10 +40,10 @@ define([
             "GET", smtu.getRegExForUrl(smwu.getObjectDetailUrl('package')),
             [200, {"Content-Type": "application/json"}, JSON.stringify(smtMockData.getSinglePackageDetailData())]);
 
-        packagesView.render({hashParams: {image_id: null}});
+        packageListView.render({hashParams: {image_id: null}});
         fakeServer.respond();
         smtu.startQunitWithTimeout(3000);
 
-        smtSlickGrid.execute(prefixId, packagesView, smtMockData.getSinglePackageDetailData());
+        smtSlickGrid.execute(prefixId, packageListView, smtMockData.getSinglePackageDetailData());
     });
 });

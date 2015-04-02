@@ -6,17 +6,25 @@ define([
     'underscore',
     'sm-constants',
     'sm-utils',
-    'sm-grid-config',
     'sm-labels',
     'sm-messages',
-    'sm-model-config'
-], function (_, Constants, SMUtils, GridConfig, Labels, Messages, DeafultModelConfig) {
+    'sm-model-config',
+    'sm-grid-config',
+    'sm-detail-tmpls',
+    'sm-parsers'
+], function (_, Constants, SMUtils, Labels, Messages, DeafultModelConfig, GridConfig, DetailTemplates, Parsers) {
     smwc = new Constants();
-    smwu = new SMUtils();
     smwl = new Labels();
     smwm = new Messages();
-    smwgc = new GridConfig();
+    smwu = new SMUtils();
     smwmc = new DeafultModelConfig();
+    smwgc = new GridConfig();
+    smwdt = new DetailTemplates();
+    smwp = new Parsers();
+    requirejs(['sm-render'], function(SMRenderUtils) {
+        smwru = new SMRenderUtils();
+        smInitComplete = true;
+    });
     initSMWebCache();
 });
 

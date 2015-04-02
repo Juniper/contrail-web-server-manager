@@ -9,17 +9,8 @@ var smConfig = require('../../common/api/sm.config'),
     smConstants = require('../../common/api/sm.constants'),
     introspect = module.exports;
 
-var smIntrospectIP = smConfig.DFLT_INTROSPECT_IP,
-    smIntrospectPort = smConfig.DFLT_INTROSPECT_PORT;
-
-if (smConfig.sm) {
-    if (smConfig.sm.server_ip) {
-        smIntrospectIP = smConfig.sm.introspect_ip;
-    }
-    if (smConfig.sm.server_port) {
-        smIntrospectPort = smConfig.sm.introspect_port;
-    }
-}
+var smIntrospectIP = smConfig.sm.introspect_ip,
+    smIntrospectPort = smConfig.sm.introspect_port;
 
 var xml2jsSettings = {
     normalizeTags: true,

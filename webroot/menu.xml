@@ -76,6 +76,11 @@
 							<js>handlebars.helpers.js</js>
                             <class>smLoader</class>
 						</resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <template>sm.tmpl</template>
+                            <class>smLoader</class>
+                        </resource>
 					</resources>
 					<items>
 						<item>
@@ -85,7 +90,6 @@
 								<resource>
 									<rootDir>/setting/sm/ui</rootDir>
 									<js>sm.main.js</js>
-									<view>sm.view</view>
 									<class>clustersPageLoader</class>
 								</resource>
 							</resources>
@@ -97,7 +101,6 @@
 								<resource>
 									<rootDir>/setting/sm/ui</rootDir>
 									<js>sm.main.js</js>
-									<view>sm.view</view>
 									<class>serversPageLoader</class>
 								</resource>
 							</resources>
@@ -109,7 +112,6 @@
 								<resource>
 									<rootDir>/setting/sm/ui</rootDir>
 									<js>sm.main.js</js>
-									<view>sm.view</view>
 									<class>imagesPageLoader</class>
 								</resource>
 							</resources>
@@ -121,7 +123,6 @@
 								<resource>
 									<rootDir>/setting/sm/ui</rootDir>
 									<js>sm.main.js</js>
-									<view>sm.view</view>
 									<class>packagesPageLoader</class>
 								</resource>
 							</resources>
