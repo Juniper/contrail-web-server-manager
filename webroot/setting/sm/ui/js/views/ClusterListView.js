@@ -9,13 +9,15 @@ define([
 ], function (_, Backbone, ContrailListModel) {
     var ClusterListView = Backbone.View.extend({
         render: function () {
-            var self = this, prefixId = smwc.CLUSTER_PREFIX_ID;
+            var self = this, viewConfig = this.attributes.viewConfig,
+                prefixId = smwc.CLUSTER_PREFIX_ID;
 
             var listModelConfig = {
                 remote: {
                     ajaxConfig: {
                         url: smwu.getObjectDetailUrl(prefixId, smwc.SERVERS_STATE_PROCESSOR)
-                    }
+                    },
+                    hlRemoteConfig: smwgc.getServerMonitoringHLazyRemoteConfig(viewConfig, smwp.clusterMonitoringDataParser)
                 },
                 cacheConfig: {
                     ucid: smwc.UCID_ALL_CLUSTER_LIST
@@ -51,9 +53,9 @@ define([
                                             chartDataValues.push({
                                                 name: cluster['id'],
                                                 x: serverStatus['total_servers'],
-                                                y: serverStatus['provisioned_servers'],
+                                                y: cluster['avg_disk_rw_MB'],
                                                 color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "green" : null,
-                                                size: 6,
+                                                size: cluster['total_interface_rt_bytes'],
                                                 rawData: cluster
                                             });
                                         }
@@ -63,9 +65,12 @@ define([
                                                 values: chartDataValues
                                             }],
                                             xLbl: 'Total Servers',
-                                            yLbl: 'Provisioned Servers',
+                                            yLbl: 'Avg. Disk Read | Write',
                                             forceX: [0, 20],
-                                            forceY: [0, 20],
+                                            yLblFormat: function(yValue) {
+                                                var formattedValue = formatBytes(yValue * 1024 * 1024, false, null, 1);
+                                                return formattedValue;
+                                            },
                                             chartOptions: {tooltipFn: clusterTooltipFn, clickFn: onScatterChartClick},
                                             hideLoadingIcon: false
                                         }
@@ -120,18 +125,44 @@ define([
     };
 
     function onScatterChartClick(chartConfig) {
-        var clusterID = chartConfig['name'], hashObj = { cluster_id: clusterID };
+        var clusterID = chartConfig.name, hashObj = { cluster_id: clusterID };
 
         layoutHandler.setURLHashParams(hashObj, {p: "setting_sm_clusters", merge: false, triggerHashChange: true});
     };
 
-    function clusterTooltipFn(cluster) {
-        var tooltipContents = [
-            {lbl:'Id', keyClass: 'span4', value: cluster['name'], valueClass: 'span8'},
-            {lbl:'Provisioned', keyClass: 'span4', value:cluster['y'], valueClass: 'span8'},
-            {lbl:'Total Servers', keyClass: 'span4', value:cluster['x'], valueClass: 'span8'}
-        ];
-        return tooltipContents;
+    function clusterTooltipFn(data) {
+        var cluster = data.rawData,
+            serverStatus = data.rawData['ui_added_parameters']['servers_status'];
+
+        var tooltipConfig = {
+            title: {
+                name: data.name,
+                type: 'cluster'
+            },
+            content: {
+                iconClass: false,
+                info: [
+                    {label:'Avg. Disk Read | Write', value: formatBytes(cluster['avg_disk_rw_MB'] * 1024 * 1024, false, null, 1)},
+                    {label:'Total Network Traffic', value: formatBytes(cluster['total_interface_rt_bytes'])},
+                    {label:'In-Provision', value: serverStatus['inprovision_servers']},
+                    {label:'Provisioned', value: serverStatus['provisioned_servers'] + ' out of ' + serverStatus['total_servers']}
+                ],
+                actions: [
+                    {
+                        type: 'link',
+                        text: 'View',
+                        iconClass: 'icon-external-link',
+                        callback: function(data) {
+                            var clusterID = data.name,
+                                hashObj = { cluster_id: clusterID };
+                            layoutHandler.setURLHashParams(hashObj, {p: "setting_sm_clusters", merge: false, triggerHashChange: true});
+                        }
+                    }
+                ]
+            }
+        };
+
+        return tooltipConfig;
     };
 
     return ClusterListView;

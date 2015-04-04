@@ -159,7 +159,7 @@ define([
                 }
             },
             columnHeader: {
-                columns: smwgc.SERVER_INTERFACE_COLUMNS
+                columns: smwgc.SERVER_INTERFACE_INFO_COLUMNS
             },
             body: {
                 options: {

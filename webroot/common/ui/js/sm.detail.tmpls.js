@@ -597,7 +597,7 @@ define([
             }
         };
 
-        this.getServerMonitoringDetailsTemplate = function (detailTheme) {
+        this.getServerChassisDetailsTemplate = function (detailTheme) {
             var detailTheme = contrail.checkIfExist(detailTheme) ? detailTheme : cowc.THEME_DETAIL_DEFAULT;
             return {
                 advancedViewOptions: false, //TODO - find a way to enable this
@@ -650,6 +650,42 @@ define([
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.power_interlock',
+                                            templateGenerator: 'TextGenerator'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        };
+
+        this.getServerCPUMemDetailsTemplate = function (detailTheme) {
+            var detailTheme = contrail.checkIfExist(detailTheme) ? detailTheme : cowc.THEME_DETAIL_DEFAULT;
+            return {
+                advancedViewOptions: false, //TODO - find a way to enable this
+                templateGenerator: 'ColumnSectionTemplateGenerator',
+                templateGeneratorConfig: {
+                    columns: [
+                        {
+                            class: 'span12',
+                            rows: [
+                                {
+                                    templateGenerator: 'BlockListTemplateGenerator',
+                                    title: smwl.TITLE_CPU_MEM_INFO,
+                                    theme: detailTheme,
+                                    templateGeneratorConfig: [
+                                        {
+                                            key: 'ServerMonitoringInfo.resource_info_state.cpu_usage_percentage',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'ServerMonitoringInfo.resource_info_state.mem_usage_percent',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'ServerMonitoringInfo.resource_info_state.mem_usage_mb',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]

@@ -165,7 +165,10 @@ define([
             "dimm_size_mb": "Dimm Size (MB)",
 
             //FRU
-            "board_mfg_date": "Board Manufacture Date"
+            "board_mfg_date": "Board Manufacture Date",
+            "mem_usage_mb": "Memory Usage (MB)",
+            "cpu_usage_percentage": "% CPU Utilization",
+            "mem_usage_percent": "% Memory Usage"
         };
 
         this.TITLE_DETAILS = "Details";
@@ -213,7 +216,9 @@ define([
         this.TITLE_SERVER_FRU_INFO = 'FRU Information';
         this.TITLE_SERVER_INTERFACE_INFO = 'Interface Information';
         this.TITLE_SERVER_SENSORS = 'Sensors';
+        this.TITLE_SERVER_MONITORING_INTERFACE = 'Interface Monitoring';
         this.TITLE_SERVER_DISK_USAGE = 'Disk Usage';
+        this.TITLE_CPU_MEM_INFO = 'CPU/Memory Information';
         this.TITLE_SERVER = 'Server';
         this.TITLE_IMAGES = 'Images';
         this.TITLE_IMAGE = 'Image';
@@ -330,9 +335,11 @@ define([
         this.SM_SERVER_INVENTORY_INTERFACE_GRID_ID = "server-inventory-interface-grid";
         this.SM_SERVER_TAB_MONITORING_ID = "server-tab-monitoring";
         this.SM_SERVER_MONITORING_SECTION_ID = "server-monitoring-section";
-        this.SM_SERVER_MONITORING_DETAILS_ID = "server-monitoring-details";
+        this.SM_SERVER_CHASSIS_DETAILS_ID = "server-chassis-details";
         this.SM_SERVER_MONITORING_SENSOR_GRID_ID = "server-monitoring-sensor-grid";
+        this.SM_SERVER_MONITORING_INTERFACE_GRID_ID = "server-monitoring-interface-grid";
         this.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID = "server-monitoring-diskusage-grid";
+        this.SM_SERVER_MONITORING_RESOURCE_INFO_ID = "server-monitoring-resourceinfo-grid";
         this.SM_SERVER_TAB_SECTION_ID = "server-tab-section";
         this.SM_SERVER_SCATTER_CHART_ID = "server-scatter-chart";
 

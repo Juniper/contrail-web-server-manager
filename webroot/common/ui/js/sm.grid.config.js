@@ -111,11 +111,27 @@ define([
             {id: "write_MB", field: "write_MB", name: "Write (MB)", width: 80, minWidth: 15}
         ];
 
-        this.SERVER_INTERFACE_COLUMNS = [
+        this.SERVER_INTERFACE_INFO_COLUMNS = [
             {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
             {id: "ip_addr", field: "ip_addr", name: "IP Address", width: 120, minWidth: 20},
             {id: "netmask", field: "netmask", name: "Netmask", width: 120, minWidth: 20},
             {id: "macaddress", field: "macaddress", name: "MAC Address", width: 120, minWidth: 20},
+        ];
+
+        this.SERVER_MONITORING_INTERFACE_COLUMNS = [
+            {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
+            {id: "tx_bytes", field: "tx_bytes", name: "TX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['tx_bytes'], false, null, 1);
+            }},
+            {id: "tx_packets", field: "tx_packets", name: "TX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return d3.format(',')(dc['tx_packets']);
+            }},
+            {id: "rx_bytes", field: "rx_bytes", name: "RX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['rx_bytes'], false, null, 1);
+            }},
+            {id: "rx_packets", field: "rx_packets", name: "RX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return d3.format(',')(dc['rx_packets']);
+            }}
         ];
 
         this.getConfigureAction = function (onClickFunction, divider) {
@@ -297,6 +313,36 @@ define([
             ]);
 
             return serverColumns;
+        };
+
+        this.getServerMonitoringHLazyRemoteConfig = function (viewConfig, dataParser) {
+            var queryString = contrail.checkIfExist(viewConfig['hashParams']) ? smwu.getQueryString4ServersUrl(viewConfig['hashParams']) : '',
+                hashParams = viewConfig['hashParams'];
+
+            queryString = queryString.replace("?", "");
+
+            var listModelConfig = {
+                remote: {
+                    ajaxConfig: {
+                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, queryString)
+                    },
+                    completeCallback: function(response, contrailListModel, parentModelList) {
+                        dataParser(contrailListModel, parentModelList);
+                    }
+                }
+            };
+
+            if (queryString == '') {
+                listModelConfig['cacheConfig'] = {
+                    ucid: smwc.UCID_ALL_SERVER_MONITORING_LIST
+                };
+            } else if (hashParams['cluster_id'] != null && hashParams['tag'] == null) {
+                listModelConfig['cacheConfig'] = {
+                    ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_LIST, hashParams['cluster_id'])
+                };
+            }
+
+            return listModelConfig;
         };
 
         this.getBaremetalServerColumns = function (baremetalServerColumnsType) {
