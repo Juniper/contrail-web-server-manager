@@ -18,11 +18,11 @@ define([
                 modelKey: modelKey,
                 remote: {
                     ajaxConfig: {
-                        url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "&id=" + serverId),
+                        url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "id=" + serverId),
                         type: 'GET'
                     },
                     dataParser: function(response) {
-                        response = (response.length > 0) ? response[0] : {};
+                        response = (response != null && response.length > 0) ? response[0] : {};
                         return response;
                     }
                 },
@@ -53,7 +53,7 @@ define([
                                 view: "DetailsView",
                                 viewConfig: {
                                     ajaxConfig: {
-                                        url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "&id=" + serverId),
+                                        url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "id=" + serverId),
                                         type: 'GET'
                                     },
                                     modelKey: modelKey,
@@ -115,11 +115,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "select=fru_infos&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
-                            return response['ServerInventoryInfo']['fru_infos'];
+                            var serverInventoryInfo = response[0]['ServerInventoryInfo'];
+                            return contrail.checkIfExist(serverInventoryInfo) ? serverInventoryInfo['fru_infos'] : [];
                         }
                     },
                     cacheConfig: {
@@ -169,11 +170,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "select=interface_infos&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
-                            return response['ServerInventoryInfo']['interface_infos'];
+                            var serverInventoryInfo = response[0]['ServerInventoryInfo'];
+                            return contrail.checkIfExist(serverInventoryInfo) ? serverInventoryInfo['interface_infos'] : [];
                         }
                     },
                     cacheConfig: {

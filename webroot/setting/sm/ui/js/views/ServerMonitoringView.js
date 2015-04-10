@@ -18,11 +18,11 @@ define([
                 modelKey: modelKey,
                 remote: {
                     ajaxConfig: {
-                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "&id=" + serverId),
+                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "id=" + serverId),
                         type: 'GET'
                     },
                     dataParser: function(response) {
-                        response = (response.length > 0) ? response[0] : {};
+                        response = (response != null && response.length > 0) ? response[0] : {};
                         return response;
                     }
                 },
@@ -63,7 +63,7 @@ define([
                                 viewConfig: {
                                     class: "span6",
                                     ajaxConfig: {
-                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "&id=" + serverId),
+                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=chassis_state&id=" + serverId),
                                         type: 'GET'
                                     },
                                     modelKey: modelKey,
@@ -90,7 +90,7 @@ define([
                                 viewConfig: {
                                     class: "span6",
                                     ajaxConfig: {
-                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "&id=" + serverId),
+                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=resource_info_state&id=" + serverId),
                                         type: 'GET'
                                     },
                                     modelKey: modelKey,
@@ -139,11 +139,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=disk_usage_state&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
-                            return response['ServerMonitoringInfo']['disk_usage_state'];
+                            var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['disk_usage_state'] : [];
                         }
                     },
                     cacheConfig: {
@@ -193,11 +194,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=sensor_state&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
-                            return response['ServerMonitoringInfo']['sensor_state'];
+                            var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['sensor_state'] : [];
                         }
                     },
                     cacheConfig: {
@@ -247,11 +249,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=network_info_state&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
-                            return response['ServerMonitoringInfo']['network_info_state'];
+                            var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['network_info_state'] : [];
                         }
                     },
                     cacheConfig: {

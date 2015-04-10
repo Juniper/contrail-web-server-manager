@@ -36,7 +36,7 @@ define([
                                         var selTab = $(ui.newTab.context).text();
                                         if (selTab == smwl.TITLE_SERVERS) {
                                             $('#' + smwl.SM_SERVER_GRID_ID).data('contrailGrid').refreshView();
-                                            $('#' + smwl.SM_SERVER_SCATTER_CHART_ID).find('svg').trigger('refresh');
+                                            $('#' + smwl.SM_SERVER_SCATTER_CHART_ID).trigger('refresh');
                                         }
                                     },
                                     tabs: [

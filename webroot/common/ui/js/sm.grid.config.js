@@ -326,20 +326,19 @@ define([
                     ajaxConfig: {
                         url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, queryString)
                     },
-                    completeCallback: function(response, contrailListModel, parentModelList) {
+                    onAllRequestsCompleteCB: function(contrailListModel, parentModelList) {
                         dataParser(contrailListModel, parentModelList);
                     }
+                },
+                cacheConfig: {
+                    cacheTimeout: cowc.LIST_CACHE_UPDATE_INTERVAL
                 }
             };
 
             if (queryString == '') {
-                listModelConfig['cacheConfig'] = {
-                    ucid: smwc.UCID_ALL_SERVER_MONITORING_LIST
-                };
+                listModelConfig['cacheConfig']['ucid'] = smwc.UCID_ALL_SERVER_MONITORING_LIST;
             } else if (hashParams['cluster_id'] != null && hashParams['tag'] == null) {
-                listModelConfig['cacheConfig'] = {
-                    ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_LIST, hashParams['cluster_id'])
-                };
+                listModelConfig['cacheConfig']['ucid'] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_LIST, hashParams['cluster_id']);
             }
 
             return listModelConfig;

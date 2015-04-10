@@ -27,7 +27,7 @@ smConstants.FUNC_FILTER_IN_CONTRAIL_STORAGE_PACKAGES = 'filterInContrailStorageP
 smConstants.REDIS_TAG_VALUES = 'tagValues';
 smConstants.REDIS_CACHE_EXPIRE = 3600;
 
-smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id'];
+smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id', 'select'];
 smConstants.SM_API_SERVER = 'sm_api_server'
 smConstants.SM_INTROSPECT_SERVER = 'sm_introspect_server'
 
@@ -41,8 +41,8 @@ smConstants.PROVISON_URL = '/server/provision'
 smConstants.TAG_DETAIL_URL = '/tag?detail';
 smConstants.CHASSIS_ID_URL = '/chassis-id';
 smConstants.SM_IPMI_INFO_INTROSPECT_URL = '/Snh_SandeshUVECacheReq?x=SMIpmiInfo';
-smConstants.SM_SERVER_MONITORING_INFO_URL = '/MonitorInfo';
-smConstants.SM_SERVER_INVENTORY_INFO_URL = '/InventoryInfo';
+smConstants.SM_MONITORING_INFO_URL = '/MonitorInfo';
+smConstants.SM_INVENTORY_INFO_URL = '/InventoryInfo';
 smConstants.SM_ANALYTICS_SERVER_MONITORING_INFO_URL = '/analytics/uves/server/{0}?flat&cfilt=ServerMonitoringInfo';
 smConstants.SM_ANALYTCIS_SERVER_INVENTORY_INFO_URL = '/analytics/uves/server/{0}?flat&cfilt=ServerInventoryInfo';
 

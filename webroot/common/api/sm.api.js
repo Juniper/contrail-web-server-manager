@@ -357,7 +357,7 @@ function getMonitoringInfo4Servers (req, res) {
         monitoringUrl;
 
     filterInAllowedParams(qsObj);
-    monitoringUrl = smConstants.SM_SERVER_MONITORING_INFO_URL + '?' + qs.stringify(qsObj);
+    monitoringUrl = smConstants.SM_MONITORING_INFO_URL + '?' + qs.stringify(qsObj);
 
     sm.get(monitoringUrl, commonUtils.doEnsureExecution(function(error, result) {
         if(error) {
@@ -375,7 +375,7 @@ function getInventoryInfo4Servers (req, res) {
         inventoryUrl;
 
     filterInAllowedParams(qsObj);
-    inventoryUrl = smConstants.SM_SERVER_INVENTORY_INFO_URL + '?' + qs.stringify(qsObj);
+    inventoryUrl = smConstants.SM_INVENTORY_INFO_URL + '?' + qs.stringify(qsObj);
 
     sm.get(inventoryUrl, commonUtils.doEnsureExecution(function(error, result) {
         if(error) {

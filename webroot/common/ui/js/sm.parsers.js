@@ -9,8 +9,10 @@ define([
         this.serverMonitoringDataParser = function (contrailListModel, serverModelList) {
             var serverMonitoringMap = getServerMonitoringMap(contrailListModel);
 
-            if(serverModelList[0].isRequestInProgress()) {
+            //TODO: isRequestInProgress should be available
+            if(!contrail.checkIfFunction(serverModelList[0].isRequestInProgress) || serverModelList[0].isRequestInProgress()) {
                 serverModelList[0].onAllRequestsComplete.subscribe(function() {
+                    // TODO: Will we have multiple updates subscribed on refresh?
                     updateServerListModels(serverModelList, serverMonitoringMap);
                 });
             } else {
@@ -41,8 +43,10 @@ define([
                 }
             }
 
-            if(clusterModelList[0].isRequestInProgress()) {
+            //TODO: isRequestInProgress should be available
+            if(!contrail.checkIfFunction(clusterModelList[0].isRequestInProgress) || clusterModelList[0].isRequestInProgress()) {
                 clusterModelList[0].onAllRequestsComplete.subscribe(function() {
+                    // TODO: Will we have multiple updates subscribed on refresh?
                     updateClusterListModels(clusterModelList, clusterMonitoringMap);
                 });
             } else {
@@ -65,7 +69,11 @@ define([
             });
 
             for (var i = 0; i < serverModelList.length; i++) {
-                serverModelList[i].setItems(serverItems);
+                if(i == 0) {
+                    serverModelList[i].updateData(serverItems);
+                } else {
+                    serverModelList[i].setItems(serverItems);
+                }
             }
         });
     };
@@ -95,7 +103,11 @@ define([
         });
 
         for (var i = 0; i < clusterModelList.length; i++) {
-            clusterModelList[i].setItems(clusterItems);
+            if(i == 0) {
+                clusterModelList[i].updateData(clusterItems);
+            } else {
+                clusterModelList[i].setItems(clusterItems);
+            }
         }
     };
 

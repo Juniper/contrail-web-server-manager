@@ -35,7 +35,7 @@ define([
             view: "SectionView",
             viewConfig: {
                 rows: [
-                    {
+                    /*{
                         columns: [
                             {
                                 elementId: smwl.SM_CLUSTER_SCATTER_CHART_ID,
@@ -54,7 +54,7 @@ define([
                                                 name: cluster['id'],
                                                 x: serverStatus['total_servers'],
                                                 y: cluster['avg_disk_rw_MB'],
-                                                color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "green" : null,
+                                                color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "#2ca02c" : null,
                                                 size: cluster['total_interface_rt_bytes'],
                                                 rawData: cluster
                                             });
@@ -71,7 +71,7 @@ define([
                                                 var formattedValue = formatBytes(yValue * 1024 * 1024, false, null, 1);
                                                 return formattedValue;
                                             },
-                                            chartOptions: {tooltipFn: clusterTooltipFn, clickFn: onScatterChartClick},
+                                            chartOptions: {tooltipFn: getClusterTooltipConfig, clickFn: onScatterChartClick},
                                             hideLoadingIcon: false
                                         }
                                     }
@@ -79,7 +79,7 @@ define([
                             },
                         ]
                     },
-                    /*
+                    */
                     {
                         columns: [
                             {
@@ -87,27 +87,40 @@ define([
                                 title: smwl.TITLE_CLUSTERS,
                                 view: "ZoomScatterChartView",
                                 viewConfig: {
-                                    loadChartInChunks: false,
+                                    loadChartInChunks: true,
                                     chartOptions: {
                                         xLabel: 'Total Servers',
-                                        yLabel: 'Provisioned Servers',
+                                        yLabel: 'Avg. Disk Read | Write',
                                         forceX: [0, 20],
-                                        forceY: [0, 20],
+                                        forceY: [0, 10],
+                                        yLabelFormat: function(yValue) {
+                                            var formattedValue = formatBytes(yValue * 1024 * 1024, false, null, 1);
+                                            return formattedValue;
+                                        },
                                         dataParser: function (response) {
                                             var chartDataValues = [];
                                             for(var i = 0; i < response.length; i++) {
                                                 var cluster = response[i],
                                                     serverStatus = cluster['ui_added_parameters']['servers_status'];
 
-                                                chartDataValues.push({id: cluster['id'], x: serverStatus['total_servers'], y: serverStatus['provisioned_servers']})
+                                                chartDataValues.push({
+                                                    name: cluster['id'],
+                                                    x: serverStatus['total_servers'],
+                                                    y: contrail.handleIfNull(cluster['avg_disk_rw_MB'], 0),
+                                                    color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "okay" : "default",
+                                                    size: contrail.handleIfNull(cluster['total_interface_rt_bytes'], 0),
+                                                    rawData: cluster
+                                                });
                                             }
                                             return chartDataValues;
-                                        }
+                                        },
+                                        tooltipConfigCB: getClusterTooltipConfig,
+                                        clickCB: onScatterChartClick
                                     }
                                 }
                             },
                         ]
-                    },*/
+                    },
                     {
                         columns: [
                             {
@@ -130,7 +143,7 @@ define([
         layoutHandler.setURLHashParams(hashObj, {p: "setting_sm_clusters", merge: false, triggerHashChange: true});
     };
 
-    function clusterTooltipFn(data) {
+    function getClusterTooltipConfig(data) {
         var cluster = data.rawData,
             serverStatus = data.rawData['ui_added_parameters']['servers_status'];
 
