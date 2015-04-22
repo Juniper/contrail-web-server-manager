@@ -90,7 +90,7 @@ define([
                                 viewConfig: {
                                     class: "span6",
                                     ajaxConfig: {
-                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=resource_info_state&id=" + serverId),
+                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=resource_info_stats&id=" + serverId),
                                         type: 'GET'
                                     },
                                     modelKey: modelKey,
@@ -139,12 +139,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=disk_usage_state&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=disk_usage_totals&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
                             var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['disk_usage_state'] : [];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['disk_usage_totals'] : [];
                         }
                     },
                     cacheConfig: {
@@ -157,7 +157,7 @@ define([
 
                                 var viewModel = cachedData['dataObject']['viewModel'],
                                     serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
-                                    data = contrail.handleIfNull(serverMonitoringInfo['disk_usage_state'], []);
+                                    data = contrail.handleIfNull(serverMonitoringInfo['disk_usage_totals'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
                             });
@@ -194,12 +194,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=sensor_state&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=sensor_stats&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
                             var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['sensor_state'] : [];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['sensor_stats'] : [];
                         }
                     },
                     cacheConfig: {
@@ -212,7 +212,7 @@ define([
 
                                 var viewModel = cachedData['dataObject']['viewModel'],
                                     serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
-                                    data = contrail.handleIfNull(serverMonitoringInfo['sensor_state'], []);
+                                    data = contrail.handleIfNull(serverMonitoringInfo['sensor_stats'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
                             });
@@ -249,12 +249,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=network_info_state&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=network_info_totals&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
                             var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['network_info_state'] : [];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['network_info_totals'] : [];
                         }
                     },
                     cacheConfig: {
@@ -267,7 +267,7 @@ define([
 
                                 var viewModel = cachedData['dataObject']['viewModel'],
                                     serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
-                                    data = contrail.handleIfNull(serverMonitoringInfo['network_info_state'], []);
+                                    data = contrail.handleIfNull(serverMonitoringInfo['network_info_totals'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
                             });

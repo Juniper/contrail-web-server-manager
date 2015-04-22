@@ -19,7 +19,15 @@ define([
                     ajaxConfig: {
                         url: smwu.getObjectDetailUrl(prefixId) + queryString
                     },
+                    dataParser: smwp.serverDataParser,
                     hlRemoteConfig: smwgc.getServerMonitoringHLazyRemoteConfig(viewConfig, smwp.serverMonitoringDataParser)
+                },
+                sortConfig: {
+                    defaultSortColumns: [
+                        {sortColumn: {field: 'discovered'}, sortAsc: false},
+                        {sortColumn: {field: 'roleCount'}, sortAsc: false},
+                        {sortColumn: {field: 'status'}, sortAsc: true}
+                    ]
                 }
             };
 
@@ -83,8 +91,8 @@ define([
                                 viewConfig: {
                                     loadChartInChunks: true,
                                     chartOptions: {
-                                        xLabel: '% CPU Utilization',
-                                        yLabel: '% Memory Usage',
+                                        xLabel: 'CPU Utilization (%)',
+                                        yLabel: 'Memory Usage (%)',
                                         forceX: [0, 1],
                                         forceY: [0, 1],
                                         dataParser: function (response) {
@@ -98,6 +106,12 @@ define([
                                             return response;
                                         },
                                         tooltipConfigCB: serverTooltipFn,
+                                        controlPanelConfig: {
+                                            legend: {
+                                                enable: true,
+                                                viewConfig: getControlPanelLegendConfig()
+                                            }
+                                        },
                                         clickCB: onScatterChartClick
                                     }
                                 }
@@ -144,11 +158,10 @@ define([
             content: {
                 iconClass: false,
                 info: [
-                    {label: '% CPU Utilization', value: d3.format('.02f')(server['x'])},
-                    {label: '% Memory Usage', value: server['y']},
-                    {label: 'Memory Usage', value: formatBytes(server['mem_usage_mb'] * 1024 * 1024)},
+                    {label: 'CPU Utilization', value: d3.format('.02f')(server['x']) + " %"},
+                    {label: 'Memory Usage', value: server['y']  + " % (" + formatBytes(server['mem_usage_mb'] * 1024 * 1024) + ")"},
                     {label: 'Network Traffic', value: formatBytes(server['total_interface_rt_bytes'])},
-                    {label: 'Disk Read | Write', value: formatBytes(server['total_disk_rw_MB'] * 1024 * 1024)}
+                    {label: 'Disk Read | Write', value: formatBytes(server['total_disk_rw_bytes'])}
                 ],
                 actions: [
                     {
@@ -167,6 +180,26 @@ define([
         };
 
         return tooltipConfig;
+    };
+
+    function getControlPanelLegendConfig() {
+        return {
+            groups: [
+                {
+                    id: 'by-node-size',
+                    title: 'Server Size',
+                    items: [
+                        {
+                            text: 'Network Traffic',
+                            labelCssClass: 'icon-circle',
+                            events: {
+                                click: function (event) {}
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
     };
 
     return ServerListView;

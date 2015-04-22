@@ -324,7 +324,8 @@ define([
             remote: {
                 ajaxConfig: {
                     url: smwu.getObjectDetailUrl(prefixId) + queryString
-                }
+                },
+                dataParser: smwp.serverDataParser
             }
         };
 
@@ -361,12 +362,6 @@ define([
                     },
                     detail: {
                         template: cowu.generateDetailTemplateHTML(smwdt.getServerDetailsTemplate(), cowc.APP_CONTRAIL_SM)
-                    },
-                    sortable: {
-                        defaultSortCols: {
-                            'discovered': {sortAsc: false},
-                            'status': {sortAsc: true}
-                        }
                     }
                 },
                 dataSource: listModelConfig

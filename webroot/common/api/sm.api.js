@@ -93,7 +93,7 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
 };
 
 function computeServerStates(res, filteredResponseArray) {
-    var objectUrl = smConstants.URL_SERVERS_DETAILS,
+    var objectUrl = smConstants.URL_SERVERS_STATUS,
         responseArray;
 
     sm.get(objectUrl, function (error, responseJSON) {

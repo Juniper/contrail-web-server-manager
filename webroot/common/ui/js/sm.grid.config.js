@@ -31,50 +31,49 @@ define([
                     loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['id']}});
                 }
             }},
-            { id: "email", field: "email", name: "Email", width: 150, minWidth: 100 },
-            { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "new-servers", field: "", name: "New", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['new_servers'];
                 }
             },
-            { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "configured-servers", field: "", name: "Configured", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['configured_servers'];
                 }
             },
-            { id: "inreimage_servers", field: "", name: "In-Reimage Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "inreimage_servers", field: "", name: "In-Reimage", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['inreimage_servers'];
                 }
             },
-            { id: "reimaged_servers", field: "", name: "Reimaged Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "reimaged_servers", field: "", name: "Reimaged", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['reimaged_servers'];
                 }
             },
-            { id: "inprovision_servers", field: "", name: "In-Provision Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "inprovision_servers", field: "", name: "In-Provision", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['inprovision_servers'];
                 }
             },
-            { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "provisioned-servers", field: "", name: "Provisioned", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['provisioned_servers'];
                 }
             },
-            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "total-servers", field: "", name: "Total", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
@@ -107,8 +106,12 @@ define([
 
         this.SERVER_DISKUSAGE_COLUMNS = [
             {id: "disk_name", field: "disk_name", name: "Disk Name", width: 80, minWidth: 15},
-            {id: "read_MB", field: "read_MB", name: "Read (MB)", width: 80, minWidth: 15},
-            {id: "write_MB", field: "write_MB", name: "Write (MB)", width: 80, minWidth: 15}
+            {id: "total_read_bytes", field: "total_read_bytes", name: "Read", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_read_bytes'], false, null, 1);
+            }},
+            {id: "total_write_bytes", field: "total_write_bytes", name: "Write", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_write_bytes'], false, null, 1);
+             }}
         ];
 
         this.SERVER_INTERFACE_INFO_COLUMNS = [
@@ -120,17 +123,17 @@ define([
 
         this.SERVER_MONITORING_INTERFACE_COLUMNS = [
             {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
-            {id: "tx_bytes", field: "tx_bytes", name: "TX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['tx_bytes'], false, null, 1);
+            {id: "total_tx_bytes", field: "total_tx_bytes", name: "TX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_tx_bytes'], false, null, 1);
             }},
-            {id: "tx_packets", field: "tx_packets", name: "TX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(',')(dc['tx_packets']);
+            {id: "total_tx_packets", field: "total_tx_packets", name: "TX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return d3.format(',')(dc['total_tx_packets']);
             }},
-            {id: "rx_bytes", field: "rx_bytes", name: "RX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['rx_bytes'], false, null, 1);
+            {id: "total_rx_bytes", field: "total_rx_bytes", name: "RX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_rx_bytes'], false, null, 1);
             }},
-            {id: "rx_packets", field: "rx_packets", name: "RX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(',')(dc['rx_packets']);
+            {id: "total_rx_packets", field: "total_rx_packets", name: "RX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return d3.format(',')(dc['total_rx_packets']);
             }}
         ];
 
@@ -303,13 +306,21 @@ define([
                         }
                     }}
                 ]);
-                serverColumns = serverColumns.concat(tagColumnsSet).concat(ipColumnsSet);
+                serverColumns = serverColumns.concat(ipColumnsSet);
+                serverColumns = serverColumns.concat([
+                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                ]);
+                serverColumns = serverColumns.concat(tagColumnsSet);
             } else if (serverColumnsType == smwc.CLUSTER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat(ipColumnsSet).concat(this.getGridColumns4Roles());
+
+                serverColumns = serverColumns.concat([
+                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                ]);
             }
 
             serverColumns = serverColumns.concat([
-                { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                { id: "roleCount", name: "Role Count", field: "roleCount", width: 0, minWidth: 0, maxWidth: 0, cssClass: "hide", headerCssClass: "hide" }
             ]);
 
             return serverColumns;

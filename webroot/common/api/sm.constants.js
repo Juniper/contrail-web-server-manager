@@ -5,6 +5,7 @@
 var smConstants = {};
 
 smConstants.URL_SERVERS_DETAILS = '/server?detail';
+smConstants.URL_SERVERS_STATUS = '/server?select=id,status,cluster_id';
 
 smConstants.KEY_NAME = 'name';
 smConstants.KEY_TAG = 'tag';

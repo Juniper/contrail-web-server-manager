@@ -53,7 +53,7 @@ define([
                                             chartDataValues.push({
                                                 name: cluster['id'],
                                                 x: serverStatus['total_servers'],
-                                                y: cluster['avg_disk_rw_MB'],
+                                                y: cluster['avg_disk_rw_bytes'],
                                                 color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "#2ca02c" : null,
                                                 size: cluster['total_interface_rt_bytes'],
                                                 rawData: cluster
@@ -106,7 +106,7 @@ define([
                                                 chartDataValues.push({
                                                     name: cluster['id'],
                                                     x: serverStatus['total_servers'],
-                                                    y: contrail.handleIfNull(cluster['avg_disk_rw_MB'], 0),
+                                                    y: contrail.handleIfNull(cluster['avg_disk_rw_bytes'], 0),
                                                     color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "okay" : "default",
                                                     size: contrail.handleIfNull(cluster['total_interface_rt_bytes'], 0),
                                                     rawData: cluster
@@ -115,6 +115,16 @@ define([
                                             return chartDataValues;
                                         },
                                         tooltipConfigCB: getClusterTooltipConfig,
+                                        controlPanelConfig: {
+                                            /*filter: {
+                                                enable: true,
+                                                viewConfig: getControlPanelFilterConfig()
+                                            },*/
+                                            legend: {
+                                                enable: true,
+                                                viewConfig: getControlPanelLegendConfig()
+                                            }
+                                        },
                                         clickCB: onScatterChartClick
                                     }
                                 }
@@ -155,7 +165,7 @@ define([
             content: {
                 iconClass: false,
                 info: [
-                    {label:'Avg. Disk Read | Write', value: formatBytes(cluster['avg_disk_rw_MB'] * 1024 * 1024, false, null, 1)},
+                    {label:'Avg. Disk Read | Write', value: formatBytes(cluster['avg_disk_rw_bytes'], false, null, 1)},
                     {label:'Total Network Traffic', value: formatBytes(cluster['total_interface_rt_bytes'])},
                     {label:'In-Provision', value: serverStatus['inprovision_servers']},
                     {label:'Provisioned', value: serverStatus['provisioned_servers'] + ' out of ' + serverStatus['total_servers']}
@@ -172,10 +182,83 @@ define([
                         }
                     }
                 ]
-            }
+            },
+            delay: cowc.TOOLTIP_DELAY
         };
 
         return tooltipConfig;
+    };
+
+    function getControlPanelFilterConfig() {
+        return {
+            groups: [
+                {
+                    id: 'by-node-color',
+                    title: 'By Node Color',
+                    type: 'radio',
+                    items: [
+                        {
+                            text: 'Filter 1',
+                            labelCssClass: 'okay',
+                            events: {
+                                click: function (event) {
+                                    console.log('Filter 1');
+                                }
+                            }
+                        },
+                        {
+                            text: 'Filter 2',
+                            labelCssClass: 'medium',
+                            events: {
+                                click: function (event) {
+                                    console.log('Filter 2');
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+    };
+
+    function getControlPanelLegendConfig() {
+        return {
+            groups: [
+                {
+                    id: 'by-node-color',
+                    title: 'Cluster Color',
+                    items: [
+                        {
+                            text: 'Provisioned Server = Total Servers',
+                            labelCssClass: 'icon-circle okay',
+                            events: {
+                                click: function (event) {}
+                            }
+                        },
+                        {
+                            text: 'Provisioned Server != Total Servers',
+                            labelCssClass: 'icon-circle medium',
+                            events: {
+                                click: function (event) {}
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 'by-node-size',
+                    title: 'Cluster Size',
+                    items: [
+                        {
+                            text: 'Total Network Traffic',
+                            labelCssClass: 'icon-circle',
+                            events: {
+                                click: function (event) {}
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
     };
 
     return ClusterListView;

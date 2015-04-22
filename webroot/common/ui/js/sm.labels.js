@@ -57,11 +57,11 @@ define([
             "ipmi_address": "IPMI Address",
             "ipmi_username": "IPMI Username",
             "ipmi_password": "IPMI Password",
-            "base_image_id": "Base Image",
+            "base_image_id": "Configured OS Image",
             'baremetal_edit_vn' : 'Virtual Network',
-            "reimaged_id": "Installed Image",
-            "package_image_id": "Package",
-            "storage_repo_id": "Package",
+            "reimaged_id": "Installed OS Image",
+            "package_image_id": "Configured Package",
+            "storage_repo_id": "Configured Package",
             "storage_chassis_id" : "Chassis ID",
             "storage_chassis_id_input" : "Add New Chassis ID",
             "provisioned_id": "Installed Package",
@@ -220,8 +220,8 @@ define([
         this.TITLE_SERVER_DISK_USAGE = 'Disk Usage';
         this.TITLE_CPU_MEM_INFO = 'CPU/Memory Information';
         this.TITLE_SERVER = 'Server';
-        this.TITLE_IMAGES = 'Images';
-        this.TITLE_IMAGE = 'Image';
+        this.TITLE_IMAGES = 'OS Images';
+        this.TITLE_IMAGE = 'OS Image';
         this.TITLE_PACKAGES = 'Packages';
         this.TITLE_PACKAGE = 'Package';
         this.TITLE_BAREMETAL_SERVERS = 'Baremetal Servers';
@@ -239,7 +239,7 @@ define([
         this.TITLE_REMOVE_SERVERS = 'Remove Servers';
         this.TITLE_ADD_SERVERS_TO_CLUSTER = 'Add Servers to Cluster';
         this.TITLE_ADD_TAGS = 'Add Tags';
-        this.TITLE_ADD_IMAGE = 'Add Image';
+        this.TITLE_ADD_IMAGE = 'Add OS Image';
         this.TITLE_ADD_PACKAGE = 'Add Package';
         this.TITLE_PROVISION_CLUSTER = 'Provision Cluster';
         this.TITLE_ADD_TO_CLUSTER = 'Add to Cluster';
@@ -281,7 +281,7 @@ define([
         this.TITLE_SELECT_BAREMETAL_SERVER = 'Select Baremetal Server';
         this.TITLE_SELECT_INTERFACE = 'Select Interface';
         this.TITLE_BAREMETAL_INTERFACES = 'Baremetal Interfaces';
-        this.TITLE_SELECT_IMAGE = 'Select Image';
+        this.TITLE_SELECT_IMAGE = 'Select OS Image';
         this.TITLE_FILTER_BAREMETALS = 'Filtered Baremetal Servers';
 
         this.TITLE_SAVE_NEXT = 'Save &amp; Next';
@@ -292,8 +292,8 @@ define([
         this.TITLE_SERVER_ETH_CONTROLLER = "Interface Controller";
         this.TITLE_SERVER_CHASSIS_STATE = "Chassis State";
 
-        this.SELECT_IMAGE = 'Select Image';
-        this.TITLE_DELETE_IMAGE = 'Delete Image';
+        this.SELECT_IMAGE = 'Select OS Image';
+        this.TITLE_DELETE_IMAGE = 'Delete OS Image';
         this.SELECT_PACKAGE = 'Select Package';
         this.SELECT_CHASSIS_ID = 'Select Chassis Id';
         this.TITLE_DELETE_PACKAGE = 'Delete Package';

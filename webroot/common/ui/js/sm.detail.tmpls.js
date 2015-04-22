@@ -38,7 +38,13 @@ define([
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.openstack_mgmt_ip',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'LinkGenerator',
+                                            templateGeneratorConfig: {
+                                                template: 'http://{{params.openstack_mgmt_ip}}/horizon',
+                                                params: {
+                                                    ip_address: 'openstack_mgmt_ip'
+                                                }
+                                            }
                                         },
                                         {
                                             key: 'parameters.keystone_ip',
@@ -356,6 +362,10 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
+                                            key: 'provisioned_id',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
                                             key: 'contrail.control_data_interface',
                                             templateGenerator: 'TextGenerator'
                                         }
@@ -412,7 +422,7 @@ define([
                                         {
                                             key: 'roles',
                                             templateGenerator: 'TextGenerator'
-                                        },
+                                        }
                                     ]
                                 },
                                 {
@@ -506,10 +516,6 @@ define([
                                         },
                                         {
                                             key: 'reimaged_id',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'provisioned_id',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
@@ -677,15 +683,15 @@ define([
                                     theme: detailTheme,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'ServerMonitoringInfo.resource_info_state.cpu_usage_percentage',
+                                            key: 'ServerMonitoringInfo.resource_info_stats.cpu_usage_percentage',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'ServerMonitoringInfo.resource_info_state.mem_usage_percent',
+                                            key: 'ServerMonitoringInfo.resource_info_stats.mem_usage_percent',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'ServerMonitoringInfo.resource_info_state.mem_usage_mb',
+                                            key: 'ServerMonitoringInfo.resource_info_stats.mem_usage_mb',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
