@@ -5,6 +5,7 @@
 var smConstants = {};
 
 smConstants.URL_SERVERS_DETAILS = '/server?detail';
+smConstants.URL_SERVERS_STATUS = '/server?select=id,status,cluster_id';
 
 smConstants.KEY_NAME = 'name';
 smConstants.KEY_TAG = 'tag';
@@ -41,7 +42,9 @@ smConstants.PROVISON_URL = '/server/provision'
 smConstants.TAG_DETAIL_URL = '/tag?detail';
 smConstants.CHASSIS_ID_URL = '/chassis-id';
 smConstants.SM_IPMI_INFO_INTROSPECT_URL = '/Snh_SandeshUVECacheReq?x=SMIpmiInfo';
+smConstants.SM_MONITORING_CONF_URL = '/MonitorConf';
 smConstants.SM_MONITORING_INFO_URL = '/MonitorInfo';
+smConstants.SM_MONITORING_SUMMARY_INFO_URL = '/MonitorInfoSummary';
 smConstants.SM_INVENTORY_INFO_URL = '/InventoryInfo';
 smConstants.SM_ANALYTICS_SERVER_MONITORING_INFO_URL = '/analytics/uves/server/{0}?flat&cfilt=ServerMonitoringInfo';
 smConstants.SM_ANALYTCIS_SERVER_INVENTORY_INFO_URL = '/analytics/uves/server/{0}?flat&cfilt=ServerInventoryInfo';

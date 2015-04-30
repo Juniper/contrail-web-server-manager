@@ -23,6 +23,7 @@ function ClustersPageLoader() {
                     viewConfig: {clusterId: clusterId}
                 };
                 cowu.renderView4Config(contentContainer, null, clusterViewConfig);
+                pushBreadcrumb([clusterId]);
             } else {
                 var clusterListViewConfig = {
                     elementId: smwl.SM_CLUSTER_LIST_VIEW_ID,
@@ -57,6 +58,7 @@ function ServersPageLoader() {
                     viewConfig: {serverId: serverId}
                 };
                 cowu.renderView4Config(contentContainer, null, serverViewConfig);
+                pushBreadcrumb([serverId]);
             } else {
                 var serverListViewConfig = {
                     elementId: smwl.SM_SERVER_LIST_VIEW_ID,

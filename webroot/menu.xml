@@ -45,7 +45,7 @@
 								</resource>
 								<resource>
                                     <rootDir>/setting/sm/ui</rootDir>
-                                    <view>sm.view</view>
+									<template>sm.tmpl</template>
                                 </resource>
 							</resources>
 						</item>
@@ -107,7 +107,7 @@
 						</item>
 						<item>
 							<hash>setting_sm_images</hash>
-							<label>Images</label>
+							<label>OS Images</label>
 							<resources>
 								<resource>
 									<rootDir>/setting/sm/ui</rootDir>

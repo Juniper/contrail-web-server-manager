@@ -324,7 +324,8 @@ define([
             remote: {
                 ajaxConfig: {
                     url: smwu.getObjectDetailUrl(prefixId) + queryString
-                }
+                },
+                dataParser: smwp.serverDataParser
             }
         };
 
@@ -359,14 +360,9 @@ define([
                             $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
                         }
                     },
+                    fixedRowHeight: 30,
                     detail: {
                         template: cowu.generateDetailTemplateHTML(smwdt.getServerDetailsTemplate(), cowc.APP_CONTRAIL_SM)
-                    },
-                    sortable: {
-                        defaultSortCols: {
-                            'discovered': {sortAsc: false},
-                            'status': {sortAsc: true}
-                        }
                     }
                 },
                 dataSource: listModelConfig

@@ -10,7 +10,7 @@ define([
         this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
 
         this.IMAGE_COLUMNS = [
-            {id: "image_id", field: "id", name: "Name", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "image_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
             {id: "category", field: "category", name: "Category", width: 60, minWidth: 50},
             {id: "image_type", field: "type", name: "Type", width: 120, minWidth: 100},
             {id: "image_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
@@ -18,7 +18,7 @@ define([
         ];
 
         this.PACKAGE_COLUMNS = [
-            {id: "package_id", field: "id", name: "Name", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "package_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
             {id: "package_category", field: "category", name: "Category", width: 60, minWidth: 50},
             {id: "package_type", field: "type", name: "Type", width: 120, minWidth: 100},
             {id: "package_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
@@ -26,55 +26,54 @@ define([
         ];
 
         this.CLUSTER_COLUMNS = [
-            { id: "cluster_id", field: "id", name: "Name", width: 150, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
+            { id: "cluster_id", field: "id", name: "ID", width: 150, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
                 onClick: function (e, dc) {
                     loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['id']}});
                 }
             }},
-            { id: "email", field: "email", name: "Email", width: 150, minWidth: 100 },
-            { id: "new-servers", field: "", name: "New Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "new-servers", field: "", name: "New", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['new_servers'];
                 }
             },
-            { id: "configured-servers", field: "", name: "Configured Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "configured-servers", field: "", name: "Configured", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['configured_servers'];
                 }
             },
-            { id: "inreimage_servers", field: "", name: "In-Reimage Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "inreimage_servers", field: "", name: "In-Reimage", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['inreimage_servers'];
                 }
             },
-            { id: "reimaged_servers", field: "", name: "Reimaged Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "reimaged_servers", field: "", name: "Reimaged", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['reimaged_servers'];
                 }
             },
-            { id: "inprovision_servers", field: "", name: "In-Provision Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "inprovision_servers", field: "", name: "In-Provision", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['inprovision_servers'];
                 }
             },
-            { id: "provisioned-servers", field: "", name: "Provisioned Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "provisioned-servers", field: "", name: "Provisioned", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
                     return serverStatus['provisioned_servers'];
                 }
             },
-            { id: "total-servers", field: "", name: "Total Servers", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "total-servers", field: "", name: "Total", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
                         serverStatus = uiParams['servers_status'];
@@ -94,7 +93,12 @@ define([
                     return reading + " " + unit;
                 }
             },
-            {id: "status", field: "status", name: "Status", width: 120, minWidth: 15}
+            {
+                id: "status", field: "status", name: "Status", width: 120, minWidth: 15,
+                formatter: function(r, c, v, cd, dc) {
+                    return cowf.getTextGenerator('status-state', dc.status)
+                }
+            }
         ];
 
         this.SERVER_FRU_COLUMNS = [
@@ -107,8 +111,25 @@ define([
 
         this.SERVER_DISKUSAGE_COLUMNS = [
             {id: "disk_name", field: "disk_name", name: "Disk Name", width: 80, minWidth: 15},
-            {id: "read_MB", field: "read_MB", name: "Read (MB)", width: 80, minWidth: 15},
-            {id: "write_MB", field: "write_MB", name: "Write (MB)", width: 80, minWidth: 15}
+            {id: "total_read_bytes", field: "total_read_bytes", name: "Read", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_read_bytes'], false, null, 1);
+            }},
+            {id: "total_write_bytes", field: "total_write_bytes", name: "Write", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_write_bytes'], false, null, 1);
+             }}
+        ];
+
+        this.SERVER_FILESYSTEM_COLUMNS = [
+            {id: "fs_name", field: "fs_name", name: "Name", width: 80, minWidth: 15},
+            {id: "type", field: "type", name: "Type", width: 80, minWidth: 15},
+            {id: "size_kb", field: "size_kb", name: "Size", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['size_kb'] * 1024, false, null, 1);
+            }},
+            {id: "used_percentage", field: "used_percentage", name: "Used", width: 80, minWidth: 15,
+                formatter: function(r, c, v, cd, dc) {
+                    return cowf.getTextGenerator('alert-percentage', dc.used_percentage)
+                }
+            }
         ];
 
         this.SERVER_INTERFACE_INFO_COLUMNS = [
@@ -120,17 +141,17 @@ define([
 
         this.SERVER_MONITORING_INTERFACE_COLUMNS = [
             {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
-            {id: "tx_bytes", field: "tx_bytes", name: "TX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['tx_bytes'], false, null, 1);
+            {id: "total_tx_bytes", field: "total_tx_bytes", name: "TX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_tx_bytes'], false, null, 1);
             }},
-            {id: "tx_packets", field: "tx_packets", name: "TX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(',')(dc['tx_packets']);
+            {id: "total_tx_packets", field: "total_tx_packets", name: "TX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return d3.format(',')(dc['total_tx_packets']);
             }},
-            {id: "rx_bytes", field: "rx_bytes", name: "RX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['rx_bytes'], false, null, 1);
+            {id: "total_rx_bytes", field: "total_rx_bytes", name: "RX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['total_rx_bytes'], false, null, 1);
             }},
-            {id: "rx_packets", field: "rx_packets", name: "RX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(',')(dc['rx_packets']);
+            {id: "total_rx_packets", field: "total_rx_packets", name: "RX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
+                return d3.format(',')(dc['total_rx_packets']);
             }}
         ];
 
@@ -303,13 +324,21 @@ define([
                         }
                     }}
                 ]);
-                serverColumns = serverColumns.concat(tagColumnsSet).concat(ipColumnsSet);
+                serverColumns = serverColumns.concat(ipColumnsSet);
+                serverColumns = serverColumns.concat([
+                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                ]);
+                serverColumns = serverColumns.concat(tagColumnsSet);
             } else if (serverColumnsType == smwc.CLUSTER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat(ipColumnsSet).concat(this.getGridColumns4Roles());
+
+                serverColumns = serverColumns.concat([
+                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                ]);
             }
 
             serverColumns = serverColumns.concat([
-                { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                { id: "roleCount", name: "Role Count", field: "roleCount", width: 0, minWidth: 0, maxWidth: 0, cssClass: "hide", headerCssClass: "hide" }
             ]);
 
             return serverColumns;
@@ -324,7 +353,7 @@ define([
             var listModelConfig = {
                 remote: {
                     ajaxConfig: {
-                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, queryString)
+                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_SUMMARY_URL, queryString)
                     },
                     onAllRequestsCompleteCB: function(contrailListModel, parentModelList) {
                         dataParser(contrailListModel, parentModelList);
@@ -336,9 +365,9 @@ define([
             };
 
             if (queryString == '') {
-                listModelConfig['cacheConfig']['ucid'] = smwc.UCID_ALL_SERVER_MONITORING_LIST;
+                listModelConfig['cacheConfig']['ucid'] = smwc.UCID_ALL_SERVER_MONITORING_SUMMARY_LIST;
             } else if (hashParams['cluster_id'] != null && hashParams['tag'] == null) {
-                listModelConfig['cacheConfig']['ucid'] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_LIST, hashParams['cluster_id']);
+                listModelConfig['cacheConfig']['ucid'] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_SUMMARY_LIST, hashParams['cluster_id']);
             }
 
             return listModelConfig;

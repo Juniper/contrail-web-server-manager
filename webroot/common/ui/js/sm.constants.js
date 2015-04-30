@@ -98,10 +98,13 @@ define([
         this.URL_PHYSICAL_ROUTERS_LIST = '/api/tenants/config/physical-routers-list';
         this.URL_MAP_VIRTUAL_MACHINE_REFS = '/api/tenants/config/map-virtual-machine-refs/';
         this.SM_SERVER_MONITORING_INFO_URL = '/sm/server/monitoring/info?{0}';
+        this.SM_SERVER_MONITORING_INFO_SUMMARY_URL = '/sm/server/monitoring/info/summary?{0}';
+        this.SM_SERVER_MONITORING_CONFIG_URL = '/sm/server/monitoring/config';
         this.SM_SERVER_INVENTORY_INFO_URL = '/sm/server/inventory/info?{0}';
         this.URL_CHASSIS_ID = '/sm/chassis/ids'
 
         this.CACHED_TAG_COLORS = {};
+        this.MONITORING_CONFIG = {};
 
         this.URL_HASH_SM_CLUSTERS = 'setting_sm_clusters';
         this.URL_HASH_SM_SERVERS = 'setting_sm_servers';
@@ -136,7 +139,9 @@ define([
 
         this.UCID_ALL_SERVER_LIST = this.UCID_PREFIX_SM_LISTS + "all-servers";
         this.UCID_ALL_SERVER_MONITORING_LIST = this.UCID_PREFIX_SM_LISTS + "all-server-monitoring";
+        this.UCID_ALL_SERVER_MONITORING_SUMMARY_LIST = this.UCID_PREFIX_SM_LISTS + "all-server-monitoring-summary";
         this.UCID_CLUSTER_SERVER_MONITORING_LIST = this.UCID_PREFIX_SM_LISTS + "{0}:all-server-monitoring";
+        this.UCID_CLUSTER_SERVER_MONITORING_SUMMARY_LIST = this.UCID_PREFIX_SM_LISTS + "{0}:all-server-monitoring-summary";
 
         this.UCID_SERVER_INVENTORY_UVE = this.UCID_PREFIX_SM_UVES + "{0}:inventory";
         this.UCID_SERVER_MONITORING_UVE = this.UCID_PREFIX_SM_UVES + "{0}:monitoring";

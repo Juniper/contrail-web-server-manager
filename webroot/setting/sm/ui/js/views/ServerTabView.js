@@ -41,6 +41,7 @@ define([
                                             $('#' + smwl.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID).data('contrailGrid').refreshView();
                                             $('#' + smwl.SM_SERVER_MONITORING_SENSOR_GRID_ID).data('contrailGrid').refreshView();
                                             $('#' + smwl.SM_SERVER_MONITORING_INTERFACE_GRID_ID).data('contrailGrid').refreshView();
+                                            $('#' + smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID).data('contrailGrid').refreshView();
                                         }
                                     },
                                     tabs: [

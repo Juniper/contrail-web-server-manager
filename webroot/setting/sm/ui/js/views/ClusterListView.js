@@ -35,51 +35,6 @@ define([
             view: "SectionView",
             viewConfig: {
                 rows: [
-                    /*{
-                        columns: [
-                            {
-                                elementId: smwl.SM_CLUSTER_SCATTER_CHART_ID,
-                                title: smwl.TITLE_CLUSTERS,
-                                view: "ScatterChartView",
-                                viewConfig: {
-                                    class: "port-distribution-chart",
-                                    loadChartInChunks: true,
-                                    parseFn: function (response) {
-                                        var chartDataValues = [];
-                                        for(var i = 0; i < response.length; i++) {
-                                            var cluster = response[i],
-                                                serverStatus = cluster['ui_added_parameters']['servers_status'];
-
-                                            chartDataValues.push({
-                                                name: cluster['id'],
-                                                x: serverStatus['total_servers'],
-                                                y: cluster['avg_disk_rw_MB'],
-                                                color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "#2ca02c" : null,
-                                                size: cluster['total_interface_rt_bytes'],
-                                                rawData: cluster
-                                            });
-                                        }
-                                        return {
-                                            d: [{
-                                                key: 'Clusters',
-                                                values: chartDataValues
-                                            }],
-                                            xLbl: 'Total Servers',
-                                            yLbl: 'Avg. Disk Read | Write',
-                                            forceX: [0, 20],
-                                            yLblFormat: function(yValue) {
-                                                var formattedValue = formatBytes(yValue * 1024 * 1024, false, null, 1);
-                                                return formattedValue;
-                                            },
-                                            chartOptions: {tooltipFn: getClusterTooltipConfig, clickFn: onScatterChartClick},
-                                            hideLoadingIcon: false
-                                        }
-                                    }
-                                }
-                            },
-                        ]
-                    },
-                    */
                     {
                         columns: [
                             {
@@ -89,14 +44,10 @@ define([
                                 viewConfig: {
                                     loadChartInChunks: true,
                                     chartOptions: {
-                                        xLabel: 'Total Servers',
-                                        yLabel: 'Avg. Disk Read | Write',
-                                        forceX: [0, 20],
-                                        forceY: [0, 10],
-                                        yLabelFormat: function(yValue) {
-                                            var formattedValue = formatBytes(yValue * 1024 * 1024, false, null, 1);
-                                            return formattedValue;
-                                        },
+                                        xLabel: 'Max. CPU Utilization (%)',
+                                        yLabel: 'Total Servers',
+                                        forceX: [0, 1],
+                                        forceY: [0, 20],
                                         dataParser: function (response) {
                                             var chartDataValues = [];
                                             for(var i = 0; i < response.length; i++) {
@@ -105,16 +56,26 @@ define([
 
                                                 chartDataValues.push({
                                                     name: cluster['id'],
-                                                    x: serverStatus['total_servers'],
-                                                    y: contrail.handleIfNull(cluster['avg_disk_rw_MB'], 0),
+                                                    y: serverStatus['total_servers'],
+                                                    x: contrail.handleIfNull(cluster['max_cpu_usage_percentage'], 0),
                                                     color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "okay" : "default",
-                                                    size: contrail.handleIfNull(cluster['total_interface_rt_bytes'], 0),
+                                                    size: contrail.handleIfNull(cluster['interface_rt_bytes'], 0),
                                                     rawData: cluster
                                                 });
                                             }
                                             return chartDataValues;
                                         },
                                         tooltipConfigCB: getClusterTooltipConfig,
+                                        controlPanelConfig: {
+                                            /*filter: {
+                                                enable: true,
+                                                viewConfig: getControlPanelFilterConfig()
+                                            },*/
+                                            legend: {
+                                                enable: true,
+                                                viewConfig: getControlPanelLegendConfig()
+                                            }
+                                        },
                                         clickCB: onScatterChartClick
                                     }
                                 }
@@ -155,8 +116,8 @@ define([
             content: {
                 iconClass: false,
                 info: [
-                    {label:'Avg. Disk Read | Write', value: formatBytes(cluster['avg_disk_rw_MB'] * 1024 * 1024, false, null, 1)},
-                    {label:'Total Network Traffic', value: formatBytes(cluster['total_interface_rt_bytes'])},
+                    {label:'Max. CPU Utilization', value: cluster['max_cpu_usage_percentage'] + " %"},
+                    {label:'Network Traffic', value: cowu.addUnits2Bytes(cluster['interface_rt_bytes'], false, null, 1, smwc.MONITORING_CONFIG['monitoring_frequency'])},
                     {label:'In-Provision', value: serverStatus['inprovision_servers']},
                     {label:'Provisioned', value: serverStatus['provisioned_servers'] + ' out of ' + serverStatus['total_servers']}
                 ],
@@ -172,10 +133,83 @@ define([
                         }
                     }
                 ]
-            }
+            },
+            delay: cowc.TOOLTIP_DELAY
         };
 
         return tooltipConfig;
+    };
+
+    function getControlPanelFilterConfig() {
+        return {
+            groups: [
+                {
+                    id: 'by-node-color',
+                    title: 'By Node Color',
+                    type: 'radio',
+                    items: [
+                        {
+                            text: 'Filter 1',
+                            labelCssClass: 'okay',
+                            events: {
+                                click: function (event) {
+                                    console.log('Filter 1');
+                                }
+                            }
+                        },
+                        {
+                            text: 'Filter 2',
+                            labelCssClass: 'medium',
+                            events: {
+                                click: function (event) {
+                                    console.log('Filter 2');
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+    };
+
+    function getControlPanelLegendConfig() {
+        return {
+            groups: [
+                {
+                    id: 'by-node-color',
+                    title: 'Cluster Color',
+                    items: [
+                        {
+                            text: 'Provisioned Server = Total Servers',
+                            labelCssClass: 'icon-circle okay',
+                            events: {
+                                click: function (event) {}
+                            }
+                        },
+                        {
+                            text: 'Provisioned Server != Total Servers',
+                            labelCssClass: 'icon-circle medium',
+                            events: {
+                                click: function (event) {}
+                            }
+                        }
+                    ]
+                },
+                {
+                    id: 'by-node-size',
+                    title: 'Cluster Size',
+                    items: [
+                        {
+                            text: 'Total Network Traffic',
+                            labelCssClass: 'icon-circle',
+                            events: {
+                                click: function (event) {}
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
     };
 
     return ClusterListView;

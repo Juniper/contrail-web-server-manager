@@ -32,13 +32,17 @@ define([
                     if(!contrail.checkIfExist(clusterMonitoringMap[clusterId])) {
                         clusterMonitoringMap[clusterId] = {
                             servers: 0,
-                            total_disk_rw_MB: 0,
-                            total_interface_rt_bytes: 0
+                            total_disk_rw_bytes: 0,
+                            interface_rt_bytes: 0,
+                            max_cpu_usage_percentage: 0,
+                            max_mem_usage_percentage: 0
                         };
                     }
                     var cluster = clusterMonitoringMap[clusterId];
-                    cluster['total_disk_rw_MB'] += serverMonitoringData['total_disk_rw_MB'];
-                    cluster['total_interface_rt_bytes'] += serverMonitoringData['total_interface_rt_bytes'];
+                    cluster['total_disk_rw_bytes'] += serverMonitoringData['total_disk_rw_bytes'];
+                    cluster['interface_rt_bytes'] += serverMonitoringData['interface_rt_bytes'];
+                    cluster['max_cpu_usage_percentage'] = (serverMonitoringData['cpu_usage_percentage'] > cluster['max_cpu_usage_percentage']) ? serverMonitoringData['cpu_usage_percentage'] : cluster['max_cpu_usage_percentage'];
+                    cluster['max_mem_usage_percentage'] = (serverMonitoringData['mem_usage_percentage'] > cluster['max_mem_usage_percentage']) ? serverMonitoringData['mem_usage_percentage'] : cluster['max_mem_usage_percentage'];
                     cluster['servers'] += 1;
                 }
             }
@@ -52,6 +56,16 @@ define([
             } else {
                 updateClusterListModels(clusterModelList, clusterMonitoringMap);
             }
+        };
+
+        this.serverDataParser = function (servers) {
+            if(servers != null) {
+                for (var i = 0; i < servers.length; i++) {
+                    servers[i]['roleCount'] = servers[i]['roles'].length;
+                    servers[i]['name'] = contrail.handleIfNull(servers[i]['id'], servers[i]['mac_address']) ;
+                }
+            }
+            return servers;
         };
     };
 
@@ -71,8 +85,13 @@ define([
             for (var i = 0; i < serverModelList.length; i++) {
                 if(i == 0) {
                     serverModelList[i].updateData(serverItems);
+                    try {
+                        serverModelList[i].performDefaultSort();
+                    } catch (error) {
+                        console.log(error.stack);
+                    }
                 } else {
-                    serverModelList[i].setItems(serverItems);
+                    serverModelList[i].setData(serverItems);
                 }
             }
         });
@@ -84,19 +103,17 @@ define([
             var clusterId = cluster['id'],
                 aggServerMonitoringData = clusterMonitoringMap[clusterId],
                 clusterMonitoringData = {
-                    total_disk_rw_MB: 0,
-                    total_interface_rt_bytes: 0,
-                    avg_disk_rw_MB: 0,
-                    avg_interface_rt_bytes: 0
+                    total_disk_rw_bytes: 0,
+                    interface_rt_bytes: 0,
+                    max_cpu_usage_percentage: 0,
+                    max_mem_usage_percentage: 0
                 };
 
             if (aggServerMonitoringData != null) {
-                clusterMonitoringData['total_disk_rw_MB'] = aggServerMonitoringData['total_disk_rw_MB'];
-                clusterMonitoringData['total_interface_rt_bytes'] = aggServerMonitoringData['total_interface_rt_bytes'];
-                if(aggServerMonitoringData['servers'] != 0) {
-                    clusterMonitoringData['avg_disk_rw_MB'] = (aggServerMonitoringData['total_disk_rw_MB']) / (aggServerMonitoringData['servers']);
-                    clusterMonitoringData['avg_interface_rt_bytes'] = aggServerMonitoringData['total_interface_rt_bytes'] / (aggServerMonitoringData['servers']);
-                }
+                clusterMonitoringData['total_disk_rw_bytes'] = aggServerMonitoringData['total_disk_rw_bytes'];
+                clusterMonitoringData['interface_rt_bytes'] = aggServerMonitoringData['interface_rt_bytes'];
+                clusterMonitoringData['max_cpu_usage_percentage'] = aggServerMonitoringData['max_cpu_usage_percentage'];
+                clusterMonitoringData['max_mem_usage_percentage'] = aggServerMonitoringData['max_mem_usage_percentage'];
             }
 
             $.extend(true, cluster, clusterMonitoringData);
@@ -106,7 +123,7 @@ define([
             if(i == 0) {
                 clusterModelList[i].updateData(clusterItems);
             } else {
-                clusterModelList[i].setItems(clusterItems);
+                clusterModelList[i].setData(clusterItems);
             }
         }
     };
@@ -117,25 +134,26 @@ define([
 
         for (var i = 0; i < serverMonitoringItems.length; i++) {
             var serverMonitoring = serverMonitoringItems[i],
-                disksUsage = contrail.handleIfNull(serverMonitoring['ServerMonitoringInfo']['disk_usage_state'], []),
-                interfacesState = contrail.handleIfNull(serverMonitoring['ServerMonitoringInfo']['network_info_state'], []),
+                serverMonitoringInfo = contrail.handleIfNull(serverMonitoring['ServerMonitoringInfo'], {}),
+                disksUsage = contrail.handleIfNull(serverMonitoringInfo['disk_usage_totals'], []),
+                interfacesStats = contrail.handleIfNull(serverMonitoringInfo['network_info_stats'], []),
+                resourceInfo = contrail.handleIfNull(serverMonitoringInfo['resource_info_stats'], {}),
                 diskReadBytes = 0, diskWriteBytes = 0,
-                resourceInfo = contrail.handleIfNull(serverMonitoring['ServerMonitoringInfo']['resource_info_state'], {}),
-                cpuUsage = resourceInfo['cpu_usage_percentage'],
+                cpuUsage =  contrail.handleIfNull(resourceInfo['cpu_usage_percentage'], 0),
                 memUsageMB = resourceInfo['mem_usage_mb'],
                 memUsage = resourceInfo['mem_usage_percent'],
                 rxBytes = 0, rxPackets = 0, txBytes = 0, txPackets = 0;
 
             for (var j = 0; j < disksUsage.length; j++) {
-                diskReadBytes += disksUsage[j]['read_MB'];
-                diskWriteBytes += disksUsage[j]['write_MB'];
+                diskReadBytes += disksUsage[j]['total_read_bytes'];
+                diskWriteBytes += disksUsage[j]['total_write_bytes'];
             }
 
-            for (var k = 0; k < interfacesState.length; k++) {
-                rxBytes += interfacesState[k]['rx_bytes'];
-                rxPackets += interfacesState[k]['rx_packets'];
-                txBytes += interfacesState[k]['tx_bytes'];
-                txPackets += interfacesState[k]['tx_packets'];
+            for (var k = 0; k < interfacesStats.length; k++) {
+                rxBytes += interfacesStats[k]['rx_bytes'];
+                rxPackets += interfacesStats[k]['rx_packets'];
+                txBytes += interfacesStats[k]['tx_bytes'];
+                txPackets += interfacesStats[k]['tx_packets'];
             }
 
             serverMonitoringMap[serverMonitoring['name']] = {
@@ -143,14 +161,14 @@ define([
                 cpu_usage_percentage: cpuUsage,
                 mem_usage_mb: memUsageMB,
                 mem_usage_percentage: memUsage,
-                total_disk_read_MB: diskReadBytes,
-                total_disk_write_MB: diskWriteBytes,
-                total_disk_rw_MB: diskReadBytes + diskWriteBytes,
-                total_interface_rx_bytes: rxBytes,
-                total_interface_rx_packets: rxPackets,
-                total_interface_tx_bytes: txBytes,
-                total_interface_tx_packets: txPackets,
-                total_interface_rt_bytes: rxBytes + txBytes,
+                total_disk_read_bytes: diskReadBytes,
+                total_disk_write_bytes: diskWriteBytes,
+                total_disk_rw_bytes: diskReadBytes + diskWriteBytes,
+                interface_rx_bytes: rxBytes,
+                interface_rx_packets: rxPackets,
+                interface_tx_bytes: txBytes,
+                interface_tx_packets: txPackets,
+                interface_rt_bytes: rxBytes + txBytes,
                 size: rxBytes + txBytes,
                 x: cpuUsage,
                 y: memUsage,

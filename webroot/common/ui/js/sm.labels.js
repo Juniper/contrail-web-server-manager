@@ -57,11 +57,11 @@ define([
             "ipmi_address": "IPMI Address",
             "ipmi_username": "IPMI Username",
             "ipmi_password": "IPMI Password",
-            "base_image_id": "Base Image",
+            "base_image_id": "Configured OS Image",
             'baremetal_edit_vn' : 'Virtual Network',
-            "reimaged_id": "Installed Image",
-            "package_image_id": "Package",
-            "storage_repo_id": "Package",
+            "reimaged_id": "Installed OS Image",
+            "package_image_id": "Configured Package",
+            "storage_repo_id": "Configured Package",
             "storage_chassis_id" : "Chassis ID",
             "storage_chassis_id_input" : "Add New Chassis ID",
             "provisioned_id": "Installed Package",
@@ -147,6 +147,15 @@ define([
             "storage-master": "Storage Master",
             "assign_roles": "Assign Roles",
 
+            //Monitoring
+            "disk_name": "Disk",
+            "disk_size_kb": "Size",
+            "disk_used_percentage": "Used",
+            "fs_name": "Name",
+            "size_kb": "Size",
+            "used_percentage": "Used",
+            "mountpoint": "Mount",
+
             //Inventory
             "physical_processor_count": "Physical Processors",
             "total_numof_disks": "Total Disks",
@@ -166,9 +175,9 @@ define([
 
             //FRU
             "board_mfg_date": "Board Manufacture Date",
-            "mem_usage_mb": "Memory Usage (MB)",
-            "cpu_usage_percentage": "% CPU Utilization",
-            "mem_usage_percent": "% Memory Usage"
+            "mem_usage_mb": "Memory Used",
+            "cpu_usage_percentage": "CPU Utilization",
+            "mem_usage_percent": "Memory Usage"
         };
 
         this.TITLE_DETAILS = "Details";
@@ -218,10 +227,11 @@ define([
         this.TITLE_SERVER_SENSORS = 'Sensors';
         this.TITLE_SERVER_MONITORING_INTERFACE = 'Interface Monitoring';
         this.TITLE_SERVER_DISK_USAGE = 'Disk Usage';
+        this.TITLE_SERVER_FILE_SYSTEM = 'File System';
         this.TITLE_CPU_MEM_INFO = 'CPU/Memory Information';
         this.TITLE_SERVER = 'Server';
-        this.TITLE_IMAGES = 'Images';
-        this.TITLE_IMAGE = 'Image';
+        this.TITLE_IMAGES = 'OS Images';
+        this.TITLE_IMAGE = 'OS Image';
         this.TITLE_PACKAGES = 'Packages';
         this.TITLE_PACKAGE = 'Package';
         this.TITLE_BAREMETAL_SERVERS = 'Baremetal Servers';
@@ -239,7 +249,7 @@ define([
         this.TITLE_REMOVE_SERVERS = 'Remove Servers';
         this.TITLE_ADD_SERVERS_TO_CLUSTER = 'Add Servers to Cluster';
         this.TITLE_ADD_TAGS = 'Add Tags';
-        this.TITLE_ADD_IMAGE = 'Add Image';
+        this.TITLE_ADD_IMAGE = 'Add OS Image';
         this.TITLE_ADD_PACKAGE = 'Add Package';
         this.TITLE_PROVISION_CLUSTER = 'Provision Cluster';
         this.TITLE_ADD_TO_CLUSTER = 'Add to Cluster';
@@ -281,7 +291,7 @@ define([
         this.TITLE_SELECT_BAREMETAL_SERVER = 'Select Baremetal Server';
         this.TITLE_SELECT_INTERFACE = 'Select Interface';
         this.TITLE_BAREMETAL_INTERFACES = 'Baremetal Interfaces';
-        this.TITLE_SELECT_IMAGE = 'Select Image';
+        this.TITLE_SELECT_IMAGE = 'Select OS Image';
         this.TITLE_FILTER_BAREMETALS = 'Filtered Baremetal Servers';
 
         this.TITLE_SAVE_NEXT = 'Save &amp; Next';
@@ -292,8 +302,8 @@ define([
         this.TITLE_SERVER_ETH_CONTROLLER = "Interface Controller";
         this.TITLE_SERVER_CHASSIS_STATE = "Chassis State";
 
-        this.SELECT_IMAGE = 'Select Image';
-        this.TITLE_DELETE_IMAGE = 'Delete Image';
+        this.SELECT_IMAGE = 'Select OS Image';
+        this.TITLE_DELETE_IMAGE = 'Delete OS Image';
         this.SELECT_PACKAGE = 'Select Package';
         this.SELECT_CHASSIS_ID = 'Select Chassis Id';
         this.TITLE_DELETE_PACKAGE = 'Delete Package';
@@ -335,10 +345,13 @@ define([
         this.SM_SERVER_INVENTORY_INTERFACE_GRID_ID = "server-inventory-interface-grid";
         this.SM_SERVER_TAB_MONITORING_ID = "server-tab-monitoring";
         this.SM_SERVER_MONITORING_SECTION_ID = "server-monitoring-section";
+        this.SM_SERVER_MONITORING_INNER_LEFT_SECTION_ID = "server-monitoring-inner-left-section";
+        this.SM_SERVER_MONITORING_INNER_RIGHT_SECTION_ID = "server-monitoring-inner-right-section";
         this.SM_SERVER_CHASSIS_DETAILS_ID = "server-chassis-details";
         this.SM_SERVER_MONITORING_SENSOR_GRID_ID = "server-monitoring-sensor-grid";
         this.SM_SERVER_MONITORING_INTERFACE_GRID_ID = "server-monitoring-interface-grid";
         this.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID = "server-monitoring-diskusage-grid";
+        this.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID = "server-monitoring-filesystem-grid";
         this.SM_SERVER_MONITORING_RESOURCE_INFO_ID = "server-monitoring-resourceinfo-grid";
         this.SM_SERVER_TAB_SECTION_ID = "server-tab-section";
         this.SM_SERVER_SCATTER_CHART_ID = "server-scatter-chart";

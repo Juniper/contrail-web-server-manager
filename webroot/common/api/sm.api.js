@@ -93,7 +93,7 @@ function processResultsCB(res, filteredResponseArray, postProcessor) {
 };
 
 function computeServerStates(res, filteredResponseArray) {
-    var objectUrl = smConstants.URL_SERVERS_DETAILS,
+    var objectUrl = smConstants.URL_SERVERS_STATUS,
         responseArray;
 
     sm.get(objectUrl, function (error, responseJSON) {
@@ -351,6 +351,38 @@ function getServerIPMIInfo (req, res) {
     });
 };
 
+function getServerManagerMonitoringConfig (req, res) {
+    var monitoringUrl = smConstants.SM_MONITORING_CONF_URL;
+
+    sm.get(monitoringUrl, commonUtils.doEnsureExecution(function(error, result) {
+        if(error) {
+            logutils.logger.error(error.stack);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, result);
+        }
+    }, global.DEFAULT_CB_TIMEOUT));
+};
+
+
+function getMonitoringInfoSummary4Servers (req, res) {
+    var urlParts = url.parse(req.url, true),
+        qsObj = urlParts.query,
+        monitoringUrl;
+
+    filterInAllowedParams(qsObj);
+    monitoringUrl = smConstants.SM_MONITORING_SUMMARY_INFO_URL + '?' + qs.stringify(qsObj);
+
+    sm.get(monitoringUrl, commonUtils.doEnsureExecution(function(error, result) {
+        if(error) {
+            logutils.logger.error(error.stack);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, result);
+        }
+    }, global.DEFAULT_CB_TIMEOUT));
+};
+
 function getMonitoringInfo4Servers (req, res) {
     var urlParts = url.parse(req.url, true),
         qsObj = urlParts.query,
@@ -434,7 +466,9 @@ exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;
 exports.getChassisIds = getChassisIds;
 exports.getServerIPMIInfo = getServerIPMIInfo
+exports.getMonitoringInfoSummary4Servers = getMonitoringInfoSummary4Servers
 exports.getMonitoringInfo4Servers = getMonitoringInfo4Servers
 exports.getInventoryInfo4Servers = getInventoryInfo4Servers
+exports.getServerManagerMonitoringConfig = getServerManagerMonitoringConfig
 exports.provision = provision;
 exports.reimage = reimage;

@@ -38,7 +38,13 @@ define([
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.openstack_mgmt_ip',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'LinkGenerator',
+                                            templateGeneratorConfig: {
+                                                template: 'http://{{params.openstack_mgmt_ip}}/horizon',
+                                                params: {
+                                                    openstack_mgmt_ip: 'parameters.openstack_mgmt_ip'
+                                                }
+                                            }
                                         },
                                         {
                                             key: 'parameters.keystone_ip',
@@ -356,6 +362,10 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
+                                            key: 'provisioned_id',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
                                             key: 'contrail.control_data_interface',
                                             templateGenerator: 'TextGenerator'
                                         }
@@ -412,7 +422,7 @@ define([
                                         {
                                             key: 'roles',
                                             templateGenerator: 'TextGenerator'
-                                        },
+                                        }
                                     ]
                                 },
                                 {
@@ -494,7 +504,13 @@ define([
                                     templateGeneratorConfig: [
                                         {
                                             key: 'cluster_id',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'LinkGenerator',
+                                            templateGeneratorConfig: {
+                                                template: '/#p=setting_sm_clusters&q[cluster_id]={{params.cluster_id}}',
+                                                params: {
+                                                    cluster_id: 'cluster_id'
+                                                }
+                                            }
                                         },
                                         {
                                             key: 'email',
@@ -506,10 +522,6 @@ define([
                                         },
                                         {
                                             key: 'reimaged_id',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'provisioned_id',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
@@ -622,7 +634,10 @@ define([
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.cooling_fan_fault',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'fault-state'
+                                            }
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.front_panel_lockout',
@@ -630,7 +645,10 @@ define([
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.drive_fault',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'fault-state'
+                                            }
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.chassis_intrusion',
@@ -638,11 +656,17 @@ define([
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.main_power_fault',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'fault-state'
+                                            }
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.power_control_fault',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'fault-state'
+                                            }
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.power_overload',
@@ -677,16 +701,25 @@ define([
                                     theme: detailTheme,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'ServerMonitoringInfo.resource_info_state.cpu_usage_percentage',
-                                            templateGenerator: 'TextGenerator'
+                                            key: 'ServerMonitoringInfo.resource_info_stats.cpu_usage_percentage',
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'alert-percentage'
+                                            }
                                         },
                                         {
-                                            key: 'ServerMonitoringInfo.resource_info_state.mem_usage_percent',
-                                            templateGenerator: 'TextGenerator'
+                                            key: 'ServerMonitoringInfo.resource_info_stats.mem_usage_percent',
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'alert-percentage'
+                                            }
                                         },
                                         {
-                                            key: 'ServerMonitoringInfo.resource_info_state.mem_usage_mb',
-                                            templateGenerator: 'TextGenerator'
+                                            key: 'ServerMonitoringInfo.resource_info_stats.mem_usage_mb',
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'mega-byte'
+                                            }
                                         }
                                     ]
                                 }
@@ -898,7 +931,72 @@ define([
                 }
             }
         };
+
+        this.getServerFileSystemDetailsTemplate = function () {
+            return {
+                templateGenerator: 'ColumnSectionTemplateGenerator',
+                templateGeneratorConfig: {
+                    columns: [
+                        {
+                            class: 'span12',
+                            rows: [
+                                {
+                                    templateGenerator: 'BlockListTemplateGenerator',
+                                    title: smwl.TITLE_OVERVIEW,
+                                    templateGeneratorConfig: [
+                                        {
+                                            key: 'fs_name',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'type',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'mountpoint',
+                                            templateGenerator: 'TextGenerator'
+                                        }
+                                    ]
+                                },
+                                {
+                                    templateGenerator: 'BlockGridTemplateGenerator',
+                                    title: smwl.TITLE_SERVER_DISK_USAGE,
+                                    key: 'physical_disks',
+                                    templateGeneratorConfig: {
+                                        titleColumn: {
+                                            key: 'disk_name',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        dataColumn: [
+                                            {
+                                                key: 'disk_name',
+                                                templateGenerator: 'TextGenerator'
+                                            },
+                                            {
+                                                key: 'disk_size_kb',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    formatter: 'kilo-byte'
+                                                }
+                                            },
+                                            {
+                                                key: 'disk_used_percentage',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    formatter: 'alert-percentage'
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        };
     };
+
 
     return DetailTemplates;
 });

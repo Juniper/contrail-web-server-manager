@@ -49,66 +49,87 @@ define([
                     {
                         columns: [
                             {
-                                elementId: smwl.SM_SERVER_MONITORING_SENSOR_GRID_ID,
-                                title: smwl.TITLE_SERVER_SENSORS,
-                                view: "GridView",
+                                elementId: smwl.SM_SERVER_MONITORING_INNER_RIGHT_SECTION_ID,
+                                view: "SectionView",
                                 viewConfig: {
                                     class: "span6",
-                                    elementConfig: getSensorGridConfig(serverId, contrailViewModel)
+                                    rows: [
+                                        {
+                                            columns: [
+                                                {
+                                                    elementId: smwl.SM_SERVER_MONITORING_RESOURCE_INFO_ID,
+                                                    view: "DetailsView",
+                                                    viewConfig: {
+                                                        ajaxConfig: {
+                                                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=resource_info_stats&id=" + serverId),
+                                                            type: 'GET'
+                                                        },
+                                                        modelKey: modelKey,
+                                                        templateConfig: smwdt.getServerCPUMemDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
+                                                        app: cowc.APP_CONTRAIL_SM
+                                                    }
+                                                },
+                                                {
+                                                    elementId: smwl.SM_SERVER_CHASSIS_DETAILS_ID,
+                                                    view: "DetailsView",
+                                                    viewConfig: {
+                                                        ajaxConfig: {
+                                                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=chassis_state&id=" + serverId),
+                                                            type: 'GET'
+                                                        },
+                                                        modelKey: modelKey,
+                                                        templateConfig: smwdt.getServerChassisDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
+                                                        app: cowc.APP_CONTRAIL_SM
+                                                    }
+                                                },
+                                                {
+                                                    elementId: smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID,
+                                                    title: smwl.TITLE_SERVER_FILE_SYSTEM,
+                                                    view: "GridView",
+                                                    viewConfig: {
+                                                        elementConfig: getFileSystemGridConfig(serverId, contrailViewModel)
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             },
                             {
-                                elementId: smwl.SM_SERVER_CHASSIS_DETAILS_ID,
-                                view: "DetailsView",
+                                elementId: smwl.SM_SERVER_MONITORING_INNER_LEFT_SECTION_ID,
+                                view: "SectionView",
                                 viewConfig: {
                                     class: "span6",
-                                    ajaxConfig: {
-                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=chassis_state&id=" + serverId),
-                                        type: 'GET'
-                                    },
-                                    modelKey: modelKey,
-                                    templateConfig: smwdt.getServerChassisDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
-                                    app: cowc.APP_CONTRAIL_SM
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: smwl.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID,
-                                title: smwl.TITLE_SERVER_DISK_USAGE,
-                                view: "GridView",
-                                viewConfig: {
-                                    class: "span6",
-                                    elementConfig: getDiskUsageGridConfig(serverId, contrailViewModel)
-                                }
-                            },
-                            {
-                                elementId: smwl.SM_SERVER_MONITORING_RESOURCE_INFO_ID,
-                                view: "DetailsView",
-                                viewConfig: {
-                                    class: "span6",
-                                    ajaxConfig: {
-                                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=resource_info_state&id=" + serverId),
-                                        type: 'GET'
-                                    },
-                                    modelKey: modelKey,
-                                    templateConfig: smwdt.getServerCPUMemDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
-                                    app: cowc.APP_CONTRAIL_SM
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: smwl.SM_SERVER_MONITORING_INTERFACE_GRID_ID,
-                                title: smwl.TITLE_SERVER_MONITORING_INTERFACE,
-                                view: "GridView",
-                                viewConfig: {
-                                    class: "span6",
-                                    elementConfig: getMonitoringInterfaceGridConfig(serverId, contrailViewModel)
+                                    rows: [
+                                        {
+                                            columns: [
+                                                {
+                                                    elementId: smwl.SM_SERVER_MONITORING_SENSOR_GRID_ID,
+                                                    title: smwl.TITLE_SERVER_SENSORS,
+                                                    view: "GridView",
+                                                    viewConfig: {
+                                                        elementConfig: getSensorGridConfig(serverId, contrailViewModel)
+                                                    }
+                                                },
+                                                {
+                                                    elementId: smwl.SM_SERVER_MONITORING_INTERFACE_GRID_ID,
+                                                    title: smwl.TITLE_SERVER_MONITORING_INTERFACE,
+                                                    view: "GridView",
+                                                    viewConfig: {
+                                                        elementConfig: getMonitoringInterfaceGridConfig(serverId, contrailViewModel)
+                                                    }
+                                                },
+                                                {
+                                                    elementId: smwl.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID,
+                                                    title: smwl.TITLE_SERVER_DISK_USAGE,
+                                                    view: "GridView",
+                                                    viewConfig: {
+                                                        elementConfig: getDiskUsageGridConfig(serverId, contrailViewModel)
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         ]
@@ -139,12 +160,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=disk_usage_state&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=disk_usage_totals&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
                             var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['disk_usage_state'] : [];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['disk_usage_totals'] : [];
                         }
                     },
                     cacheConfig: {
@@ -157,7 +178,7 @@ define([
 
                                 var viewModel = cachedData['dataObject']['viewModel'],
                                     serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
-                                    data = contrail.handleIfNull(serverMonitoringInfo['disk_usage_state'], []);
+                                    data = contrail.handleIfNull(serverMonitoringInfo['disk_usage_totals'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
                             });
@@ -167,7 +188,66 @@ define([
                     }
                 }
             },
-            footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5] } } }
+            footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5, 10] } } }
+        };
+
+        return gridElementConfig;
+    };
+
+    function getFileSystemGridConfig(serverId, contrailViewModel) {
+        var gridElementConfig = {
+            header: {
+                title: {
+                    text: smwl.TITLE_SERVER_FILE_SYSTEM
+                },
+                defaultControls: {
+                    collapseable: true
+                }
+            },
+            columnHeader: {
+                columns: smwgc.SERVER_FILESYSTEM_COLUMNS
+            },
+            body: {
+                options: {
+                    detail: false,
+                    checkboxSelectable: false,
+                    fixedRowHeight: 30,
+                    detail: {
+                        template: cowu.generateDetailTemplateHTML(smwdt.getServerFileSystemDetailsTemplate(), cowc.APP_CONTRAIL_SM)
+                    }
+                },
+                dataSource: {
+                    remote: {
+                        ajaxConfig: {
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=file_system_view_stats&id=" + serverId),
+                            type: 'GET'
+                        },
+                        dataParser: function (response) {
+                            var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['file_system_view_stats'] : [];
+                        }
+                    },
+                    cacheConfig: {
+                        setCachedData2ModelCB: function(contrailListModel) {
+                            var status = {isCacheUsed: true, reload: false};
+
+                            contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                                var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
+                                    cachedData = cowch.getDataFromCache(ucid);
+
+                                var viewModel = cachedData['dataObject']['viewModel'],
+                                    serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
+                                    data = contrail.handleIfNull(serverMonitoringInfo['file_system_view_stats'], []);
+                                contrailListModel.setData(data);
+                                contrailListModel.loadedFromCache = true;
+                            });
+
+                            return status;
+                        }
+                    }
+                }
+            },
+            footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5, 10] } } }
         };
 
         return gridElementConfig;
@@ -194,12 +274,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=sensor_state&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=sensor_stats&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
                             var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['sensor_state'] : [];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['sensor_stats'] : [];
                         }
                     },
                     cacheConfig: {
@@ -212,7 +292,7 @@ define([
 
                                 var viewModel = cachedData['dataObject']['viewModel'],
                                     serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
-                                    data = contrail.handleIfNull(serverMonitoringInfo['sensor_state'], []);
+                                    data = contrail.handleIfNull(serverMonitoringInfo['sensor_stats'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
                             });
@@ -222,7 +302,7 @@ define([
                     }
                 }
             },
-            footer: { pager: { options: { pageSize: 10, pageSizeSelect: [10] } } }
+            footer: { pager: { options: { pageSize: 10, pageSizeSelect: [10, 20] } } }
         };
 
         return gridElementConfig;
@@ -249,12 +329,12 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=network_info_state&id=" + serverId),
+                            url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, "select=network_info_totals&id=" + serverId),
                             type: 'GET'
                         },
                         dataParser: function (response) {
                             var serverMonitoringInfo = response[0]['ServerMonitoringInfo'];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['network_info_state'] : [];
+                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo['network_info_totals'] : [];
                         }
                     },
                     cacheConfig: {
@@ -267,7 +347,7 @@ define([
 
                                 var viewModel = cachedData['dataObject']['viewModel'],
                                     serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
-                                    data = contrail.handleIfNull(serverMonitoringInfo['network_info_state'], []);
+                                    data = contrail.handleIfNull(serverMonitoringInfo['network_info_totals'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
                             });
@@ -277,7 +357,7 @@ define([
                     }
                 }
             },
-            footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5] } } }
+            footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5, 10] } } }
         };
 
         return gridElementConfig;
