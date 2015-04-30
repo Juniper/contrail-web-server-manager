@@ -10,7 +10,7 @@ define([
         this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
 
         this.IMAGE_COLUMNS = [
-            {id: "image_id", field: "id", name: "Name", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "image_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
             {id: "category", field: "category", name: "Category", width: 60, minWidth: 50},
             {id: "image_type", field: "type", name: "Type", width: 120, minWidth: 100},
             {id: "image_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
@@ -18,7 +18,7 @@ define([
         ];
 
         this.PACKAGE_COLUMNS = [
-            {id: "package_id", field: "id", name: "Name", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "package_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
             {id: "package_category", field: "category", name: "Category", width: 60, minWidth: 50},
             {id: "package_type", field: "type", name: "Type", width: 120, minWidth: 100},
             {id: "package_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
@@ -26,7 +26,7 @@ define([
         ];
 
         this.CLUSTER_COLUMNS = [
-            { id: "cluster_id", field: "id", name: "Name", width: 150, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
+            { id: "cluster_id", field: "id", name: "ID", width: 150, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
                 onClick: function (e, dc) {
                     loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['id']}});
                 }
@@ -93,7 +93,12 @@ define([
                     return reading + " " + unit;
                 }
             },
-            {id: "status", field: "status", name: "Status", width: 120, minWidth: 15}
+            {
+                id: "status", field: "status", name: "Status", width: 120, minWidth: 15,
+                formatter: function(r, c, v, cd, dc) {
+                    return cowf.getTextGenerator('status-state', dc.status)
+                }
+            }
         ];
 
         this.SERVER_FRU_COLUMNS = [
@@ -112,6 +117,19 @@ define([
             {id: "total_write_bytes", field: "total_write_bytes", name: "Write", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
                 return formatBytes(dc['total_write_bytes'], false, null, 1);
              }}
+        ];
+
+        this.SERVER_FILESYSTEM_COLUMNS = [
+            {id: "fs_name", field: "fs_name", name: "Name", width: 80, minWidth: 15},
+            {id: "type", field: "type", name: "Type", width: 80, minWidth: 15},
+            {id: "size_kb", field: "size_kb", name: "Size", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
+                return formatBytes(dc['size_kb'] * 1024, false, null, 1);
+            }},
+            {id: "used_percentage", field: "used_percentage", name: "Used", width: 80, minWidth: 15,
+                formatter: function(r, c, v, cd, dc) {
+                    return cowf.getTextGenerator('alert-percentage', dc.used_percentage)
+                }
+            }
         ];
 
         this.SERVER_INTERFACE_INFO_COLUMNS = [
@@ -335,7 +353,7 @@ define([
             var listModelConfig = {
                 remote: {
                     ajaxConfig: {
-                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_URL, queryString)
+                        url: smwc.get(smwc.SM_SERVER_MONITORING_INFO_SUMMARY_URL, queryString)
                     },
                     onAllRequestsCompleteCB: function(contrailListModel, parentModelList) {
                         dataParser(contrailListModel, parentModelList);
@@ -347,9 +365,9 @@ define([
             };
 
             if (queryString == '') {
-                listModelConfig['cacheConfig']['ucid'] = smwc.UCID_ALL_SERVER_MONITORING_LIST;
+                listModelConfig['cacheConfig']['ucid'] = smwc.UCID_ALL_SERVER_MONITORING_SUMMARY_LIST;
             } else if (hashParams['cluster_id'] != null && hashParams['tag'] == null) {
-                listModelConfig['cacheConfig']['ucid'] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_LIST, hashParams['cluster_id']);
+                listModelConfig['cacheConfig']['ucid'] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_SUMMARY_LIST, hashParams['cluster_id']);
             }
 
             return listModelConfig;

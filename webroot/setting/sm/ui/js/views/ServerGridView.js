@@ -360,6 +360,7 @@ define([
                             $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
                         }
                     },
+                    fixedRowHeight: 30,
                     detail: {
                         template: cowu.generateDetailTemplateHTML(smwdt.getServerDetailsTemplate(), cowc.APP_CONTRAIL_SM)
                     }

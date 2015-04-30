@@ -62,7 +62,7 @@ define([
                     nfs_glance_path: "",
 
                     kernel_upgrade: 'yes',
-                    kernel_version: '3.13.0-34'
+                    kernel_version: ''
                 },
                 status: {},
                 tag: {},
@@ -98,7 +98,7 @@ define([
                     storage_chassis_id_input: "",
                     partition: "",
                     kernel_upgrade: 'yes',
-                    kernel_version: '3.13.0-34',
+                    kernel_version: '',
                     disks: []
                 },
                 'tag': {},

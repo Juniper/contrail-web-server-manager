@@ -103,6 +103,7 @@ define([
                             $('#btnDeleteRepos').removeClass('disabled-link');
                         }
                     },
+                    fixedRowHeight: 30,
                     detail: {
                         template: cowu.generateDetailTemplateHTML(smwdt.getImageDetailsTemplate(), cowc.APP_CONTRAIL_SM)
                     }

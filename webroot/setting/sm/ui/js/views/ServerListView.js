@@ -53,35 +53,6 @@ define([
             view: "SectionView",
             viewConfig: {
                 rows: [
-                    /*
-                    {
-                        columns: [
-                            {
-                                elementId: smwl.SM_SERVER_SCATTER_CHART_ID,
-                                title: smwl.TITLE_SERVERS,
-                                view: "ScatterChartView",
-                                viewConfig: {
-                                    class: "port-distribution-chart",
-                                    loadChartInChunks: true,
-                                    parseFn: function (response) {
-                                        return {
-                                            d: [{
-                                                key: 'Servers',
-                                                values: response
-                                            }],
-                                            xLbl: '% CPU Utilization',
-                                            yLbl: '% Memory Usage',
-                                            forceX: [0, 1],
-                                            forceY: [0, 1],
-                                            chartOptions: {tooltipFn: serverTooltipFn, clickFn: onScatterChartClick},
-                                            hideLoadingIcon: false
-                                        }
-                                    }
-                                }
-                            },
-                        ]
-                    },
-                    */
                     {
                         columns: [
                             {
@@ -160,8 +131,7 @@ define([
                 info: [
                     {label: 'CPU Utilization', value: d3.format('.02f')(server['x']) + " %"},
                     {label: 'Memory Usage', value: server['y']  + " % (" + formatBytes(server['mem_usage_mb'] * 1024 * 1024) + ")"},
-                    {label: 'Network Traffic', value: formatBytes(server['total_interface_rt_bytes'])},
-                    {label: 'Disk Read | Write', value: formatBytes(server['total_disk_rw_bytes'])}
+                    {label: 'Network Traffic', value: cowu.addUnits2Bytes(server['interface_rt_bytes'], false, null, 1, smwc.MONITORING_CONFIG['monitoring_frequency'])}
                 ],
                 actions: [
                     {

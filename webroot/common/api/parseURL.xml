@@ -56,6 +56,18 @@
         <callback>smapi.getMonitoringInfo4Servers</callback>
     </item>
     <item>
+        <url>/sm/server/monitoring/info/summary</url>
+        <method>get</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.getMonitoringInfoSummary4Servers</callback>
+    </item>
+    <item>
+        <url>/sm/server/monitoring/config</url>
+        <method>get</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.getServerManagerMonitoringConfig</callback>
+    </item>
+    <item>
         <url>/sm/server/inventory/info</url>
         <method>get</method>
         <feature>smConfigure</feature>

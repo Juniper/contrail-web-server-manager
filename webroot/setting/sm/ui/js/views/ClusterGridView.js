@@ -174,6 +174,7 @@ define([
                             $('#btnDeleteClusters').removeClass('disabled-link');
                         }
                     },
+                    fixedRowHeight: 30,
                     detail: {
                         template: cowu.generateDetailTemplateHTML(smwdt.getClusterDetailsTemplate(), cowc.APP_CONTRAIL_SM)
                     }
