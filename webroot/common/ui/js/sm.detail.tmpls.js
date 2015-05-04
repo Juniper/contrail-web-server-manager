@@ -670,7 +670,10 @@ define([
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.power_overload',
-                                            templateGenerator: 'TextGenerator'
+                                            templateGenerator: 'TextGenerator',
+                                            templateGeneratorConfig: {
+                                                formatter: 'fault-state'
+                                            }
                                         },
                                         {
                                             key: 'ServerMonitoringInfo.chassis_state.power_interlock',
@@ -738,7 +741,6 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -772,33 +774,13 @@ define([
                                         {
                                             key: 'ServerInventoryInfo.uptime_seconds',
                                             templateGenerator: 'TextGenerator'
-                                        }
-                                    ]
-                                },
-                                {
-                                    templateGenerator: 'BlockListTemplateGenerator',
-                                    title: smwl.TITLE_SERVER_ETH_CONTROLLER,
-                                    theme: detailTheme,
-                                    templateGeneratorConfig: [
-                                        {
-                                            key: 'ServerInventoryInfo.eth_controller_state.model',
-                                            templateGenerator: 'TextGenerator'
                                         },
                                         {
                                             key: 'ServerInventoryInfo.eth_controller_state.num_of_ports',
                                             templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'ServerInventoryInfo.eth_controller_state.speed_Mb_per_sec',
-                                            templateGenerator: 'TextGenerator'
                                         }
                                     ]
-                                }
-                            ]
-                        },
-                        {
-                            class: 'span6',
-                            rows: [
+                                },
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_SERVER_CPU,
@@ -866,12 +848,16 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span6',
+                            class: 'span12',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_OVERVIEW,
                                     templateGeneratorConfig: [
+                                        {
+                                            key: 'fru_description',
+                                            templateGenerator: 'TextGenerator'
+                                        },
                                         {
                                             key: 'product_name',
                                             templateGenerator: 'TextGenerator'
@@ -893,12 +879,7 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
-                                }
-                            ]
-                        },
-                        {
-                            class: 'span6',
-                            rows: [
+                                },
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_FRU__BOARD_INFO,
@@ -932,13 +913,48 @@ define([
             }
         };
 
+        this.getInterfaceDetailsTemplate = function () {
+            return {
+                templateGenerator: 'ColumnSectionTemplateGenerator',
+                templateGeneratorConfig: {
+                    columns: [
+                        {
+                            rows: [
+                                {
+                                    templateGenerator: 'BlockListTemplateGenerator',
+                                    title: smwl.TITLE_DETAILS,
+                                    templateGeneratorConfig: [
+                                        {
+                                            key: 'macaddress',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'netmask',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'model',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'speed_Mb_per_sec',
+                                            templateGenerator: 'TextGenerator'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        };
+
         this.getServerFileSystemDetailsTemplate = function () {
             return {
                 templateGenerator: 'ColumnSectionTemplateGenerator',
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span12',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',

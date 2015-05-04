@@ -104,9 +104,7 @@ define([
         this.SERVER_FRU_COLUMNS = [
             {id: "fru_description", field: "fru_description", name: "Description", width: 120, minWidth: 20},
             {id: "product_name", field: "product_name", name: "Product Name", width: 120, minWidth: 15},
-            {id: "chassis_type", field: "chassis_type", name: "Chassis Type", width: 120, minWidth: 15},
-            {id: "board_product_name", field: "board_product_name", name: "Board Product Name", width: 120, minWidth: 15},
-            {id: "board_mfg_date", field: "board_mfg_date", name: "Board Manufacture Date", width: 120, minWidth: 15}
+            {id: "chassis_type", field: "chassis_type", name: "Chassis Type", width: 120, minWidth: 15}
         ];
 
         this.SERVER_DISKUSAGE_COLUMNS = [
@@ -133,10 +131,10 @@ define([
         ];
 
         this.SERVER_INTERFACE_INFO_COLUMNS = [
-            {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
+            {id: "interface_name", field: "interface_name", name: "Name", width: 90, minWidth: 15},
             {id: "ip_addr", field: "ip_addr", name: "IP Address", width: 120, minWidth: 20},
-            {id: "netmask", field: "netmask", name: "Netmask", width: 120, minWidth: 20},
             {id: "macaddress", field: "macaddress", name: "MAC Address", width: 120, minWidth: 20},
+            {id: "speed_Mb_per_sec", field: "speed_Mb_per_sec", name: "Speed (mbps)", width: 120, minWidth: 20}
         ];
 
         this.SERVER_MONITORING_INTERFACE_COLUMNS = [

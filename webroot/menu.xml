@@ -45,7 +45,7 @@
 								</resource>
 								<resource>
                                     <rootDir>/setting/sm/ui</rootDir>
-                                    <view>sm.view</view>
+									<template>sm.tmpl</template>
                                 </resource>
 							</resources>
 						</item>
