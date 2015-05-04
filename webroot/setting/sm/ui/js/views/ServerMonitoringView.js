@@ -49,7 +49,8 @@ define([
                     {
                         columns: [
                             {
-                                elementId: smwl.SM_SERVER_MONITORING_INNER_RIGHT_SECTION_ID,
+
+                                elementId: smwl.SM_SERVER_MONITORING_INNER_LEFT_SECTION_ID,
                                 view: "SectionView",
                                 viewConfig: {
                                     class: "span6",
@@ -81,22 +82,14 @@ define([
                                                         templateConfig: smwdt.getServerChassisDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
                                                         app: cowc.APP_CONTRAIL_SM
                                                     }
-                                                },
-                                                {
-                                                    elementId: smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID,
-                                                    title: smwl.TITLE_SERVER_FILE_SYSTEM,
-                                                    view: "GridView",
-                                                    viewConfig: {
-                                                        elementConfig: getFileSystemGridConfig(serverId, contrailViewModel)
                                                     }
-                                                }
                                             ]
                                         }
                                     ]
                                 }
                             },
                             {
-                                elementId: smwl.SM_SERVER_MONITORING_INNER_LEFT_SECTION_ID,
+                                elementId: smwl.SM_SERVER_MONITORING_INNER_RIGHT_SECTION_ID,
                                 view: "SectionView",
                                 viewConfig: {
                                     class: "span6",
@@ -117,6 +110,14 @@ define([
                                                     view: "GridView",
                                                     viewConfig: {
                                                         elementConfig: getMonitoringInterfaceGridConfig(serverId, contrailViewModel)
+                                                    }
+                                                },
+                                                {
+                                                    elementId: smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID,
+                                                    title: smwl.TITLE_SERVER_FILE_SYSTEM,
+                                                    view: "GridView",
+                                                    viewConfig: {
+                                                        elementConfig: getFileSystemGridConfig(serverId, contrailViewModel)
                                                     }
                                                 },
                                                 {
@@ -302,7 +303,7 @@ define([
                     }
                 }
             },
-            footer: { pager: { options: { pageSize: 10, pageSizeSelect: [10, 20] } } }
+            footer: {pager: {options: {pageSize: 5, pageSizeSelect: [5, 10, 20] }}}
         };
 
         return gridElementConfig;

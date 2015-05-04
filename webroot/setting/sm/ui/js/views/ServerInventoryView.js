@@ -49,40 +49,60 @@ define([
                     {
                         columns: [
                             {
-                                elementId: smwl.SM_SERVER_INVENTORY_DETAILS_ID,
-                                view: "DetailsView",
+                                elementId: smwl.SM_SERVER_INVENTORY_LEFT_SECTION_ID,
+                                view: "SectionView",
                                 viewConfig: {
-                                    ajaxConfig: {
-                                        url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "id=" + serverId),
-                                        type: 'GET'
-                                    },
-                                    modelKey: modelKey,
-                                    templateConfig: smwdt.getServerInventoryDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
-                                    app: cowc.APP_CONTRAIL_SM
+                                    class: "span6",
+                                    rows: [
+                                        {
+                                            columns: [
+                                                {
+                                                    elementId: smwl.SM_SERVER_INVENTORY_DETAILS_ID,
+                                                    view: "DetailsView",
+                                                    viewConfig: {
+                                                        ajaxConfig: {
+                                                            url: smwc.get(smwc.SM_SERVER_INVENTORY_INFO_URL, "id=" + serverId),
+                                                            type: 'GET'
+                                                        },
+                                                        modelKey: modelKey,
+                                                        templateConfig: smwdt.getServerInventoryDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
+                                                        app: cowc.APP_CONTRAIL_SM
+                                                    }
+                                                },
+                                            ]
+
+                                        }
+                                    ]
                                 }
                             },
-                        ]
-                    },
-                    {
-                        columns: [
                             {
-                                elementId: smwl.SM_SERVER_INVENTORY_INTERFACE_GRID_ID,
-                                title: smwl.TITLE_SERVER_INTERFACE_INFO,
-                                view: "GridView",
+                                elementId: smwl.SM_SERVER_INVENTORY_RIGHT_SECTION_ID,
+                                view: "SectionView",
                                 viewConfig: {
-                                    elementConfig: getInterfaceGridConfig(serverId, contrailViewModel)
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: smwl.SM_SERVER_INVENTORY_FRU_GRID_ID,
-                                title: smwl.TITLE_SERVER_FRU_INFO,
-                                view: "GridView",
-                                viewConfig: {
-                                    elementConfig: getFRUGridConfig(serverId, contrailViewModel)
+                                    class: "span6",
+                                    rows: [
+                                        {
+                                            columns: [
+                                                {
+                                                    elementId: smwl.SM_SERVER_INVENTORY_INTERFACE_GRID_ID,
+                                                    title: smwl.TITLE_SERVER_INTERFACE_INFO,
+                                                    view: "GridView",
+                                                    viewConfig: {
+                                                        elementConfig: getInterfaceGridConfig(serverId, contrailViewModel)
+                                                    }
+                                                },
+                                                {
+                                                    elementId: smwl.SM_SERVER_INVENTORY_FRU_GRID_ID,
+                                                    title: smwl.TITLE_SERVER_FRU_INFO,
+                                                    view: "GridView",
+                                                    viewConfig: {
+                                                        elementConfig: getFRUGridConfig(serverId, contrailViewModel)
+                                                    }
+                                                }
+                                            ]
+
+                                        }
+                                    ]
                                 }
                             }
                         ]
@@ -110,6 +130,7 @@ define([
                     detail: {
                         template: cowu.generateDetailTemplateHTML(smwdt.getFRUDetailsTemplate(), cowc.APP_CONTRAIL_SM)
                     },
+                    fixedRowHeight: 30,
                     checkboxSelectable: false
                 },
                 dataSource: {
@@ -143,7 +164,8 @@ define([
                         }
                     }
                 }
-            }
+            },
+            footer: { pager: { options: { pageSize: 10, pageSizeSelect: [10, 20] } } }
         };
 
         return gridElementConfig;
@@ -164,7 +186,10 @@ define([
             },
             body: {
                 options: {
-                    detail: false,
+                    detail: {
+                        template: cowu.generateDetailTemplateHTML(smwdt.getInterfaceDetailsTemplate(), cowc.APP_CONTRAIL_SM)
+                    },
+                    fixedRowHeight: 30,
                     checkboxSelectable: false
                 },
                 dataSource: {
@@ -197,7 +222,8 @@ define([
                         }
                     }
                 }
-            }
+            },
+            footer: { pager: { options: { pageSize: 10, pageSizeSelect: [10, 20] } } }
         };
 
         return gridElementConfig;

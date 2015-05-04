@@ -167,11 +167,12 @@ define([
             "uptime_seconds": "Uptime (secs)",
             "clock_speed_MHz": "Clock Speed (MHz)",
             "num_of_threads": "Threads",
-            "num_of_ports": "Ports",
+            "num_of_ports": "Interface Controller Ports",
             "speed_Mb_per_sec": "Speed (Mbps)",
             "num_of_dimms": "Dimms",
             "mem_speed_MHz": "Memory Speed (MHz)",
             "dimm_size_mb": "Dimm Size (MB)",
+            "speed_Mb_per_sec": "Speed (mbps)",
 
             //FRU
             "board_mfg_date": "Board Manufacture Date",
@@ -340,6 +341,8 @@ define([
         this.SM_SERVER_TAB_DETAILS_ID = "server-tab-details";
         this.SM_SERVER_TAB_INVENTORY_ID = "server-tab-inventory";
         this.SM_SERVER_INVENTORY_SECTION_ID = "server-inventory-section";
+        this.SM_SERVER_INVENTORY_LEFT_SECTION_ID = "server-inventory-left-section";
+        this.SM_SERVER_INVENTORY_RIGHT_SECTION_ID = "server-inventory-right-section";
         this.SM_SERVER_INVENTORY_DETAILS_ID = "server-inventory-details";
         this.SM_SERVER_INVENTORY_FRU_GRID_ID = "server-inventory-fru-grid";
         this.SM_SERVER_INVENTORY_INTERFACE_GRID_ID = "server-inventory-interface-grid";
