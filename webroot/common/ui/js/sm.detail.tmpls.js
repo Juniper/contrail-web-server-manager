@@ -778,6 +778,10 @@ define([
                                         {
                                             key: 'ServerInventoryInfo.eth_controller_state.num_of_ports',
                                             templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'ServerInventoryInfo.total_numof_disks',
+                                            templateGenerator: 'TextGenerator'
                                         }
                                     ]
                                 },
@@ -813,10 +817,6 @@ define([
                                     title: smwl.TITLE_SERVER_MEMORY,
                                     theme: detailTheme,
                                     templateGeneratorConfig: [
-                                        {
-                                            key: 'ServerInventoryInfo.total_numof_disks',
-                                            templateGenerator: 'TextGenerator'
-                                        },
                                         {
                                             key: 'ServerInventoryInfo.mem_state.num_of_dimms',
                                             templateGenerator: 'TextGenerator'
