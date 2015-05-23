@@ -45,6 +45,7 @@ define([
                     password: 'c0ntrail123',
 
                     database_dir: '/var/lib/cassandra',
+                    database_minimum_diskGB: "",
                     service_token: 'contrail123',
 
                     storage_mon_secret: "AQBM78tTEMz+GhAA3WiOXQI7UVdIy0YFFuTGdw==",

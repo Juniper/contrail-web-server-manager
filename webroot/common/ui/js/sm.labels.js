@@ -123,6 +123,7 @@ define([
             "total_servers": "Total Servers",
             "external_bgp": "External BGP",
             "database_dir": "Database Dir",
+            "database_minimum_diskGB": "Database Min Disk (GB)",
             "database_token": "Database Token",
             "service_token": "Service Token",
             "storage_mon_secret": "Monitoring Key",

@@ -98,6 +98,10 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
+                                            key: 'parameters.database_minimum_diskGB',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
                                             key: 'parameters.hc_interval',
                                             templateGenerator: 'TextGenerator'
                                         }
