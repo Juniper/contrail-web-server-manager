@@ -331,12 +331,17 @@ define([
                     {
                         columns: [
                             {elementId: 'database_dir', view: "FormInputView", viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}},
-                            {elementId: 'service_token', view: "FormInputView", viewConfig: {path: 'parameters.service_token', type: 'password', dataBindValue: 'parameters().service_token', class: "span6"}}
+                            {elementId: 'database_minimum_diskGB', view: "FormInputView", viewConfig: {path: 'parameters.database_minimum_diskGB', dataBindValue: 'parameters().database_minimum_diskGB', class: "span6"}}
                         ]
                     },
                     {
                         columns: [
-                            {elementId: 'encapsulation_priority', view: "FormInputView", viewConfig: {path: 'parameters.encapsulation_priority', dataBindValue: 'parameters().encapsulation_priority', class: "span6"}},
+                            {elementId: 'service_token', view: "FormInputView", viewConfig: {path: 'parameters.service_token', type: 'password', dataBindValue: 'parameters().service_token', class: "span6"}},
+                            {elementId: 'encapsulation_priority', view: "FormInputView", viewConfig: {path: 'parameters.encapsulation_priority', dataBindValue: 'parameters().encapsulation_priority', class: "span6"}}
+                        ]
+                    },
+                    {
+                        columns: [
                             {elementId: 'hc_interval', view: "FormInputView", viewConfig: {path: 'parameters.hc_interval', dataBindValue: 'parameters().hc_interval', class: "span6"}}
                         ]
                     }
