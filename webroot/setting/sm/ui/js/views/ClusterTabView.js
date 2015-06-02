@@ -32,6 +32,7 @@ define([
                                 view: "TabsView",
                                 viewConfig: {
                                     theme: 'overcast',
+                                    active: 1,
                                     activate: function (e, ui) {
                                         var selTab = $(ui.newTab.context).text();
                                         if (selTab == smwl.TITLE_SERVERS) {
@@ -40,13 +41,6 @@ define([
                                         }
                                     },
                                     tabs: [
-                                        {
-                                            elementId: smwl.SM_CLUSTER_TAB_SERVERS_ID,
-                                            title: smwl.TITLE_SERVERS,
-                                            app: cowc.APP_CONTRAIL_SM,
-                                            view: "ServerListView",
-                                            viewConfig: {serverColumnsType: smwc.CLUSTER_PREFIX_ID, showAssignRoles: true, hashParams: {"cluster_id": clusterId}}
-                                        },
                                         {
                                             elementId: smwl.SM_CLUSTER_TAB_DETAILS_ID,
                                             title: smwl.TITLE_DETAILS,
@@ -62,6 +56,13 @@ define([
                                                     return (response.length != 0) ? response[0] : {};
                                                 }
                                             }
+                                        },
+                                        {
+                                            elementId: smwl.SM_CLUSTER_TAB_SERVERS_ID,
+                                            title: smwl.TITLE_SERVERS,
+                                            app: cowc.APP_CONTRAIL_SM,
+                                            view: "ServerListView",
+                                            viewConfig: {serverColumnsType: smwc.CLUSTER_PREFIX_ID, showAssignRoles: true, hashParams: {"cluster_id": clusterId}}
                                         }
                                     ]
                                 }
