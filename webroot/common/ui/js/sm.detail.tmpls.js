@@ -37,20 +37,6 @@ define([
                                     theme: detailTheme,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'parameters.openstack_mgmt_ip',
-                                            templateGenerator: 'LinkGenerator',
-                                            templateGeneratorConfig: {
-                                                template: 'http://{{params.openstack_mgmt_ip}}/horizon',
-                                                params: {
-                                                    openstack_mgmt_ip: 'parameters.openstack_mgmt_ip'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            key: 'parameters.keystone_ip',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
                                             key: 'parameters.keystone_tenant',
                                             templateGenerator: 'TextGenerator'
                                         },
@@ -64,6 +50,20 @@ define([
                                         },
                                         {
                                             key: 'parameters.keystone_region_name',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'parameters.openstack_mgmt_ip',
+                                            templateGenerator: 'LinkGenerator',
+                                            templateGeneratorConfig: {
+                                                template: 'http://{{params.openstack_mgmt_ip}}/horizon',
+                                                params: {
+                                                    openstack_mgmt_ip: 'parameters.openstack_mgmt_ip'
+                                                }
+                                            }
+                                        },
+                                        {
+                                            key: 'parameters.keystone_ip',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
