@@ -375,7 +375,7 @@ define([
                                         collection: "filterInterfaces('physical')",
                                         columns: [
                                             {elementId: 'name', name: 'Name', view: "GridInputView", class: "", width: 170, viewConfig: {path: "name", dataBindValue: "name()"}},
-                                            {elementId: 'ip_address', name: 'IP/MAsk', view: "GridInputView", class: "", width: 155, viewConfig: {path: "ip_address", dataBindValue: "ip_address()"}},
+                                            {elementId: 'ip_address', name: 'IP/Mask', view: "GridInputView", class: "", width: 155, viewConfig: {path: "ip_address", dataBindValue: "ip_address()"}},
                                             {elementId: 'mac_address', name: 'MAC Address', view: "GridInputView", class: "", width: 160, viewConfig: {path: "mac_address", dataBindValue: "mac_address()"}},
                                             {elementId: 'default_gateway', name: 'Gateway', view: "GridInputView", class: "", width: 130, viewConfig: {path: "default_gateway", dataBindValue: "default_gateway()"}},
                                             {elementId: 'dhcp', name: 'DHCP', view: "GridCheckboxView", class: "", width: 50, viewConfig: {path: "dhcp", dataBindValue: "dhcp()"}},

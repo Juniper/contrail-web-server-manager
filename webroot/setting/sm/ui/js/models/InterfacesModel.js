@@ -30,7 +30,7 @@ define([
                 },
                 'ip_address': {
                     required: true,
-                    pattern: cowc.PATTERN_IP_ADDRESS,
+                    pattern: cowc.PATTERN_IP_ADDRESS_WITH_MASK,
                     msg: smwm.getShortInvalidErrorMessage('ip_address')
                 },
                 'mac_address': {
