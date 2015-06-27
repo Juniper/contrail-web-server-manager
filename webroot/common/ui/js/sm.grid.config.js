@@ -251,7 +251,7 @@ define([
                         if ($.isEmptyObject(dc.roles)) {
                             return ''
                         } else {
-                            return (dc.roles.indexOf(roleValue) != -1) ? '<i class="icon-ok green"></i>' : '';
+                            return (dc.roles.indexOf(roleValue) != -1) ? '<i class="icon-ok green cursor-default"></i>' : '';
                         }
                     },
                     exportConfig: {
