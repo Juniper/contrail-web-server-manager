@@ -86,6 +86,16 @@ define([
                 that = this;
 
             cowu.createWizardModal({'modalId': modalId, 'className': 'modal-980', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                var wizardId = cowu.formatElementId([prefixId, smwl.TITLE_ADD_CLUSTER]),
+                    wizardDataContrailWizard = $('#' + wizardId).data('contrailWizard'),
+                    currentStepIndex = wizardDataContrailWizard.getCurrentIndex(),
+                    stepsLength = wizardDataContrailWizard.getStepsLength();
+
+                if(currentStepIndex == (stepsLength - 1)) {
+                    wizardDataContrailWizard.finish();
+                } else {
+                    wizardDataContrailWizard.next();
+                }
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 kbValidation.unbind(that);
@@ -142,6 +152,16 @@ define([
                 that = this;
 
             cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                var wizardId = cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS]),
+                    wizardDataContrailWizard = $('#' + wizardId).data('contrailWizard'),
+                    currentStepIndex = wizardDataContrailWizard.getCurrentIndex(),
+                    stepsLength = wizardDataContrailWizard.getStepsLength();
+
+                if(currentStepIndex == (stepsLength - 1)) {
+                    wizardDataContrailWizard.finish();
+                } else {
+                    wizardDataContrailWizard.next();
+                }
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 kbValidation.unbind(that);
@@ -175,6 +195,17 @@ define([
                 };
 
             cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+                var wizardId = cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS]),
+                    wizardDataContrailWizard = $('#' + wizardId).data('contrailWizard'),
+                    currentStepIndex = wizardDataContrailWizard.getCurrentIndex(),
+                    stepsLength = wizardDataContrailWizard.getStepsLength();
+
+                if(currentStepIndex == (stepsLength - 1)) {
+                    wizardDataContrailWizard.finish();
+                } else {
+                    wizardDataContrailWizard.next();
+                }
+
             }, 'onCancel': function () {
                 Knockback.release(that.model, document.getElementById(modalId));
                 kbValidation.unbind(that);

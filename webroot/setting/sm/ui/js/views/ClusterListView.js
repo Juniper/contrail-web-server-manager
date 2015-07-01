@@ -48,6 +48,7 @@ define([
                                         yLabel: 'Total Servers',
                                         forceX: [0, 1],
                                         forceY: [0, 20],
+                                        noDataMessage: 'No Data found.',
                                         dataParser: function (response) {
                                             var chartDataValues = [];
                                             for(var i = 0; i < response.length; i++) {
@@ -67,10 +68,10 @@ define([
                                         },
                                         tooltipConfigCB: getClusterTooltipConfig,
                                         controlPanelConfig: {
-                                            /*filter: {
+                                            filter: {
                                                 enable: true,
                                                 viewConfig: getControlPanelFilterConfig()
-                                            },*/
+                                            },
                                             legend: {
                                                 enable: true,
                                                 viewConfig: getControlPanelLegendConfig()
@@ -145,26 +146,18 @@ define([
             groups: [
                 {
                     id: 'by-node-color',
-                    title: 'By Node Color',
-                    type: 'radio',
+                    title: false,
+                    type: 'checkbox-circle',
                     items: [
                         {
-                            text: 'Filter 1',
+                            text: 'Provisioned Server = Total Servers',
                             labelCssClass: 'okay',
-                            events: {
-                                click: function (event) {
-                                    console.log('Filter 1');
-                                }
-                            }
+                            filterFn: function(d) { return d['total_servers'] == d['provisioned_servers']; }
                         },
                         {
-                            text: 'Filter 2',
-                            labelCssClass: 'medium',
-                            events: {
-                                click: function (event) {
-                                    console.log('Filter 2');
-                                }
-                            }
+                            text: 'Provisioned Server != Total Servers',
+                            labelCssClass: 'default',
+                            filterFn: function(d) { return d['total_servers'] != d['provisioned_servers'];}
                         }
                     ]
                 }

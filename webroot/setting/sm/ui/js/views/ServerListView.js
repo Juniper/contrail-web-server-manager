@@ -66,6 +66,7 @@ define([
                                         yLabel: 'Memory Usage (%)',
                                         forceX: [0, 1],
                                         forceY: [0, 1],
+                                        noDataMessage: 'No Data found.',
                                         dataParser: function (response) {
                                             for(var i = 0; i < response.length; i++) {
                                                 var server = response[i];
