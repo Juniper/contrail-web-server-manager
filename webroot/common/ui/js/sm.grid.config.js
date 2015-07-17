@@ -324,14 +324,14 @@ define([
                 ]);
                 serverColumns = serverColumns.concat(ipColumnsSet);
                 serverColumns = serverColumns.concat([
-                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120, formatter: function (r, c, v, cd, dc) { return smwl.get(dc['status']); } }
                 ]);
                 serverColumns = serverColumns.concat(tagColumnsSet);
             } else if (serverColumnsType == smwc.CLUSTER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat(ipColumnsSet).concat(this.getGridColumns4Roles());
 
                 serverColumns = serverColumns.concat([
-                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120 }
+                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120, formatter: function (r, c, v, cd, dc) { return smwl.get(dc['status']); } }
                 ]);
             }
 

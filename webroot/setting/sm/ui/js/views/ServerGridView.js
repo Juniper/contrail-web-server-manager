@@ -230,7 +230,7 @@ define([
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_EDIT_CONFIG + (contrail.checkIfExist(dataItem['id']) ? (' ('+ dataItem['id'] +')') : '');
 
                 serverEditView.model = serverModel;
                 serverEditView.renderConfigure({"title": title, checkedRows: checkedRow, callback: function () {
