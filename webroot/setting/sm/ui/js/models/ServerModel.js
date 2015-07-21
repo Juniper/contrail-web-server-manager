@@ -523,10 +523,7 @@ define([
                     model = interfaces.at(i);
                     type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : 'physical';
                     dhcp = model.attributes.dhcp();
-
-                    if (type != 'bond') {
-                        controlDataInterfaces.push(model.attributes.name());
-                    }
+                    controlDataInterfaces.push(model.attributes.name());
                 }
                 return controlDataInterfaces;
             }, this);
