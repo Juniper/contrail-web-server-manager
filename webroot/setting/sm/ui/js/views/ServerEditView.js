@@ -307,7 +307,11 @@ define([
                     row = {columns: []};
                     tagServersViewConfigRows.push(row);
                 }
-                row['columns'].push({ elementId: tagName, view: "FormInputView", viewConfig: {path: "tag." + tagName, dataBindValue: "tag()." + tagName, class: "span6"}});
+                row['columns'].push({
+                    elementId: tagName, view: "FormInputView",
+                    app: cowc.APP_CONTRAIL_SM,
+                    viewConfig: {path: "tag." + tagName, dataBindValue: "tag()." + tagName, class: "span6"}
+                });
             }
             callback(tagServersViewConfigRows)
         }, function () {
@@ -328,31 +332,67 @@ define([
                     rows: [
                         {
                             columns: [
-                                {elementId: 'id', view: "FormInputView", viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "span6"}},
-                                {elementId: 'password', view: "FormInputView", viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "span6"}}
+                                {
+                                    elementId: 'id', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "span6"}
+                                },
+                                {
+                                    elementId: 'password', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "span6"}
+                                }
                             ]
                         },
                         {
                             columns: [
-                                {elementId: 'host_name', view: "FormInputView", viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}},
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}}
+                                {
+                                    elementId: 'host_name', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: "host_name", dataBindValue: "host_name", class: "span6"}
+                                },
+                                {
+                                    elementId: 'domain', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
+                                }
                             ]
                         },
                         {
                             columns: [
-                                {elementId: 'static_ip', view: "FormInputView", viewConfig: {path: 'static_ip', dataBindValue: 'static_ip', class: "span6"}},
-                                {elementId: 'ipmi_address', view: "FormInputView", viewConfig: {path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "span6"}}
+                                {
+                                    elementId: 'static_ip', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'static_ip', dataBindValue: 'static_ip', class: "span6"}
+                                },
+                                {
+                                    elementId: 'ipmi_address', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "span6"}
+                                }
                             ]
                         },
                         {
                             columns: [
-                                {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
-                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "span6"}}
+                                {
+                                    elementId: 'ipmi_username', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}
+                                },
+                                {
+                                    elementId: 'ipmi_password', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "span6"}
+                                }
                             ]
                         },
                         {
                             columns: [
-                                {elementId: 'partition', view: "FormInputView", viewConfig: {path: 'parameters.partition', dataBindValue: 'parameters().partition', class: "span6"}},
+                                {
+                                    elementId: 'partition', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'parameters.partition', dataBindValue: 'parameters().partition', class: "span6"}
+                                }
                             ]
                         }
                     ]
@@ -482,6 +522,7 @@ define([
                                 {
                                     elementId: 'package_image_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {
                                         path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6",
                                         elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
@@ -489,6 +530,7 @@ define([
                                 {
                                     elementId: 'control_data_interface',
                                     view: "FormSelect2DropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {
                                         path: 'contrail.control_data_interface',
                                         dataBindValue: 'contrail().control_data_interface',
@@ -515,6 +557,7 @@ define([
                                 {
                                     elementId: 'storage_repo_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'parameters.storage_repo_id', dataBindValue: 'parameters().storage_repo_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
                                 }
                             ]
@@ -524,11 +567,13 @@ define([
                                 {
                                     elementId: 'storage_chassis_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'parameters.storage_chassis_id', dataBindValue: 'parameters().storage_chassis_id', class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
                                 },
                                 {
                                     elementId: 'storage_chassis_id_input',
                                     view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'parameters.storage_chassis_id_input', dataBindValue: 'parameters().storage_chassis_id_input', class: "span6"}
                                 }
                             ]
@@ -570,6 +615,7 @@ define([
                                 {
                                     elementId: 'cluster_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {
                                         path: 'cluster_id',
                                         dataBindValue: "cluster_id",
@@ -589,6 +635,7 @@ define([
                                 {
                                     elementId: 'email',
                                     view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}
                                 }
                             ]
@@ -598,6 +645,7 @@ define([
                                 {
                                     elementId: 'base_image_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {
                                         path: 'base_image_id',
                                         dataBindValue: 'base_image_id',
@@ -616,6 +664,7 @@ define([
                                 {
                                     elementId: 'management_interface',
                                     view: "FormSelect2DropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {
                                         path: 'network.management_interface', dataBindValue: 'network().management_interface', class: "span6",
                                         elementConfig: {
@@ -631,6 +680,7 @@ define([
                                 {
                                     elementId: 'kernel_upgrade',
                                     view: 'FormDropdownView',
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {
                                         path: 'parameters.kernel_upgrade',
                                         dataBindValue: 'parameters().kernel_upgrade',
@@ -638,7 +688,11 @@ define([
                                         elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES_YES_NO}
                                     }
                                 },
-                                {elementId: 'kernel_version', view: "FormInputView", viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "span6"}}
+                                {
+                                    elementId: 'kernel_version', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "span6"}
+                                }
                             ]
                         }
                     ]
@@ -660,14 +714,30 @@ define([
                     rows: [
                         {
                             columns: [
-                                {elementId: 'domain', view: "FormInputView", viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}},
-                                {elementId: 'partition', view: "FormInputView", viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "span6"}}
+                                {
+                                    elementId: 'domain', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
+                                },
+                                {
+                                    elementId: 'partition', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "span6"}
+                                }
                             ]
                         },
                         {
                             columns: [
-                                {elementId: 'ipmi_username', view: "FormInputView", viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}},
-                                {elementId: 'ipmi_password', view: "FormInputView", viewConfig: {path: 'ipmi_password',  type: 'password', dataBindValue: 'ipmi_password', class: "span6"}}
+                                {
+                                    elementId: 'ipmi_username', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}
+                                },
+                                {
+                                    elementId: 'ipmi_password', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'ipmi_password',  type: 'password', dataBindValue: 'ipmi_password', class: "span6"}
+                                }
                             ]
                         }
                     ]
@@ -685,6 +755,7 @@ define([
                                 {
                                     elementId: 'package_image_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
                                 }
                             ]
@@ -703,6 +774,7 @@ define([
                                 {
                                     elementId: 'storage_repo_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'parameters.storage_repo_id', dataBindValue: 'parameters().storage_repo_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
                                 }
                             ]
@@ -712,11 +784,13 @@ define([
                                 {
                                     elementId: 'storage_chassis_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'parameters.storage_chassis_id', dataBindValue: 'parameters().storage_chassis_id', class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
                                 },
                                 {
                                     elementId: 'storage_chassis_id_input',
                                     view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'parameters.storage_chassis_id_input', dataBindValue: 'parameters().storage_chassis_id_input', class: "span6"}
                                 }
                             ]
@@ -735,6 +809,7 @@ define([
                                 {
                                     elementId: 'cluster_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'cluster_id', dataBindValue: 'cluster_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_CLUSTER, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)}}}
                                 },
                                 {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
@@ -745,6 +820,7 @@ define([
                                 {
                                     elementId: 'base_image_id',
                                     view: "FormDropdownView",
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
                                 }
                             ]
@@ -754,6 +830,7 @@ define([
                                 {
                                     elementId: 'kernel_upgrade',
                                     view: 'FormDropdownView',
+                                    app: cowc.APP_CONTRAIL_SM,
                                     viewConfig: {
                                         path: 'parameters.kernel_upgrade',
                                         dataBindValue: 'parameters().kernel_upgrade',
@@ -761,7 +838,11 @@ define([
                                         elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES_YES_NO}
                                     }
                                 },
-                                {elementId: 'kernel_version', view: "FormInputView", viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "span6"}}
+                                {
+                                    elementId: 'kernel_version', view: "FormInputView",
+                                    app: cowc.APP_CONTRAIL_SM,
+                                    viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "span6"}
+                                }
                             ]
                         }
                     ]
@@ -781,6 +862,7 @@ define([
                         {
                             elementId: 'package_image_id',
                             view: "FormDropdownView",
+                            app: cowc.APP_CONTRAIL_SM,
                             viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                         }
                     ]
@@ -799,6 +881,7 @@ define([
                         {
                             elementId: 'base_image_id',
                             view: "FormDropdownView",
+                            app: cowc.APP_CONTRAIL_SM,
                             viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
                         }
                     ]
@@ -814,7 +897,11 @@ define([
             rows: [
                 {
                     columns: [
-                        {elementId: 'roles', view: "FormMultiselectView", viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smwl.SELECT_ROLES, data: smwc.ROLES_OBJECTS}}}
+                        {
+                            elementId: 'roles', view: "FormMultiselectView",
+                            app: cowc.APP_CONTRAIL_SM,
+                            viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smwl.SELECT_ROLES, data: smwc.ROLES_OBJECTS}}
+                        }
                     ]
                 }
             ]

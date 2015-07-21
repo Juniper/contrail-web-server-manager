@@ -83,14 +83,30 @@ define([
             rows: [
                 {
                     columns: [
-                        {elementId: 'id', view: "FormInputView", viewConfig: {path: "id", dataBindValue: "id", class: "span6"}},
-                        {elementId: 'type', view: "FormDropdownView", viewConfig: {path: "type", dataBindValue: "type", class: "span6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.PACKAGE_TYPES}}}
+                        {
+                            elementId: 'id', view: "FormInputView",
+                            app: cowc.APP_CONTRAIL_SM,
+                            viewConfig: {path: "id", dataBindValue: "id", class: "span6"}
+                        },
+                        {
+                            elementId: 'type', view: "FormDropdownView",
+                            app: cowc.APP_CONTRAIL_SM,
+                            viewConfig: {path: "type", dataBindValue: "type", class: "span6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.PACKAGE_TYPES}}
+                        }
                     ]
                 },
                 {
                     columns: [
-                        {elementId: 'version', view: "FormInputView", viewConfig: {path: 'version', dataBindValue: "version", class: "span6"}},
-                        {elementId: 'path', view: "FormInputView", viewConfig: {path: "path", dataBindValue: "path", class: "span6"}}
+                        {
+                            elementId: 'version', view: "FormInputView",
+                            app: cowc.APP_CONTRAIL_SM,
+                            viewConfig: {path: 'version', dataBindValue: "version", class: "span6"}
+                        },
+                        {
+                            elementId: 'path', view: "FormInputView",
+                            app: cowc.APP_CONTRAIL_SM,
+                            viewConfig: {path: "path", dataBindValue: "path", class: "span6"}
+                        }
                     ]
                 }
             ]
