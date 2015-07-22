@@ -40,7 +40,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig);
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, reimageViewConfig);
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -76,7 +76,7 @@ define([
             modelAttr = this.model.model().get('id');
             disableId = (modelAttr == null || modelAttr == '') ? false : true;
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(disableId), "configureValidation");
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getConfigureViewConfig(disableId), "configureValidation");
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -109,7 +109,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureServersViewConfig, "configureValidation", true);
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, configureServersViewConfig, "configureValidation", true);
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -142,7 +142,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(false), "configureValidation");
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getConfigureViewConfig(false), "configureValidation");
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -176,7 +176,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionServersViewConfig);
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionServersViewConfig);
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -220,7 +220,7 @@ define([
                     }
                 });
 
-                cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), that.model, editTagViewConfig, 'editTagsValidation', lockEditingByDefault);
+                cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), that.model, editTagViewConfig, 'editTagsValidation', lockEditingByDefault);
                 that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
                 Knockback.applyBindings(that.model, document.getElementById(modalId));
@@ -253,7 +253,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, assignRolesViewConfig);
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, assignRolesViewConfig);
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));

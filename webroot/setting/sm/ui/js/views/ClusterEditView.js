@@ -40,7 +40,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -74,7 +74,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -103,7 +103,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
 
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + cowc.FORM_SUFFIX_ID, false);
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
@@ -140,7 +140,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, provisionViewConfig);
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionViewConfig);
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -168,7 +168,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, true, options['callback']));
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, true, options['callback']));
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -212,7 +212,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, callbackObj));
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, callbackObj));
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -250,7 +250,7 @@ define([
                 }
             });
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));

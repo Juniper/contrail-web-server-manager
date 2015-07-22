@@ -38,7 +38,7 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#sm-" + prefixId + "-form"), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
+            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);
