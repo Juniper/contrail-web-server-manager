@@ -3,7 +3,8 @@
  */
 
 var coreBaseDir = "/base/contrail-web-core/webroot",
-    smBaseDir = "/base/contrail-web-server-manager/webroot";
+    smBaseDir = "/base/contrail-web-server-manager/webroot",
+    pkgBaseDir = smBaseDir;
 
 require(['/base/contrail-web-core/webroot/js/core-app-utils.js'], function () {
     globalObj['env'] = "test";
@@ -15,8 +16,7 @@ require(['/base/contrail-web-core/webroot/js/core-app-utils.js'], function () {
         waitSeconds: 0
     });
 
-    require(['sm-test-init'], function () {
-    });
+    require(['sm-test-init'], function () {});
 });
 
 function getServerManagerTestAppPaths(coreAppPaths) {

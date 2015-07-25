@@ -10,27 +10,13 @@ function BaremetalPageLoader() {
             pathBaremetalView = rootDir + '/js/views/BaremetalView.js',
             hashParams = paramObject['hashParams'];
 
-        check4SMInit(function () {
-            requirejs([pathBaremetalView], function (BaremetalView) {
-                var baremetalView = new BaremetalView();
-                baremetalView.render({hashParams: hashParams});
-            });
+        requirejs([pathBaremetalView], function (BaremetalView) {
+            var baremetalView = new BaremetalView();
+            baremetalView.render({hashParams: hashParams});
         });
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
         this.load({hashParams : hashObj});
     };
-    this.destroy = function () {
-    };
-};
-
-function check4SMInit(callback) {
-    if (!smInitComplete) {
-        requirejs(['sm-init'], function () {
-            smInitComplete = true;
-            callback()
-        });
-    } else {
-        callback();
-    }
+    this.destroy = function () {};
 };

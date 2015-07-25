@@ -16,10 +16,10 @@ var depArray = [
     'jquery', 'underscore', 'validation', 'core-constants', 'core-utils',
     'core-formatters', 'knockout', 'core-cache', 'contrail-common',
 
-    'text!/base/contrail-web-core/webroot/views/contrail-common.view',
-    'text!setting/sm/ui/templates/sm.tmpl',
+    'text!/base/contrail-web-core/webroot/templates/core.common.tmpl',
+    'co-test-utils', 'layout-handler',
 
-    'co-test-utils', 'web-utils', 'handlebars-utils', 'slickgrid-utils', 'contrail-elements',
+    'web-utils', 'handlebars-utils', 'slickgrid-utils', 'contrail-elements',
     'topology_api', 'chart-utils', 'qe-utils', 'nvd3-plugin', 'd3-utils', 'analyzer-utils',
     'dashboard-utils', 'joint.contrail', 'text', 'contrail-all-8', 'contrail-all-9'
 ];
@@ -28,7 +28,8 @@ require(['jquery', 'knockout'], function ($, Knockout) {
     window.ko = Knockout;
     loadCommonTemplates();
 
-    require(depArray, function ($, _, validation, CoreConstants, CoreUtils, CoreFormatters, Knockout, Cache, contrailCommon, coreCommonTmpls, smCommonTmpls, CoreTestUtils) {
+    require(depArray, function ($, _, validation, CoreConstants, CoreUtils, CoreFormatters, Knockout, Cache,
+                                contrailCommon, CoreCommonTmpls, CoreTestUtils, LayoutHandler) {
         cowc = new CoreConstants();
         cowu = new CoreUtils();
         cowf = new CoreFormatters();
@@ -37,12 +38,12 @@ require(['jquery', 'knockout'], function ($, Knockout) {
         initBackboneValidation(_);
         initCustomKOBindings(Knockout);
         initDomEvents();
+        layoutHandler = new LayoutHandler();
 
         $("body").addClass('navbar-fixed');
         $("body").append(CoreTestUtils.getPageHeaderHTML());
         $("body").append(CoreTestUtils.getSidebarHTML());
-        $("body").append(coreCommonTmpls);
-        $("body").append(smCommonTmpls);
+        $("body").append(CoreCommonTmpls);
 
         var cssList = CoreTestUtils.getCSSList();
 
@@ -50,44 +51,34 @@ require(['jquery', 'knockout'], function ($, Knockout) {
             $("body").append(cssList[i]);
         }
 
-        requirejs(['text!menu.xml'], function (menuXML) {
 
-            requirejs(['co-test-mockdata', 'co-test-utils', '/base/contrail-web-server-manager/webroot/common/ui/js/sm.app.js'], function (CoreSlickGridMockData, TestUtils) {
+        requirejs(['text!menu.xml'], function (menuXML) {
+            requirejs(['co-test-mockdata', 'co-test-utils'], function (CoreSlickGridMockData, TestUtils) {
+                globalObj['coTestUtils'] = TestUtils;
                 var fakeServer = sinon.fakeServer.create();
+                fakeServer.autoRespond = true;
                 fakeServer.respondWith("GET", TestUtils.getRegExForUrl('/api/admin/webconfig/featurePkg/webController'), [200, {"Content-Type": "application/json"}, JSON.stringify(CoreSlickGridMockData.webControllerMockData)]);
                 fakeServer.respondWith("GET", TestUtils.getRegExForUrl('/api/admin/webconfig/features/disabled'), [200, {"Content-Type": "application/json"}, JSON.stringify(CoreSlickGridMockData.disabledFeatureMockData)]);
-                fakeServer.respondWith("GET", TestUtils.getRegExForUrl('/api/service/networking/web-server-info'), [200, {"Content-Type": "application/json"}, JSON.stringify(CoreSlickGridMockData.webServerInfoMockData)]);
+                fakeServer.respondWith("GET", TestUtils.getRegExForUrl('/api/service/networking/web-server-info'), [200, {"Content-Type": "application/json"}, JSON.stringify(CoreSlickGridMockData.smWebServerInfoMockData)]);
                 fakeServer.respondWith("GET", TestUtils.getRegExForUrl('/menu.xml'), [200, {"Content-Type": "application/xml"}, menuXML]);
 
-                requirejs(['contrail-layout', '/base/contrail-web-server-manager/webroot/setting/sm/ui/js/sm.main.js'], function () {
-                    //TODO: Auto Respond = True
-                    while (fakeServer.queue.length > 0) {
-                        fakeServer.respond();
-                    }
+                //fakeServer.autoRespondAfter = 6000;
 
-                    if (!smInitComplete) {
-                        requirejs(['sm-init'], function () {
-                            require(allTestFiles, function () {
-                                requirejs.config({
-                                    deps: allTestFiles,
-                                    callback: window.__karma__.start
-                                });
-                            });
-                        });
-                    } else {
+                requirejs(['contrail-layout'], function () {
+                    //TODO: Timeout is currently required to ensure menu is loaed i.e feature app is initialized
+                    setTimeout(function() {
                         require(allTestFiles, function () {
                             requirejs.config({
                                 deps: allTestFiles,
                                 callback: window.__karma__.start
                             });
                         });
-                    }
+                    }, 1000);
                 });
             });
         });
     });
 });
-
 
 function loadCommonTemplates() {
     //Set the base URI

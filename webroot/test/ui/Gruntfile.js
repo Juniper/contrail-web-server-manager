@@ -13,39 +13,33 @@ module.exports = function (grunt) {
 
     var commonFiles = [
         {pattern: 'contrail-web-core/webroot/assets/**/*.js', included: false},
+
         {pattern: 'contrail-web-core/webroot/assets/**/*.css', included: false},
         {pattern: 'contrail-web-core/webroot/css/**/*.css', included: false},
+        {pattern: 'contrail-web-core/webroot/test/ui/**/*.css', included: false},
 
         {pattern: 'contrail-web-core/webroot/font/**/*.woff', included: false},
-        {pattern: 'contrail-web-core/webroot/img/**/*.png', included: false},
-
-        /* pattern for select2 image files */
-        {pattern: 'contrail-web-core/webroot/css/**/*.png', included: false},
-        {pattern: 'contrail-web-core/webroot/assets/select2/styles/**/*.png', included: false},
-        {pattern: 'contrail-web-core/webroot/css/**/*.gif', included: false},
-        {pattern: 'contrail-web-core/webroot/assets/select2/styles/**/*.png', included: false},
-
         {pattern: 'contrail-web-core/webroot/assets/**/*.woff', included: false},
         {pattern: 'contrail-web-core/webroot/assets/**/*.ttf', included: false},
 
-        {pattern: 'contrail-web-core/webroot/test/ui/**/*.css', included: false},
+        {pattern: 'contrail-web-core/webroot/img/**/*.png', included: false},
+        {pattern: 'contrail-web-core/webroot/css/**/*.png', included: false},
+        {pattern: 'contrail-web-core/webroot/assets/select2/styles/**/*.png', included: false},
+        {pattern: 'contrail-web-core/webroot/css/**/*.gif', included: false},
 
-        {pattern: 'contrail-web-core/webroot/views/**/*.view', included: false},
-        {pattern: 'contrail-web-core/webroot/js/**/*.js', included: false},
         {pattern: 'contrail-web-core/webroot/test/ui/**/*.js', included: false},
 
         {pattern: 'contrail-web-server-manager/webroot/test/ui/sm.test.app.js'},
-
         {pattern: 'contrail-web-server-manager/webroot/test/ui/*.js', included: false},
-        {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/templates/**/*.tmpl', included: false},
+        {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/templates/*.tmpl', included: false},
         {pattern: 'contrail-web-server-manager/webroot/common/**/*.js', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/js/**/*.js', included: false},
-
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/test/ui/ImageListViewMockData.js', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/test/ui/PackageListViewMockData.js', included: false},
+        {pattern: 'contrail-web-server-manager/webroot/*.xml', included: false},
 
-        {pattern: 'contrail-web-server-manager/webroot/**/*.xml', included: false},
-        {pattern: 'contrail-web-core/webroot/js/**/*.js', included: false}
+        {pattern: 'contrail-web-core/webroot/js/**/*.js', included: false},
+        {pattern: 'contrail-web-core/webroot/templates/*.tmpl', included: false}
     ];
 
     var karmaCfg = {

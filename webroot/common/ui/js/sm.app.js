@@ -22,3 +22,5 @@ require.config({
     },
     waitSeconds: 0
 });
+
+require(['sm-init'], function () {});
