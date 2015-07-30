@@ -26,10 +26,8 @@ var depArray = [
 
 require(['jquery', 'knockout'], function ($, Knockout) {
     window.ko = Knockout;
-    loadCommonTemplates();
 
-    require(depArray, function ($, _, validation, CoreConstants, CoreUtils, CoreFormatters, Knockout, Cache,
-                                contrailCommon, CoreCommonTmpls, CoreTestUtils, LayoutHandler) {
+    require(depArray, function ($, _, validation, CoreConstants, CoreUtils, CoreFormatters, Knockout, Cache, contrailCommon, CoreCommonTmpls, CoreTestUtils, LayoutHandler) {
         cowc = new CoreConstants();
         cowu = new CoreUtils();
         cowf = new CoreFormatters();
@@ -79,18 +77,3 @@ require(['jquery', 'knockout'], function ($, Knockout) {
         });
     });
 });
-
-function loadCommonTemplates() {
-    //Set the base URI
-    if (document.location.pathname.indexOf('/vcenter') == 0)
-        $('head').append('<base href="/vcenter/" />');
-    templateLoader = (function ($, host) {
-        //Loads external templates from path and injects in to page DOM
-        return {
-            loadExtTemplate: function (path, deferredObj, containerName) {
-                if (deferredObj != null)
-                    deferredObj.resolve();
-            }
-        };
-    })(jQuery, document);
-};

@@ -4,20 +4,20 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'setting/sm/ui/js/models/ServerModel',
     'setting/sm/ui/js/views/ServerEditView'
-], function (_, Backbone, ServerModel, ServerEditView) {
+], function (_, ContrailView, ServerModel, ServerEditView) {
     var prefixId = smwc.SERVER_PREFIX_ID,
         gridElId = '#' + smwl.SM_SERVER_GRID_ID,
         serverEditView = new ServerEditView();
 
-    var ServerGridView = Backbone.View.extend({
+    var ServerGridView = ContrailView.extend({
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig;
 
-            cowu.renderView4Config(self.$el, self.model, getServerGridViewConfig(viewConfig));
+            self.renderView4Config(self.$el, self.model, getServerGridViewConfig(viewConfig));
         }
     });
 

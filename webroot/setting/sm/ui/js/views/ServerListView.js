@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-list-model'
-], function (_, Backbone, ContrailListModel) {
-    var ServerListView = Backbone.View.extend({
+], function (_, ContrailView, ContrailListModel) {
+    var ServerListView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,
                 prefixId = smwc.SERVER_PREFIX_ID,
@@ -43,7 +43,7 @@ define([
 
             var contrailListModel = new ContrailListModel(listModelConfig);
 
-            cowu.renderView4Config(this.$el, contrailListModel, getServerListViewConfig(viewConfig));
+            self.renderView4Config(this.$el, contrailListModel, getServerListViewConfig(viewConfig));
         }
     });
 

@@ -23,93 +23,93 @@ define([
     var SMRenderUtils = function () {
         var self = this;
 
-        this.renderView = function (viewName, parentElement, model, viewAttributes, modelMap) {
+        this.renderView = function (viewName, parentElement, model, viewAttributes, modelMap, rootView) {
             var elementView;
 
             switch (viewName) {
                 case "ClusterListView":
-                    elementView = new ClusterListView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ClusterListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ClusterGridView":
-                    elementView = new ClusterGridView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ClusterGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ServerListView":
-                    elementView = new ServerListView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ServerListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ServerGridView":
-                    elementView = new ServerGridView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ServerGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ClusterView":
-                    elementView = new ClusterView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ClusterView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ClusterTabView":
-                    elementView = new ClusterTabView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ClusterTabView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ImageListView":
-                    elementView = new ImageListView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ImageListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ImageGridView":
-                    elementView = new ImageGridView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ImageGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ServerView":
-                    elementView = new ServerView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ServerView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ServerTabView":
-                    elementView = new ServerTabView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ServerTabView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "PackageListView":
-                    elementView = new PackageListView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new PackageListView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "PackageGridView":
-                    elementView = new PackageGridView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new PackageGridView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ServerInventoryView":
-                    elementView = new ServerInventoryView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ServerInventoryView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
 
                 case "ServerMonitoringView":
-                    elementView = new ServerMonitoringView({ el: parentElement, model: model, attributes: viewAttributes });
+                    elementView = new ServerMonitoringView({ el: parentElement, model: model, attributes: viewAttributes, rootView: rootView  });
                     elementView.modelMap = modelMap;
                     elementView.render();
-                    break;
+                    return elementView;
             }
         };
     };

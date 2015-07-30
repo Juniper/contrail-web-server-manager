@@ -21,6 +21,7 @@ function ClustersPageLoader() {
                 app: cowc.APP_CONTRAIL_SM,
                 viewConfig: {clusterId: clusterId}
             };
+            //TODO: Replace by renderView4Config function of ContrailView
             cowu.renderView4Config(contentContainer, null, clusterViewConfig);
             pushBreadcrumb([clusterId]);
         } else {
@@ -30,6 +31,7 @@ function ClustersPageLoader() {
                 app: cowc.APP_CONTRAIL_SM,
                 viewConfig: {}
             };
+            //TODO: Replace by renderView4Config function of ContrailView
             cowu.renderView4Config(contentContainer, null, clusterListViewConfig);
         }
 
@@ -55,6 +57,7 @@ function ServersPageLoader() {
                 app: cowc.APP_CONTRAIL_SM,
                 viewConfig: {serverId: serverId}
             };
+            //TODO: Replace by renderView4Config function of ContrailView
             cowu.renderView4Config(contentContainer, null, serverViewConfig);
             pushBreadcrumb([serverId]);
         } else {
@@ -64,6 +67,7 @@ function ServersPageLoader() {
                 app: cowc.APP_CONTRAIL_SM,
                 viewConfig: {serverColumnsType: smwc.SERVER_PREFIX_ID, hashParams: hashParams}
             };
+            //TODO: Replace by renderView4Config function of ContrailView
             cowu.renderView4Config(contentContainer, null, serverListViewConfig);
         }
     };
@@ -83,6 +87,7 @@ function ImagesPageLoader() {
             app: cowc.APP_CONTRAIL_SM,
             viewConfig: {}
         };
+        //TODO: Replace by renderView4Config function of ContrailView
         cowu.renderView4Config(contentContainer, null, imageListViewConfig);
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
@@ -101,6 +106,7 @@ function PackagesPageLoader() {
             app: cowc.APP_CONTRAIL_SM,
             viewConfig: {}
         };
+        //TODO: Replace by renderView4Config function of ContrailView
         cowu.renderView4Config(contentContainer, null, packageListViewConfig);
     };
     this.updateViewByHash = function (hashObj, lastHashObj) {
