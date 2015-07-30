@@ -5,11 +5,11 @@ define([
     'co-test-utils',
     'image-list-view-mockdata',
     'test-slickgrid'
-], function (SMTestUtils, ImageListViewMockData, SMTestSlickGrid) {
+], function (TestUtils, ImageListViewMockData, SMTestSlickGrid) {
+    var self = this;
     module('Image - Server Manager Tests', {
         setup: function () {
-            self.server = sinon.fakeServer.create();
-            self.server.autoRespond = true;
+            self.server = TestUtils.getFakeServer();
 
             $.ajaxSetup({
                 cache: true
@@ -29,8 +29,8 @@ define([
         contentHandler.featureAppDefObj.done(function () {
             var fakeServer = self.server;
 
-            fakeServer.respondWith("GET", SMTestUtils.getRegExForUrl(smwc.URL_TAG_NAMES), [200, {"Content-Type": "application/json"}, JSON.stringify(ImageListViewMockData.getTagNamesData())]);
-            fakeServer.respondWith( "GET", SMTestUtils.getRegExForUrl(smwu.getObjectDetailUrl('image')), [200, {"Content-Type": "application/json"}, JSON.stringify(ImageListViewMockData.getSingleImageDetailData())]);
+            fakeServer.respondWith("GET", TestUtils.getRegExForUrl(smwc.URL_TAG_NAMES), [200, {"Content-Type": "application/json"}, JSON.stringify(ImageListViewMockData.getTagNamesData())]);
+            fakeServer.respondWith( "GET", TestUtils.getRegExForUrl(smwu.getObjectDetailUrl('image')), [200, {"Content-Type": "application/json"}, JSON.stringify(ImageListViewMockData.getSingleImageDetailData())]);
 
             setTimeout(function() {
                 var prefixId = smwc.IMAGE_PREFIX_ID,

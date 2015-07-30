@@ -4,9 +4,9 @@
 
 define([
     'underscore',
-    'backbone'
-], function (_, Backbone) {
-    var ServerView = Backbone.View.extend({
+    'contrail-view'
+], function (_, ContrailView) {
+    var ServerView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
@@ -20,7 +20,7 @@ define([
             var currentHashParams = layoutHandler.getURLHashParams(),
                 serverViewConfig = getServerViewConfig(serverId);
 
-            cowu.renderView4Config(this.$el, null, serverViewConfig, null, null, null);
+            this.renderView4Config(this.$el, null, serverViewConfig, null, null, null);
         }
     });
 

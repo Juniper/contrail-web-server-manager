@@ -7,11 +7,11 @@ define([
     'package-list-view-mockdata',
     'test-slickgrid',
     'test-messages'
-], function (SMTestUtils, PackageListViewMockData, SMTestSlickGrid, TestMessages) {
+], function (TestUtils, PackageListViewMockData, SMTestSlickGrid, TestMessages) {
+    var self = this;
     module(TestMessages.PACKAGE_GRID_MODULE, {
         setup: function () {
-            self.server = sinon.fakeServer.create();
-            self.server.autoRespond = true;
+            self.server = TestUtils.getFakeServer();
 
             $.ajaxSetup({
                 cache: true
@@ -32,8 +32,8 @@ define([
         contentHandler.featureAppDefObj.done(function () {
             var fakeServer = self.server;
 
-            fakeServer.respondWith("GET", SMTestUtils.getRegExForUrl(smwc.URL_TAG_NAMES), [200, {"Content-Type": "application/json"}, JSON.stringify(PackageListViewMockData.getTagNamesData())]);
-            fakeServer.respondWith("GET", SMTestUtils.getRegExForUrl(smwu.getObjectDetailUrl('package')), [200, {"Content-Type": "application/json"}, JSON.stringify(PackageListViewMockData.getSinglePackageDetailData())]);
+            fakeServer.respondWith("GET", TestUtils.getRegExForUrl(smwc.URL_TAG_NAMES), [200, {"Content-Type": "application/json"}, JSON.stringify(PackageListViewMockData.getTagNamesData())]);
+            fakeServer.respondWith("GET", TestUtils.getRegExForUrl(smwu.getObjectDetailUrl('package')), [200, {"Content-Type": "application/json"}, JSON.stringify(PackageListViewMockData.getSinglePackageDetailData())]);
 
             setTimeout(function() {
                 var prefixId = smwc.PACKAGE_PREFIX_ID,

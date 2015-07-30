@@ -4,21 +4,21 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'setting/sm/ui/js/models/PackageModel',
     'setting/sm/ui/js/views/PackageEditView'
-], function (_, Backbone, PackageModel, PackageEditView) {
+], function (_, ContrailView, PackageModel, PackageEditView) {
     var prefixId = smwc.PACKAGE_PREFIX_ID,
         packageEditView = new PackageEditView(),
         gridElId = "#" + smwl.SM_PACKAGE_GRID_ID;
 
-    var PackageGridView = Backbone.View.extend({
+    var PackageGridView = ContrailView.extend({
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
                 pagerOptions = viewConfig['pagerOptions'];
 
-            cowu.renderView4Config(self.$el, self.model, getPackageGridViewConfig(pagerOptions));
+            self.renderView4Config(self.$el, self.model, getPackageGridViewConfig(pagerOptions));
         }
     });
 

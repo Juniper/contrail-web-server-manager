@@ -4,16 +4,16 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'setting/sm/ui/js/models/ServerModel',
     'setting/sm/ui/js/views/ServerEditView'
-], function (_, Backbone, ServerModel, ServerEditView) {
+], function (_, ContrailView, ServerModel, ServerEditView) {
     var serverEditView = new ServerEditView();
 
-    var ServerTabView = Backbone.View.extend({
+    var ServerTabView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig;
-            cowu.renderView4Config(self.$el, null, getServerTabViewConfig(viewConfig));
+            self.renderView4Config(self.$el, null, getServerTabViewConfig(viewConfig));
         }
     });
 

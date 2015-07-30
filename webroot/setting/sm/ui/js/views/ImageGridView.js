@@ -4,21 +4,21 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'setting/sm/ui/js/models/ImageModel',
     'setting/sm/ui/js/views/ImageEditView'
-], function (_, Backbone, ImageModel, ImageEditView) {
+], function (_, ContrailView, ImageModel, ImageEditView) {
     var prefixId = smwc.IMAGE_PREFIX_ID,
         imageEditView = new ImageEditView(),
         gridElId = "#" + smwl.SM_IMAGE_GRID_ID;
 
-    var ImageGridView = Backbone.View.extend({
+    var ImageGridView = ContrailView.extend({
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
                 pagerOptions = viewConfig['pagerOptions'];
 
-            cowu.renderView4Config(self.$el, self.model, getImageGridViewConfig(pagerOptions));
+            self.renderView4Config(self.$el, self.model, getImageGridViewConfig(pagerOptions));
         }
     });
 

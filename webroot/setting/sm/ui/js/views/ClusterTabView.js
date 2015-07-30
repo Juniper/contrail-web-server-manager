@@ -4,16 +4,16 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'setting/sm/ui/js/models/ClusterModel',
     'setting/sm/ui/js/views/ClusterEditView'
-], function (_, Backbone, ClusterModel, ClusterEditView) {
+], function (_, ContrailView, ClusterModel, ClusterEditView) {
     var clusterEditView = new ClusterEditView();
 
-    var ClusterTabView = Backbone.View.extend({
+    var ClusterTabView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig;
-            cowu.renderView4Config(self.$el, null, getClusterTabViewConfig(viewConfig));
+            self.renderView4Config(self.$el, null, getClusterTabViewConfig(viewConfig));
         }
     });
 

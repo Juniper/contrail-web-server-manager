@@ -1,14 +1,14 @@
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'config/physicaldevices/baremetal/ui/js/models/BaremetalModel',
     'config/physicaldevices/baremetal/ui/js/views/BaremetalEditView'
-], function (_, Backbone, BaremetalModel, BaremetalEditView) {
+], function (_, ContrailView, BaremetalModel, BaremetalEditView) {
          var prefixId = smwc.BAREMETAL_PREFIX_ID,
          baremetalEditView = new BaremetalEditView(),
          gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID;
 
-    var BaremetalView = Backbone.View.extend({
+    var BaremetalView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function (viewConfig) {
