@@ -4,24 +4,24 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'knockback'
-], function (_, Backbone, Knockback) {
+], function (_, ContrailView, Knockback) {
     var prefixId = smwc.CLUSTER_PREFIX_ID,
         modalId = 'configure-' + prefixId,
         editTemplate = contrail.getTemplate4Id(cowc.TMPL_EDIT_FORM);
 
-    var ClusterEditView = Backbone.View.extend({
+    var ClusterEditView = ContrailView.extend({
         modalElementId: '#' + modalId,
         renderConfigure: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
 
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 //var clusterForm = $('#' + modalId).find('#sm-cluster-edit-form').serializeObject();
-                that.model.configure({
+                self.model.configure({
                     init: function () {
-                        that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -30,17 +30,17 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
+            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getConfigureViewConfig(), "configureValidation");
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -49,12 +49,12 @@ define([
 
         renderReimage: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
 
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.reimage({
+                self.model.reimage({
                     init: function () {
-                        that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -63,18 +63,18 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -83,7 +83,7 @@ define([
 
         renderAddCluster: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
 
             cowu.createWizardModal({'modalId': modalId, 'className': 'modal-980', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 var wizardId = cowu.formatElementId([prefixId, smwl.TITLE_ADD_CLUSTER]),
@@ -97,13 +97,13 @@ define([
                     wizardDataContrailWizard.next();
                 }
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).find('.contrailWizard').data('contrailWizard').destroy();
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddClusterViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
+            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddClusterViewConfig(self.model, options['callback']), smwc.KEY_ADD_VALIDATION);
 
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + cowc.FORM_SUFFIX_ID, false);
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
@@ -116,12 +116,12 @@ define([
 
         renderProvision: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
 
             cowu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.provision({
+                self.model.provision({
                     init: function () {
-                        that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -130,17 +130,17 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 }); // TODO: Release binding on successful configure
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionViewConfig);
+            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionViewConfig);
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -149,7 +149,7 @@ define([
 
         renderAddServers: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
 
             cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 var wizardId = cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS]),
@@ -163,12 +163,12 @@ define([
                     wizardDataContrailWizard.next();
                 }
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddServerViewConfig(that.model, true, options['callback']));
+            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddServerViewConfig(self.model, true, options['callback']));
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -177,10 +177,10 @@ define([
 
         renderRemoveServers: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this,
+                self = this,
                 callbackObj = {
                     init: function () {
-                        that.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
+                        self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -189,7 +189,7 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, error.responseText);
+                            self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 };
@@ -207,12 +207,12 @@ define([
                 }
 
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getRemoveServerViewConfig(that.model, callbackObj));
+            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getRemoveServerViewConfig(self.model, callbackObj));
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -221,13 +221,13 @@ define([
 
         renderAssignRoles: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
 
             cowu.createModal({'modalId': modalId, 'className': 'modal-980', 'title': options['title'], 'body': editLayout,
                 'onSave': function () {
-                    return saveAssignRoles(that.model, {
+                    return saveAssignRoles(self.model, {
                         init: function () {
-                            that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                             cowu.enableModalLoading(modalId);
                         },
                         success: function () {
@@ -236,7 +236,7 @@ define([
                         },
                         error: function (error) {
                             cowu.disableModalLoading(modalId, function () {
-                                that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
                             });
                         }
                     }, function () {
@@ -244,13 +244,13 @@ define([
                     });
 
                 }, 'onCancel': function () {
-                    Knockback.release(that.model, document.getElementById(modalId));
-                    kbValidation.unbind(that);
+                    Knockback.release(self.model, document.getElementById(modalId));
+                    kbValidation.unbind(self);
                     $("#" + modalId).modal('hide');
                 }
             });
 
-            cowu.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAssignRolesViewConfig(that.model));
+            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAssignRolesViewConfig(self.model));
             this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
@@ -260,14 +260,14 @@ define([
         renderDeleteCluster: function (options) {
             var textTemplate = contrail.getTemplate4Id("sm-delete-cluster-template"),
                 elId = 'deleteCluster',
-                that = this,
+                self = this,
                 checkedRows = options['checkedRows'],
                 clustersToBeDeleted = {'clusterId': [], 'elementId': elId};
             clustersToBeDeleted['clusterId'].push(checkedRows['id']);
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(clustersToBeDeleted), 'onSave': function () {
-                that.model.deleteCluster(options['checkedRows'], {
+                self.model.deleteCluster(options['checkedRows'], {
                     init: function () {
-                        that.model.showErrorAttr(elId, false);
+                        self.model.showErrorAttr(elId, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -276,7 +276,7 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(elId, error.responseText);
+                            self.model.showErrorAttr(elId, error.responseText);
                         });
                     }
                 });

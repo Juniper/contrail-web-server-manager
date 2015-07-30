@@ -4,10 +4,10 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'contrail-view-model'
-], function (_, Backbone, ContrailViewModel) {
-    var ServerInventoryView = Backbone.View.extend({
+], function (_, ContrailView, ContrailViewModel) {
+    var ServerInventoryView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = self.attributes.viewConfig,
                 serverId = viewConfig['serverId'],
@@ -33,7 +33,7 @@ define([
 
             var contrailViewModel = new ContrailViewModel(viewModelConfig);
             modelMap[viewModelConfig['modelKey']] = contrailViewModel;
-            cowu.renderView4Config(this.$el, null, getServerInventoryViewConfig(viewConfig, contrailViewModel), null, null, modelMap);
+            self.renderView4Config(this.$el, null, getServerInventoryViewConfig(viewConfig, contrailViewModel), null, null, modelMap);
         }
     });
 

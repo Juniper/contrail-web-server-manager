@@ -4,21 +4,21 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'setting/sm/ui/js/models/ClusterModel',
     'setting/sm/ui/js/views/ClusterEditView'
-], function (_, Backbone, ClusterModel, ClusterEditView) {
+], function (_, ContrailView, ClusterModel, ClusterEditView) {
     var prefixId = smwc.CLUSTER_PREFIX_ID,
         clusterEditView = new ClusterEditView(),
         gridElId = "#" + smwl.SM_CLUSTER_GRID_ID;
 
-    var ClusterGridView = Backbone.View.extend({
+    var ClusterGridView = ContrailView.extend({
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
                 pagerOptions = viewConfig['pagerOptions'];
 
-            cowu.renderView4Config(self.$el, self.model, getClusterGridViewConfig(pagerOptions));
+            self.renderView4Config(self.$el, self.model, getClusterGridViewConfig(pagerOptions));
         }
     });
 

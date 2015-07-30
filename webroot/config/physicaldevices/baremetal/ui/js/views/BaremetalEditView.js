@@ -4,9 +4,9 @@
 
 define([
     'underscore',
-    'backbone',
+    'contrail-view',
     'knockback'
-], function (_, Backbone, Knockback) {
+], function (_, ContrailView, Knockback) {
     var prefixId = smwc.BAREMETAL_PREFIX_ID,
         modalId = 'configure-' + prefixId,
         editTemplate = contrail.getTemplate4Id(smwc.TMPL_BM_EDIT_FORM);
@@ -17,7 +17,7 @@ define([
     var baremetalInterfaces = [];
     var virtualNetworks = []
     
-    var BaremetalEditView = Backbone.View.extend({
+    var BaremetalEditView = ContrailView.extend({
         modalElementId: '#' + modalId,
         
         renderAddBaremetal: function (options) {
