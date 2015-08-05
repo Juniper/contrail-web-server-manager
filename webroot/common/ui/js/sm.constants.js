@@ -59,8 +59,8 @@ define([
         ];
 
         this.FLAGS = [
-            {'id': 'False', 'text': 'False'},
-            {'id': 'True', 'text': 'True'}
+            {'label': 'False', 'value': 'False'},
+            {'label': 'True', 'value': 'True'}
         ];
 
         this.STORAGE_SCOPE = [

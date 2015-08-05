@@ -390,60 +390,60 @@ define([
                                 viewConfig: {path: 'parameters.external_bgp', dataBindValue: 'parameters().external_bgp', class: "span6"}
                             },
                             {
-                                elementId: 'multi_tenancy', view: "FormDropdownView",
+                                elementId: 'router_asn', view: "FormInputView",
                                 app: cowc.APP_CONTRAIL_SM,
-                                viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS}}
+                                viewConfig: {path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6"}
                             }
                         ]
                     },
                     {
                         columns: [
-                            {
-                                elementId: 'router_asn', view: "FormInputView",
-                                app: cowc.APP_CONTRAIL_SM,
-                                viewConfig: {path: 'parameters.router_asn', dataBindValue: 'parameters().router_asn', class: "span6"}
-                            },
                             {
                                 elementId: 'use_certificates', view: "FormDropdownView",
                                 app: cowc.APP_CONTRAIL_SM,
                                 viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS}}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
+                            },
                             {
                                 elementId: 'database_dir', view: "FormInputView",
                                 app: cowc.APP_CONTRAIL_SM,
                                 viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
                             {
                                 elementId: 'database_minimum_diskGB', view: "FormInputView",
                                 app: cowc.APP_CONTRAIL_SM,
                                 viewConfig: {path: 'parameters.database_minimum_diskGB', dataBindValue: 'parameters().database_minimum_diskGB', class: "span6"}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
+                            },
                             {
                                 elementId: 'service_token', view: "FormInputView",
                                 app: cowc.APP_CONTRAIL_SM,
                                 viewConfig: {path: 'parameters.service_token', type: 'password', dataBindValue: 'parameters().service_token', class: "span6"}
-                            },
-                            {
-                                elementId: 'encapsulation_priority', view: "FormInputView",
-                                app: cowc.APP_CONTRAIL_SM,
-                                viewConfig: {path: 'parameters.encapsulation_priority', dataBindValue: 'parameters().encapsulation_priority', class: "span6"}
                             }
                         ]
                     },
                     {
                         columns: [
                             {
+                                elementId: 'encapsulation_priority', view: "FormInputView",
+                                app: cowc.APP_CONTRAIL_SM,
+                                viewConfig: {path: 'parameters.encapsulation_priority', dataBindValue: 'parameters().encapsulation_priority', class: "span6"}
+                            },
+                            {
                                 elementId: 'hc_interval', view: "FormInputView",
                                 app: cowc.APP_CONTRAIL_SM,
                                 viewConfig: {path: 'parameters.hc_interval', dataBindValue: 'parameters().hc_interval', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'multi_tenancy', view: "FormRadioButtonView",
+                                app: cowc.APP_CONTRAIL_SM,
+                                viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataObj: smwc.FLAGS}}
                             }
                         ]
                     }
