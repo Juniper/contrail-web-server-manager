@@ -836,6 +836,14 @@ define([
                                         {
                                             key: 'ServerInventoryInfo.mem_state.mem_type',
                                             templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'ServerInventoryInfo.mem_state.total_mem_mb',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        {
+                                            key: 'ServerInventoryInfo.mem_state.swap_size_mb',
+                                            templateGenerator: 'TextGenerator'
                                         }
                                     ]
                                 }
