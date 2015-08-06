@@ -190,6 +190,8 @@ define([
             "mem_speed_MHz": "Memory Speed (MHz)",
             "dimm_size_mb": "Dimm Size (MB)",
             "speed_Mb_per_sec": "Speed (mbps)",
+            "total_mem_mb": "Total Memory (MB)",
+            "swap_size_mb": "Swap Size (MB)",
 
             //FRU
             "board_mfg_date": "Board Manufacture Date",
