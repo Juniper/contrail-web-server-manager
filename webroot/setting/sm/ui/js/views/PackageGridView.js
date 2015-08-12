@@ -9,7 +9,6 @@ define([
     'setting/sm/ui/js/views/PackageEditView'
 ], function (_, ContrailView, PackageModel, PackageEditView) {
     var prefixId = smwc.PACKAGE_PREFIX_ID,
-        packageEditView = new PackageEditView(),
         gridElId = "#" + smwl.SM_PACKAGE_GRID_ID;
 
     var PackageGridView = ContrailView.extend({
@@ -51,7 +50,8 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     packageModel = new PackageModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')',
+                    packageEditView = new PackageEditView();
 
                 packageEditView.model = packageModel;
                 packageEditView.renderDeletePackage({"title": title, checkedRows: checkedRow, callback: function () {
@@ -69,7 +69,8 @@ define([
                 "title": smwl.TITLE_ADD_PACKAGE,
                 "iconClass": "icon-plus",
                 "onClick": function () {
-                    var packageModel = new PackageModel();
+                    var packageModel = new PackageModel(),
+                        packageEditView = new PackageEditView();
 
                     packageEditView.model = packageModel;
                     packageEditView.render({"title": smwl.TITLE_ADD_PACKAGE, callback: function () {

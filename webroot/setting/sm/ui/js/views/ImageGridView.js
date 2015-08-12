@@ -9,7 +9,6 @@ define([
     'setting/sm/ui/js/views/ImageEditView'
 ], function (_, ContrailView, ImageModel, ImageEditView) {
     var prefixId = smwc.IMAGE_PREFIX_ID,
-        imageEditView = new ImageEditView(),
         gridElId = "#" + smwl.SM_IMAGE_GRID_ID;
 
     var ImageGridView = ContrailView.extend({
@@ -51,7 +50,8 @@ define([
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     imageModel = new ImageModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DELETE_IMAGE + ' (' + dataItem['id'] + ')';
+                    title = smwl.TITLE_DELETE_IMAGE + ' (' + dataItem['id'] + ')',
+                    imageEditView = new ImageEditView();
 
                 imageEditView.model = imageModel;
                 imageEditView.renderDeleteImage({
@@ -71,7 +71,8 @@ define([
                 "title": smwl.TITLE_ADD_IMAGE,
                 "iconClass": "icon-plus",
                 "onClick": function () {
-                    var imageModel = new ImageModel();
+                    var imageModel = new ImageModel(),
+                        imageEditView = new ImageEditView();
 
                     imageEditView.model = imageModel;
                     imageEditView.render({

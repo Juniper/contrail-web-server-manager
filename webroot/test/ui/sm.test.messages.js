@@ -5,15 +5,8 @@
 define([
     'underscore'
 ], function (_) {
-    this.PACKAGE_GRID_MODULE = 'Package Grid - SM Tests';
-    this.TEST_LOAD_PACKAGES_GRID = 'Test Load Package Grid';
-    this.TEST_NO_OF_ROWS_IN_SLICKGRID_DATAVIEW = 'Test Correct Number of Rows are loaded in SlickGrid Dataview.';
-    this.TEST_ROWS_LOADED_IN_SLICKGRID_DATAVIEW = 'Test Row is loaded correctly in SlickGrid Dataview.';
-    this.TEST_SLICKGRID_DATAVIEW = 'Test SlickGrid Dataview.';
-    this.TEST_SLICKGRID_VIEW = 'Test SlickGrid View.';
-    this.TEST_ROWS_LOADED_IN_SLICKGRID_VIEW = 'Test Correct Number of Rows are loaded in SlickGrid View.';
-    this.TEST_COLS_LOADED_IN_SLICKGRID_VIEW = 'Test Correct Number of Columns in SlickGrid View.';
-    this.SM_TESTS_TITLE = '{0} - Server Manager Tests.';
+    this.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE = 'Package List view - Common Tests';
+    this.IMAGE_LIST_VIEW_COMMON_TEST_MODULE = 'Image List view - Common Tests';
 
     this.get = function () {
         var args = arguments;
@@ -23,15 +16,8 @@ define([
         });
     };
     return {
-        PACKAGE_GRID_MODULE: PACKAGE_GRID_MODULE,
-        TEST_LOAD_PACKAGES_GRID: TEST_LOAD_PACKAGES_GRID,
-        TEST_NO_OF_ROWS_IN_SLICKGRID_DATAVIEW: TEST_NO_OF_ROWS_IN_SLICKGRID_DATAVIEW,
-        TEST_ROWS_LOADED_IN_SLICKGRID_DATAVIEW: TEST_ROWS_LOADED_IN_SLICKGRID_DATAVIEW,
-        TEST_SLICKGRID_DATAVIEW: TEST_SLICKGRID_DATAVIEW,
-        TEST_SLICKGRID_VIEW: TEST_SLICKGRID_VIEW,
-        TEST_ROWS_LOADED_IN_SLICKGRID_VIEW: TEST_ROWS_LOADED_IN_SLICKGRID_VIEW,
-        TEST_COLS_LOADED_IN_SLICKGRID_VIEW: TEST_COLS_LOADED_IN_SLICKGRID_VIEW,
-        SM_TESTS_TITLE: SM_TESTS_TITLE,
+        PACKAGE_LIST_VIEW_COMMON_TEST_MODULE: PACKAGE_LIST_VIEW_COMMON_TEST_MODULE,
+        IMAGE_LIST_VIEW_COMMON_TEST_MODULE: IMAGE_LIST_VIEW_COMMON_TEST_MODULE,
         get: get
     };
 });

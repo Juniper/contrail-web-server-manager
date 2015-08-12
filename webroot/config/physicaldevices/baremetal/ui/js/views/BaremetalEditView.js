@@ -11,31 +11,25 @@ define([
         modalId = 'configure-' + prefixId,
         editTemplate = contrail.getTemplate4Id(smwc.TMPL_BM_EDIT_FORM);
 
-    var selectedBaremetal = null;
     var localVnsMap = {};
-//    var intfsMap = {};
-    var baremetalInterfaces = [];
-    var virtualNetworks = []
     
     var BaremetalEditView = ContrailView.extend({
         modalElementId: '#' + modalId,
         
         renderAddBaremetal: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
+
             //fetch the virtual networks for pupulating the dropdown
             this.model.getVirtualNetworks();
-            cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                
-            }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+            cowu.createWizardModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {}, 'onCancel': function () {
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).find('.contrailWizard').data('contrailWizard').destroy();
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model,
-                    getAddBaremetalViewConfig(that.model, options['callback']), smwc.KEY_ADD_VALIDATION);
+            self.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, getAddBaremetalViewConfig(self.model, options['callback']), smwc.KEY_ADD_VALIDATION);
             
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_SELECT_SERVER]) + cowc.FORM_SUFFIX_ID, false);
             this.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CONFIGURE_SERVER]) + cowc.FORM_SUFFIX_ID, false);
@@ -46,16 +40,17 @@ define([
         
         renderEditBaremetal: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
-            var data = options['checkedRows'];
+                data = options['checkedRows'],
+                self = this;
+
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 var vnTxt = $('#'+ cowu.formatElementId([prefixId, smwl.TITLE_EDIT_BAREMETAL_VN]) + '_dropdown').data('contrailDropdown').value();
                 var newVN = localVnsMap[vnTxt];
                 data[0]['vnData'] = newVN;
 
-                that.model.editBaremetal(data,{
+                self.model.editBaremetal(data,{
                     init: function () {
-                        that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, false);
+                        self.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -64,23 +59,23 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, error.responseText);
+                            self.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, error.responseText);
                         });
                     }
                 });
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model,
-                    getEditViewConfig(options['checkedRows']), "configureValidation");
-            //TODO: As a workaround doing get vn sepearatly for edit        
-            that.model.getVN({
+            self.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, getEditViewConfig(options['checkedRows']), "configureValidation");
+
+            //TODO: As a workaround doing get vn sepearatly for edit
+            self.model.getVN({
                 init : function() {
-                    that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, false);
+                    self.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, false);
                     //cowu.enableModalLoading(modalId);
                 },
                 success: function(res) {
@@ -98,7 +93,7 @@ define([
                 },
                 error: function(error) {
                     cowu.disableModalLoading(modalId, function () {
-                        that.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, error.responseText);
+                        self.model.showErrorAttr(prefixId + smwc.TITLE_EDIT_CONFIG, error.responseText);
                     });
                 }
             })        
@@ -110,12 +105,12 @@ define([
         
         renderReimage: function (options) {
             var editLayout = editTemplate({prefixId: prefixId}),
-                that = this;
+                self = this;
 
             cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                that.model.reimage(options['checkedRows'],{
+                self.model.reimage(options['checkedRows'],{
                     init: function () {
-                        that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
@@ -124,19 +119,19 @@ define([
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
-                            that.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
                         });
                     }
                 });
                 // TODO: Release binding on successful configure
             }, 'onCancel': function () {
-                Knockback.release(that.model, document.getElementById(modalId));
-                kbValidation.unbind(that);
+                Knockback.release(self.model, document.getElementById(modalId));
+                kbValidation.unbind(self);
                 $("#" + modalId).modal('hide');
             }});
 
-            cowu.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
-            this.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+            self.renderView4Config($("#" + modalId).find("#bm-" + prefixId + "-form"), this.model, reimageViewConfig, "configureValidation");
+            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
 
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);

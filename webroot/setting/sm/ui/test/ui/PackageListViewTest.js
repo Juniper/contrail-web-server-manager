@@ -3,49 +3,72 @@
  */
 
 define([
-    'co-test-utils',
+    'co-unit-test',
+    'sm-test-utils',
+    'sm-test-messages',
     'package-list-view-mockdata',
-    'test-slickgrid',
-    'test-messages'
-], function (TestUtils, PackageListViewMockData, SMTestSlickGrid, TestMessages) {
-    var self = this;
-    module(TestMessages.PACKAGE_GRID_MODULE, {
-        setup: function () {
-            self.server = TestUtils.getFakeServer();
+    'co-test-grid-listmodel',
+    'co-test-grid-gridview'
+], function (CUnit, smtu, smtm, PackageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
-            $.ajaxSetup({
-                cache: true
-            });
-        },
-        teardown: function () {
-            self.server.restore();
-            delete self.server;
-        }
-    });
+    var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
 
-    asyncTest(TestMessages.TEST_LOAD_PACKAGES_GRID, function (assert) {
-        expect(0);
+    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
 
-        var hashParams = { p: 'setting_sm_packages' };
-        layoutHandler.setURLHashObj(hashParams);
+    var fakeServerResponsesConfig = function () {
+        var responses = [];
 
-        contentHandler.featureAppDefObj.done(function () {
-            var fakeServer = self.server;
+        responses.push(CUnit.createFakeServerResponse({
+            url: smtu.getRegExForUrl(smwc.URL_TAG_NAMES),
+            body: JSON.stringify(PackageListViewMockData.getTagNamesData())
+        }));
+        responses.push(CUnit.createFakeServerResponse({
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('package')),
+            body: JSON.stringify(PackageListViewMockData.getSinglePackageDetailData())
+        }));
 
-            fakeServer.respondWith("GET", TestUtils.getRegExForUrl(smwc.URL_TAG_NAMES), [200, {"Content-Type": "application/json"}, JSON.stringify(PackageListViewMockData.getTagNamesData())]);
-            fakeServer.respondWith("GET", TestUtils.getRegExForUrl(smwu.getObjectDetailUrl('package')), [200, {"Content-Type": "application/json"}, JSON.stringify(PackageListViewMockData.getSinglePackageDetailData())]);
+        return responses;
+    };
+    fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
 
-            setTimeout(function() {
-                var prefixId = smwc.PACKAGE_PREFIX_ID,
-                    testConfigObj = {
-                        'prefixId': 'package',
-                        'cols': smwgc.PACKAGE_COLUMNS,
-                        'addnCols': ['detail', 'checkbox', 'actions'],
-                        'gridElId': '#' + smwl.SM_PACKAGE_GRID_ID
-                    };
-                SMTestSlickGrid.executeSlickGridTests(prefixId, PackageListViewMockData.formatMockData(PackageListViewMockData.getSinglePackageDetailData()), testConfigObj);
-                QUnit.start();
-            }, 1000)
-        });
-    });
+    var pageConfig = CUnit.getDefaultPageConfig();
+    pageConfig.hashParams = {
+        p: 'setting_sm_packages'
+    };
+    pageConfig.loadTimeout = 1000;
+
+    var getTestConfig = function () {
+        return {
+            rootView: smPageLoader.smView,
+            tests: [
+                {
+                    viewId: smwl.SM_PACKAGE_GRID_ID,
+                    suites: [
+                        {
+                            class: GridViewTestSuite,
+                            groups: ['all'],
+                            severity: cotc.SEVERITY_LOW
+                        },
+                        {
+                            class: GridListModelTestSuite,
+                            groups: ['all'],
+                            severity: cotc.SEVERITY_LOW,
+                            modelConfig: {
+                                dataGenerator: smtu.commonGridDataGenerator,
+                                dataParsers: {
+                                    mockDataParseFn: smtu.deleteSizeField,
+                                    gridDataParseFn: smtu.deleteSizeField
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+    };
+
+    var pageTestConfig = CUnit.createPageTestConfig(moduleId, fakeServerConfig, pageConfig, getTestConfig);
+
+    CUnit.testRunnerStart(pageTestConfig);
+
 });

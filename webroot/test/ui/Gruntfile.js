@@ -84,5 +84,19 @@ module.exports = function (grunt) {
             },
             files: ["Gruntfile.js"]
         },
+        sm: {
+            packages: 'packages',
+            images: 'images'
+        }
+
+    });
+
+    grunt.registerMultiTask('sm', 'Server Manager Test Cases', function () {
+        if (this.target == 'packages') {
+            grunt.task.run('karma:packages');
+
+        } else if (this.target == 'images'){
+            grunt.task.run('karma:images');
+        }
     });
 };

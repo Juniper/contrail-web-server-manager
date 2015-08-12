@@ -38,11 +38,13 @@ define([
                 $("#" + modalId).modal('hide');
             }});
 
-            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION);
-            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+            var element = $("#" + modalId).find("#" + prefixId + "-form");
 
-            Knockback.applyBindings(this.model, document.getElementById(modalId));
-            kbValidation.bind(this);
+            self.renderView4Config(element, this.model, configureViewConfig, smwc.KEY_CONFIGURE_VALIDATION, null, null, function() {
+                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                Knockback.applyBindings(self.model, document.getElementById(modalId));
+                kbValidation.bind(self);
+            });
         },
 
         renderDeletePackage: function (options) {
@@ -87,12 +89,10 @@ define([
                     columns: [
                         {
                             elementId: 'id', view: "FormInputView",
-                            app: cowc.APP_CONTRAIL_SM,
                             viewConfig: {path: "id", dataBindValue: "id", class: "span6"}
                         },
                         {
                             elementId: 'type', view: "FormDropdownView",
-                            app: cowc.APP_CONTRAIL_SM,
                             viewConfig: {path: "type", dataBindValue: "type", class: "span6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.PACKAGE_TYPES}}
                         }
                     ]
@@ -101,12 +101,10 @@ define([
                     columns: [
                         {
                             elementId: 'version', view: "FormInputView",
-                            app: cowc.APP_CONTRAIL_SM,
                             viewConfig: {path: 'version', dataBindValue: "version", class: "span6"}
                         },
                         {
                             elementId: 'path', view: "FormInputView",
-                            app: cowc.APP_CONTRAIL_SM,
                             viewConfig: {path: "path", dataBindValue: "path", class: "span6"}
                         }
                     ]

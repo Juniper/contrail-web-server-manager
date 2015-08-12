@@ -1,48 +1,70 @@
-/*
- * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
- */
 define([
-    'co-test-utils',
+    'co-unit-test',
+    'sm-test-utils',
+    'sm-test-messages',
     'image-list-view-mockdata',
-    'test-slickgrid'
-], function (TestUtils, ImageListViewMockData, SMTestSlickGrid) {
-    var self = this;
-    module('Image - Server Manager Tests', {
-        setup: function () {
-            self.server = TestUtils.getFakeServer();
+    'co-test-grid-listmodel',
+    'co-test-grid-gridview'
+], function (CUnit, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
-            $.ajaxSetup({
-                cache: true
-            });
-        },
-        teardown: function () {
-            self.server.restore();
-            delete self.server;
-        }
-    });
+    var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
 
-    asyncTest("Test Load Image ", function (assert) {
-        expect(0);
-        var hashParams = { p: 'setting_sm_images' };
-        layoutHandler.setURLHashObj(hashParams);
+    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
 
-        contentHandler.featureAppDefObj.done(function () {
-            var fakeServer = self.server;
+    var fakeServerResponsesConfig = function () {
+        var responses = [];
 
-            fakeServer.respondWith("GET", TestUtils.getRegExForUrl(smwc.URL_TAG_NAMES), [200, {"Content-Type": "application/json"}, JSON.stringify(ImageListViewMockData.getTagNamesData())]);
-            fakeServer.respondWith( "GET", TestUtils.getRegExForUrl(smwu.getObjectDetailUrl('image')), [200, {"Content-Type": "application/json"}, JSON.stringify(ImageListViewMockData.getSingleImageDetailData())]);
+        responses.push(CUnit.createFakeServerResponse({
+            url: smtu.getRegExForUrl(smwc.URL_TAG_NAMES),
+            body: JSON.stringify(ImageListViewMockData.getTagNamesData())
+        }));
+        responses.push(CUnit.createFakeServerResponse({
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('image')),
+            body: JSON.stringify(ImageListViewMockData.getSingleImageDetailData())
+        }));
 
-            setTimeout(function() {
-                var prefixId = smwc.IMAGE_PREFIX_ID,
-                    testConfigObj = {
-                        'prefixId': 'image',
-                        'cols': smwgc.IMAGE_COLUMNS,
-                        'addnCols': ['detail', 'checkbox', 'actions'],
-                        'gridElId': '#' + smwl.SM_IMAGE_GRID_ID
-                    };
-                SMTestSlickGrid.executeSlickGridTests(prefixId, ImageListViewMockData.formatMockData(ImageListViewMockData.getSingleImageDetailData()), testConfigObj);
-                QUnit.start();
-            }, 1000)
-        });
-    });
+        return responses;
+    };
+    fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
+
+    var pageConfig = CUnit.getDefaultPageConfig();
+    pageConfig.hashParams = {
+        p: 'setting_sm_images'
+    };
+    pageConfig.loadTimeout = 1000;
+
+    var getTestConfig = function () {
+        return {
+            rootView: smPageLoader.smView,
+            tests: [
+                {
+                    viewId: smwl.SM_IMAGE_GRID_ID,
+                    suites: [
+                        {
+                            class: GridViewTestSuite,
+                            groups: ['all'],
+                            severity: cotc.SEVERITY_LOW
+                        },
+                        {
+                            class: GridListModelTestSuite,
+                            groups: ['all'],
+                            severity: cotc.SEVERITY_LOW,
+                            modelConfig: {
+                                dataGenerator: smtu.commonGridDataGenerator,
+                                dataParsers: {
+                                    mockDataParseFn: smtu.deleteSizeField,
+                                    gridDataParseFn: smtu.deleteSizeField
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+    };
+
+    var pageTestConfig = CUnit.createPageTestConfig(moduleId, fakeServerConfig, pageConfig, getTestConfig);
+
+    CUnit.testRunnerStart(pageTestConfig);
+
 });

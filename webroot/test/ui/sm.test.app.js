@@ -4,47 +4,82 @@
 
 var coreBaseDir = "/base/contrail-web-core/webroot",
     smBaseDir = "/base/contrail-web-server-manager/webroot",
-    pkgBaseDir = smBaseDir;
+    pkgBaseDir = smBaseDir,
+    featurePkg = 'serverManager';
 
-require(['/base/contrail-web-core/webroot/js/core-app-utils.js'], function () {
+var smwc, smwgc, smwu, smwl, smwm, smwgc, smwmc, smwru, smwdt;
+
+require([
+    coreBaseDir + '/js/core-app-utils.js',
+    coreBaseDir + '/test/ui/js/co.test.app.utils.js'
+], function () {
     globalObj['env'] = "test";
+
     requirejs.config({
         baseUrl: smBaseDir,
-        paths: getServerManagerTestAppPaths(getCoreAppPaths(coreBaseDir)),
+        paths: getServerManagerTestAppPaths(coreBaseDir),
         map: coreAppMap,
-        shim: getServerManagerTestAppShim(coreAppShim),
+        shim: getServerManagerTestAppShim(),
         waitSeconds: 0
     });
 
-    require(['sm-test-init'], function () {});
-});
+    require(['co-test-init'], function () {
+        setFeaturePkgAndInit(featurePkg);
+    });
 
-function getServerManagerTestAppPaths(coreAppPaths) {
-    var serverManagerTestAppPathObj = {};
 
-    for (var key in coreAppPaths) {
-        if (coreAppPaths.hasOwnProperty(key)) {
-            var value = coreAppPaths[key];
-            serverManagerTestAppPathObj[key] = value;
+    function getServerManagerTestAppPaths(coreBaseDir) {
+        var serverManagerTestAppPathObj = {};
+        var coreAppPaths = getCoreAppPaths(coreBaseDir);
+        var coreTestAppPaths = getCoreTestAppPaths(coreBaseDir);
+
+        for (var key in coreAppPaths) {
+            if (coreAppPaths.hasOwnProperty(key)) {
+                var value = coreAppPaths[key];
+                serverManagerTestAppPathObj[key] = value;
+            }
         }
-    }
 
-    serverManagerTestAppPathObj ["co-test-utils"] = coreBaseDir + "/test/ui/co.test.utils";
-    serverManagerTestAppPathObj["co-test-mockdata"] = coreBaseDir + "/test/ui/co.test.mockdata";
-    serverManagerTestAppPathObj ["test-slickgrid"] = coreBaseDir + "/test/ui/slickgrid.test.common";
+        for (var key in coreTestAppPaths) {
+            if (coreTestAppPaths.hasOwnProperty(key)) {
+                var value = coreTestAppPaths[key];
+                serverManagerTestAppPathObj[key] = value;
+            }
+        }
 
-    serverManagerTestAppPathObj ["handlebars-helpers"] = smBaseDir + "/common/ui/js/handlebars.helpers";
-    serverManagerTestAppPathObj ["image-list-view-mockdata"] = smBaseDir + "/setting/sm/ui/test/ui/ImageListViewMockData";
-    serverManagerTestAppPathObj ["package-list-view-mockdata"] = smBaseDir + "/setting/sm/ui/test/ui/PackageListViewMockData";
-    serverManagerTestAppPathObj ["test-messages"] = smBaseDir + "/test/ui/sm.test.messages";
-    serverManagerTestAppPathObj["sm-test-init"] = smBaseDir + "/test/ui/sm.test.init";
+        serverManagerTestAppPathObj ["sm-test-messages"] = smBaseDir + "/test/ui/sm.test.messages";
+        serverManagerTestAppPathObj ["sm-test-utils"] = smBaseDir + "/test/ui/sm.test.utils";
 
-    return serverManagerTestAppPathObj;
-};
+        serverManagerTestAppPathObj ["handlebars-helpers"] = smBaseDir + "/common/ui/js/handlebars.helpers";
+        serverManagerTestAppPathObj ["image-list-view-mockdata"] = smBaseDir + "/setting/sm/ui/test/ui/ImageListViewMockData";
+        serverManagerTestAppPathObj ["package-list-view-mockdata"] = smBaseDir + "/setting/sm/ui/test/ui/PackageListViewMockData";
 
-function getServerManagerTestAppShim(shim) {
-    shim['handlebars-helpers'] = {
-        deps: ['jquery', 'handlebars']
+        return serverManagerTestAppPathObj;
     };
-    return shim;
-};
+
+    function getServerManagerTestAppShim() {
+
+        var smTestAppShim = {};
+
+        for (var key in coreAppShim) {
+            if (coreAppShim.hasOwnProperty(key)) {
+                var value = coreAppShim[key];
+                smTestAppShim[key] = value;
+            }
+        }
+
+        for (var key in coreTestAppShim) {
+            if (coreTestAppShim.hasOwnProperty(key)) {
+                var value = coreTestAppShim[key];
+                smTestAppShim[key] = value;
+            }
+        }
+
+        smTestAppShim['handlebars-helpers'] = {
+            deps: ['jquery', 'handlebars']
+        };
+
+        return smTestAppShim;
+    };
+
+});

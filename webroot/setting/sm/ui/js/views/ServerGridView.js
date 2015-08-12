@@ -9,8 +9,7 @@ define([
     'setting/sm/ui/js/views/ServerEditView'
 ], function (_, ContrailView, ServerModel, ServerEditView) {
     var prefixId = smwc.SERVER_PREFIX_ID,
-        gridElId = '#' + smwl.SM_SERVER_GRID_ID,
-        serverEditView = new ServerEditView();
+        gridElId = '#' + smwl.SM_SERVER_GRID_ID;
 
     var ServerGridView = ContrailView.extend({
         render: function () {
@@ -73,7 +72,8 @@ define([
                 "title": smwl.TITLE_EDIT_CONFIG,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
-                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows(),
+                        serverEditView = new ServerEditView();
 
                     serverEditView.model = serverModel;
                     serverEditView.renderConfigureServers({"title": smwl.TITLE_EDIT_CONFIG, checkedRows: checkedRows, callback: function () {
@@ -87,7 +87,8 @@ define([
                 "title": smwl.TITLE_EDIT_TAGS,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
-                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows(),
+                        serverEditView = new ServerEditView();
 
                     serverEditView.model = serverModel;
                     serverEditView.renderTagServers({
@@ -109,7 +110,8 @@ define([
                 "title": smwl.TITLE_ASSIGN_ROLES,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
-                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows(),
+                        serverEditView = new ServerEditView();
 
                     serverEditView.model = serverModel;
                     serverEditView.renderAssignRoles({"title": smwl.TITLE_ASSIGN_ROLES, "checkedRows": checkedRows, callback: function () {
@@ -125,7 +127,8 @@ define([
             divider: true,
             "onClick": function () {
                 var serverModel = new ServerModel(),
-                    checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+                    checkedRows = $(gridElId).data("contrailGrid").getCheckedRows(),
+                    serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
                 serverEditView.renderReimage({"title": smwl.TITLE_REIMAGE, checkedRows: checkedRows, callback: function () {
@@ -139,7 +142,8 @@ define([
                 "title": smwl.TITLE_PROVISION,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
-                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows();
+                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows(),
+                        serverEditView = new ServerEditView();
 
                     serverEditView.model = serverModel;
                     serverEditView.renderProvisionServers({"title": smwl.TITLE_PROVISION_SERVERS, "checkedRows": checkedRows, callback: function () {
@@ -164,7 +168,8 @@ define([
                 "title": smwl.TITLE_ADD_SERVER,
                 "iconClass": "icon-plus",
                 "onClick": function () {
-                    var serverModel = new ServerModel();
+                    var serverModel = new ServerModel(),
+                        serverEditView = new ServerEditView();
 
                     serverEditView.model = serverModel;
                     serverEditView.renderAddServer({"title": smwl.TITLE_ADD_SERVER, callback: function () {
@@ -230,7 +235,8 @@ define([
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_CONFIG + (contrail.checkIfExist(dataItem['id']) ? (' ('+ dataItem['id'] +')') : '');
+                    title = smwl.TITLE_EDIT_CONFIG + (contrail.checkIfExist(dataItem['id']) ? (' ('+ dataItem['id'] +')') : ''),
+                    serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
                 serverEditView.renderConfigure({"title": title, checkedRows: checkedRow, callback: function () {
@@ -242,7 +248,8 @@ define([
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')',
+                    serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
                 serverEditView.renderTagServers({
@@ -263,7 +270,8 @@ define([
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')',
+                    serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
                 serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
@@ -276,7 +284,8 @@ define([
             var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 checkedRow = [dataItem],
-                title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
+                title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')',
+                serverEditView = new ServerEditView();
 
             serverEditView.model = serverModel;
             serverEditView.renderReimage({"title": title, checkedRows: checkedRow, callback: function () {
@@ -288,7 +297,8 @@ define([
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')',
+                    serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
                 serverEditView.renderProvisionServers({"title": title, checkedRows: checkedRow, callback: function () {
@@ -300,7 +310,8 @@ define([
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')',
+                    serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
                 serverEditView.renderDeleteServer({"title": title, checkedRows: checkedRow, callback: function () {

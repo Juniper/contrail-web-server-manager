@@ -72,12 +72,12 @@
                         <resource>
                             <rootDir>/common/ui</rootDir>
                             <js>handlebars.helpers.js</js>
-                            <class>smLoader</class>
+                            <class>smPageLoader</class>
                         </resource>
                         <resource>
                             <rootDir>/setting/sm/ui</rootDir>
                             <template>sm.tmpl</template>
-                            <class>smLoader</class>
+                            <class>smPageLoader</class>
                         </resource>
                     </resources>
                     <items>
@@ -88,7 +88,8 @@
                                 <resource>
                                     <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
-                                    <class>clustersPageLoader</class>
+                                    <class>smPageLoader</class>
+                                    <function>renderClusters</function>
                                 </resource>
                             </resources>
                         </item>
@@ -99,7 +100,8 @@
                                 <resource>
                                     <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
-                                    <class>serversPageLoader</class>
+                                    <class>smPageLoader</class>
+                                    <function>renderServers</function>
                                 </resource>
                             </resources>
                         </item>
@@ -110,7 +112,8 @@
                                 <resource>
                                     <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
-                                    <class>imagesPageLoader</class>
+                                    <class>smPageLoader</class>
+                                    <function>renderImages</function>
                                 </resource>
                             </resources>
                         </item>
@@ -121,7 +124,8 @@
                                 <resource>
                                     <rootDir>/setting/sm/ui</rootDir>
                                     <js>sm.main.js</js>
-                                    <class>packagesPageLoader</class>
+                                    <class>smPageLoader</class>
+                                    <function>renderPackages</function>
                                 </resource>
                             </resources>
                         </item>
