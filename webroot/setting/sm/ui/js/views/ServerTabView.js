@@ -32,6 +32,7 @@ define([
                                 view: "TabsView",
                                 viewConfig: {
                                     theme: 'overcast',
+                                    active: 1,
                                     activate: function (e, ui) {
                                         var selTab = $(ui.newTab.context).text();
                                         if (selTab == smwl.TITLE_INVENTORY) {

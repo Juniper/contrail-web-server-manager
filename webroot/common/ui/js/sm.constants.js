@@ -101,7 +101,7 @@ define([
         this.SM_SERVER_MONITORING_INFO_SUMMARY_URL = '/sm/server/monitoring/info/summary?{0}';
         this.SM_SERVER_MONITORING_CONFIG_URL = '/sm/server/monitoring/config';
         this.SM_SERVER_INVENTORY_INFO_URL = '/sm/server/inventory/info?{0}';
-        this.URL_CHASSIS_ID = '/sm/chassis/ids'
+        this.URL_CHASSIS_ID = '/sm/chassis/ids';
 
         this.CACHED_TAG_COLORS = {};
         this.MONITORING_CONFIG = {};
