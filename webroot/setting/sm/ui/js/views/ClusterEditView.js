@@ -1329,7 +1329,7 @@ define([
                     columns: [
                         {
                             elementId: 'package_image_id',
-                            view: "FormDropdownView",
+                            view: "FormComboboxView",
                             viewConfig: {path: 'package_image_id', class: "span6", dataBindValue: 'package_image_id', elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                         }
                     ]
