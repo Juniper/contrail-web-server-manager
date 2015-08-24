@@ -3,12 +3,12 @@
  */
 
 define([
-    'co-unit-test',
+    'co-test-unit',
     'sm-test-utils',
     'sm-test-messages',
-    'package-list-view-mockdata',
-    'co-test-grid-listmodel',
-    'co-test-grid-gridview'
+    'package-list-view-mock-data',
+    'co-grid-contrail-list-model-test-suite',
+    'co-grid-view-test-suite'
 ], function (CUnit, smtu, smtm, PackageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
     var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
@@ -69,6 +69,6 @@ define([
 
     var pageTestConfig = CUnit.createPageTestConfig(moduleId, fakeServerConfig, pageConfig, getTestConfig);
 
-    CUnit.testRunnerStart(pageTestConfig);
+    CUnit.startTestRunner(pageTestConfig);
 
 });
