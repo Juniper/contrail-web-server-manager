@@ -8,13 +8,16 @@ function SMPageLoader() {
     this.load = function (paramObject) {
         var self = this, currMenuObj = globalObj.currMenuObj,
             hashParams = paramObject['hashParams'],
-            rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathSMView = smBaseDir + rootDir + '/js/views/ServerManagerView.js',
-            renderFn = paramObject['function'];
+            pathSMView = smBaseDir + '/setting/sm/ui/js/views/ServerManagerView.js',
+            renderFn = paramObject['function'],
+            loadingStartedDefObj = paramObject['loadingStartedDefObj'];
 
         require([pathSMView], function (ServerManagerView) {
             self.smView = new ServerManagerView();
             self.renderView(renderFn, hashParams);
+            if(contrail.checkIfExist(loadingStartedDefObj)) {
+                loadingStartedDefObj.resolve();
+            }
         });
     };
 
@@ -39,24 +42,23 @@ function SMPageLoader() {
         }
     },
 
-        this.updateViewByHash = function (currPageQueryStr, lastPageQueryStr, currMenuObj) {
-            var hash = currMenuObj['hash'],
-                renderFn;
+    this.updateViewByHash = function (currPageQueryStr, lastPageQueryStr, currMenuObj) {
+        var hash = currMenuObj['hash'],
+            renderFn;
 
-            //TODO: The renderFunction should be passed from ContentHandler
-            if (hash == "setting_sm_clusters") {
-                renderFn = 'renderClusters';
-            } else if (hash == "setting_sm_servers") {
-                renderFn = "renderServers";
-            } else if (hash == "setting_sm_images") {
-                renderFn = "renderImages";
-            } else if (hash == "setting_sm_packages") {
-                renderFn = "renderPackages";
-            }
+        //TODO: The renderFunction should be passed from ContentHandler
+        if (hash == "setting_sm_clusters") {
+            renderFn = 'renderClusters';
+        } else if (hash == "setting_sm_servers") {
+            renderFn = "renderServers";
+        } else if (hash == "setting_sm_images") {
+            renderFn = "renderImages";
+        } else if (hash == "setting_sm_packages") {
+            renderFn = "renderPackages";
+        }
 
-            this.load({hashParams: currPageQueryStr, 'function': renderFn});
-        };
-
-    this.destroy = function () {
+        this.load({hashParams: currPageQueryStr, 'function': renderFn});
     };
+
+    this.destroy = function () {};
 };

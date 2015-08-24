@@ -21,6 +21,16 @@
                             <rootDir>/common/ui</rootDir>
                             <js>handlebars.helpers.js</js>
                         </resource>
+                        <resource>
+                            <rootDir>/config/physicaldevices/baremetal/ui</rootDir>
+                            <js>baremetal.main.js</js>
+                            <view>baremetal.view</view>
+                            <class>baremetalPageLoader</class>
+                        </resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <template>sm.tmpl</template>
+                        </resource>
                     </resources>
                     <access>
                         <roles>
@@ -35,18 +45,9 @@
                         <item>
                             <label>Baremetal Servers</label>
                             <hash>config_pd_baremetal</hash>
-                            <resources>
-                                <resource>
-                                    <rootDir>/config/physicaldevices/baremetal/ui</rootDir>
-                                    <js>baremetal.main.js</js>
-                                    <view>baremetal.view</view>
-                                    <class>baremetalPageLoader</class>
-                                </resource>
-                                <resource>
-                                    <rootDir>/setting/sm/ui</rootDir>
-                                    <template>sm.tmpl</template>
-                                </resource>
-                            </resources>
+                            <loader>
+                                <class>baremetalPageLoader</class>
+                            </loader>
                         </item>
                     </items>
                 </item>
@@ -79,55 +80,44 @@
                             <template>sm.tmpl</template>
                             <class>smPageLoader</class>
                         </resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <js>sm.main.js</js>
+                            <class>smPageLoader</class>
+                        </resource>
                     </resources>
                     <items>
                         <item>
                             <hash>setting_sm_clusters</hash>
                             <label>Clusters</label>
-                            <resources>
-                                <resource>
-                                    <rootDir>/setting/sm/ui</rootDir>
-                                    <js>sm.main.js</js>
-                                    <class>smPageLoader</class>
-                                    <function>renderClusters</function>
-                                </resource>
-                            </resources>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderClusters</function>
+                            </loader>
                         </item>
                         <item>
                             <hash>setting_sm_servers</hash>
                             <label>Servers</label>
-                            <resources>
-                                <resource>
-                                    <rootDir>/setting/sm/ui</rootDir>
-                                    <js>sm.main.js</js>
-                                    <class>smPageLoader</class>
-                                    <function>renderServers</function>
-                                </resource>
-                            </resources>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderServers</function>
+                            </loader>
                         </item>
                         <item>
                             <hash>setting_sm_images</hash>
                             <label>OS Images</label>
-                            <resources>
-                                <resource>
-                                    <rootDir>/setting/sm/ui</rootDir>
-                                    <js>sm.main.js</js>
-                                    <class>smPageLoader</class>
-                                    <function>renderImages</function>
-                                </resource>
-                            </resources>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderImages</function>
+                            </loader>
                         </item>
                         <item>
                             <hash>setting_sm_packages</hash>
                             <label>Packages</label>
-                            <resources>
-                                <resource>
-                                    <rootDir>/setting/sm/ui</rootDir>
-                                    <js>sm.main.js</js>
-                                    <class>smPageLoader</class>
-                                    <function>renderPackages</function>
-                                </resource>
-                            </resources>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderPackages</function>
+                            </loader>
                         </item>
                     </items>
                 </item>

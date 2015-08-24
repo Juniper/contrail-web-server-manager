@@ -10,7 +10,6 @@ define([
             var detailTheme = contrail.checkIfExist(detailTheme) ? detailTheme : cowc.THEME_DETAIL_DEFAULT;
             return {
                 actions: contrail.handleIfNull(detailActions, []),
-                advancedViewOptions: false,
                 templateGenerator: 'ColumnSectionTemplateGenerator',
                 templateGeneratorConfig: {
                     columns: [
@@ -21,6 +20,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_OVERVIEW,
                                     theme: detailTheme,
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'id',
@@ -36,7 +36,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_OPENSTACK,
                                     theme: detailTheme,
-                                    templateGeneratorData: 'parameters',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.keystone_tenant',
@@ -74,7 +74,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_CONTRAIL_CONTROLLER,
                                     theme: detailTheme,
-                                    templateGeneratorData: 'parameters',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.encapsulation_priority',
@@ -114,7 +114,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_HA_CONFIG,
                                     theme: detailTheme,
-                                    templateGeneratorData: 'parameters',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.haproxy',
@@ -150,7 +150,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_ANALYTICS_CONFIG,
                                     theme: detailTheme,
-                                    templateGeneratorData: 'parameters',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.analytics_data_ttl',
@@ -179,7 +179,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_STATUS,
                                     theme: detailTheme,
-                                    templateGeneratorData: 'ui_added_parameters.servers_status',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'ui_added_parameters.servers_status.total_servers',
@@ -215,7 +215,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_CONTRAIL_STORAGE,
                                     theme: detailTheme,
-                                    templateGeneratorData: 'parameters',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.storage_virsh_uuid',
@@ -255,6 +255,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_SERVERS_CONFIG,
                                     theme: detailTheme,
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.domain',
@@ -298,7 +299,6 @@ define([
 
             return {
                 actions: contrail.handleIfNull(detailActions, []),
-                advancedViewOptions: false,
                 templateGenerator: 'ColumnSectionTemplateGenerator',
                 templateGeneratorConfig: {
                     columns: [
@@ -309,6 +309,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_SYSTEM_MANAGEMENT,
                                     theme: detailTheme,
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'id',
@@ -368,6 +369,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_CONTRAIL_CONTROLLER,
                                     theme: detailTheme,
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'package_image_id',
@@ -387,7 +389,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_CONTRAIL_STORAGE,
                                     theme: detailTheme,
-                                    templateGeneratorData: 'parameters',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'parameters.storage_repo_id',
@@ -412,6 +414,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_STATUS,
                                     theme: detailTheme,
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'status',
@@ -431,6 +434,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_ROLES,
                                     theme: detailTheme,
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'roles',
@@ -443,6 +447,7 @@ define([
                                     title: smwl.TITLE_TAGS,
                                     theme: detailTheme,
                                     templateGeneratorData: 'tag',
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'tag.datacenter',
@@ -515,6 +520,7 @@ define([
                                     templateGenerator: 'BlockListTemplateGenerator',
                                     title: smwl.TITLE_PROVISIONING,
                                     theme: detailTheme,
+                                    advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
                                             key: 'cluster_id',
