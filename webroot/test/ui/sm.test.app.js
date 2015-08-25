@@ -51,8 +51,8 @@ require([
         serverManagerTestAppPathObj ["sm-test-utils"] = smBaseDir + "/test/ui/sm.test.utils";
 
         serverManagerTestAppPathObj ["handlebars-helpers"] = smBaseDir + "/common/ui/js/handlebars.helpers";
-        serverManagerTestAppPathObj ["image-list-view-mockdata"] = smBaseDir + "/setting/sm/ui/test/ui/ImageListViewMockData";
-        serverManagerTestAppPathObj ["package-list-view-mockdata"] = smBaseDir + "/setting/sm/ui/test/ui/PackageListViewMockData";
+        serverManagerTestAppPathObj ["image-list-view-mock-data"] = smBaseDir + "/setting/sm/ui/test/ui/ImageListView.mock.data";
+        serverManagerTestAppPathObj ["package-list-view-mock-data"] = smBaseDir + "/setting/sm/ui/test/ui/PackageListView.mock.data";
 
         return serverManagerTestAppPathObj;
     };
