@@ -104,12 +104,14 @@ define([
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddClusterViewConfig(self.model, options['callback']), smwc.KEY_ADD_VALIDATION, null, null, function() {
-                self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + cowc.FORM_SUFFIX_ID, false);
-                self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
-                self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
-                self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self.model, document.getElementById(modalId));
-                kbValidation.bind(self);
+                if (!contrail.checkIfKnockoutBindingExist(modalId)) {
+                    self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_CREATE_CONFIG]) + cowc.FORM_SUFFIX_ID, false);
+                    self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + smwc.FORM_SUFFIX_ID, false);
+                    self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ASSIGN_ROLES, smwl.TITLE_SELECT_SERVERS]) + smwc.FORM_SUFFIX_ID, false);
+                    self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_EDIT_CONFIG]) + cowc.FORM_SUFFIX_ID, false);
+                    Knockback.applyBindings(self.model, document.getElementById(modalId));
+                    kbValidation.bind(self);
+                }
             });
         },
 
@@ -168,9 +170,11 @@ define([
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getAddServerViewConfig(self.model, true, options['callback']), null, null, null, function() {
-                self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self.model, document.getElementById(modalId));
-                kbValidation.bind(self);
+                if (!contrail.checkIfKnockoutBindingExist(modalId)) {
+                    self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
+                    Knockback.applyBindings(self.model, document.getElementById(modalId));
+                    kbValidation.bind(self);
+                }
             });
         },
 
@@ -212,10 +216,11 @@ define([
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getRemoveServerViewConfig(self.model, callbackObj), null, null, null, function() {
-                self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self.model, document.getElementById(modalId));
-                kbValidation.bind(self);
-
+                if (!contrail.checkIfKnockoutBindingExist(modalId)) {
+                    self.model.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_REMOVE_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, false);
+                    Knockback.applyBindings(self.model, document.getElementById(modalId));
+                    kbValidation.bind(self);
+                }
             });
         },
 
@@ -762,7 +767,7 @@ define([
                                         clusterModel.showErrorAttr(cowu.formatElementId([prefixId, smwl.TITLE_ADD_SERVERS, smwl.TITLE_ADD_TO_CLUSTER]) + cowc.FORM_SUFFIX_ID, error.responseText);
                                     });
                                 }
-                            }
+                            };
                             return params.model.addServer(currentSelectedServers, callbackObj);
                         }
                     }
