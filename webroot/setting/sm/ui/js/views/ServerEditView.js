@@ -517,6 +517,7 @@ define([
                                 },
                                 {
                                     elementId: 'control_data_interface',
+                                    // TODO: Don't use FormSelect2DropdownView
                                     view: "FormSelect2DropdownView",
                                     viewConfig: {
                                         path: 'contrail.control_data_interface',

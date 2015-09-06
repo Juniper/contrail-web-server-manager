@@ -31,7 +31,6 @@ define([
                         callbackObj.init();
                     }
                 }, function (response) {
-                    console.log(response);
                     if (contrail.checkIfFunction(callbackObj.success)) {
                         callbackObj.success();
                     }
@@ -58,7 +57,6 @@ define([
                     callbackObj.init();
                 }
             }, function (response) {
-                console.log(response);
                 if (contrail.checkIfFunction(callbackObj.success)) {
                     callbackObj.success();
                 }

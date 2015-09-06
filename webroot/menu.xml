@@ -24,7 +24,7 @@
                         <resource>
                             <rootDir>/config/physicaldevices/baremetal/ui</rootDir>
                             <js>baremetal.main.js</js>
-                            <view>baremetal.view</view>
+                            <template>baremetal.tmpl</template>
                             <class>baremetalPageLoader</class>
                         </resource>
                         <resource>

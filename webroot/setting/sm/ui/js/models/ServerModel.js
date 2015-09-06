@@ -8,7 +8,7 @@ define([
     'knockout',
     'contrail-model',
     'setting/sm/ui/js/models/InterfacesModel',
-    'setting/sm/ui/js/models/DisksModel',
+    'setting/sm/ui/js/models/DisksModel'
 ], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, DiskModel) {
     var ServerModel = ContrailModel.extend({
 
@@ -131,13 +131,12 @@ define([
                  ajaxConfig.type = "PUT";
                  ajaxConfig.data = JSON.stringify(putData);
                  ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
-                console.log(ajaxConfig);
+
                 contrail.ajaxHandler(ajaxConfig, function () {
                     if (contrail.checkIfFunction(callbackObj.init)) {
                         callbackObj.init();
                     }
                 }, function (response) {
-                    console.log(response);
                     if (contrail.checkIfFunction(callbackObj.success)) {
                         callbackObj.success();
                     }
@@ -179,13 +178,12 @@ define([
             ajaxConfig.type = "PUT";
             ajaxConfig.data = JSON.stringify(putData);
             ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
-            console.log(ajaxConfig);
+
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
                     callbackObj.init();
                 }
             }, function (response) {
-                console.log(response);
                 if (contrail.checkIfFunction(callbackObj.success)) {
                     callbackObj.success();
                 }
@@ -222,14 +220,11 @@ define([
                 ajaxConfig.data = JSON.stringify(putData);
                 ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
 
-                console.log(ajaxConfig);
-
                 contrail.ajaxHandler(ajaxConfig, function () {
                     if (contrail.checkIfFunction(callbackObj.init)) {
                         callbackObj.init();
                     }
                 }, function (response) {
-                    console.log(response);
                     if (contrail.checkIfFunction(callbackObj.success)) {
                         callbackObj.success();
                     }
@@ -261,13 +256,12 @@ define([
                 ajaxConfig.type = "PUT";
                 ajaxConfig.data = JSON.stringify(putData);
                 ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
-                console.log(ajaxConfig);
+
                 contrail.ajaxHandler(ajaxConfig, function () {
                     if (contrail.checkIfFunction(callbackObj.init)) {
                         callbackObj.init();
                     }
                 }, function (response) {
-                    console.log(response);
                     if (contrail.checkIfFunction(callbackObj.success)) {
                         callbackObj.success();
                     }
@@ -312,13 +306,12 @@ define([
                     ajaxConfig.type = "PUT";
                     ajaxConfig.data = JSON.stringify(putData);
                     ajaxConfig.url = smwu.getObjectUrl(smwc.SERVER_PREFIX_ID);
-                    console.log(ajaxConfig);
+
                     contrail.ajaxHandler(ajaxConfig, function () {
                         if (contrail.checkIfFunction(callbackObj.init)) {
                             callbackObj.init();
                         }
                     }, function (response) {
-                        console.log(response);
                         if (contrail.checkIfFunction(callbackObj.success)) {
                             callbackObj.success();
                         }
@@ -353,13 +346,12 @@ define([
                 ajaxConfig.data = JSON.stringify(putData);
                 ajaxConfig.timeout = smwc.TIMEOUT;
                 ajaxConfig.url = smwc.URL_SERVER_REIMAGE;
-                console.log(ajaxConfig);
+
                 contrail.ajaxHandler(ajaxConfig, function () {
                     if (contrail.checkIfFunction(callbackObj.init)) {
                         callbackObj.init();
                     }
                 }, function (response) {
-                    console.log(response);
                     if (contrail.checkIfFunction(callbackObj.success)) {
                         callbackObj.success();
                     }
@@ -391,13 +383,12 @@ define([
                 ajaxConfig.data = JSON.stringify(putData);
                 ajaxConfig.timeout = smwc.TIMEOUT;
                 ajaxConfig.url = smwc.URL_SERVER_PROVISION;
-                console.log(ajaxConfig);
+
                 contrail.ajaxHandler(ajaxConfig, function () {
                     if (contrail.checkIfFunction(callbackObj.init)) {
                         callbackObj.init();
                     }
                 }, function (response) {
-                    console.log(response);
                     if (contrail.checkIfFunction(callbackObj.success)) {
                         callbackObj.success();
                     }
@@ -423,7 +414,6 @@ define([
                     callbackObj.init();
                 }
             }, function (response) {
-                console.log(response);
                 if (contrail.checkIfFunction(callbackObj.success)) {
                     callbackObj.success();
                 }

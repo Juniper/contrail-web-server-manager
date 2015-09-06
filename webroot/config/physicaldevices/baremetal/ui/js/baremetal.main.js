@@ -3,11 +3,10 @@
  */
 
 var baremetalPageLoader = new BaremetalPageLoader();
+
 function BaremetalPageLoader() {
     this.load = function (paramObject) {
-        var currMenuObj = globalObj.currMenuObj,
-            rootDir = currMenuObj['resources']['resource'][0]['rootDir'],
-            pathBaremetalView = rootDir + '/js/views/BaremetalView.js',
+        var pathBaremetalView = smBaseDir + '/config/physicaldevices/baremetal/ui/js/views/BaremetalView.js',
             hashParams = paramObject['hashParams'];
 
         requirejs([pathBaremetalView], function (BaremetalView) {
