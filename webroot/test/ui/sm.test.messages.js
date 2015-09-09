@@ -6,6 +6,8 @@ define([
     'underscore'
 ], function (_) {
     this.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE = 'Package List view - Common Tests';
+    this.CLUSTER_LIST_VIEW_COMMON_TEST_MODULE = 'Cluster List view - Common Tests';
+    this.SERVER_LIST_VIEW_COMMON_TEST_MODULE = 'Server List view - Common Tests';
     this.IMAGE_LIST_VIEW_COMMON_TEST_MODULE = 'Image List view - Common Tests';
 
     this.get = function () {
@@ -17,6 +19,8 @@ define([
     };
     return {
         PACKAGE_LIST_VIEW_COMMON_TEST_MODULE: PACKAGE_LIST_VIEW_COMMON_TEST_MODULE,
+        CLUSTER_LIST_VIEW_COMMON_TEST_MODULE: CLUSTER_LIST_VIEW_COMMON_TEST_MODULE,
+        SERVER_LIST_VIEW_COMMON_TEST_MODULE: SERVER_LIST_VIEW_COMMON_TEST_MODULE,
         IMAGE_LIST_VIEW_COMMON_TEST_MODULE: IMAGE_LIST_VIEW_COMMON_TEST_MODULE,
         get: get
     };

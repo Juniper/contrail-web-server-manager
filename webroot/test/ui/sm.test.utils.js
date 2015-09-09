@@ -9,8 +9,15 @@ define([
     this.getRegExForUrl = function (url) {
         var regexUrlMap = {
             '/sm/tags/names': /\/sm\/tags\/names.*$/,
+            '/sm/tags/values/': /\/sm\/tags\/values.*$/,
+
             '/sm/objects/details/image': /\/sm\/objects\/details\/image\?.*$/,
-            '/sm/objects/details/package': /\/sm\/objects\/details\/image\?.*$/
+            '/sm/objects/details/package': /\/sm\/objects\/details\/image\?.*$/,
+            '/sm/objects/details/cluster': /\/sm\/objects\/details\/cluster\?.*$/,
+            '/sm/objects/details/server': /\/sm\/objects\/details\/server\?.*$/,
+
+            '/sm/server/monitoring/config': /\/sm\/server\/monitoring\/config\?.*$/,
+            '/sm/server/monitoring/info/summary': /\/sm\/server\/monitoring\/info\/summary\?.*$/
         };
 
         return regexUrlMap [url];
@@ -31,12 +38,85 @@ define([
         });
         return dataArr;
     };
+    this.deleteFieldsForClusterScatterChart = function (dataArr) {
+        _.each(dataArr, function(data) {
+            if (contrail.checkIfExist(data.interface_rt_bytes)) {
+                delete data.interface_rt_bytes;
+            }
+            if (contrail.checkIfExist(data.max_cpu_usage_percentage)) {
+                delete data.max_cpu_usage_percentage;
+            }
+            if (contrail.checkIfExist(data.max_mem_usage_percentage)) {
+                delete data.max_mem_usage_percentage;
+            }
+            if (contrail.checkIfExist(data.total_disk_rw_bytes)) {
+                delete data.total_disk_rw_bytes;
+            }
+        });
+        return dataArr;
+    };
+
+    this.deleteFieldsForServerScatterChart = function (dataArr) {
+        _.each(dataArr, function(data) {
+            if (contrail.checkIfExist(data.cpu_usage_percentage)) {
+                delete data.cpu_usage_percentage;
+            }
+            if (contrail.checkIfExist(data.interface_rt_bytes)) {
+                delete data.interface_rt_bytes;
+            }
+            if (contrail.checkIfExist(data.interface_rx_bytes)) {
+                delete data.interface_rx_bytes;
+            }
+            if (contrail.checkIfExist(data.interface_rx_packets)) {
+                delete data.interface_rx_packets;
+            }
+            if (contrail.checkIfExist(data.interface_tx_bytes)) {
+                delete data.interface_tx_bytes;
+            }
+            if (contrail.checkIfExist(data.interface_tx_packets)) {
+                delete data.interface_tx_packets;
+            }
+            if (contrail.checkIfExist(data.mem_usage_mb)) {
+                delete data.mem_usage_mb;
+            }
+            if (contrail.checkIfExist(data.mem_usage_percentage)) {
+                delete data.mem_usage_percentage;
+            }
+            if (contrail.checkIfExist(data.rawMonitoringData)) {
+                delete data.rawMonitoringData;
+            }
+            if (contrail.checkIfExist(data.size)) {
+                delete data.size;
+            }
+            if (contrail.checkIfExist(data.top_of_rack)) {
+                delete data.top_of_rack;
+            }
+            if (contrail.checkIfExist(data.total_disk_read_bytes)) {
+                delete data.total_disk_read_bytes;
+            }
+            if (contrail.checkIfExist(data.total_disk_rw_bytes)) {
+                delete data.total_disk_rw_bytes;
+            }
+            if (contrail.checkIfExist(data.total_disk_write_bytes)) {
+                delete data.total_disk_write_bytes;
+            }
+            if (contrail.checkIfExist(data.x)) {
+                delete data.x;
+            }
+            if (contrail.checkIfExist(data.y)) {
+                delete data.y;
+            }
+        });
+        return dataArr;
+    };
 
     return {
         self: self,
         getRegExForUrl: getRegExForUrl,
         commonGridDataGenerator: commonGridDataGenerator,
-        deleteSizeField: deleteSizeField
+        deleteSizeField: deleteSizeField,
+        deleteFieldsForClusterScatterChart: deleteFieldsForClusterScatterChart,
+        deleteFieldsForServerScatterChart: deleteFieldsForServerScatterChart
     };
 
 });
