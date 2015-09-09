@@ -48,6 +48,17 @@ define([
                 'name': {
                     required: true,
                     msg: smwm.getRequiredMessage('name')
+                },
+                'default_gateway': {
+                    required: function(value, attr, computedState){
+                        if(contrail.checkIfExist(computedState.dhcp) && (computedState.dhcp)){
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    },
+                    pattern: cowc.PATTERN_IP_ADDRESS,
+                    msg: smwm.getShortInvalidErrorMessage('gateway')
                 }
             },
             subinterfaceValidation: {

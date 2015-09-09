@@ -125,7 +125,7 @@ define([
                 "mac_address" : null,
                 "default_gateway" : null,
                 "dhcp" : null,
-                "members": [],
+                "member_interfaces": [],
                 "tor" : null,
                 "tor_port" : null,
                 "parent": ""

@@ -411,10 +411,11 @@ define([
                                         validation: 'bondValidation',
                                         collection: "filterInterfaces('bond')",
                                         columns: [
-                                            {elementId: 'name', name: 'Name', view: "GridInputView", class: "", width: 200, viewConfig: {path: "name", dataBindValue: "name()"}},
-                                            {elementId: 'ip_address', name: 'IP/Mask', view: "GridInputView", class: "", width: 155, viewConfig: {path: "ip_address", dataBindValue: "ip_address()"}},
+                                            {elementId: 'name', name: 'Name', view: "GridInputView", class: "", width: 150, viewConfig: {path: "name", dataBindValue: "name()"}},
+                                            {elementId: 'ip_address', name: 'IP/Mask', view: "GridInputView", class: "", width: 150, viewConfig: {path: "ip_address", dataBindValue: "ip_address()"}},
+                                            {elementId: 'default_gateway', name: 'Gateway', view: "GridInputView", class: "", width: 150, viewConfig: {path: "default_gateway", dataBindValue: "default_gateway()"}},
                                             {elementId: 'dhcp', name: 'DHCP', view: "GridCheckboxView", class: "", width: 50, viewConfig: {path: "dhcp", dataBindValue: "dhcp()"}},
-                                            {elementId: 'members', name: 'Members', view: "GridMultiselectView", class: "", width: 300, viewConfig: {path: 'members', dataBindValue: 'members()', width: 300, elementConfig: {placeholder: smwl.SELECT_MEMBERS, data: '$root.getMemberInterfaces()'}}}
+                                            {elementId: 'member_interfaces', name: 'Members', view: "GridMultiselectView", class: "", width: 200, viewConfig: {path: 'member_interfaces', dataBindValue: 'member_interfaces()', width: 250, elementConfig: {placeholder: smwl.SELECT_MEMBERS, data: '$root.getMemberInterfaces()'}}}
                                         ],
                                         rowActions: [
                                             {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'icon-minus'}
