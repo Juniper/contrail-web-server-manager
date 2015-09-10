@@ -426,7 +426,7 @@ define([
         },
         addInterface: function(type) {
             var interfaces = this.model().attributes['interfaces'],
-                newInterface = new InterfaceModel({name: "", type: type, "ip_address" : "", "mac_address" : "", "default_gateway" : "", "dhcp" : true, members: [], "tor" : "", "tor_port" : ""});
+                newInterface = new InterfaceModel({name: "", type: type, "ip_address" : "", "mac_address" : "", "default_gateway" : "", "dhcp" : true, member_interfaces: [], "tor" : "", "tor_port" : ""});
 
             interfaces.add([newInterface]);
         },
