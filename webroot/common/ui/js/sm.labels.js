@@ -262,6 +262,7 @@ define([
         this.SELECT_CLUSTER = 'Select Cluster';
         this.SELECT_TYPE = 'Select Type';
         this.SELECT_PARENT_INTERFACE = 'Select Parent';
+        this.SELECT_MEMBERS = 'Select Members';
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
         this.TITLE_DEL_CLUSTER = 'Delete Cluster';
         this.TITLE_DEL_CLUSTERS = 'Delete Clusters';

@@ -12,7 +12,7 @@ define([
         editTemplate = contrail.getTemplate4Id(smwc.TMPL_BM_EDIT_FORM);
 
     var localVnsMap = {};
-    
+
     var BaremetalEditView = ContrailView.extend({
         modalElementId: '#' + modalId,
         
@@ -347,32 +347,34 @@ define([
                                             {
                                                 elementId : 'baremetal_interface',
                                                 name : 'Baremetal Interface',
-                                                view : "GridDropdownView",
+                                                view : "FormDropdownView",
                                                 class : "",
                                                 width : 200,
                                                 viewConfig : {
+                                                    templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW,
                                                     path : 'baremetal_interface',
                                                     dataBindValue : 'baremetal_interface()',
+                                                    dataBindOptionList : '$root.getBaremetalInterfaces()',
                                                     width : 200,
                                                     elementConfig : {
-                                                        placeholder : 'Select baremetal interface',
-                                                        data : '$root.getBaremetalInterfaces()'
+                                                        placeholder : 'Select baremetal interface'
                                                     }
                                                 }
                                             },
                                             {
                                                 elementId : 'vn',
                                                 name : 'Virtual Network',
-                                                view : "GridDropdownView",
+                                                view : "FormDropdownView",
                                                 class : "",
                                                 width : 500,
                                                 viewConfig : {
+                                                    templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW,
                                                     path : 'vn',
                                                     dataBindValue : 'vn()',
+                                                    dataBindOptionList : '$root.populateVirtualNetworks()',
                                                     width : 500,
                                                     elementConfig : {
-                                                        placeholder : 'Select Virtual Network',
-                                                        data : '$root.populateVirtualNetworks()'
+                                                        placeholder : 'Select Virtual Network'
                                                     }
                                                 }
                                             }

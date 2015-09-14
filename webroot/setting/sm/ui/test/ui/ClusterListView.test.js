@@ -7,7 +7,6 @@ define([
     'co-grid-view-test-suite'
 ], function (CUnit, smtu, smtm, ClusterListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
-    console.log('in the CLUSTER list view test');
     var moduleId = smtm.CLUSTER_LIST_VIEW_COMMON_TEST_MODULE;
 
     var fakeServerConfig = CUnit.getDefaultFakeServerConfig();

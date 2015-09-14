@@ -403,13 +403,33 @@ define([
                                         validation: 'physicalValidation',
                                         collection: "filterInterfaces('physical')",
                                         columns: [
-                                            {elementId: 'name', name: 'Name', view: "GridInputView", class: "", width: 170, viewConfig: {path: "name", dataBindValue: "name()"}},
-                                            {elementId: 'ip_address', name: 'IP/MAsk', view: "GridInputView", class: "", width: 155, viewConfig: {path: "ip_address", dataBindValue: "ip_address()"}},
-                                            {elementId: 'mac_address', name: 'MAC Address', view: "GridInputView", class: "", width: 160, viewConfig: {path: "mac_address", dataBindValue: "mac_address()"}},
-                                            {elementId: 'default_gateway', name: 'Gateway', view: "GridInputView", class: "", width: 130, viewConfig: {path: "default_gateway", dataBindValue: "default_gateway()"}},
-                                            {elementId: 'dhcp', name: 'DHCP', view: "GridCheckboxView", class: "", width: 50, viewConfig: {path: "dhcp", dataBindValue: "dhcp()"}},
-                                            {elementId: 'tor', name: 'TOR', view: "GridInputView", class: "", width: 130, viewConfig: {path: "tor", dataBindValue: "tor()"}},
-                                            {elementId: 'tor_port', name: 'TOR Port', view: "GridInputView", class: "", width: 70, viewConfig: {path: "tor_port", dataBindValue: "tor_port()"}}
+                                            {
+                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "", width: 170,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "name", dataBindValue: "name()"}
+                                            },
+                                            {
+                                                elementId: 'ip_address', name: 'IP/MAsk', view: "FormInputView", class: "", width: 155,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "ip_address", dataBindValue: "ip_address()"}
+                                            },
+                                            {
+                                                elementId: 'mac_address', name: 'MAC Address', view: "FormInputView", class: "", width: 160,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "mac_address", dataBindValue: "mac_address()"}
+                                            },
+                                            {
+                                                elementId: 'default_gateway', name: 'Gateway', view: "FormInputView", class: "", width: 130,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "default_gateway", dataBindValue: "default_gateway()"}
+                                            },
+                                            {
+                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width: 50,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, path: "dhcp", dataBindValue: "dhcp()"}},
+                                            {
+                                                elementId: 'tor', name: 'TOR', view: "FormInputView", class: "", width: 130,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "tor", dataBindValue: "tor()"}
+                                            },
+                                            {
+                                                elementId: 'tor_port', name: 'TOR Port', view: "FormInputView", class: "", width: 70,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "tor_port", dataBindValue: "tor_port()"}
+                                            }
                                         ],
                                         rowActions: [
                                             {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'icon-minus'}
@@ -440,11 +460,28 @@ define([
                                         validation: 'bondValidation',
                                         collection: "filterInterfaces('bond')",
                                         columns: [
-                                            {elementId: 'name', name: 'Name', view: "GridInputView", class: "", width: 150, viewConfig: {path: "name", dataBindValue: "name()"}},
-                                            {elementId: 'ip_address', name: 'IP/Mask', view: "GridInputView", class: "", width: 150, viewConfig: {path: "ip_address", dataBindValue: "ip_address()"}},
-                                            {elementId: 'default_gateway', name: 'Gateway', view: "GridInputView", class: "", width: 150, viewConfig: {path: "default_gateway", dataBindValue: "default_gateway()"}},
-                                            {elementId: 'dhcp', name: 'DHCP', view: "GridCheckboxView", class: "", width: 50, viewConfig: {path: "dhcp", dataBindValue: "dhcp()"}},
-                                            {elementId: 'member_interfaces', name: 'Members', view: "GridMultiselectView", class: "", width: 200, viewConfig: {path: 'member_interfaces', dataBindValue: 'member_interfaces()', width: 250, elementConfig: {placeholder: smwl.SELECT_MEMBERS, data: '$root.getMemberInterfaces()'}}}
+                                            {
+                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "", width: 200,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "name", dataBindValue: "name()"}
+                                            },
+                                            {
+                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "", width: 155,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "ip_address", dataBindValue: "ip_address()"}
+                                            },
+                                            {
+                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width: 50,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, path: "dhcp", dataBindValue: "dhcp()"}
+                                            },
+                                            {
+                                                elementId: 'member_interfaces', name: 'Members', view: "FormMultiselectView", class: "", width: 300,
+                                                viewConfig: {
+                                                    templateId: cowc.TMPL_EDITABLE_GRID_MULTISELECT_VIEW,
+                                                    path: 'member_interfaces', width: 300,
+                                                    dataBindValue: 'member_interfaces()',
+                                                    dataBindOptionList: '$root.getMemberInterfaces()',
+                                                    elementConfig: {placeholder: smwl.SELECT_MEMBERS}
+                                                }
+                                            }
                                         ],
                                         rowActions: [
                                             {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'icon-minus'}
@@ -475,15 +512,26 @@ define([
                                         validation: 'subinterfaceValidation',
                                         collection: "filterInterfaces('subinterface')",
                                         columns: [
-                                            {elementId: 'name', name: 'Name', view: "GridInputView", class: "", width: 200, viewConfig: {path: "name", dataBindValue: "name()"}},
-                                            {elementId: 'ip_address', name: 'IP/Mask', view: "GridInputView", class: "", width: 155, viewConfig: {path: "ip_address", dataBindValue: "ip_address()"}},
-                                            {elementId: 'dhcp', name: 'DHCP', view: "GridCheckboxView", class: "", width:50, viewConfig: {path: "dhcp", dataBindValue: "dhcp()"}},
                                             {
-                                                elementId: 'parent', name: 'Parent Interface', view: "GridDropdownView", class: "", width: 200,
+                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "", width: 200,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "name", dataBindValue: "name()"}
+                                            },
+                                            {
+                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "", width: 155,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "ip_address", dataBindValue: "ip_address()"}
+                                            },
+                                            {
+                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width:50,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, path: "dhcp", dataBindValue: "dhcp()"}
+                                            },
+                                            {
+                                                elementId: 'parent', name: 'Parent Interface', view: "FormDropdownView", class: "", width: 200,
                                                 viewConfig: {
-                                                    path: 'parent', dataBindValue: 'parent()', width: 200, elementConfig: {
-                                                        placeholder: smwl.SELECT_PARENT_INTERFACE, data: '$root.getParentInterfaces()'
-                                                    }
+                                                    templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW,
+                                                    path: 'parent', width: 200,
+                                                    dataBindValue: 'parent()',
+                                                    dataBindOptionList: '$root.getParentInterfaces()',
+                                                    elementConfig: {placeholder: smwl.SELECT_PARENT_INTERFACE}
                                                 }
                                             }
                                         ],
@@ -518,15 +566,14 @@ define([
                                 },
                                 {
                                     elementId: 'control_data_interface',
-                                    // TODO: Don't use FormSelect2DropdownView
-                                    view: "FormSelect2DropdownView",
+                                    view: "FormDropdownView",
                                     viewConfig: {
                                         path: 'contrail.control_data_interface',
                                         dataBindValue: 'contrail().control_data_interface',
+                                        dataBindOptionList: '$root.getControlDataInterfaces()',
                                         class: "span6",
                                         elementConfig: {
                                             placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE,
-                                            data: '$root.getControlDataInterfaces()'
                                         }
                                     }
                                 }
@@ -574,7 +621,10 @@ define([
                                         validation: '',
                                         collection: "getStorageDisks()",
                                         columns: [
-                                            {elementId: 'disk', name: 'Storage Disks', view: "GridInputView", class: "", width: 800, viewConfig: {path: "disk", dataBindValue: "disk()"}}
+                                            {
+                                                elementId: 'disk', name: 'Storage Disks', view: "FormInputView", class: "", width: 800,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "disk", dataBindValue: "disk()"}
+                                            }
                                         ],
                                         rowActions: [
                                             {onClick: "function() { $root.deleteDisk($data, this); }", iconClass: 'icon-minus'}
@@ -646,11 +696,13 @@ define([
                                 },
                                 {
                                     elementId: 'management_interface',
-                                    view: "FormSelect2DropdownView",
+                                    view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'network.management_interface', dataBindValue: 'network().management_interface', class: "span6",
+                                        path: 'network.management_interface', class: "span6",
+                                        dataBindValue: 'network().management_interface',
+                                        dataBindOptionList: '$root.getManagementInterfaces()',
                                         elementConfig: {
-                                            placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE, dataTextField: "id", dataValueField: "id", data: '$root.getManagementInterfaces()',
+                                            placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE, dataTextField: "id", dataValueField: "id",
                                             multiple: false
                                         }
                                     }
