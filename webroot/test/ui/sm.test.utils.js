@@ -3,8 +3,9 @@
  */
 define([
     'co-test-utils',
-    'contrail-list-model'
-], function (cotu, ContrailListModel) {
+    'contrail-list-model',
+    'contrail-view-model'
+], function (cotu, ContrailListModel, ContrailViewModel) {
 
     this.getRegExForUrl = function (url) {
         var regexUrlMap = {
@@ -17,7 +18,10 @@ define([
             '/sm/objects/details/server': /\/sm\/objects\/details\/server\?.*$/,
 
             '/sm/server/monitoring/config': /\/sm\/server\/monitoring\/config\?.*$/,
-            '/sm/server/monitoring/info/summary': /\/sm\/server\/monitoring\/info\/summary\?.*$/
+            '/sm/server/monitoring/info/summary': /\/sm\/server\/monitoring\/info\/summary\?.*$/,
+
+             '/sm/server/monitoring/info': /\/sm\/server\/monitoring\/info\?.*$/,
+             '/sm/server/inventory/info': /\/sm\/server\/inventory\/info\?.*$/,
         };
 
         return regexUrlMap [url];
@@ -30,6 +34,29 @@ define([
         return contrailListModel;
     };
 
+    this.commonDetailsDataGenerator = function (viewObj, defObj) {
+        var viewConfig = cotu.getViewConfigObj(viewObj),
+            modelMap = viewObj.modelMap,
+            modelData = viewConfig.data,
+            ajaxConfig = viewConfig.ajaxConfig,
+            dataParser = viewConfig.dataParser,
+            contrailViewModel;
+
+        if (modelMap != null && modelMap[viewConfig.modelKey] != null) {
+            contrailViewModel = modelMap[viewConfig.modelKey];
+            defObj.resolve();
+        } else {
+            var modelRemoteDataConfig = {
+                remote: {
+                    ajaxConfig: ajaxConfig,
+                    dataParser: dataParser
+                }
+            };
+            contrailViewModel = new ContrailViewModel($.extend(true, {data: modelData}, modelRemoteDataConfig));
+        }
+        return contrailViewModel;
+    }
+
     this.deleteSizeField = function (dataArr) {
         _.each(dataArr, function (data) {
             if (contrail.checkIfExist(data.size)) {
@@ -38,8 +65,9 @@ define([
         });
         return dataArr;
     };
+
     this.deleteFieldsForClusterScatterChart = function (dataArr) {
-        _.each(dataArr, function(data) {
+        _.each(dataArr, function (data) {
             if (contrail.checkIfExist(data.interface_rt_bytes)) {
                 delete data.interface_rt_bytes;
             }
@@ -57,7 +85,7 @@ define([
     };
 
     this.deleteFieldsForServerScatterChart = function (dataArr) {
-        _.each(dataArr, function(data) {
+        _.each(dataArr, function (data) {
             if (contrail.checkIfExist(data.cpu_usage_percentage)) {
                 delete data.cpu_usage_percentage;
             }
@@ -111,12 +139,13 @@ define([
     };
 
     return {
-        self: self,
-        getRegExForUrl: getRegExForUrl,
-        commonGridDataGenerator: commonGridDataGenerator,
-        deleteSizeField: deleteSizeField,
+        self                              : self,
+        getRegExForUrl                    : getRegExForUrl,
+        commonGridDataGenerator           : commonGridDataGenerator,
+        commonDetailsDataGenerator        : commonDetailsDataGenerator,
+        deleteSizeField                   : deleteSizeField,
         deleteFieldsForClusterScatterChart: deleteFieldsForClusterScatterChart,
-        deleteFieldsForServerScatterChart: deleteFieldsForServerScatterChart
+        deleteFieldsForServerScatterChart : deleteFieldsForServerScatterChart
     };
 
 });
