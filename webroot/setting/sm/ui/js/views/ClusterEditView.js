@@ -363,8 +363,44 @@ define([
                     {
                         columns: [
                             {
+                                elementId: 'keystone_service_token', view: "FormInputView",
+                                viewConfig: {path: 'parameters.keystone_service_token', dataBindValue: 'parameters().keystone_service_token', class: "span6"}
+                            },
+                            {
                                 elementId: 'keystone_region_name', view: "FormInputView",
                                 viewConfig: {path: 'parameters.keystone_region_name', dataBindValue: 'parameters().keystone_region_name', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'enable_ceilometer', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.enable_ceilometer', dataBindValue: 'parameters().enable_ceilometer', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
+                            },
+                            {
+                                elementId: 'enable_lbass', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.enable_lbass', dataBindValue: 'parameters().enable_lbass', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'amqp_server_ip', view: "FormInputView",
+                                viewConfig: {path: 'parameters.amqp_server_ip', dataBindValue: 'parameters().amqp_server_ip', class: "span6"}
+                            },
+                            {
+                                elementId: 'openstack_manage_amqp', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.openstack_manage_amqp', dataBindValue: 'parameters().openstack_manage_amqp', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'manage_neutron', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.manage_neutron', dataBindValue: 'parameters().manage_neutron', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
                             }
                         ]
                     }
@@ -396,18 +432,6 @@ define([
                                 viewConfig: {path: 'parameters.use_certificates', dataBindValue: 'parameters().use_certificates', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS}}
                             },
                             {
-                                elementId: 'database_dir', view: "FormInputView",
-                                viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: 'database_minimum_diskGB', view: "FormInputView",
-                                viewConfig: {path: 'parameters.database_minimum_diskGB', dataBindValue: 'parameters().database_minimum_diskGB', class: "span6"}
-                            },
-                            {
                                 elementId: 'service_token', view: "FormInputView",
                                 viewConfig: {path: 'parameters.service_token', type: 'password', dataBindValue: 'parameters().service_token', class: "span6"}
                             }
@@ -429,7 +453,7 @@ define([
                         columns: [
                             {
                                 elementId: 'multi_tenancy', view: "FormRadioButtonView",
-                                viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataObj: smwc.FLAGS}}
+                                viewConfig: {path: 'parameters.multi_tenancy', dataBindValue: 'parameters().multi_tenancy', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
                             }
                         ]
                     }
@@ -445,8 +469,8 @@ define([
                     {
                         columns: [
                             {
-                                elementId: 'haproxy', view: "FormDropdownView",
-                                viewConfig: {path: 'parameters.haproxy', dataBindValue: 'parameters().haproxy', class: "span6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES}}
+                                elementId: 'haproxy_flag', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.haproxy_flag', dataBindValue: 'parameters().haproxy_flag', class: "span6", elementConfig: {dataObj: smwc.STATES_ENABLE_DISABLE_RADIO}}
                             }
                         ]
                     },
@@ -477,16 +501,27 @@ define([
                     {
                         columns: [
                             {
-                                elementId: 'nfs_server', view: "FormInputView",
-                                viewConfig: {path: 'parameters.nfs_server', dataBindValue: 'parameters().nfs_server', class: "span6"}
+                                elementId: 'internal_virtual_router_id', view: "FormInputView",
+                                viewConfig: {path: 'parameters.internal_virtual_router_id', dataBindValue: 'parameters().internal_virtual_router_id', class: "span6"}
                             },
                             {
-                                elementId: 'nfs_glance_path', view: "FormInputView",
-                                viewConfig: {path: 'parameters.nfs_glance_path', dataBindValue: 'parameters().nfs_glance_path', class: "span6"}
+                                elementId: 'external_virtual_router_id', view: "FormInputView",
+                                viewConfig: {path: 'parameters.external_virtual_router_id', dataBindValue: 'parameters().external_virtual_router_id', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'contrail_external_virtual_router_id', view: "FormInputView",
+                                viewConfig: {path: 'parameters.contrail_external_virtual_router_id', dataBindValue: 'parameters().contrail_external_virtual_router_id', class: "span6"}
+                            },
+                            {
+                                elementId: 'contrail_internal_virtual_router_id', view: "FormInputView",
+                                viewConfig: {path: 'parameters.contrail_internal_virtual_router_id', dataBindValue: 'parameters().contrail_internal_virtual_router_id', class: "span6"}
                             }
                         ]
                     }
-
                 ]
             }
         },
@@ -499,12 +534,69 @@ define([
                     {
                         columns: [
                             {
+                                elementId: 'analytics_syslog_port', view: "FormInputView",
+                                viewConfig: {path: 'parameters.analytics_syslog_port', dataBindValue: 'parameters().analytics_syslog_port', class: "span6"}
+                            },
+                            {
+                                elementId: 'topology_scan_frequency', view: "FormInputView",
+                                viewConfig: {path: 'parameters.topology_scan_frequency', dataBindValue: 'parameters().topology_scan_frequency', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'snmp_scan_frequency', view: "FormInputView",
+                                viewConfig: {path: 'parameters.snmp_scan_frequency', dataBindValue: 'parameters().snmp_scan_frequency', class: "span6"}
+                            },
+                            {
+                                elementId: 'snmp_fast_scan_frequency', view: "FormInputView",
+                                viewConfig: {path: 'parameters.snmp_fast_scan_frequency', dataBindValue: 'parameters().snmp_fast_scan_frequency', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
                                 elementId: 'analytics_data_ttl', view: "FormInputView",
                                 viewConfig: {path: 'parameters.analytics_data_ttl', dataBindValue: 'parameters().analytics_data_ttl', class: "span6"}
                             },
                             {
-                                elementId: 'analytics_syslog_port', view: "FormInputView",
-                                viewConfig: {path: 'parameters.analytics_syslog_port', dataBindValue: 'parameters().analytics_syslog_port', class: "span6"}
+                                elementId: 'analytics_flow_ttl', view: "FormInputView",
+                                viewConfig: {path: 'parameters.analytics_flow_ttl', dataBindValue: 'parameters().analytics_flow_ttl', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'analytics_config_audit_ttl', view: "FormInputView",
+                                viewConfig: {path: 'parameters.analytics_config_audit_ttl', dataBindValue: 'parameters().analytics_config_audit_ttl', class: "span6"}
+                            },
+                            {
+                                elementId: 'analytics_statistics_ttl', view: "FormInputView",
+                                viewConfig: {path: 'parameters.analytics_statistics_ttl', dataBindValue: 'parameters().analytics_statistics_ttl', class: "span6"}
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_DATABASE]),
+            title: smwl.TITLE_DATABASE,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {
+                                elementId: 'database_ip_port', view: "FormInputView",
+                                viewConfig: {path: 'parameters.database_ip_port', dataBindValue: 'parameters().database_ip_port', class: "span6"}
+                            },
+                            {
+                                elementId: 'database_dir', view: "FormInputView",
+                                viewConfig: {path: 'parameters.database_dir', dataBindValue: 'parameters().database_dir', class: "span6"}
                             }
                         ]
                     },
@@ -517,6 +609,84 @@ define([
                             {
                                 elementId: 'ssd_data_dir', view: "FormInputView",
                                 viewConfig: {path: 'parameters.ssd_data_dir', dataBindValue: 'parameters().ssd_data_dir', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'database_minimum_diskGB', view: "FormInputView",
+                                viewConfig: {path: 'parameters.database_minimum_diskGB', dataBindValue: 'parameters().database_minimum_diskGB', class: "span6"}
+                            },
+                            {
+                                elementId: 'database_initial_token', view: "FormInputView",
+                                viewConfig: {path: 'parameters.database_initial_token', dataBindValue: 'parameters().database_initial_token', class: "span6"}
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_VMWARE]),
+            title: smwl.TITLE_VMWARE,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {
+                                elementId: 'vmware_ip', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vmware_ip', dataBindValue: 'parameters().vmware_ip', class: "span6"}
+                            },
+                            {
+                                elementId: 'vmware_vswitch', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vmware_vswitch', dataBindValue: 'parameters().vmware_vswitch', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'vmware_username', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vmware_username', dataBindValue: 'parameters().vmware_username', class: "span6"}
+                            },
+                            {
+                                elementId: 'vmware_password', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vmware_password', dataBindValue: 'parameters().vmware_password', class: "span6"}
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_VIRTUAL_GATEWAY]),
+            title: smwl.TITLE_VIRTUAL_GATEWAY,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {
+                                elementId: 'vgw_public_subnet', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vgw_public_subnet', dataBindValue: 'parameters().vgw_public_subnet', class: "span6"}
+                            },
+                            {
+                                elementId: 'vgw_public_vn_name', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vgw_public_vn_name', dataBindValue: 'parameters().vgw_public_vn_name', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'vgw_interface', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vgw_interface', dataBindValue: 'parameters().vgw_interface', class: "span6"}
+                            },
+                            {
+                                elementId: 'vgw_gateway_routes', view: "FormInputView",
+                                viewConfig: {path: 'parameters.vgw_gateway_routes', dataBindValue: 'parameters().vgw_gateway_routes', class: "span6"}
                             }
                         ]
                     }
@@ -532,8 +702,8 @@ define([
                     {
                         columns: [
                             {
-                                elementId: 'storage_mon_secret', view: "FormInputView",
-                                viewConfig: {path: 'parameters.storage_mon_secret', dataBindValue: 'parameters().storage_mon_secret', class: "span6"}
+                                elementId: 'storage_monitor_secret', view: "FormInputView",
+                                viewConfig: {path: 'parameters.storage_monitor_secret', dataBindValue: 'parameters().storage_monitor_secret', class: "span6"}
                             },
                             {
                                 elementId: 'osd_bootstrap_key', view: "FormInputView",
@@ -543,7 +713,7 @@ define([
                     },
                     {
                         columns: [
-                            {elementId: 'admin_key', view: "FormInputView", viewConfig: {path: 'parameters.admin_key', dataBindValue: 'parameters().admin_key', class: "span6"}},
+                            {elementId: 'storage_admin_key', view: "FormInputView", viewConfig: {path: 'parameters.storage_admin_key', dataBindValue: 'parameters().storage_admin_key', class: "span6"}},
                             {
                                 elementId: 'live_migration',
                                 view: "FormDropdownView",
@@ -567,6 +737,42 @@ define([
                                 elementId: 'live_migration_storage_scope', view: "FormDropdownView",
                                 viewConfig: {path: 'parameters.live_migration_storage_scope', dataBindValue: 'parameters().live_migration_storage_scope', class: "span6", elementConfig: {placeholder: smwl.TITLE_SELECT, dataTextField: "text", dataValueField: "id", data: smwc.STORAGE_SCOPE}}
                             },
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'storage_chassis_config', view: "FormInputView",
+                                viewConfig: {path: 'parameters.storage_chassis_config', dataBindValue: 'parameters().storage_chassis_config', class: "span6"}
+                            },
+                            {
+                                elementId: 'storage_osd_disks', view: "FormInputView",
+                                viewConfig: {path: 'parameters.storage_osd_disks', dataBindValue: 'parameters().storage_osd_disks', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'live_migration_ip', view: "FormInputView",
+                                viewConfig: {path: 'parameters.live_migration_ip', dataBindValue: 'parameters().live_migration_ip', class: "span6"}
+                            },
+                            {
+                                elementId: 'live_migration_host', view: "FormInputView",
+                                viewConfig: {path: 'parameters.live_migration_host', dataBindValue: 'parameters().live_migration_host', class: "span6"}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'nfs_server', view: "FormInputView",
+                                viewConfig: {path: 'parameters.nfs_server', dataBindValue: 'parameters().nfs_server', class: "span6"}
+                            },
+                            {
+                                elementId: 'nfs_glance_path', view: "FormInputView",
+                                viewConfig: {path: 'parameters.nfs_glance_path', dataBindValue: 'parameters().nfs_glance_path', class: "span6"}
+                            }
                         ]
                     }
                 ]

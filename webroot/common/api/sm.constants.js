@@ -28,7 +28,7 @@ smConstants.FUNC_FILTER_IN_CONTRAIL_STORAGE_PACKAGES = 'filterInContrailStorageP
 smConstants.REDIS_TAG_VALUES = 'tagValues';
 smConstants.REDIS_CACHE_EXPIRE = 3600;
 
-smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id', 'select'];
+smConstants.ALLOWED_FORWARDING_PARAMS = ['id', 'tag', 'cluster_id', 'select', 'mac_address'];
 smConstants.SM_API_SERVER = 'sm_api_server'
 smConstants.SM_INTROSPECT_SERVER = 'sm_introspect_server'
 

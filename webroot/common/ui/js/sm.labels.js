@@ -106,6 +106,12 @@ define([
             //Cluster
             "cluster_id": "Cluster",
             "analytics_data_ttl": "Analytics Data TTL",
+            "analytics_config_audit_ttl": "Analytics Config Audit TTL",
+            "analytics_statistics_ttl": "Analytics Statistics TTL",
+            "analytics_flow_ttl": "Analytics Flow TTL",
+            "snmp_scan_frequency": "SNMP Scan Frequency (Seconds)",
+            "snmp_fast_scan_frequency": "SNMP Fast Scan Frequency (Seconds)",
+            "topology_scan_frequency": "Topology Scan Frequency (Seconds)",
             "analytics_syslog_port": "Analytics Syslog Port",
             "analytics_data_dir": "Analytics Data Dir",
             "ssd_data_dir": "SSD Data Dir",
@@ -126,6 +132,8 @@ define([
             "keystone_password": "Keystone Admin Password",
             "keystone_service_tenant": "Keystone Service Tenant",
             "keystone_region_name": "Keystone Region Name",
+            "amqp_server_ip": "Amqp Server IP",
+            "openstack_manage_amqp": "Openstack Managed Amqp",
             "storage_virsh_uuid": "Storage Virsh UUID",
             "storage_fsid": "Storage FSID",
             "new_servers": "New Servers",
@@ -141,15 +149,31 @@ define([
             "database_minimum_diskGB": "Database Min Disk (GB)",
             "database_token": "Database Token",
             "service_token": "Service Token",
+            "vgw_public_subnet": "Virtual Gateway Public Subnet",
+            "vgw_public_vn_name": "Virtual Gateway Public VN Name",
+            "vgw_interface": "Virtual Gateway Interface",
+            "vgw_gateway_routes": "Virtual Gateway Routes",
             "storage_mon_secret": "Monitoring Key",
+            "live_migration_ip": "Live Migration IP",
             "osd_bootstrap_key": "OSD Bootstrap Key",
             "admin_key": "Admin Key",
             "internal_vip": "Internal VIP",
             "external_vip": "External VIP",
             "contrail_internal_vip": "Contrail Internal VIP",
             "contrail_external_vip": "Contrail External VIP",
+            "internal_vip" : "Internal VIP",
+            "external_vip" : "External VIP",
+            "contrail_vip" : "Contrail VIP",
+            "internal_virtual_router_id" : "Internal Virtual Router ID",
+            "external_virtual_router_id" : "External Virtual Router ID",
+            "contrail_internal_virtual_router_id" : "Contrail Internal Virtual Router ID",
+            "contrail_external_virtual_router_id" : "Contrail External Virtual Router ID",
             "nfs_server": "NFS Server",
             "nfs_glance_path": "NFS Glance Path",
+            "vmware_ip" : "Vmware IP",
+            "vmware_username" : "VMware Username",
+            "vmware_password" : "VMware Password",
+            "vmware_vswitch"  : "VMware vSwitch Name",
 
             //Roles
             "config": "Config",
@@ -207,10 +231,13 @@ define([
         this.TITLE_CONTRAIL = "Contrail";
         this.TITLE_CONTRAIL_CONTROLLER = "Contrail Controller";
         this.TITLE_STORAGE = "Storage";
+        this.TITLE_VMWARE = "Vmware";
+        this.TITLE_VIRTUAL_GATEWAY = "Virtual Gateway";
         this.TITLE_CONTRAIL_STORAGE = "Contrail Storage";
         this.TITLE_OPENSTACK = "Openstack";
         this.TITLE_HA_CONFIG = "High Availability";
         this.TITLE_ANALYTICS_CONFIG = "Analytics";
+        this.TITLE_DATABASE = "Database";
         this.TITLE_SYSTEM_MANAGEMENT = "System Management";
         this.TITLE_INTERFACES = "Interfaces";
         this.TITLE_PHYSICAL_INTERFACES = "Physical Interfaces";

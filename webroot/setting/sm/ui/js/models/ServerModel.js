@@ -405,10 +405,14 @@ define([
             }
         },
         deleteServer: function (checkedRow, callbackObj) {
-            var ajaxConfig = {}, that = this,
-                serverId = checkedRow['id'];
+            var ajaxConfig = {}, that = this;
             ajaxConfig.type = "DELETE";
-            ajaxConfig.url = smwc.URL_OBJ_SERVER_ID + serverId;
+            // check if server to be deleted has a id else delete using mac address
+            if(contrail.checkIfExist(checkedRow) && contrail.checkIfExist(checkedRow['id'])) {
+                ajaxConfig.url = smwc.URL_OBJ_SERVER_ID + checkedRow['id'];
+            } else if (contrail.checkIfExist(checkedRow) && contrail.checkIfExist(checkedRow['mac_address'])){
+                ajaxConfig.url = smwc.URL_OBJ_SERVER_MAC_ADDRESS + checkedRow['mac_address'];
+            }
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
                     callbackObj.init();

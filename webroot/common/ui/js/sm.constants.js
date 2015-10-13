@@ -59,8 +59,22 @@ define([
         ];
 
         this.FLAGS = [
+            {'id': 'False', 'text': 'False'},
+            {'id': 'True', 'text': 'True'}
+        ];
+
+        this.FLAGS_RADIO = [
             {'label': 'False', 'value': 'False'},
             {'label': 'True', 'value': 'True'}
+        ];
+
+        this.STATES_YES_NO_RADIO = [
+            {'label': 'Yes', 'value': 'yes'},
+            {'label': 'No', 'value': 'no'}
+        ];
+        this.STATES_ENABLE_DISABLE_RADIO = [
+            {'label': 'Enable', 'value': 'enable'},
+            {'label': 'Disable', 'value': 'disable'}
         ];
 
         this.STORAGE_SCOPE = [
