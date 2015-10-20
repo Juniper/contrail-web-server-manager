@@ -4,8 +4,9 @@ define([
     'sm-test-messages',
     'server-list-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite'
-], function (CUnit, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
+    'co-grid-view-test-suite',
+    'co-chart-view-zoom-scatter-test-suite',
+], function (CUnit, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
 
     var moduleId = smtm.SERVER_LIST_VIEW_COMMON_TEST_MODULE;
 
@@ -54,6 +55,16 @@ define([
             rootView: smPageLoader.smView,
             tests: [
                 {
+                    viewId: smwl.SM_SERVER_SCATTER_CHART_ID,
+                    suites: [
+                        {
+                            class: ZoomScatterChartViewTestSuite,
+                            groups: ['all'],
+                            severity: cotc.SEVERITY_LOW
+                        }
+                    ]
+                },
+                {
                     viewId: smwl.SM_SERVER_GRID_ID,
                     suites: [
                         {
@@ -68,7 +79,6 @@ define([
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {
-                                    //mockDataParseFn: smtu.deleteSizeField,
                                     gridDataParseFn: smtu.deleteFieldsForServerScatterChart
                                 }
                             }

@@ -4,8 +4,9 @@ define([
     'sm-test-messages',
     'server-tab-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite'
-], function (CUnit, smtu, smtm, ServerTabViewMockData, GridListModelTestSuite, GridViewTestSuite) {
+    'co-grid-view-test-suite',
+    'co-details-view-test-suite'
+], function (CUnit, smtu, smtm, ServerTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite) {
 
     var moduleId = smtm.SERVER_TAB_VIEW_COMMON_TEST_MODULE;
 
@@ -69,6 +70,19 @@ define([
         return {
             rootView: smPageLoader.smView,
             tests: [
+                {
+                    viewId: smwl.SM_SERVER_TAB_DETAILS_ID,
+                    suites: [
+                        {
+                            class: DetailsViewTestSuite,
+                            groups: ['all'],
+                            severity: cotc.SEVERITY_LOW,
+                            modelConfig: {
+                                dataGenerator: smtu.commonDetailsDataGenerator
+                            }
+                        }
+                    ]
+                },
                 {
                     viewId: smwl.SM_SERVER_MONITORING_RESOURCE_INFO_ID,
                 },

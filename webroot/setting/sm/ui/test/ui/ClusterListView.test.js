@@ -4,8 +4,9 @@ define([
     'sm-test-messages',
     'cluster-list-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite'
-], function (CUnit, smtu, smtm, ClusterListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
+    'co-grid-view-test-suite',
+    'co-chart-view-zoom-scatter-test-suite',
+], function (CUnit, smtu, smtm, ClusterListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
 
     var moduleId = smtm.CLUSTER_LIST_VIEW_COMMON_TEST_MODULE;
 
@@ -48,7 +49,17 @@ define([
         return {
             rootView: smPageLoader.smView,
             tests: [
-                {
+            {
+                viewId: smwl.SM_CLUSTER_SCATTER_CHART_ID,
+                suites: [
+                    {
+                        class: ZoomScatterChartViewTestSuite,
+                        groups: ['all'],
+                        severity: cotc.SEVERITY_LOW
+                    }
+                ]
+            },
+            {
                     viewId: smwl.SM_CLUSTER_GRID_ID,
                     suites: [
                         {
