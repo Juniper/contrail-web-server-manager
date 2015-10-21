@@ -349,7 +349,6 @@ define([
                                                 name : 'Baremetal Interface',
                                                 view : "FormDropdownView",
                                                 class : "",
-                                                width : 200,
                                                 viewConfig : {
                                                     templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW,
                                                     path : 'baremetal_interface',
@@ -366,7 +365,6 @@ define([
                                                 name : 'Virtual Network',
                                                 view : "FormDropdownView",
                                                 class : "",
-                                                width : 500,
                                                 viewConfig : {
                                                     templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW,
                                                     path : 'vn',

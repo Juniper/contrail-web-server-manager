@@ -404,31 +404,31 @@ define([
                                         collection: "filterInterfaces('physical')",
                                         columns: [
                                             {
-                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "", width: 170,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "name", dataBindValue: "name()"}
+                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 170,path: "name", dataBindValue: "name()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP/MAsk', view: "FormInputView", class: "", width: 155,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "ip_address", dataBindValue: "ip_address()"}
+                                                elementId: 'ip_address', name: 'IP/MAsk', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 155, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
-                                                elementId: 'mac_address', name: 'MAC Address', view: "FormInputView", class: "", width: 160,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "mac_address", dataBindValue: "mac_address()"}
+                                                elementId: 'mac_address', name: 'MAC Address', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 160, path: "mac_address", dataBindValue: "mac_address()"}
                                             },
                                             {
-                                                elementId: 'default_gateway', name: 'Gateway', view: "FormInputView", class: "", width: 130,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "default_gateway", dataBindValue: "default_gateway()"}
+                                                elementId: 'default_gateway', name: 'Gateway', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "default_gateway", dataBindValue: "default_gateway()"}
                                             },
                                             {
-                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width: 50,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, path: "dhcp", dataBindValue: "dhcp()"}},
+                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width: 50, path: "dhcp", dataBindValue: "dhcp()"}},
                                             {
-                                                elementId: 'tor', name: 'TOR', view: "FormInputView", class: "", width: 130,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "tor", dataBindValue: "tor()"}
+                                                elementId: 'tor', name: 'TOR', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "tor", dataBindValue: "tor()"}
                                             },
                                             {
-                                                elementId: 'tor_port', name: 'TOR Port', view: "FormInputView", class: "", width: 70,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "tor_port", dataBindValue: "tor_port()"}
+                                                elementId: 'tor_port', name: 'TOR Port', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 70, path: "tor_port", dataBindValue: "tor_port()"}
                                             }
                                         ],
                                         rowActions: [
@@ -461,19 +461,19 @@ define([
                                         collection: "filterInterfaces('bond')",
                                         columns: [
                                             {
-                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "", width: 200,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "name", dataBindValue: "name()"}
+                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 200, path: "name", dataBindValue: "name()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "", width: 155,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "ip_address", dataBindValue: "ip_address()"}
+                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "", width: 200,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 200, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
-                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width: 50,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, path: "dhcp", dataBindValue: "dhcp()"}
+                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width: 200,
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width: 200, path: "dhcp", dataBindValue: "dhcp()"}
                                             },
                                             {
-                                                elementId: 'member_interfaces', name: 'Members', view: "FormMultiselectView", class: "", width: 300,
+                                                elementId: 'member_interfaces', name: 'Members', view: "FormMultiselectView", class: "",
                                                 viewConfig: {
                                                     templateId: cowc.TMPL_EDITABLE_GRID_MULTISELECT_VIEW,
                                                     path: 'member_interfaces', width: 300,
@@ -513,19 +513,19 @@ define([
                                         collection: "filterInterfaces('subinterface')",
                                         columns: [
                                             {
-                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "", width: 200,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "name", dataBindValue: "name()"}
+                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 200, path: "name", dataBindValue: "name()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "", width: 155,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "ip_address", dataBindValue: "ip_address()"}
+                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 155, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
-                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width:50,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, path: "dhcp", dataBindValue: "dhcp()"}
+                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width:50, path: "dhcp", dataBindValue: "dhcp()"}
                                             },
                                             {
-                                                elementId: 'parent', name: 'Parent Interface', view: "FormDropdownView", class: "", width: 200,
+                                                elementId: 'parent', name: 'Parent Interface', view: "FormDropdownView", class: "",
                                                 viewConfig: {
                                                     templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW,
                                                     path: 'parent', width: 200,
@@ -574,6 +574,7 @@ define([
                                         class: "span6",
                                         elementConfig: {
                                             placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE,
+                                            defaultValueId: 0
                                         }
                                     }
                                 }
@@ -702,8 +703,9 @@ define([
                                         dataBindValue: 'network().management_interface',
                                         dataBindOptionList: '$root.getManagementInterfaces()',
                                         elementConfig: {
-                                            placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE, dataTextField: "id", dataValueField: "id",
-                                            multiple: false
+                                            placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE,
+                                            dataTextField: "id", dataValueField: "id",
+                                            defaultValueId: 0,
                                         }
                                     }
                                 }
