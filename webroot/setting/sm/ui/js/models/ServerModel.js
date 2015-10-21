@@ -444,17 +444,17 @@ define([
             return Knockout.computed(function () {
                 var kbInterfaces = this.interfaces(),
                     interfaces = this.model().attributes.interfaces,
-                    phyInterfaces = [], model, type;
+                    filteredInterfaces = [], model, type;
 
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
                     type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : 'physical';
 
                     if (type == interfaceType) {
-                        phyInterfaces.push(kbInterfaces[i]);
+                        filteredInterfaces.push(kbInterfaces[i]);
                     }
                 }
-                return phyInterfaces;
+                return filteredInterfaces;
             }, this);
         },
         getMemberInterfaces: function() {

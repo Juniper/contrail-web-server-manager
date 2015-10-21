@@ -38,13 +38,11 @@ define([
         this.STATES = [
             {'id': 'enable', 'text': 'Enable'},
             {'id': 'disable', 'text': 'Disable'}
-
         ];
 
         this.STATES_YES_NO = [
             {'id': 'yes', 'text': 'Yes'},
             {'id': 'no', 'text': 'No'}
-
         ];
 
         this.INTERFACE_TYPES = [
@@ -98,6 +96,7 @@ define([
         this.URL_SERVER_PROVISION = '/sm/server/provision';
         this.URL_OBJ_CLUSTER_ID = '/sm/objects/cluster?id=';
         this.URL_OBJ_SERVER_ID = '/sm/objects/server?id=';
+        this.URL_OBJ_SERVER_MAC_ADDRESS = '/sm/objects/server?mac_address=';
         this.URL_SERVER_REIMAGE = '/sm/server/reimage';
         this.URL_OBJ_IMAGE_ID = '/sm/objects/image?id=';
         this.URL_BAREMETAL_SERVER = '/api/tenants/config/baremetal-details';
