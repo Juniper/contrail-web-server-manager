@@ -39,17 +39,6 @@ define([
                     msg: smwm.getShortInvalidErrorMessage('mac_address')
                 },
                 'default_gateway': {
-                    required: true,
-                    pattern: cowc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getShortInvalidErrorMessage('gateway')
-                }
-            },
-            bondValidation: {
-                'name': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('name')
-                },
-                'default_gateway': {
                     required: function(value, attr, computedState){
                         if(contrail.checkIfExist(computedState.dhcp) && (computedState.dhcp)){
                             return false;
@@ -61,10 +50,26 @@ define([
                     msg: smwm.getShortInvalidErrorMessage('gateway')
                 }
             },
+            bondValidation: {
+                'name': {
+                    required: true,
+                    msg: smwm.getRequiredMessage('name')
+                },
+                'ip_address': {
+                    required: false,
+                    pattern: cowc.PATTERN_IP_ADDRESS,
+                    msg: smwm.getShortInvalidErrorMessage('ip_address')
+                }
+            },
             subinterfaceValidation: {
                 'name': {
                     required: true,
                     msg: smwm.getRequiredMessage('name')
+                },
+                'ip_address': {
+                    required: false,
+                    pattern: cowc.PATTERN_IP_ADDRESS,
+                    msg: smwm.getShortInvalidErrorMessage('ip_address')
                 }
             }
         }

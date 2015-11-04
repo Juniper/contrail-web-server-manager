@@ -465,11 +465,11 @@ define([
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 200, path: "name", dataBindValue: "name()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "", width: 200,
+                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 200, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
-                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "", width: 200,
+                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width: 200, path: "dhcp", dataBindValue: "dhcp()"}
                                             },
                                             {
