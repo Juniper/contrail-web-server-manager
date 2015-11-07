@@ -141,6 +141,16 @@ define([
         return dataArr;
     };
 
+    this.deleteFieldsForPackageModel = function(data) {
+        if (contrail.checkIfExist(data.errors)) {
+            delete data.errors;
+        }
+        if (contrail.checkIfExist(data.locks)) {
+            delete data.locks;
+        }
+        return data;
+    }
+
     return {
         self                              : self,
         getRegExForUrl                    : getRegExForUrl,
@@ -148,7 +158,8 @@ define([
         commonDetailsDataGenerator        : commonDetailsDataGenerator,
         deleteSizeField                   : deleteSizeField,
         deleteFieldsForClusterScatterChart: deleteFieldsForClusterScatterChart,
-        deleteFieldsForServerScatterChart : deleteFieldsForServerScatterChart
+        deleteFieldsForServerScatterChart : deleteFieldsForServerScatterChart,
+        deleteFieldsForPackageModel       : deleteFieldsForPackageModel
     };
 
 });

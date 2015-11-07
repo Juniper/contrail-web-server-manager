@@ -1,52 +1,57 @@
 define([
-    'co-test-unit',
+    'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
-    'server-list-view-mock-data',
+    'cluster-tab-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
-    'co-chart-view-zoom-scatter-test-suite',
-], function (CUnit, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
+    'co-details-view-test-suite'
+], function (cotr, smtu, smtm, ClusterTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite) {
 
-    var moduleId = smtm.SERVER_LIST_VIEW_COMMON_TEST_MODULE;
+    var moduleId = smtm.CLUSTER_TAB_VIEW_COMMON_TEST_MODULE;
 
-    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
+    var testType = cotc.VIEW_TEST;
+
+    var fakeServerConfig = cotr.getDefaultFakeServerConfig();
 
     var fakeServerResponsesConfig = function () {
         var responses = [];
 
-        responses.push(CUnit.createFakeServerResponse({
+        responses.push(cotr.createFakeServerResponse({
             url: smtu.getRegExForUrl(smwc.URL_TAG_NAMES),
-            body: JSON.stringify(ServerListViewMockData.getTagNamesData())
+            body: JSON.stringify(ClusterTabViewMockData.getTagNamesData())
         }));
 
-        responses.push(CUnit.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwc.URL_TAG_VALUES),
-            body: JSON.stringify(ServerListViewMockData.getTagValuesData())
+        responses.push(cotr.createFakeServerResponse({
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('cluster')),
+            body: JSON.stringify(ClusterTabViewMockData.getSingleClusterDetailData())
         }));
 
-        responses.push(CUnit.createFakeServerResponse({
+        responses.push(cotr.createFakeServerResponse({
             url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('server')),
-            body: JSON.stringify(ServerListViewMockData.getSingleServerDetailData())
+            body: JSON.stringify(ClusterTabViewMockData.getServerDetailsData())
         }));
 
-        responses.push(CUnit.createFakeServerResponse({
+        responses.push(cotr.createFakeServerResponse({
             url: smtu.getRegExForUrl('/sm/server/monitoring/config'),
-            body: JSON.stringify(ServerListViewMockData.getSingleServerMonitoringConfigData())
+            body: JSON.stringify(ClusterTabViewMockData.getSingleClusterMonitoringConfigData())
         }));
 
-        responses.push(CUnit.createFakeServerResponse({
+        responses.push(cotr.createFakeServerResponse({
             url: smtu.getRegExForUrl('/sm/server/monitoring/info/summary'),
-            body: JSON.stringify(ServerListViewMockData.getSingleServerMonitoringData())
+            body: JSON.stringify(ClusterTabViewMockData.getSingleClusterMonitoringData())
         }));
 
         return responses;
     };
     fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
 
-    var pageConfig = CUnit.getDefaultPageConfig();
+    var pageConfig = cotr.getDefaultPageConfig();
     pageConfig.hashParams = {
-        p: 'setting_sm_servers'
+        p: 'setting_sm_clusters',
+        q: {
+            cluster_id : "r22_cluster"
+        }
     };
     pageConfig.loadTimeout = 5000;
 
@@ -55,12 +60,15 @@ define([
             rootView: smPageLoader.smView,
             tests: [
                 {
-                    viewId: smwl.SM_SERVER_SCATTER_CHART_ID,
+                    viewId: smwl.SM_CLUSTER_TAB_DETAILS_ID,
                     suites: [
                         {
-                            class: ZoomScatterChartViewTestSuite,
+                            class: DetailsViewTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
+                            severity: cotc.SEVERITY_LOW,
+                            modelConfig: {
+                                dataGenerator: smtu.commonDetailsDataGenerator
+                            }
                         }
                     ]
                 },
@@ -89,8 +97,7 @@ define([
         };
     };
 
-    var pageTestConfig = CUnit.createPageTestConfig(moduleId, fakeServerConfig, pageConfig, getTestConfig);
+    var pageTestConfig = cotr.createPageTestConfig(moduleId, testType, fakeServerConfig, pageConfig, getTestConfig);
 
-    CUnit.startTestRunner(pageTestConfig);
-
+    cotr.startTestRunner(pageTestConfig);
 });

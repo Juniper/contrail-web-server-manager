@@ -1,24 +1,26 @@
 define([
-    'co-test-unit',
+    'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
     'image-list-view-mock-data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite'
-], function (CUnit, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
+], function (cotr, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
     var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
 
-    var fakeServerConfig = CUnit.getDefaultFakeServerConfig();
+    var testType = cotc.VIEW_TEST;
+
+    var fakeServerConfig = cotr.getDefaultFakeServerConfig();
 
     var fakeServerResponsesConfig = function () {
         var responses = [];
 
-        responses.push(CUnit.createFakeServerResponse({
+        responses.push(cotr.createFakeServerResponse({
             url: smtu.getRegExForUrl(smwc.URL_TAG_NAMES),
             body: JSON.stringify(ImageListViewMockData.getTagNamesData())
         }));
-        responses.push(CUnit.createFakeServerResponse({
+        responses.push(cotr.createFakeServerResponse({
             url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('image')),
             body: JSON.stringify(ImageListViewMockData.getSingleImageDetailData())
         }));
@@ -27,7 +29,7 @@ define([
     };
     fakeServerConfig.getResponsesConfig = fakeServerResponsesConfig;
 
-    var pageConfig = CUnit.getDefaultPageConfig();
+    var pageConfig = cotr.getDefaultPageConfig();
     pageConfig.hashParams = {
         p: 'setting_sm_images'
     };
@@ -63,8 +65,8 @@ define([
         };
     };
 
-    var pageTestConfig = CUnit.createPageTestConfig(moduleId, fakeServerConfig, pageConfig, getTestConfig);
+    var pageTestConfig = cotr.createPageTestConfig(moduleId, testType, fakeServerConfig, pageConfig, getTestConfig);
 
-    CUnit.startTestRunner(pageTestConfig);
+    cotr.startTestRunner(pageTestConfig);
 
 });
