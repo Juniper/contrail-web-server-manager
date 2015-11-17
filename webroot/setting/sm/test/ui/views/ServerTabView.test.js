@@ -2,7 +2,7 @@ define([
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
-    'server-tab-view-mock-data',
+    'setting/sm/test/ui/views/ServerTabView.mock.data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-details-view-test-suite'
@@ -66,7 +66,7 @@ define([
             server_id : "a7s12"
         }
     };
-    pageConfig.loadTimeout = 5000;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 5;
 
     var getTestConfig = function () {
         return {
@@ -78,7 +78,6 @@ define([
                         {
                             class: DetailsViewTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
                             modelConfig: {
                                 dataGenerator: smtu.commonDetailsDataGenerator
                             }
@@ -112,8 +111,7 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
+                            groups: ['all']
                         }
                     ]
                 },
@@ -124,7 +122,7 @@ define([
         };
     };
 
-    var testInitFn = function() {
+    var testInitFn = function(defObj) {
         //simulate click on all the tabs
         var serverTabsViewObj = smPageLoader.smView.viewMap[smwl.SM_SERVER_TAB_VIEW_ID],
             serverTabs = serverTabsViewObj.attributes.viewConfig.tabs;
@@ -132,7 +130,9 @@ define([
         _.each(serverTabs, function(tab) {
             $("#" + tab.elementId + "-tab-link").trigger("click");
         });
-
+        setTimeout(function() {
+                defObj.resolve();
+        }, cotc.PAGE_INIT_TIMEOUT);
         return;
     };
 

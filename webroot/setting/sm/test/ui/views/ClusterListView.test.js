@@ -2,11 +2,13 @@ define([
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
-    'cluster-list-view-mock-data',
+    'setting/sm/test/ui/views/ClusterListView.mock.data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-chart-view-zoom-scatter-test-suite',
-], function (cotr, smtu, smtm, ClusterListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
+    'cluster-list-view-custom-test-suite'
+], function (cotr, smtu, smtm, ClusterListViewMockData, GridListModelTestSuite, GridViewTestSuite,
+             ZoomScatterChartViewTestSuite, ClusterListViewCustomTestSuite) {
 
     var moduleId = smtm.CLUSTER_LIST_VIEW_COMMON_TEST_MODULE;
 
@@ -45,7 +47,7 @@ define([
     pageConfig.hashParams = {
         p: 'setting_sm_clusters'
     };
-    pageConfig.loadTimeout = 3000;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 3;
 
     var getTestConfig = function () {
         return {
@@ -56,8 +58,7 @@ define([
                 suites: [
                     {
                         class: ZoomScatterChartViewTestSuite,
-                        groups: ['all'],
-                        severity: cotc.SEVERITY_LOW
+                        groups: ['all']
                     }
                 ]
             },
@@ -66,13 +67,21 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
+                            groups: ['all']
                         },
                         {
                             class: GridListModelTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
+                            modelConfig: {
+                                dataGenerator: smtu.commonGridDataGenerator,
+                                dataParsers: {
+                                    gridDataParseFn: smtu.deleteFieldsForClusterScatterChart
+                                }
+                            }
+                        },
+                        {
+                            class: ClusterListViewCustomTestSuite,
+                            groups: ['all'],
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {

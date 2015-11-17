@@ -2,7 +2,7 @@ define([
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
-    'image-list-view-mock-data',
+    'setting/sm/test/ui/views/ImageListView.mock.data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite'
 ], function (cotr, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
@@ -33,7 +33,7 @@ define([
     pageConfig.hashParams = {
         p: 'setting_sm_images'
     };
-    pageConfig.loadTimeout = 1000;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT;
 
     var getTestConfig = function () {
         return {
@@ -44,13 +44,11 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
+                            groups: ['all']
                         },
                         {
                             class: GridListModelTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {

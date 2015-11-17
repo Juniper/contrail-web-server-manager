@@ -6,7 +6,7 @@ define([
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
-    'package-list-view-mock-data',
+    'setting/sm/test/ui/views/PackageListView.mock.data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite'
 ], function (cotr, smtu, smtm, PackageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
@@ -37,7 +37,7 @@ define([
     pageConfig.hashParams = {
         p: 'setting_sm_packages'
     };
-    pageConfig.loadTimeout = 1000;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT;
 
     var getTestConfig = function () {
         return {
@@ -48,13 +48,11 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
+                            groups: ['all']
                         },
                         {
                             class: GridListModelTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {

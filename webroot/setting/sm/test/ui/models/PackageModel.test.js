@@ -2,7 +2,7 @@ define([
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
-    'package-model-mock-data',
+    'setting/sm/test/ui/models/PackageModel.mock.data',
     'co-form-model-validations-test-suite',
     'package-model-custom-test-suite',
 ], function (cotr, smtu, smtm, PackageModelMockData, FormValidationsTestSuite, PackageModelCustomTestSuite) {
@@ -21,7 +21,6 @@ define([
                         {
                             class: FormValidationsTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
                             modelConfig: {
                                 mockData: PackageModelMockData,
                                 validationKey: smwc.KEY_CONFIGURE_VALIDATION,
@@ -30,7 +29,6 @@ define([
                         {
                             class: PackageModelCustomTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
                             modelConfig: {
                                 mockData: PackageModelMockData,
                                 dataParsers: {

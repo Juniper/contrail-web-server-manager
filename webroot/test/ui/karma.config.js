@@ -24,13 +24,16 @@ module.exports = function (config) {
             //'Firefox',
             //'Chrome'
         ],
-
+        exclude: [
+            '**/node_modules/**/*.test.js',
+        ],
         //port: 8143,
 
         reporters: ['progress', 'html', 'coverage', 'junit'],
         // the default configuration
         junitReporter: {
-            outputFile: __dirname + '/reports/test-results.xml',
+            outputDir: __dirname + '/reports/tests/',
+            outputFile: 'test-results.xml',
             suite: ''
         },
         preprocessors: {
@@ -38,7 +41,7 @@ module.exports = function (config) {
             '*.tmpl': ['html2js']
         },
         htmlReporter: {
-            outputFile: __dirname + '/reports/test-results.html'
+            outputFile: __dirname + '/reports/tests/test-results.html'
         },
         coverageReporter: {
             type : 'html',

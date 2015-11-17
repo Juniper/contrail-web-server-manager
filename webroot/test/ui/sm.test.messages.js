@@ -12,6 +12,7 @@ define([
     this.SERVER_LIST_VIEW_COMMON_TEST_MODULE = 'Server List view - Common Tests';
     this.IMAGE_LIST_VIEW_COMMON_TEST_MODULE = 'Image List view - Common Tests';
     this.PACKAGE_MODEL_TEST_MODULE = 'Package Model - Form Edit Tests';
+    this.CLUSTER_LIST_VIEW_CUSTOM_TEST_MODULE = 'Cluster List view - Custom Tests';
 
     this.get = function () {
         var args = arguments;
@@ -28,6 +29,7 @@ define([
         SERVER_LIST_VIEW_COMMON_TEST_MODULE: SERVER_LIST_VIEW_COMMON_TEST_MODULE,
         IMAGE_LIST_VIEW_COMMON_TEST_MODULE: IMAGE_LIST_VIEW_COMMON_TEST_MODULE,
         PACKAGE_MODEL_TEST_MODULE: PACKAGE_MODEL_TEST_MODULE,
+        CLUSTER_LIST_VIEW_CUSTOM_TEST_MODULE: CLUSTER_LIST_VIEW_CUSTOM_TEST_MODULE,
         get: get
     };
 });

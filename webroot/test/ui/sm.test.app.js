@@ -49,18 +49,11 @@ require([
 
         serverManagerTestAppPathObj ["sm-test-messages"] = smBaseDir + "/test/ui/sm.test.messages";
         serverManagerTestAppPathObj ["sm-test-utils"] = smBaseDir + "/test/ui/sm.test.utils";
-
         serverManagerTestAppPathObj ["handlebars-helpers"] = smBaseDir + "/common/ui/js/handlebars.helpers";
-        serverManagerTestAppPathObj ["image-list-view-mock-data"] = smBaseDir + "/setting/sm/test/ui/views/ImageListView.mock.data";
-        serverManagerTestAppPathObj ["package-list-view-mock-data"] = smBaseDir + "/setting/sm/test/ui/views/PackageListView.mock.data";
-        serverManagerTestAppPathObj ["cluster-list-view-mock-data"] = smBaseDir + "/setting/sm/test/ui/views/ClusterListView.mock.data";
-        serverManagerTestAppPathObj ["server-list-view-mock-data"] = smBaseDir + "/setting/sm/test/ui/views/ServerListView.mock.data";
 
-        serverManagerTestAppPathObj ["cluster-tab-view-mock-data"] = smBaseDir + "/setting/sm/test/ui/views/ClusterTabView.mock.data";
-        serverManagerTestAppPathObj ["server-tab-view-mock-data"] = smBaseDir + "/setting/sm/test/ui/views/ServerTabView.mock.data";
+        serverManagerTestAppPathObj ["cluster-list-view-custom-test-suite"] = smBaseDir + "/setting/sm/test/ui/views/ClusterListView.custom.test.suite";
 
         serverManagerTestAppPathObj ["package-model-custom-test-suite"] = smBaseDir + "/setting/sm/test/ui/models/PackageModel.custom.test.suite";
-        serverManagerTestAppPathObj ["package-model-mock-data"] = smBaseDir + "/setting/sm/test/ui/models/PackageModel.mock.data";
 
         return serverManagerTestAppPathObj;
     };

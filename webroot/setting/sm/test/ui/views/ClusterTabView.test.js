@@ -2,7 +2,7 @@ define([
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
-    'cluster-tab-view-mock-data',
+    'setting/sm/test/ui/views/ClusterTabView.mock.data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-details-view-test-suite'
@@ -53,7 +53,7 @@ define([
             cluster_id : "r22_cluster"
         }
     };
-    pageConfig.loadTimeout = 5000;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 2;
 
     var getTestConfig = function () {
         return {
@@ -65,7 +65,6 @@ define([
                         {
                             class: DetailsViewTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
                             modelConfig: {
                                 dataGenerator: smtu.commonDetailsDataGenerator
                             }
@@ -77,13 +76,11 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all'],
-                            severity: cotc.SEVERITY_LOW
+                            groups: ['all']
                         },
                         {
                             class: GridListModelTestSuite,
                             groups: ['all'],
-                            severity: cotc.SEVERITY_LOW,
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {
