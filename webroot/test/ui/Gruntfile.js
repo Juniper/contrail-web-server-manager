@@ -367,14 +367,14 @@ module.exports = function (grunt) {
     };
 
     grunt.registerTask('default', function () {
-        grunt.warn('No Task specified. \n To run all the tests, run:\n grunt runAllTests \n\n ' +
-            'To run specific feature (for eg: sm) tests, run:\n grunt runAllTests:sm\n    OR \n grunt sm\n\n');
+        grunt.warn('No Task specified. \n To run all the tests, run:\n grunt run \n\n ' +
+            'To run specific feature (for eg: sm) tests, run:\n grunt run:sm\n    OR \n grunt sm\n\n');
     });
 
-    grunt.registerTask('runAllTests', 'Server Manager Test Cases', function (feature) {
+    grunt.registerTask('run', 'Server Manager Test Cases', function (feature) {
         if (feature == null) {
             grunt.log.writeln('>>>>>>>> No feature specified. will run all the feature tests. <<<<<<<');
-            grunt.log.writeln('If you need to run specific feature tests only; then run: grunt runAllTests:sm\n\n');
+            grunt.log.writeln('If you need to run specific feature tests only; then run: grunt run:sm\n\n');
             grunt.task.run('karma:runAllTests');
             grunt.log.writeln('Test results: ' + karmaConfig['runAllTests']['options']['htmlReporter']['outputFile']);
             printCoverageReportLoc(karmaConfig['runAllTests']['options']['coverageReporter']);
