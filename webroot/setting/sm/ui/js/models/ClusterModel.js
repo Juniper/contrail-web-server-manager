@@ -111,10 +111,14 @@ define([
                 pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('nfs_server')
             },
-
             'parameters.database_dir': {
                 required: true,
                 msg: smwm.getRequiredMessage('database_dir')
+            },
+            'parameters.database_minimum_diskGB': {
+                required: true,
+                pattern: 'number',
+                msg: smwm.getInvalidErrorMessage('database_minimum_diskGB')
             },
             'parameters.service_token': {
                 required: true,
