@@ -378,23 +378,20 @@ module.exports = function (grunt) {
             grunt.task.run('karma:runAllTests');
             grunt.log.writeln('Test results: ' + karmaConfig['runAllTests']['options']['htmlReporter']['outputFile']);
             printCoverageReportLoc(karmaConfig['runAllTests']['options']['coverageReporter']);
-            //grunt.log.writeln('Coverage Report: ' + ['dir']);
         } else if (feature == 'sm') {
             grunt.log.writeln('>>>>>>>> Running Server Monitoring feature tests. <<<<<<<');
             grunt.task.run('karma:runAllSMTests');
             grunt.log.writeln('Test results: ' + karmaConfig['runAllSMTests']['options']['htmlReporter']['outputFile']);
             printCoverageReportLoc(karmaConfig['runAllSMTests']['options']['coverageReporter']);
-            //grunt.log.writeln('Coverage Report: ' + karmaConfig['runAllSMTests']['options']['coverageReporter']['dir']);
         }
     });
 
     grunt.registerTask('sm', 'Server Manager Test Cases', function (target) {
         if (target == null) {
-            grunt.log.writeln('>>>>>>>> Running Network Monitoring feature tests. <<<<<<<');
+            grunt.log.writeln('>>>>>>>> Running Server Manager feature tests. <<<<<<<');
             grunt.task.run('karma:runAllSMTests');
             grunt.log.writeln('Test results: ' + karmaConfig['runAllSMTests']['options']['htmlReporter']['outputFile']);
             printCoverageReportLoc(karmaConfig['runAllSMTests']['options']['coverageReporter']);
-            //grunt.log.writeln('Coverage Report: ' + ['reporters']);
         } else if (target == 'imageListView') {
             grunt.task.run('karma:imageListView');
         } else if (target == 'packageListView') {
@@ -413,9 +410,16 @@ module.exports = function (grunt) {
         } else if (target == 'packageModel') {
             //    grunt.task.run('karma:packageModel');
         } else if (target == 'runAllNoMerge') {
-            grunt.log.writeln('>>>>>>> Running all Network Monitoring tests one by one. Results will not be Merged. <<<<<<');
+            grunt.log.writeln('>>>>>>> Running all Server Manager tests one by one. Results will not be Merged. <<<<<<');
             grunt.task.run(['karma:imageListView', 'karma:packageListView', 'karma:clusterTabView',
                 'karma:clusterListView', 'karma:serverListView']);
         }
     });
+
+    grunt.registerTask('install-hook', 'install hook for test infra', function() {
+            var fs = require('fs');
+            grunt.file.copy('../../../.pre-commit', '../../../.git/hooks/pre-commit');
+            fs.chmodSync('../../../.git/hooks/pre-commit', '755');
+            grunt.log.writeln('now on git commit will execute unit tests before commiting..');
+        });
 };
