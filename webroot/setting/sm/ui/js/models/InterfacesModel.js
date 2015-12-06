@@ -30,7 +30,7 @@ define([
                 },
                 'ip_address': {
                     required: true,
-                    pattern: cowc.PATTERN_IP_ADDRESS,
+                    pattern: cowc.PATTERN_SUBNET_MASK,
                     msg: smwm.getShortInvalidErrorMessage('ip_address')
                 },
                 'mac_address': {
@@ -57,7 +57,7 @@ define([
                 },
                 'ip_address': {
                     required: false,
-                    pattern: cowc.PATTERN_IP_ADDRESS,
+                    pattern: cowc.PATTERN_SUBNET_MASK,
                     msg: smwm.getShortInvalidErrorMessage('ip_address')
                 }
             },
@@ -68,7 +68,7 @@ define([
                 },
                 'ip_address': {
                     required: false,
-                    pattern: cowc.PATTERN_IP_ADDRESS,
+                    pattern: cowc.PATTERN_SUBNET_MASK,
                     msg: smwm.getShortInvalidErrorMessage('ip_address')
                 }
             }

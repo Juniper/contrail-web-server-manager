@@ -21,7 +21,7 @@ define([
         this.NO_SERVERS_2_SELECT = 'No servers to select.';
         this.NO_SERVERS_SELECTED = 'No servers selected.';
         this.NO_TAGS_FOUND = 'No tags found.';
-        this.SHOULD_BE_VALID = '{0} should have a valid ';
+        this.SHOULD_BE_VALID = '{0} should have valid ';
 
         this.get = function () {
             var args = arguments;

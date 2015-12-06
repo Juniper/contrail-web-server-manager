@@ -98,7 +98,12 @@ define([
         },
 
         configure: function (checkedRows, callbackObj) {
-            if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
+            var validations = [
+                { key: null, type: cowc.OBJECT_TYPE_MODEL, getValidation: smwc.KEY_CONFIGURE_VALIDATION },
+                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } }
+            ];
+
+            if (this.isDeepValid(validations)) {
                 var ajaxConfig = {};
                 var putData = {}, serverAttrsEdited = [], serversEdited = [],
                     serverAttrs = this.model().attributes,
@@ -194,8 +199,13 @@ define([
                 }
             });
         },
-        createServers: function (callbackObj, ajaxMethod) {
-            if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
+        createServer: function (callbackObj, ajaxMethod) {
+            var validations = [
+                { key: null, type: cowc.OBJECT_TYPE_MODEL, getValidation: smwc.KEY_CONFIGURE_VALIDATION },
+                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } }
+            ];
+
+            if (this.isDeepValid(validations)) {
                 var ajaxConfig = {};
                 var putData = {}, serverAttrsEdited = [], serversCreated = [],
                     serverAttrs = this.model().attributes,
@@ -448,7 +458,7 @@ define([
 
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
-                    type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : 'physical';
+                    type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : smwc.INTERFACE_TYPE_PHYSICAL;
 
                     if (type == interfaceType) {
                         filteredInterfaces.push(kbInterfaces[i]);
@@ -480,7 +490,7 @@ define([
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
                     type = model.attributes.type();
-                    if ((type == 'physical' || type == 'bond') && model.attributes.name() != "") {
+                    if ((type == smwc.INTERFACE_TYPE_PHYSICAL || type == smwc.INTERFACE_TYPE_BOND) && model.attributes.name() != "") {
                         parentInterfaces.push(model.attributes.name());
                     }
                 }
@@ -496,10 +506,10 @@ define([
 
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
-                    type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : 'physical';
+                    type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : smwc.INTERFACE_TYPE_PHYSICAL;
                     dhcp = model.attributes.dhcp();
 
-                    if (type == 'physical' && dhcp) {
+                    if (type == smwc.INTERFACE_TYPE_PHYSICAL && dhcp) {
                         managementInterfaces.push(model.attributes.name());
                     }
                 }
@@ -515,7 +525,7 @@ define([
 
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
-                    type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : 'physical';
+                    type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : smwc.INTERFACE_TYPE_PHYSICAL;
                     dhcp = model.attributes.dhcp();
                     controlDataInterfaces.push(model.attributes.name());
                 }

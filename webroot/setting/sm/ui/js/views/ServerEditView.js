@@ -121,7 +121,7 @@ define([
                 self = this;
 
             cowu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                self.model.createServers({
+                self.model.createServer({
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);

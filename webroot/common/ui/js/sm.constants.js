@@ -35,6 +35,11 @@ define([
             {'id': 'storage-master', 'text': 'Storage Master'}
         ];
 
+        this.INTERFACE_TYPE_PHYSICAL = 'physical';
+        this.INTERFACE_TYPE_BOND = 'bond';
+        this.INTERFACE_TYPE_SUB = 'subinterface';
+
+
         this.STATES = [
             {'id': 'enable', 'text': 'Enable'},
             {'id': 'disable', 'text': 'Disable'}
