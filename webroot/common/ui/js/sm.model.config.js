@@ -144,9 +144,7 @@ define([
                 'network': {
                     'management_interface': "",
                     'provisioning': "kickstart",
-                    'interfaces': [],
-                    'tor':null,
-                    'tor_port':null
+                    'interfaces': []
                 }
             };
         };
