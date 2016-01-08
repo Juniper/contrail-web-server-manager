@@ -6,7 +6,7 @@ var baremetalPageLoader = new BaremetalPageLoader();
 
 function BaremetalPageLoader() {
     this.load = function (paramObject) {
-        var pathBaremetalView = smBaseDir + '/config/physicaldevices/baremetal/ui/js/views/BaremetalView.js',
+        var pathBaremetalView = smWebDir + '/config/physicaldevices/baremetal/ui/js/views/BaremetalView.js',
             hashParams = paramObject['hashParams'];
 
         requirejs([pathBaremetalView], function (BaremetalView) {

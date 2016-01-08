@@ -1,8 +1,8 @@
 define([
     'underscore',
     'contrail-view',
-    'config/physicaldevices/baremetal/ui/js/models/BaremetalModel',
-    'config/physicaldevices/baremetal/ui/js/views/BaremetalEditView'
+    'sm-basedir/config/physicaldevices/baremetal/ui/js/models/BaremetalModel',
+    'sm-basedir/config/physicaldevices/baremetal/ui/js/views/BaremetalEditView'
 ], function (_, ContrailView, BaremetalModel, BaremetalEditView) {
          var prefixId = smwc.BAREMETAL_PREFIX_ID,
          baremetalEditView = new BaremetalEditView(),

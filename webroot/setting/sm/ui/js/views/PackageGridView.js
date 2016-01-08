@@ -5,8 +5,8 @@
 define([
     'underscore',
     'contrail-view',
-    'setting/sm/ui/js/models/PackageModel',
-    'setting/sm/ui/js/views/PackageEditView'
+    'sm-basedir/setting/sm/ui/js/models/PackageModel',
+    'sm-basedir/setting/sm/ui/js/views/PackageEditView'
 ], function (_, ContrailView, PackageModel, PackageEditView) {
     var prefixId = smwc.PACKAGE_PREFIX_ID,
         gridElId = "#" + smwl.SM_PACKAGE_GRID_ID;

@@ -5,8 +5,8 @@
 define([
     'underscore',
     'contrail-view',
-    'setting/sm/ui/js/models/ServerModel',
-    'setting/sm/ui/js/views/ServerEditView'
+    'sm-basedir/setting/sm/ui/js/models/ServerModel',
+    'sm-basedir/setting/sm/ui/js/views/ServerEditView'
 ], function (_, ContrailView, ServerModel, ServerEditView) {
     var prefixId = smwc.SERVER_PREFIX_ID,
         gridElId = '#' + smwl.SM_SERVER_GRID_ID;

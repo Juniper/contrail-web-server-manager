@@ -5,8 +5,8 @@
 define([
     'underscore',
     'contrail-view',
-    'setting/sm/ui/js/models/ClusterModel',
-    'setting/sm/ui/js/views/ClusterEditView'
+    'sm-basedir/setting/sm/ui/js/models/ClusterModel',
+    'sm-basedir/setting/sm/ui/js/views/ClusterEditView'
 ], function (_, ContrailView, ClusterModel, ClusterEditView) {
     var prefixId = smwc.CLUSTER_PREFIX_ID,
         gridElId = "#" + smwl.SM_CLUSTER_GRID_ID;
