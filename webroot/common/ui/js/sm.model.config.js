@@ -18,7 +18,6 @@ define([
                     gateway: null,
                     subnet_mask: '255.255.255.0',
 
-                    openstack_mgmt_ip: null,
 
                     analytics_data_ttl: '48',
                     analytics_config_audit_ttl: '168',
@@ -114,7 +113,7 @@ define([
                 'gateway': null,
                 'email': null,
                 'subnet_mask': null,
-                'static_ip': null,
+
                 'mac_address': null,
                 'base_image_id': null,
                 'package_image_id': null,

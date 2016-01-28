@@ -355,8 +355,8 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'static_ip', view: "FormInputView",
-                                    viewConfig: {path: 'static_ip', dataBindValue: 'static_ip', class: "span6"}
+                                    elementId: 'partition', view: "FormInputView",
+                                    viewConfig: {path: 'parameters.partition', dataBindValue: 'parameters().partition', class: "span6"}
                                 },
                                 {
                                     elementId: 'ipmi_address', view: "FormInputView",
@@ -373,14 +373,6 @@ define([
                                 {
                                     elementId: 'ipmi_password', view: "FormInputView",
                                     viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "span6"}
-                                }
-                            ]
-                        },
-                        {
-                            columns: [
-                                {
-                                    elementId: 'partition', view: "FormInputView",
-                                    viewConfig: {path: 'parameters.partition', dataBindValue: 'parameters().partition', class: "span6"}
                                 }
                             ]
                         }
@@ -408,7 +400,7 @@ define([
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 170,path: "name", dataBindValue: "name()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP/MAsk', view: "FormInputView", class: "",
+                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 155, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
@@ -470,7 +462,7 @@ define([
                                             },
                                             {
                                                 elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "",
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width: 200, path: "dhcp", dataBindValue: "dhcp()"}
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width: 50, path: "dhcp", dataBindValue: "dhcp()"}
                                             },
                                             {
                                                 elementId: 'member_interfaces', name: 'Members', view: "FormMultiselectView", class: "",
@@ -496,6 +488,8 @@ define([
                     ]
                 }
             },
+            /*
+             Disabled as Sub Interfaces not supported at SM Backend
             {
                 elementId: cowu.formatElementId([prefixId, smwl.TITLE_SUB_INTERFACES]),
                 title: smwl.TITLE_SUB_INTERFACES,
@@ -548,7 +542,7 @@ define([
                     ]
                 }
             },
-
+            */
             {
                 elementId: cowu.formatElementId([prefixId, smwl.TITLE_CONTRAIL_CONTROLLER]),
                 title: smwl.TITLE_CONTRAIL_CONTROLLER,

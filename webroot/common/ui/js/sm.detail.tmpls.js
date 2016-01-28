@@ -55,16 +55,6 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.openstack_mgmt_ip',
-                                            templateGenerator: 'LinkGenerator',
-                                            templateGeneratorConfig: {
-                                                template: 'http://{{params.openstack_mgmt_ip}}/horizon',
-                                                params: {
-                                                    openstack_mgmt_ip: 'parameters.openstack_mgmt_ip'
-                                                }
-                                            }
-                                        },
-                                        {
                                             key: 'parameters.keystone_ip',
                                             templateGenerator: 'TextGenerator'
                                         }
@@ -353,10 +343,6 @@ define([
                                         },
                                         {
                                             key: 'subnet_mask',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'static_ip',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {

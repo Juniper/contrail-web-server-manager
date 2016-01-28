@@ -327,77 +327,69 @@ define([
                     {
                         columns: [
                             {
-                                elementId: 'openstack_mgmt_ip', view: "FormInputView",
-                                viewConfig: {path: 'parameters.openstack_mgmt_ip', dataBindValue: 'parameters().openstack_mgmt_ip', class: "span6"}
-                            },
-                            {
                                 elementId: 'keystone_ip', view: "FormInputView",
                                 viewConfig: {path: 'parameters.keystone_ip', dataBindValue: 'parameters().keystone_ip', class: "span6"}
+                            },
+                            {
+                                elementId: 'keystone_tenant', view: "FormInputView",
+                                viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}
                             }
                         ]
                     },
                     {
                         columns: [
-                            {
-                                elementId: 'keystone_tenant', view: "FormInputView",
-                                viewConfig: {path: 'parameters.keystone_tenant', dataBindValue: 'parameters().keystone_tenant', class: "span6"}
-                            },
                             {
                                 elementId: 'keystone_service_tenant', view: "FormInputView",
                                 viewConfig: {path: 'parameters.keystone_service_tenant', dataBindValue: 'parameters().keystone_service_tenant', class: "span6"}
                             },
-                        ]
-                    },
-                    {
-                        columns: [
                             {
                                 elementId: 'keystone_username', view: "FormInputView",
                                 viewConfig: {path: 'parameters.keystone_username', dataBindValue: 'parameters().keystone_username', class: "span6"}
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
                             {
                                 elementId: 'keystone_password', view: "FormInputView",
                                 viewConfig: {path: 'parameters.keystone_password', type: 'password', dataBindValue: 'parameters().keystone_password', class: "span6"}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
+                            },
                             {
                                 elementId: 'keystone_service_token', view: "FormInputView",
                                 viewConfig: {path: 'parameters.keystone_service_token', dataBindValue: 'parameters().keystone_service_token', class: "span6"}
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
                             {
                                 elementId: 'keystone_region_name', view: "FormInputView",
                                 viewConfig: {path: 'parameters.keystone_region_name', dataBindValue: 'parameters().keystone_region_name', class: "span6"}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: 'enable_ceilometer', view: "FormRadioButtonView",
-                                viewConfig: {path: 'parameters.enable_ceilometer', dataBindValue: 'parameters().enable_ceilometer', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
                             },
-                            {
-                                elementId: 'enable_lbass', view: "FormRadioButtonView",
-                                viewConfig: {path: 'parameters.enable_lbass', dataBindValue: 'parameters().enable_lbass', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
                             {
                                 elementId: 'amqp_server_ip', view: "FormInputView",
                                 viewConfig: {path: 'parameters.amqp_server_ip', dataBindValue: 'parameters().amqp_server_ip', class: "span6"}
-                            },
-                            {
-                                elementId: 'openstack_manage_amqp', view: "FormRadioButtonView",
-                                viewConfig: {path: 'parameters.openstack_manage_amqp', dataBindValue: 'parameters().openstack_manage_amqp', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
                             }
                         ]
                     },
                     {
                         columns: [
+                            {
+                                elementId: 'enable_lbass', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.enable_lbass', dataBindValue: 'parameters().enable_lbass', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
+                            },
+                            {
+                                elementId: 'enable_ceilometer', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.enable_ceilometer', dataBindValue: 'parameters().enable_ceilometer', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'openstack_manage_amqp', view: "FormRadioButtonView",
+                                viewConfig: {path: 'parameters.openstack_manage_amqp', dataBindValue: 'parameters().openstack_manage_amqp', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}
+                            },
                             {
                                 elementId: 'manage_neutron', view: "FormRadioButtonView",
                                 viewConfig: {path: 'parameters.manage_neutron', dataBindValue: 'parameters().manage_neutron', class: "span6", elementConfig: {dataObj: smwc.FLAGS_RADIO}}

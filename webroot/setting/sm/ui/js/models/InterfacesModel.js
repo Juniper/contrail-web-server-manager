@@ -39,13 +39,7 @@ define([
                     msg: smwm.getShortInvalidErrorMessage('mac_address')
                 },
                 'default_gateway': {
-                    required: function(value, attr, computedState){
-                        if(contrail.checkIfExist(computedState.dhcp) && (computedState.dhcp)){
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    },
+                    required: false,
                     pattern: cowc.PATTERN_IP_ADDRESS,
                     msg: smwm.getShortInvalidErrorMessage('gateway')
                 }
@@ -56,7 +50,7 @@ define([
                     msg: smwm.getRequiredMessage('name')
                 },
                 'ip_address': {
-                    required: false,
+                    required: true,
                     pattern: cowc.PATTERN_SUBNET_MASK,
                     msg: smwm.getShortInvalidErrorMessage('ip_address')
                 }
