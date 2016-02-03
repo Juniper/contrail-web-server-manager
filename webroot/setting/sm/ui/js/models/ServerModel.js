@@ -471,11 +471,12 @@ define([
             return Knockout.computed(function () {
                 var kbInterfaces = this.interfaces(),
                     interfaces = this.model().attributes.interfaces,
-                    memberInterfaces = [], model, dhcp;
+                    memberInterfaces = [], model, dhcp, interfaceType = '';
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
                     dhcp = model.attributes.dhcp();
-                    if (dhcp == false && model.attributes.name() != "") {
+                    interfaceType = model.attributes.type();
+                    if (dhcp == false && model.attributes.name() != "" && (interfaceType !== 'bond')) {
                         memberInterfaces.push(model.attributes.name());
                     }
                 }
@@ -490,7 +491,7 @@ define([
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
                     type = model.attributes.type();
-                    if ((type == smwc.INTERFACE_TYPE_PHYSICAL || type == smwc.INTERFACE_TYPE_BOND) && model.attributes.name() != "") {
+                    if ((type == smwc.INTERFACE_TYPE_PHYSICAL || type == smwc.INTERFACE_TYPE_BOND) && model.attributes.name() !== "") {
                         parentInterfaces.push(model.attributes.name());
                     }
                 }
@@ -509,7 +510,7 @@ define([
                     type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : smwc.INTERFACE_TYPE_PHYSICAL;
                     dhcp = model.attributes.dhcp();
 
-                    if (type == smwc.INTERFACE_TYPE_PHYSICAL && dhcp) {
+                    if (type == smwc.INTERFACE_TYPE_PHYSICAL && dhcp && model.attributes.name() !== "") {
                         managementInterfaces.push(model.attributes.name());
                     }
                 }
@@ -527,7 +528,9 @@ define([
                     model = interfaces.at(i);
                     type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : smwc.INTERFACE_TYPE_PHYSICAL;
                     dhcp = model.attributes.dhcp();
-                    controlDataInterfaces.push(model.attributes.name());
+                    if(model.attributes.name() != "") {
+                        controlDataInterfaces.push(model.attributes.name());
+                    }
                 }
 
                 return controlDataInterfaces;
