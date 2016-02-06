@@ -142,10 +142,22 @@ define([
                     }
                 });
             }),
+            smwgc.getRunInventoryAction(function (dataItem) {
+                var clusterModel = new ClusterModel(dataItem),
+                    checkedRow = dataItem,
+                    title = smwl.TITLE_REFRESH_INVENTORY + ' (' + dataItem['id'] + ')';
+
+                clusterEditView.model = clusterModel;
+                clusterEditView.renderRunInventory({
+                    "title": title, checkedRows: checkedRow, callback: function () {
+                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {}});
+                    }
+                });
+            }),
             smwgc.getDeleteAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
-                    checkedRow = dataItem
-                title = smwl.TITLE_DEL_CLUSTER + ' (' + dataItem['id'] + ')';
+                    checkedRow = dataItem,
+                    title = smwl.TITLE_DEL_CLUSTER + ' (' + dataItem['id'] + ')';
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderDeleteCluster({

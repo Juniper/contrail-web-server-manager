@@ -233,6 +233,16 @@ define([
             };
         };
 
+        this.getRunInventoryAction = function (onClickFunction, divider) {
+            return {
+                title: smwl.TITLE_REFRESH_INVENTORY,
+                    iconClass: 'icon-refresh',
+                width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
+                onClick: onClickFunction
+            };
+        };
+
         this.getGridColumns4Roles = function () {
             var columns = [];
             $.each(smwc.ROLES_ARRAY, function (roleKey, roleValue) {

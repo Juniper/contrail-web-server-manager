@@ -419,6 +419,23 @@ function getInventoryInfo4Servers (req, res) {
     }, global.DEFAULT_CB_TIMEOUT));
 };
 
+function runInventory(req, res, appdata) {
+    var urlParts = url.parse(req.url, true),
+        qsObj = urlParts.query, runInventoryUrl, postData = {};
+
+    filterInAllowedParams(qsObj);
+    runInventoryUrl = smConstants.SM_RUN_INVENTORY_URL + '?' + qs.stringify(qsObj);
+
+    sm.post(runInventoryUrl, postData, appdata, function (error, resultJSON) {
+        if (error != null) {
+            logutils.logger.error(error.stack);
+            commonUtils.handleJSONResponse(formatErrorMessage(error), res);
+        } else {
+            commonUtils.handleJSONResponse(null, res, resultJSON);
+        }
+    });
+};
+
 function filterInAllowedParams(qsObj) {
     for (var key in qsObj) {
         if (smConstants.ALLOWED_FORWARDING_PARAMS.indexOf(key) == -1) {
@@ -465,10 +482,11 @@ exports.getObjectsDetails = getObjectsDetails;
 exports.getTagValues = getTagValues;
 exports.getTagNames = getTagNames;
 exports.getChassisIds = getChassisIds;
-exports.getServerIPMIInfo = getServerIPMIInfo
-exports.getMonitoringInfoSummary4Servers = getMonitoringInfoSummary4Servers
-exports.getMonitoringInfo4Servers = getMonitoringInfo4Servers
-exports.getInventoryInfo4Servers = getInventoryInfo4Servers
-exports.getServerManagerMonitoringConfig = getServerManagerMonitoringConfig
+exports.getServerIPMIInfo = getServerIPMIInfo;
+exports.getMonitoringInfoSummary4Servers = getMonitoringInfoSummary4Servers;
+exports.getMonitoringInfo4Servers = getMonitoringInfo4Servers;
+exports.getInventoryInfo4Servers = getInventoryInfo4Servers;
+exports.runInventory = runInventory;
+exports.getServerManagerMonitoringConfig = getServerManagerMonitoringConfig;
 exports.provision = provision;
 exports.reimage = reimage;

@@ -8,8 +8,9 @@ define([
     'knockout',
     'contrail-model',
     'sm-basedir/setting/sm/ui/js/models/InterfacesModel',
-    'sm-basedir/setting/sm/ui/js/models/DisksModel'
-], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, DiskModel) {
+    'sm-basedir/setting/sm/ui/js/models/DisksModel',
+    'sm-basedir/setting/sm/ui/js/models/SwitchModel'
+], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, DiskModel, SwitchModel) {
     var ServerModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getServerModel(),
@@ -31,6 +32,11 @@ define([
                     'interfaces': []
                 };
             }
+            if(modelConfig.top_of_rack == null || modelConfig.top_of_rack == '') {
+                modelConfig.top_of_rack = {
+                    'switches': []
+                };
+            }
 
             /*
                 Populating InterfaceModel from network.interfaces
@@ -48,6 +54,30 @@ define([
             modelConfig['interfaces'] = interfaceCollectionModel;
             if(modelConfig['network'] != null) {
                 delete modelConfig['network']['interfaces'];
+            }
+
+            /*
+                Populating SwitchModel from top_of_rack.switches
+             */
+            var switches = (modelConfig['top_of_rack'] != null) ? (modelConfig['top_of_rack']['switches']) : [],
+                switchModels = [], switchModel,
+                switchCollectionModel;
+
+            for(var i = 0; i < switches.length; i++) {
+                // manually need to replace 'id' in switches by 'switch_id'
+                // as backbone collection does not allow 'id' field in a collection
+                if(contrail.checkIfExist(switches[i].id)){
+                    switches[i].switch_id = switches[i].id;
+                    delete switches[i].id;
+                }
+                switchModel = new SwitchModel(switches[i]);
+                switchModels.push(switchModel)
+            }
+
+            switchCollectionModel = new Backbone.Collection(switchModels);
+            modelConfig['switches'] = switchCollectionModel;
+            if(modelConfig['top_of_rack'] != null) {
+                delete modelConfig['top_of_rack']['switches'];
             }
 
             /*
@@ -83,6 +113,18 @@ define([
             }
             return interfaceArray;
         },
+        getSwitches: function (serverAttributes) {
+            var switchCollection = serverAttributes.switches.toJSON(),
+                switchArray = [], switchAttributes;
+
+            for(var i = 0; i < switchCollection.length; i++) {
+                switchAttributes = switchCollection[i].model().attributes;
+                delete switchAttributes.errors;
+                delete switchAttributes.locks;
+                switchArray.push(switchCollection[i].model().attributes);
+            }
+            return switchArray;
+        },
 
         getServerStorageDisks: function (serverAttributes) {
             var diskCollection = serverAttributes.disks.toJSON(),
@@ -100,7 +142,8 @@ define([
         configure: function (checkedRows, callbackObj) {
             var validations = [
                 { key: null, type: cowc.OBJECT_TYPE_MODEL, getValidation: smwc.KEY_CONFIGURE_VALIDATION },
-                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } }
+                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } },
+                { key: 'switches', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: 'topOfRackValidation' }
             ];
 
             if (this.isDeepValid(validations)) {
@@ -109,15 +152,30 @@ define([
                     serverAttrs = this.model().attributes,
                     originalAttrs = this.model()._originalAttributes,
                     locks = this.model().attributes.locks.attributes,
-                    interfaces, disks;
+                    interfaces, disks, switches;
 
                 interfaces = this.getServerInterfaces(serverAttrs);
                 disks = this.getServerStorageDisks(serverAttrs);
+                switches = this.getSwitches(serverAttrs);
+
+                /* Special handling to reaplace switch_id by id and add type as 'ovs' - START*/
+                for (var i = 0; i < switches.length; i++) {
+                    if (contrail.checkIfExist(switches[i].switch_id)) {
+                        switches[i].id = switches[i].switch_id;
+                        switches[i].type = smwc.TYPE_OVS;
+                        delete switches[i].switch_id;
+                    }
+                }
+                /* Special handling to reaplace switch_id by id and add type as 'ovs'- END*/
 
                 serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
 
                 serverAttrsEdited['network']['interfaces'] = interfaces;
                 delete serverAttrsEdited['interfaces'];
+
+                serverAttrsEdited['top_of_rack'] = {switches : switches};
+                delete serverAttrsEdited['switches'];
+
                 serverAttrsEdited.parameters.disks = disks;
                 delete serverAttrsEdited['disks'];
 
@@ -202,7 +260,8 @@ define([
         createServer: function (callbackObj, ajaxMethod) {
             var validations = [
                 { key: null, type: cowc.OBJECT_TYPE_MODEL, getValidation: smwc.KEY_CONFIGURE_VALIDATION },
-                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } }
+                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } },
+                { key: 'switches', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: 'topOfRackValidation'}
             ];
 
             if (this.isDeepValid(validations)) {
@@ -210,10 +269,21 @@ define([
                 var putData = {}, serverAttrsEdited = [], serversCreated = [],
                     serverAttrs = this.model().attributes,
                     locks = this.model().attributes.locks.attributes,
-                    interfaces, disks;
+                    interfaces, disks, switches;
 
                 interfaces = this.getServerInterfaces(serverAttrs);
+                switches = this.getSwitches(serverAttrs);
                 disks = this.getServerStorageDisks(serverAttrs);
+
+                /* Special handling to reaplace switch_id by id and add type as 'ovs' - START*/
+                for (var i = 0; i < switches.length; i++) {
+                    if (contrail.checkIfExist(switches[i].switch_id)) {
+                        switches[i].id = switches[i].switch_id;
+                        switches[i].type = smwc.TYPE_OVS;
+                        delete switches[i].switch_id;
+                    }
+                }
+                /* Special handling to reaplace switch_id by id and add type as 'ovs'- END*/
 
                 serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
 
@@ -221,6 +291,9 @@ define([
                 delete serverAttrsEdited['interfaces'];
                 serverAttrsEdited.parameters.disks = disks;
                 delete serverAttrsEdited['disks'];
+
+                serverAttrsEdited['top_of_rack'] = {switches : switches};
+                delete serverAttrsEdited['switches'];
 
                 serversCreated.push(serverAttrsEdited);
 
@@ -450,6 +523,27 @@ define([
 
             interfaceCollection.remove(intf);
         },
+        addSwitch: function() {
+            var switches = this.model().get('switches'),
+                newSwitch = new SwitchModel({
+                "switch_id"       : "",
+                "ip_address"      : "",
+                "switch_name"     : "",
+                "ovs_port"        : "",
+                "ovs_protocol"    : "",
+                "http_server_port": "",
+                "vendor_name"     : "",
+                "product_name"    : "",
+                "keepalive_time"  : ""
+            });
+            switches.add(newSwitch);
+        },
+        deleteSwitch: function(data, kbSwitch) {
+            var switchCollection = data.model().collection,
+                swth = kbSwitch.model();
+
+            switchCollection.remove(swth);
+        },
         filterInterfaces: function(interfaceType) {
             return Knockout.computed(function () {
                 var kbInterfaces = this.interfaces(),
@@ -559,6 +653,28 @@ define([
                 };
                 return storageDisks;
             }, this);
+        },
+        runInventory: function (checkedRow, callbackObj) {
+            var ajaxConfig = {}, that = this,
+                serverId = checkedRow['id'];
+
+            ajaxConfig.type = "POST";
+            ajaxConfig.url = smwc.URL_RUN_INVENTORY + '?id=' +serverId;
+
+            contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
+            }, function (response) {
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
+                }
+            }, function (error) {
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
+            });
         },
 
         validations: {

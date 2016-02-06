@@ -51,7 +51,7 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 disableId, modelAttr, self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-980', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 self.model.configure(options['checkedRows'], {
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
@@ -80,6 +80,7 @@ define([
                 self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                 Knockback.applyBindings(self.model, document.getElementById(modalId));
                 kbValidation.bind(self, {collection: self.model.model().attributes.interfaces});
+                kbValidation.bind(self, {collection: self.model.model().attributes.switches});
             });
         },
 
@@ -120,7 +121,7 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-840', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({'modalId': modalId, 'className': 'modal-980', 'title': options['title'], 'body': editLayout, 'onSave': function () {
                 self.model.createServer({
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
@@ -146,6 +147,7 @@ define([
                 self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                 Knockback.applyBindings(self.model, document.getElementById(modalId));
                 kbValidation.bind(self, {collection: self.model.model().attributes.interfaces});
+                kbValidation.bind(self, {collection: self.model.model().attributes.switches});
             });
         },
 
@@ -290,7 +292,40 @@ define([
             self.model.showErrorAttr(elId, false);
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);
-        }
+        },
+
+        renderRunInventory: function (options) {
+            var textTemplate = contrail.getTemplate4Id("sm-server-run-inventory-template"),
+                elId = 'runInventoryServer',
+                self = this,
+                checkedRows = options['checkedRows'],
+                runInventoryServers = {'serverId': [], 'elementId': elId};
+            runInventoryServers['serverId'].push(checkedRows['id']);
+
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(runInventoryServers), 'onSave': function () {
+                self.model.runInventory(options['checkedRows'], {
+                    init: function () {
+                        self.model.showErrorAttr(elId, false);
+                        cowu.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        cowu.disableModalLoading(modalId, function () {
+                            self.model.showErrorAttr(elId, error.responseText);
+                        });
+                    }
+                });
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
+            }});
+
+            this.model.showErrorAttr(elId, false);
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            kbValidation.bind(this);
+        },
     });
 
     function getTagServersViewConfigRows(callback) {
@@ -489,7 +524,7 @@ define([
                 }
             },
             /*
-             Disabled as Sub Interfaces not supported at SM Backend
+            Disabled as Sub Interfaces not supported at SM Backend
             {
                 elementId: cowu.formatElementId([prefixId, smwl.TITLE_SUB_INTERFACES]),
                 title: smwl.TITLE_SUB_INTERFACES,
@@ -543,6 +578,75 @@ define([
                 }
             },
             */
+            {
+                elementId: cowu.formatElementId([prefixId, smwl.TITLE_OVS_SWITCHES]),
+                title: smwl.TITLE_OVS_SWITCHES,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+                                {
+                                    elementId: 'switches',
+                                    view: "FormEditableGridView",
+                                    viewConfig: {
+                                        path: "switches",
+                                        validation: "topOfRackValidation",
+                                        collection: "switches",
+                                        columns: [
+                                            {
+                                                elementId: 'switch_id', name: 'ID', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 50,path: "switch_id", dataBindValue: "switch_id()"}
+                                            },
+                                            {
+                                                elementId: 'ip_address', name: 'IP Address', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "ip_address", dataBindValue: "ip_address()"}
+                                            },
+                                            {
+                                                elementId: 'switch_name', name: 'Name', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "switch_name", dataBindValue: "switch_name()"}
+                                            },
+                                            {
+                                                elementId: 'vendor_name', name: 'Vendor', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "vendor_name", dataBindValue: "vendor_name()"}
+                                            },
+                                            {
+                                                elementId: 'product_name', name: 'Product', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "product_name", dataBindValue: "product_name()"}
+                                            },
+                                            {
+                                                elementId: 'ovs_port', name: 'Port', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 100, path: "ovs_port", dataBindValue: "ovs_port()"}
+                                            },
+                                            {
+                                                elementId: 'ovs_protocol', name: 'Protocol', view: "FormDropdownView", class: "",
+                                                viewConfig: {
+                                                    templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW, path: 'ovs_protocol', width: 100, dataBindValue: 'ovs_protocol()',
+                                                    elementConfig: {placeholder: smwl.SELECT_PROTOCOL, defaultValueId: 0, dataTextField: "text", dataValueField: "id", data: smwc.OVS_PROTOCOLS}
+                                                }
+                                            },
+                                            {
+                                                elementId: 'http_server_port', name: 'HTTP Port', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 100, path: "http_server_port", dataBindValue: "http_server_port()"}
+                                            },
+                                            {
+                                                elementId: 'keepalive_time', name: 'Keepalive Time', view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 140, path: "keepalive_time", dataBindValue: "keepalive_time()"}
+                                            }
+                                        ],
+                                        rowActions: [
+                                            {onClick: "function() { $root.deleteSwitch($data, this); }", iconClass: 'icon-minus'}
+                                        ],
+                                        gridActions: [
+                                            {onClick: "function() { addSwitch(); }", buttonTitle: "Add"}
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
             {
                 elementId: cowu.formatElementId([prefixId, smwl.TITLE_CONTRAIL_CONTROLLER]),
                 title: smwl.TITLE_CONTRAIL_CONTROLLER,

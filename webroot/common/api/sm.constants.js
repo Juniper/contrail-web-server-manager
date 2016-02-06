@@ -48,6 +48,7 @@ smConstants.SM_MONITORING_SUMMARY_INFO_URL = '/MonitorInfoSummary';
 smConstants.SM_INVENTORY_INFO_URL = '/InventoryInfo';
 smConstants.SM_ANALYTICS_SERVER_MONITORING_INFO_URL = '/analytics/uves/server/{0}?flat&cfilt=ServerMonitoringInfo';
 smConstants.SM_ANALYTCIS_SERVER_INVENTORY_INFO_URL = '/analytics/uves/server/{0}?flat&cfilt=ServerInventoryInfo';
+smConstants.SM_RUN_INVENTORY_URL = '/run_inventory';
 
 smConstants.get = function () {
     var args = arguments;

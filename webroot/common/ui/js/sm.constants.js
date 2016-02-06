@@ -32,7 +32,9 @@ define([
             {'id': 'webui', 'text': 'Webui'},
             {'id': 'database', 'text': 'Database'},
             {'id': 'storage-compute', 'text': 'Storage Compute'},
-            {'id': 'storage-master', 'text': 'Storage Master'}
+            {'id': 'storage-master', 'text': 'Storage Master'},
+            {'id': 'toragent', 'text': 'TOR Agent'},
+            {'id': 'tsn', 'text': 'TSN'}
         ];
 
         this.INTERFACE_TYPE_PHYSICAL = 'physical';
@@ -85,6 +87,11 @@ define([
             {'id': 'local', 'text': 'Local'}
         ];
 
+        this.OVS_PROTOCOLS = [
+            {'id': 'tcp', 'text': 'TCP'},
+            {'id': 'pssl', 'text': 'pssl'}
+        ];
+
         this.get = function () {
             var args = arguments;
             return cowu.getValueFromTemplate(args);
@@ -119,6 +126,7 @@ define([
         this.SM_SERVER_MONITORING_INFO_SUMMARY_URL = '/sm/server/monitoring/info/summary?{0}';
         this.SM_SERVER_MONITORING_CONFIG_URL = '/sm/server/monitoring/config';
         this.SM_SERVER_INVENTORY_INFO_URL = '/sm/server/inventory/info?{0}';
+        this.URL_RUN_INVENTORY = '/sm/run_inventory';
         this.URL_CHASSIS_ID = '/sm/chassis/ids';
 
         this.CACHED_TAG_COLORS = {};
@@ -169,6 +177,8 @@ define([
 
         this.UMID_SERVER_INVENTORY_UVE = "uve:{0}:inventory";
         this.UMID_SERVER_MONITORING_UVE = "uve:{0}:monitoring";
+
+        this.TYPE_OVS = "ovs";
     }
     return SMConstants;
 });

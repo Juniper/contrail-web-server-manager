@@ -119,6 +119,19 @@ define([
                     dataView.refreshData();
                 }});
             }),
+            smwgc.getRunInventoryAction(function (rowIndex) {
+                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                    clusterModel = new ClusterModel(dataItem),
+                    checkedRow = dataItem,
+                    title = smwl.TITLE_REFRESH_INVENTORY + ' ('+ dataItem['id'] +')',
+                    clusterEditView = new ClusterEditView();
+
+                clusterEditView.model = clusterModel;
+                clusterEditView.renderRunInventory({"title": title, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            }, true),
             smwgc.getDeleteAction(function (rowIndex) {
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     clusterModel = new ClusterModel(dataItem),

@@ -144,6 +144,9 @@ define([
                     'management_interface': "",
                     'provisioning': "kickstart",
                     'interfaces': []
+                },
+                'top_of_rack': {
+                    'switches': []
                 }
             };
         };
@@ -161,6 +164,20 @@ define([
                 "tor_port" : null,
                 "parent": ""
             };
+        };
+
+        this.getSwitchModel = function () {
+            return {
+                "switch_id"       : null,
+                "ip_address"      : null,
+                "switch_name"     : null,
+                "ovs_port"        : null,
+                "ovs_protocol"    : null,
+                "http_server_port": null,
+                "vendor_name"     : null,
+                "product_name"    : null,
+                "keepalive_time"  : null
+            }
         };
 
         this.getDiskModel = function () {

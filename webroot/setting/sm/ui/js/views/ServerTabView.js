@@ -149,6 +149,16 @@ define([
                     loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
                 }});
             }),
+            smwgc.getRunInventoryAction(function (dataItem) {
+                var serverModel = new ServerModel(dataItem),
+                    checkedRow = dataItem,
+                    title = smwl.TITLE_REFRESH_INVENTORY + ' ('+ dataItem['id'] +')';
+
+                serverEditView.model = serverModel;
+                serverEditView.renderRunInventory({"title": title, checkedRows: checkedRow, callback: function () {
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                }});
+            }),
             smwgc.getDeleteAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,

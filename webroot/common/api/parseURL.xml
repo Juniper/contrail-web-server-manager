@@ -74,6 +74,12 @@
         <callback>smapi.getInventoryInfo4Servers</callback>
     </item>
     <item>
+        <url>/sm/run_inventory</url>
+        <method>post</method>
+        <feature>smConfigure</feature>
+        <callback>smapi.runInventory</callback>
+    </item>
+    <item>
         <url>/sm/tags/values</url>
         <method>get</method>
         <feature>smConfigure</feature>

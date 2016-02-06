@@ -241,6 +241,7 @@ define([
         this.TITLE_SYSTEM_MANAGEMENT = "System Management";
         this.TITLE_INTERFACES = "Interfaces";
         this.TITLE_PHYSICAL_INTERFACES = "Physical Interfaces";
+        this.TITLE_OVS_SWITCHES = "OVS Type Switches";
         this.TITLE_BOND_INTERFACES = "Bond Interfaces";
         this.TITLE_SUB_INTERFACES = "Sub Interfaces";
         this.TITLE_MANAGEMENT_INTERFACES = "Management Interfaces";
@@ -265,6 +266,7 @@ define([
         this.TITLE_DELETE = "Delete";
         this.TITLE_CONFIGURE = 'Configure';
         this.TITLE_CREATE = 'Create';
+        this.TITLE_REFRESH_INVENTORY = "Refresh Inventory";
 
         this.TITLE_CLUSTERS = 'Clusters';
         this.TITLE_CLUSTER = 'Cluster';
@@ -289,6 +291,7 @@ define([
         this.SELECT_CLUSTER = 'Select Cluster';
         this.SELECT_TYPE = 'Select Type';
         this.SELECT_PARENT_INTERFACE = 'Select Parent';
+        this.SELECT_PROTOCOL = 'Select Protocol';
         this.SELECT_MEMBERS = 'Select Members';
         this.TITLE_ADD_CLUSTER = 'Add Cluster';
         this.TITLE_DEL_CLUSTER = 'Delete Cluster';
@@ -304,6 +307,7 @@ define([
         this.TITLE_ADD_TO_CLUSTER = 'Add to Cluster';
         this.TITLE_REMOVE_FROM_CLUSTER = 'Remove from Cluster';
         this.TITLE_EDIT_CLUSTER_CONFIG = 'Edit Cluster Configurations';
+        this.TITLE_REFRESH_INVENTORY = 'Refresh Inventory';
 
         this.TITLE_REGISTER = 'Register';
         this.TITLE_CONFIGURE_SERVER = 'Configure Server';

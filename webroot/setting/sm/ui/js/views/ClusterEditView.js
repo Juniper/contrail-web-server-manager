@@ -292,7 +292,40 @@ define([
             this.model.showErrorAttr(elId, false);
             Knockback.applyBindings(this.model, document.getElementById(modalId));
             kbValidation.bind(this);
-        }
+        },
+
+        renderRunInventory: function (options) {
+            var textTemplate = contrail.getTemplate4Id("sm-cluster-run-inventory-template"),
+                elId = 'runInventoryCluster',
+                self = this,
+                checkedRows = options['checkedRows'],
+                runInventoryClusters = {'clusterId': [], 'elementId': elId};
+            runInventoryClusters['clusterId'].push(checkedRows['id']);
+
+            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(runInventoryClusters), 'onSave': function () {
+                self.model.runInventory(options['checkedRows'], {
+                    init: function () {
+                        self.model.showErrorAttr(elId, false);
+                        cowu.enableModalLoading(modalId);
+                    },
+                    success: function () {
+                        options['callback']();
+                        $("#" + modalId).modal('hide');
+                    },
+                    error: function (error) {
+                        cowu.disableModalLoading(modalId, function () {
+                            self.model.showErrorAttr(elId, error.responseText);
+                        });
+                    }
+                });
+            }, 'onCancel': function () {
+                $("#" + modalId).modal('hide');
+            }});
+
+            this.model.showErrorAttr(elId, false);
+            Knockback.applyBindings(this.model, document.getElementById(modalId));
+            kbValidation.bind(this);
+        },
     });
 
     var createClusterViewConfig = [{

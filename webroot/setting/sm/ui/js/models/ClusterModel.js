@@ -383,6 +383,28 @@ define([
                 }
             });
         },
+        runInventory: function (checkedRow, callbackObj) {
+            var ajaxConfig = {}, that = this,
+                clusterId = checkedRow['id'];
+
+            ajaxConfig.type = "POST";
+            ajaxConfig.url = smwc.URL_RUN_INVENTORY + '?cluster_id=' +clusterId;
+
+            contrail.ajaxHandler(ajaxConfig, function () {
+                if (contrail.checkIfFunction(callbackObj.init)) {
+                    callbackObj.init();
+                }
+            }, function (response) {
+                if (contrail.checkIfFunction(callbackObj.success)) {
+                    callbackObj.success();
+                }
+            }, function (error) {
+                console.log(error);
+                if (contrail.checkIfFunction(callbackObj.error)) {
+                    callbackObj.error(error);
+                }
+            });
+        },
         validations: {
             reimageValidation: {
                 'base_image_id': {
