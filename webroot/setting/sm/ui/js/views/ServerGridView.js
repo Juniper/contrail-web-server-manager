@@ -22,14 +22,12 @@ define([
 
     // ServerFilter: OR within the category, AND across the category
     function serverTagGridFilter(item, args) {
-        if (args.checkedRows.length == 0) {
-            return true;
-        } else {
-            var returnObj = {},
-                returnFlag = true;
+        var returnFlag = true;
+        if (args.checkedRows.length != 0) {
+            var returnObj = {};
             $.each(args.checkedRows, function (checkedRowKey, checkedRowValue) {
                 var checkedRowValueObj = $.parseJSON(unescape($(checkedRowValue).val()));
-                if(!contrail.checkIfExist(returnObj[checkedRowValueObj.parent])){
+                if (!contrail.checkIfExist(returnObj[checkedRowValueObj.parent])){
                     returnObj[checkedRowValueObj.parent] = false;
                 }
                 returnObj[checkedRowValueObj.parent] = returnObj[checkedRowValueObj.parent] || (item.tag[checkedRowValueObj.parent] == checkedRowValueObj.value);
@@ -38,9 +36,8 @@ define([
             $.each(returnObj, function(returnObjKey, returnObjValue) {
                 returnFlag = returnFlag && returnObjValue;
             });
-
-            return returnFlag;
         }
+        return returnFlag;
     };
 
     function applyServerTagFilter(event, ui) {
