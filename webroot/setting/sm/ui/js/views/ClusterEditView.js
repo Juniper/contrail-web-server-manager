@@ -546,6 +546,18 @@ define([
                                 viewConfig: {path: 'parameters.contrail_internal_virtual_router_id', dataBindValue: 'parameters().contrail_internal_virtual_router_id', class: "span6"}
                             }
                         ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: 'nfs_server', view: "FormInputView",
+                                viewConfig: {path: 'parameters.nfs_server', dataBindValue: 'parameters().nfs_server', class: "span6"}
+                            },
+                            {
+                                elementId: 'nfs_glance_path', view: "FormInputView",
+                                viewConfig: {path: 'parameters.nfs_glance_path', dataBindValue: 'parameters().nfs_glance_path', class: "span6"}
+                            }
+                        ]
                     }
                 ]
             }
@@ -785,18 +797,6 @@ define([
                             {
                                 elementId: 'live_migration_host', view: "FormInputView",
                                 viewConfig: {path: 'parameters.live_migration_host', dataBindValue: 'parameters().live_migration_host', class: "span6"}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: 'nfs_server', view: "FormInputView",
-                                viewConfig: {path: 'parameters.nfs_server', dataBindValue: 'parameters().nfs_server', class: "span6"}
-                            },
-                            {
-                                elementId: 'nfs_glance_path', view: "FormInputView",
-                                viewConfig: {path: 'parameters.nfs_glance_path', dataBindValue: 'parameters().nfs_glance_path', class: "span6"}
                             }
                         ]
                     }
