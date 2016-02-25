@@ -37,7 +37,7 @@ define([
     pageConfig.hashParams = {
         p: 'setting_sm_packages'
     };
-    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 5;
 
     var getTestConfig = function () {
         return {

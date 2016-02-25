@@ -47,7 +47,7 @@ define([
     pageConfig.hashParams = {
         p: 'setting_sm_clusters'
     };
-    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 3;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 5;
 
     var getTestConfig = function () {
         return {

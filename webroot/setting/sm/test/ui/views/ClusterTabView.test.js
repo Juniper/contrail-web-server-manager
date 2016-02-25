@@ -53,7 +53,7 @@ define([
             cluster_id : "r22_cluster"
         }
     };
-    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 2;
+    pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 5;
 
     var getTestConfig = function () {
         return {
