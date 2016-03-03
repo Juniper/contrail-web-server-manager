@@ -96,7 +96,7 @@ define([
             {
                 id: "status", field: "status", name: "Status", width: 120, minWidth: 15,
                 formatter: function(r, c, v, cd, dc) {
-                    return cowf.getTextGenerator('status-state', dc.status)
+                    return cowf.getFormattedValue('status-state', dc.status)
                 }
             }
         ];
@@ -125,7 +125,7 @@ define([
             }},
             {id: "used_percentage", field: "used_percentage", name: "Used", width: 80, minWidth: 15,
                 formatter: function(r, c, v, cd, dc) {
-                    return cowf.getTextGenerator('alert-percentage', dc.used_percentage)
+                    return cowf.getFormattedValue('alert-percentage', dc.used_percentage)
                 }
             }
         ];
