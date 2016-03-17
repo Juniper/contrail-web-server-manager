@@ -22,7 +22,7 @@ define([
         this.SM_API_SERVER = 'sm-api-server';
         this.DFLT_SERVER_IP = '127.0.0.1';
 
-        this.ROLES_ARRAY = ['config', 'openstack', 'control', 'compute', 'collector', 'webui', 'database', 'storage-compute', 'storage-master'];
+        this.ROLES_ARRAY = ['config', 'openstack', 'control', 'compute', 'collector', 'webui', 'database', 'storage-compute', 'storage-master', 'toragent', 'tsn'];
         this.ROLES_OBJECTS = [
             {'id': 'config', 'text': 'Config'},
             {'id': 'openstack', 'text': 'Openstack'},

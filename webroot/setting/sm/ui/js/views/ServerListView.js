@@ -21,13 +21,6 @@ define([
                     },
                     dataParser: smwp.serverDataParser,
                     hlRemoteConfig: smwgc.getServerMonitoringHLazyRemoteConfig(viewConfig, smwp.serverMonitoringDataParser)
-                },
-                sortConfig: {
-                    defaultSortColumns: [
-                        {sortColumn: {field: 'discovered'}, sortAsc: false},
-                        {sortColumn: {field: 'roleCount'}, sortAsc: false},
-                        {sortColumn: {field: 'status'}, sortAsc: true}
-                    ]
                 }
             };
 

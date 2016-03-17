@@ -137,6 +137,13 @@ define([
             if (contrail.checkIfExist(data.y)) {
                 delete data.y;
             }
+            if (contrail.checkIfExist(data.roles)) {
+                var roles = (contrail.checkIfExist(data.roles)) ? data.roles : [];
+                for (var i = 0; i < roles.length; i++) {
+                    roles[i] = smwl.getInLowerCase(roles[i]);
+                }
+                data.roles = roles;
+            }
         });
         return dataArr;
     };

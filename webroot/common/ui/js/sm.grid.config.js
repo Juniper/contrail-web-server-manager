@@ -244,34 +244,24 @@ define([
         };
 
         this.getGridColumns4Roles = function () {
-            var columns = [];
-            $.each(smwc.ROLES_ARRAY, function (roleKey, roleValue) {
-                var width = 60;
-                if(roleValue.indexOf('storage-') != -1) {
-                    width = 100;
-                }
-                columns.push({
-                    id: roleValue, field: "roles",
-                    name: smwl.get(roleValue),
-                    width: width,
-                    minWidth: width,
-                    cssClass: 'text-center',
-                    sortable: {sortBy: 'formattedValue'},
-                    formatter: function (r, c, v, cd, dc) {
-                        if ($.isEmptyObject(dc.roles)) {
-                            return ''
-                        } else {
-                            return (dc.roles.indexOf(roleValue) != -1) ? '<i class="icon-ok green cursor-default"></i>' : '';
-                        }
-                    },
-                    exportConfig: {
-                        allow: true,
-                        advFormatter: function (dc) {
-                            return (dc.roles.indexOf(roleValue) != -1);
-                        }
+            var columns = [], width = 200;
+            columns.push({
+                id: "roles", field: "roles",
+                name: "Roles",
+                width: width,
+                minWidth: width,
+                sortable: {sortBy: 'formattedValue'},
+                formatter: function (r, c, v, cd, dc) {
+                    var roles = (contrail.checkIfExist(dc['roles'])) ? dc['roles'] : [];
+                    for (var i = 0; i < roles.length; i++) {
+                        roles[i] = smwl.getFirstCharUpperCase(roles[i]);
                     }
-                });
-            })
+                    return roles.join(', ');
+                },
+                exportConfig: {
+                    allow: true
+                }
+            });
             return columns;
         };
 
@@ -342,6 +332,13 @@ define([
 
                 serverColumns = serverColumns.concat([
                     { id: "status", field: "status", name: "Status", width: 120, minWidth: 120, formatter: function (r, c, v, cd, dc) { return smwl.get(dc['status']); } }
+                ]);
+                serverColumns = serverColumns.concat([
+                    { id: "provisioned_id", field: "provisioned_id", name: "Provisioned Id", width: 120, minWidth: 120,
+                        formatter: function (r, c, v, cd, dc) {
+                            return (contrail.checkIfExist(dc['provisioned_id'])) ? smwl.get(dc['provisioned_id']) : '-';
+                        }
+                    }
                 ]);
             }
 
