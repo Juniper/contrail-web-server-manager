@@ -52,6 +52,17 @@ define([
             {'id': 'no', 'text': 'No'}
         ];
 
+        this.IPMI_INTERFACE_TYPES = [
+            {
+                id: 'lan',
+                text: 'Lan'
+            },
+            {
+                id: 'lanplus',
+                text: 'Lanplus'
+            }
+        ];
+
         this.INTERFACE_TYPES = [
             {
                 text: 'physical',

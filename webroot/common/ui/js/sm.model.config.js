@@ -122,6 +122,7 @@ define([
                 'ipmi_address': null,
                 'ipmi_username': 'ADMIN',
                 'ipmi_password': 'ADMIN',
+                'ipmi_interface': 'lan',
                 'host_name': null,
                 'intf_data': null,
                 'intf_bond': null,

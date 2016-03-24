@@ -72,6 +72,7 @@ define([
             "ipmi_address": "IPMI Address",
             "ipmi_username": "IPMI Username",
             "ipmi_password": "IPMI Password",
+            "ipmi_interface": "IPMI Interface",
             "base_image_id": "Configured OS Image",
             'baremetal_edit_vn' : 'Virtual Network',
             "reimaged_id": "Installed OS Image",

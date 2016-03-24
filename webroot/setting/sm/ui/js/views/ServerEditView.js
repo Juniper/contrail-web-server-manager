@@ -410,6 +410,20 @@ define([
                                     viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "span6"}
                                 }
                             ]
+                        },
+                        {
+                            columns: [
+                                {
+                                    elementId: 'ipmi_interface',
+                                    view: 'FormDropdownView',
+                                    viewConfig: {
+                                        path: 'ipmi_interface',
+                                        dataBindValue: 'ipmi_interface',
+                                        class: "span6",
+                                        elementConfig: {defaultValueId: 0, dataTextField: "text", dataValueField: "id", data: smwc.IPMI_INTERFACE_TYPES}
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
