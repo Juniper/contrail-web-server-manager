@@ -14,7 +14,7 @@ define([
                 base_image_id: null,
                 package_image_id: null,
                 parameters: {
-                    domain: 'englab.juniper.net',
+                    domain: null,
                     gateway: null,
                     subnet_mask: '255.255.255.0',
 
@@ -108,7 +108,7 @@ define([
             return {
                 'id': null,
                 'cluster_id': null,
-                'domain': "englab.juniper.net",
+                'domain': null,
                 'discovered': null,
                 'gateway': null,
                 'email': null,
