@@ -19,7 +19,7 @@ define([
                 msg: smwm.getInvalidErrorMessage('email')
             },
             'parameters.domain': {
-                required: true,
+                required: false,
                 msg: smwm.getRequiredMessage('domain')
             },
             'parameters.subnet_mask': {
