@@ -148,7 +148,19 @@ define([
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
-                            contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                            if (contrailViewModel.isPrimaryRequestInProgress()) {
+                                contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                                    var ucid = smwc.get(smwc.UCID_SERVER_INVENTORY_UVE, serverId),
+                                        cachedData = cowch.getDataFromCache(ucid);
+
+                                    var viewModel = cachedData['dataObject']['viewModel'],
+                                        serverInventoryInfo = contrail.handleIfNull(viewModel.attributes['ServerInventoryInfo'], {}),
+                                        data = contrail.handleIfNull(serverInventoryInfo['fru_infos'], []);
+
+                                    contrailListModel.setData(data);
+                                    contrailListModel.loadedFromCache = true;
+                                });
+                            } else {
                                 var ucid = smwc.get(smwc.UCID_SERVER_INVENTORY_UVE, serverId),
                                     cachedData = cowch.getDataFromCache(ucid);
 
@@ -158,8 +170,7 @@ define([
 
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
-                            });
-
+                            }
                             return status;
                         }
                     }
@@ -207,7 +218,18 @@ define([
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
-                            contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                            if (contrailViewModel.isPrimaryRequestInProgress()) {
+                                contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                                    var ucid = smwc.get(smwc.UCID_SERVER_INVENTORY_UVE, serverId),
+                                        cachedData = cowch.getDataFromCache(ucid);
+
+                                    var viewModel = cachedData['dataObject']['viewModel'],
+                                        serverInventoryInfo = contrail.handleIfNull(viewModel.attributes['ServerInventoryInfo'], {}),
+                                        data = contrail.handleIfNull(serverInventoryInfo['interface_infos'], []);
+                                    contrailListModel.setData(data);
+                                    contrailListModel.loadedFromCache = true;
+                                });
+                            } else {
                                 var ucid = smwc.get(smwc.UCID_SERVER_INVENTORY_UVE, serverId),
                                     cachedData = cowch.getDataFromCache(ucid);
 
@@ -216,7 +238,7 @@ define([
                                     data = contrail.handleIfNull(serverInventoryInfo['interface_infos'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
-                            });
+                            }
 
                             return status;
                         }
