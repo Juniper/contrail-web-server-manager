@@ -330,6 +330,11 @@ module.exports = function (grunt) {
                         type: 'json',
                         dir: __dirname + '/reports/coverage/serverManager/',
                         subdir: browserSubdirFn
+                    },
+                    {
+                        type: 'cobertura',
+                        dir: __dirname + '/reports/coverage/serverManager/',
+                        subdir: browserSubdirFn
                     }
                 ]
             }
