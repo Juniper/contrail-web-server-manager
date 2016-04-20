@@ -174,7 +174,18 @@ define([
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
-                            contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                            if (contrailViewModel.isPrimaryRequestInProgress()) {
+                                contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                                    var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
+                                        cachedData = cowch.getDataFromCache(ucid);
+
+                                    var viewModel = cachedData['dataObject']['viewModel'],
+                                        serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
+                                        data = contrail.handleIfNull(serverMonitoringInfo['disk_usage_totals'], []);
+                                    contrailListModel.setData(data);
+                                    contrailListModel.loadedFromCache = true;
+                                });
+                            } else {
                                 var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
                                     cachedData = cowch.getDataFromCache(ucid);
 
@@ -183,7 +194,7 @@ define([
                                     data = contrail.handleIfNull(serverMonitoringInfo['disk_usage_totals'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
-                            });
+                            }
 
                             return status;
                         }
@@ -233,7 +244,18 @@ define([
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
-                            contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                            if (contrailViewModel.isPrimaryRequestInProgress()) {
+                                contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                                    var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
+                                        cachedData = cowch.getDataFromCache(ucid);
+
+                                    var viewModel = cachedData['dataObject']['viewModel'],
+                                        serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
+                                        data = contrail.handleIfNull(serverMonitoringInfo['file_system_view_stats'], []);
+                                    contrailListModel.setData(data);
+                                    contrailListModel.loadedFromCache = true;
+                                });
+                            } else {
                                 var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
                                     cachedData = cowch.getDataFromCache(ucid);
 
@@ -242,7 +264,7 @@ define([
                                     data = contrail.handleIfNull(serverMonitoringInfo['file_system_view_stats'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
-                            });
+                            }
 
                             return status;
                         }
@@ -288,7 +310,18 @@ define([
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
-                            contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                            if (contrailViewModel.isPrimaryRequestInProgress()) {
+                                contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                                    var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
+                                        cachedData = cowch.getDataFromCache(ucid);
+
+                                    var viewModel = cachedData['dataObject']['viewModel'],
+                                        serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
+                                        data = contrail.handleIfNull(serverMonitoringInfo['sensor_stats'], []);
+                                    contrailListModel.setData(data);
+                                    contrailListModel.loadedFromCache = true;
+                                });
+                            } else {
                                 var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
                                     cachedData = cowch.getDataFromCache(ucid);
 
@@ -297,7 +330,7 @@ define([
                                     data = contrail.handleIfNull(serverMonitoringInfo['sensor_stats'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
-                            });
+                            }
 
                             return status;
                         }
@@ -343,7 +376,18 @@ define([
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
-                            contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                            if (contrailViewModel.isPrimaryRequestInProgress()) {
+                                contrailViewModel.onAllRequestsComplete.subscribe(function() {
+                                    var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
+                                        cachedData = cowch.getDataFromCache(ucid);
+
+                                    var viewModel = cachedData['dataObject']['viewModel'],
+                                        serverMonitoringInfo = contrail.handleIfNull(viewModel.attributes['ServerMonitoringInfo'], {}),
+                                        data = contrail.handleIfNull(serverMonitoringInfo['network_info_totals'], []);
+                                    contrailListModel.setData(data);
+                                    contrailListModel.loadedFromCache = true;
+                                });
+                            } else {
                                 var ucid = smwc.get(smwc.UCID_SERVER_MONITORING_UVE, serverId),
                                     cachedData = cowch.getDataFromCache(ucid);
 
@@ -352,7 +396,7 @@ define([
                                     data = contrail.handleIfNull(serverMonitoringInfo['network_info_totals'], []);
                                 contrailListModel.setData(data);
                                 contrailListModel.loadedFromCache = true;
-                            });
+                            }
 
                             return status;
                         }
