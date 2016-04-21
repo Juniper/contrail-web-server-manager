@@ -252,11 +252,11 @@ define([
                 minWidth: width,
                 sortable: {sortBy: 'formattedValue'},
                 formatter: function (r, c, v, cd, dc) {
-                    var roles = (contrail.checkIfExist(dc['roles'])) ? dc['roles'] : [];
+                    var roles = (contrail.checkIfExist(dc['roles'])) ? dc['roles'] : [], formattedRoles = [];
                     for (var i = 0; i < roles.length; i++) {
-                        roles[i] = smwl.getFirstCharUpperCase(roles[i]);
+                        formattedRoles.push(smwl.getFirstCharUpperCase(roles[i]));
                     }
-                    return roles.join(', ');
+                    return formattedRoles.join(', ');
                 },
                 exportConfig: {
                     allow: true
