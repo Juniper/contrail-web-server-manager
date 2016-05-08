@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 
     var commonFiles = [
         {pattern: 'contrail-web-core/webroot/assets/**/!(tests)/*.js', included: false},
-        {pattern: 'contrail-web-core/webroot/built/assets/**/!(tests)/*.js', included: false},
+        {pattern: 'contrail-web-core/webroot/dist/assets/**/!(tests)/*.js', included: false},
 
         {pattern: 'contrail-web-core/webroot/assets/**/*.css', included: false},
         {pattern: 'contrail-web-core/webroot/css/**/*.css', included: false},
@@ -40,14 +40,14 @@ module.exports = function (grunt) {
         {pattern: 'contrail-web-server-manager/webroot/common/**/*.js', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/**/*.tmpl', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/js/**/*.js', included: false},
-        {pattern: 'contrail-web-server-manager/webroot/built/**/ui/js/**/*.js', included: false},
+        {pattern: 'contrail-web-server-manager/webroot/dist/**/ui/js/**/*.js', included: false},
 
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/test/**/*.mock.data.js', included: false},
 
         {pattern: 'contrail-web-server-manager/webroot/*.xml', included: false},
 
         {pattern: 'contrail-web-core/webroot/js/**/*.js', included: false},
-        {pattern: 'contrail-web-core/webroot/built/js/**/*.js', included: false},
+        {pattern: 'contrail-web-core/webroot/dist/js/**/*.js', included: false},
         {pattern: 'contrail-web-core/webroot/templates/*.tmpl', included: false}
     ];
 
