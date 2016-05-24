@@ -1,4 +1,5 @@
 define([
+    'co-test-constants',
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
@@ -7,7 +8,7 @@ define([
     'co-grid-view-test-suite',
     'co-chart-view-zoom-scatter-test-suite',
     'cluster-list-view-custom-test-suite'
-], function (cotr, smtu, smtm, ClusterListViewMockData, GridListModelTestSuite, GridViewTestSuite,
+], function (cotc, cotr, smtu, smtm, ClusterListViewMockData, GridListModelTestSuite, GridViewTestSuite,
              ZoomScatterChartViewTestSuite, ClusterListViewCustomTestSuite) {
 
     var moduleId = smtm.CLUSTER_LIST_VIEW_COMMON_TEST_MODULE;

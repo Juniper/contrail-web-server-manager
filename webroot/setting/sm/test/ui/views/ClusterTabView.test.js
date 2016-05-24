@@ -1,4 +1,5 @@
 define([
+    'co-test-constants',
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
@@ -6,7 +7,7 @@ define([
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-details-view-test-suite'
-], function (cotr, smtu, smtm, ClusterTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite) {
+], function (cotc, cotr, smtu, smtm, ClusterTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite) {
 
     var moduleId = smtm.CLUSTER_TAB_VIEW_COMMON_TEST_MODULE;
 

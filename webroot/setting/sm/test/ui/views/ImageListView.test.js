@@ -1,11 +1,12 @@
 define([
+    'co-test-constants',
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
     'setting/sm/test/ui/views/ImageListView.mock.data',
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite'
-], function (cotr, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
+], function (cotc, cotr, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
     var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
 
