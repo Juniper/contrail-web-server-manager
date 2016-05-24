@@ -1,4 +1,5 @@
 define([
+    'co-test-constants',
     'co-test-runner',
     'sm-test-utils',
     'sm-test-messages',
@@ -6,7 +7,7 @@ define([
     'co-grid-contrail-list-model-test-suite',
     'co-grid-view-test-suite',
     'co-chart-view-zoom-scatter-test-suite',
-], function (cotr, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
+], function (cotc, cotr, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
 
     var moduleId = smtm.SERVER_LIST_VIEW_COMMON_TEST_MODULE;
 
