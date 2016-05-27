@@ -17,9 +17,10 @@ require([
 
         //will copy the testConfig to globalObj so window can access it later.
         globalObj['testConf'] = testConf;
-
+        var bundles = {};
         if (globalObj['env'] == 'prod') {
             globalObj['buildBaseDir'] = '/dist';
+            bundles = coreBundles;
         } else {
             globalObj['buildBaseDir'] = '';
         }
@@ -27,6 +28,7 @@ require([
 
         requirejs.config({
             baseUrl: smBaseDir,
+            bundles: bundles,
             paths: getServerManagerTestAppPaths(coreBaseDir),
             map: coreAppMap,
             shim: getServerManagerTestAppShim(),
