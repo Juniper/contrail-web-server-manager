@@ -83,7 +83,7 @@ define([
             /*
              Populating DiskModel from network.interfaces
              */
-            var disks = (contrail.checkIfExist(modelConfig.parameters.disks)) ? (modelConfig.parameters.disks) : [],
+            var disks = (contrail.checkIfExist(modelConfig.parameters.provision.contrail.storage.storage_osd_disks)) ? (modelConfig.parameters.provision.contrail.storage.storage_osd_disks) : [],
                 diskModels = [], diskModel,
                 diskCollectionModel;
 
@@ -95,7 +95,7 @@ define([
             diskCollectionModel = new Backbone.Collection(diskModels);
             modelConfig['disks'] = diskCollectionModel;
             if(contrail.checkIfExist(modelConfig.parameters.disks)) {
-                delete modelConfig.parameters.disks;
+                delete modelConfig.parameters.provision.contrail.storage.storage_osd_disks;
             }
 
             return modelConfig;
@@ -150,6 +150,7 @@ define([
                 var ajaxConfig = {};
                 var putData = {}, serverAttrsEdited = [], serversEdited = [],
                     serverAttrs = this.model().attributes,
+                    serverSchema = smwmc.getServerSchema(),
                     originalAttrs = this.model()._originalAttributes,
                     locks = this.model().attributes.locks.attributes,
                     interfaces, disks, switches;
@@ -168,7 +169,7 @@ define([
                 }
                 /* Special handling to reaplace switch_id by id and add type as 'ovs'- END*/
 
-                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
+                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
 
                 serverAttrsEdited['network']['interfaces'] = interfaces;
                 delete serverAttrsEdited['interfaces'];
@@ -176,7 +177,7 @@ define([
                 serverAttrsEdited['top_of_rack'] = {switches : switches};
                 delete serverAttrsEdited['switches'];
 
-                serverAttrsEdited.parameters.disks = disks;
+                serverAttrsEdited.parameters.provision.contrail.storage.storage_osd_disks = disks;
                 delete serverAttrsEdited['disks'];
 
                 for (var i = 0; i < checkedRows.length; i++) {
@@ -219,10 +220,11 @@ define([
             var ajaxConfig = {};
             var putData = {}, serverAttrsEdited = {}, serversEdited = [],
                 serverAttrs = this.model().attributes,
+                serverSchema = smwmc.getServerSchema(),
                 locks = this.model().attributes.locks.attributes,
                 that = this;
 
-            serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
+            serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
             $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
 
                 /* START handling for storage chassis id */
@@ -268,6 +270,7 @@ define([
                 var ajaxConfig = {};
                 var putData = {}, serverAttrsEdited = [], serversCreated = [],
                     serverAttrs = this.model().attributes,
+                    serverSchema = smwmc.getServerSchema(),
                     locks = this.model().attributes.locks.attributes,
                     interfaces, disks, switches;
 
@@ -285,7 +288,7 @@ define([
                 }
                 /* Special handling to reaplace switch_id by id and add type as 'ovs'- END*/
 
-                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
+                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks,  serverSchema, '');
 
                 serverAttrsEdited['network']['interfaces'] = interfaces;
                 delete serverAttrsEdited['interfaces'];
@@ -365,6 +368,7 @@ define([
             if (this.model().isValid(true, smwc.KEY_EDIT_TAGS_VALIDATION)) {
                 var putData = {}, serverAttrsEdited = {}, serversEdited = [],
                     serverAttrs = this.model().attributes,
+                    serverSchema = smwmc.getServerSchema(),
                     locks = this.model().attributes.locks.attributes,
                     that = this;
 
@@ -379,7 +383,7 @@ define([
                         }
                     });
 
-                    serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks);
+                    serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
 
                     $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
                         serversEdited.push({'id': checkedRowsValue.id, 'tag': serverAttrsEdited['tag']});
@@ -699,14 +703,14 @@ define([
                     required: true,
                     msg: smwm.getRequiredMessage('management_interface')
                 },
-                'contrail.control_data_interface': {
-                    required: true,
-                    msg: smwm.getRequiredMessage('control_data_interface')
-                },
                 'ipmi_address': {
                     required: true,
                     pattern: cowc.PATTERN_IP_ADDRESS,
                     msg: smwm.getInvalidErrorMessage('ipmi_address')
+                },
+                'password': {
+                    required: true,
+                    msg: smwm.getInvalidErrorMessage('password')
                 },
                 'email': {
                     required: false,

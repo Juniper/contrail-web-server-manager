@@ -79,6 +79,11 @@ define([
             {'id': 'True', 'text': 'True'}
         ];
 
+        this.FLAGS_TRUE_FALSE_BOOLEAN_TYPE = [
+            {'id': false, 'text': 'False'},
+            {'id': true, 'text': 'True'}
+        ];
+
         this.FLAGS_RADIO = [
             {'label': 'False', 'value': 'False'},
             {'label': 'True', 'value': 'True'}

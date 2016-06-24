@@ -39,23 +39,23 @@ define([
                                     advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'parameters.keystone_tenant',
+                                            key: 'parameters.provision.openstack.keystone.admin_tenant',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.keystone_service_tenant',
+                                            key: 'parameters.provision.openstack.keystone.service_tenant',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.keystone_username',
+                                            key: 'parameters.provision.openstack.keystone.admin_user',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.keystone_region_name',
+                                            key: 'parameters.provision.openstack.keystone_region_name',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.keystone_ip',
+                                            key: 'parameters.provision.openstack.keystone.ip',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
@@ -67,35 +67,35 @@ define([
                                     advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'parameters.encapsulation_priority',
+                                            key: 'parameters.provision.contrail.control.encapsulation_priority',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.external_bgp',
+                                            key: 'parameters.provision.contrail.control.external_bgp',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.multi_tenancy',
+                                            key: 'parameters.provision.openstack.multi_tenancy',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.router_asn',
+                                            key: 'parameters.provision.contrail.control.router_asn',
+                                            templateGenerator: 'TextGenerator'
+                                        },
+                                        //{
+                                        //    key: 'parameters.use_certificates',
+                                        //    templateGenerator: 'TextGenerator'
+                                        //},
+                                        {
+                                            key: 'parameters.provision.contrail.database.directory',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.use_certificates',
+                                            key: 'parameters.provision.contrail.database.minimum_diskGB',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.database_dir',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'parameters.database_minimum_diskGB',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'parameters.hc_interval',
+                                            key: 'parameters.provision.contrail.config.healthcheck_interval',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
@@ -107,31 +107,31 @@ define([
                                     advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'parameters.haproxy',
+                                            key: 'parameters.provision.contrail.ha.haproxy_enable',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.internal_vip',
+                                            key: 'parameters.provision.openstack.ha.internal_vip',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.external_vip',
+                                            key: 'parameters.provision.openstack.ha.external_vip',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.contrail_internal_vip',
+                                            key: 'parameters.provision.contrail.ha.contrail_internal_vip',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.contrail_external_vip',
+                                            key: 'parameters.provision.contrail.ha.contrail_external_vip',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.nfs_server',
+                                            key: 'parameters.provision.openstack.ha.nfs_server',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.nfs_glance_path',
+                                            key: 'parameters.provision.openstack.ha.nfs_glance_path',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
@@ -143,19 +143,19 @@ define([
                                     advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'parameters.analytics_data_ttl',
+                                            key: 'parameters.provision.contrail.analytics.data_ttl',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.analytics_syslog_port',
+                                            key: 'parameters.provision.contrail.analytics.syslog_port',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.analytics_data_dir',
+                                            key: 'parameters.provision.contrail.analytics.data_directory',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.ssd_data_dir',
+                                            key: 'parameters.provision.contrail.analytics.ssd_data_directory',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
@@ -208,35 +208,31 @@ define([
                                     advancedViewOptions: false,
                                     templateGeneratorConfig: [
                                         {
-                                            key: 'parameters.storage_virsh_uuid',
+                                            key: 'parameters.provision.contrail.storage.storage_virsh_uuid',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.storage_fsid',
+                                            key: 'parameters.provision.contrail.storage.storage_fsid',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.storage_mon_secret',
+                                            key: 'parameters.provision.contrail.storage.storage_monitor_secret',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.osd_bootstrap_key',
+                                            key: 'parameters.provision.contrail.storage.osd_bootstrap_key',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.admin_key',
+                                            key: 'parameters.provision.contrail.storage.storage_admin_key',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.live_migration',
+                                            key: 'parameters.provision.contrail.storage.live_migration_storage_scope',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.live_migration_nfs_vm_host',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'parameters.live_migration_storage_scope',
+                                            key: 'parameters.provision.contrail.storage.live_migration_host',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
@@ -268,11 +264,11 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.kernel_upgrade',
+                                            key: 'parameters.provision.contrail.kernel_upgrade',
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'parameters.kernel_version',
+                                            key: 'parameters.provision.contrail.kernel_version',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
@@ -310,10 +306,6 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         },
                                         {
-                                            key: 'host_name',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
                                             key: 'domain',
                                             templateGenerator: 'TextGenerator'
                                         },
@@ -343,10 +335,6 @@ define([
                                         },
                                         {
                                             key: 'subnet_mask',
-                                            templateGenerator: 'TextGenerator'
-                                        },
-                                        {
-                                            key: 'parameters.partition',
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]

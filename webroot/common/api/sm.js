@@ -40,7 +40,7 @@ function post(url, postData, appData, callback) {
     logutils.logger.debug('TRANSACTION - ACTION - POST - ' + url + ' POST DATA: ' + JSON.stringify(postData));
     smREST.api.post(url, postData, function (err, data) {
         logutils.logger.debug('TRANSACTION - ACTION - POST - RESPONSE: ' + JSON.stringify(data));
-        callback(err, data);s
+        callback(err, data);
     });
 }
 

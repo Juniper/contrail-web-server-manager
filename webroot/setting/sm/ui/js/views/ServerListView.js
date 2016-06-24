@@ -93,8 +93,8 @@ define([
                                 viewConfig: $.extend(true, viewConfig, {
                                     pagerOptions: {
                                         options: {
-                                            pageSize: 8,
-                                            pageSizeSelect: [8, 25, 50, 100]
+                                            pageSize: 25,
+                                            pageSizeSelect: [25, 50, 100]
                                         }
                                     }
                                 })

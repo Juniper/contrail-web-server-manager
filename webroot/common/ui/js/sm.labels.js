@@ -67,6 +67,8 @@ define([
             "last_update": "Last Updated",
             "kernel_upgrade": "Kernel Upgrade",
             "kernel_version": "Kernel Version",
+            "xmpp_auth_enable": "XMPP Auth",
+            "xmpp_dns_auth_enable": "XMPP DNS Auth",
 
             //Server
             "ipmi_address": "IPMI Address",
@@ -77,9 +79,17 @@ define([
             'baremetal_edit_vn' : 'Virtual Network',
             "reimaged_id": "Installed OS Image",
             "package_image_id": "Configured Package",
-            "storage_repo_id": "Configured Package",
+            "storage_repo_id": "Storage Repo ID",
             "storage_chassis_id" : "Chassis ID",
             "storage_chassis_id_input" : "Add New Chassis ID",
+            "storage_num_osd" : "Storage Num OSD",
+            "storage_num_hosts": "Storage Num Hosts",
+            "storage_admin_key": "Storage Admin Key",
+            "storage_virsh_uuid": "Storage Virsh UUID",
+            "storage_cluster_network": "Storage Cluster Network",
+            "enable": "Enable SRIOV",
+
+            "root_password" : "MySQL Root Password",
             "provisioned_id": "Installed Package",
             "roles": "Roles",
             "mac_address": "MAC Address",
@@ -130,13 +140,14 @@ define([
             "hc_interval": "Health Check Interval",
             "keystone_ip": "Keystone IP",
             "keystone_username": "Keystone Admin Username",
-            "keystone_password": "Keystone Admin Password",
+            "admin_password": "Keystone Admin Password",
             "keystone_service_tenant": "Keystone Service Tenant",
             "keystone_region_name": "Keystone Region Name",
-            "amqp_server_ip": "Amqp Server IP",
-            "openstack_manage_amqp": "Openstack Managed Amqp",
+            "amqp_server_ip": "AMQP Server IP",
+            "openstack_manage_amqp": "Openstack Managed AMQP",
             "storage_virsh_uuid": "Storage Virsh UUID",
             "storage_fsid": "Storage FSID",
+            "database_ip_port": "Database IP Port",
             "new_servers": "New Servers",
             "registered_servers": "Registered Servers",
             "configured_servers": "Configured Servers",
@@ -171,7 +182,7 @@ define([
             "contrail_external_virtual_router_id" : "Contrail External Virtual Router ID",
             "nfs_server": "NFS Server",
             "nfs_glance_path": "NFS Glance Path",
-            "vmware_ip" : "Vmware IP",
+            "vmware_ip" : "VMware IP",
             "vmware_username" : "VMware Username",
             "vmware_password" : "VMware Password",
             "vmware_vswitch"  : "VMware vSwitch Name",
@@ -232,7 +243,7 @@ define([
         this.TITLE_CONTRAIL = "Contrail";
         this.TITLE_CONTRAIL_CONTROLLER = "Contrail Controller";
         this.TITLE_STORAGE = "Storage";
-        this.TITLE_VMWARE = "Vmware";
+        this.TITLE_VMWARE = "VMware";
         this.TITLE_VIRTUAL_GATEWAY = "Virtual Gateway";
         this.TITLE_CONTRAIL_STORAGE = "Contrail Storage";
         this.TITLE_OPENSTACK = "Openstack";
@@ -359,7 +370,8 @@ define([
         this.SELECT_IMAGE = 'Select OS Image';
         this.TITLE_DELETE_IMAGE = 'Delete OS Image';
         this.SELECT_PACKAGE = 'Select Package';
-        this.SELECT_CHASSIS_ID = 'Select Chassis Id';
+        this.SELECT_REPO_ID = 'Select Repo ID';
+        this.SELECT_CHASSIS_ID = 'Select Chassis ID';
         this.TITLE_DELETE_PACKAGE = 'Delete Package';
         this.SELECT_ROLES = 'Select Roles';
         this.SEARCH_ROLES = 'Search Roles';
@@ -423,6 +435,28 @@ define([
         this.SM_PACKAGE_GRID_SECTION_ID = "package-grid-section";
         this.SM_PACKAGE_GRID_VIEW_ID = "package-grid-view";
         this.SM_PACKAGE_GRID_ID = "package-grid";
+
+        this.LABEL_HA_PROXY_ENABLE = "HA Proxy Enable";
+        this.LABEL_ZOOKEEPER_IP_PORT = "Zookeeper IP Port";
+        this.LABEL_NEUTRON_PORT = "Neutron Port";
+        this.LABEL_AMQP_SERVER_IP = "AMQP Server IP";
+        this.LABEL_KEYSTONE_IP = "Keystone IP";
+        this.LABEL_KEYSTONE_ADMIN_TENANT = "Keystone Admin Tenant";
+        this.LABEL_KEYSTONE_SERVICE_TENANT = "Keystone Service Tenant";
+        this.LABEL_KEYSTONE_ADMIN_USER = "Keystone Admin User";
+        this.LABEL_NEUTRON_SERVICE_PROTOCOL = "Neutron Service Protocol";
+        this.LABEL_ANALYTICS_DATA_TTL = "Analytics Data TTL";
+        this.LABEL_ANALYTICS_FLOW_TTL = "Analytics Flow TTL";
+        this.LABEL_ANALYTICS_CONFIG_AUDIT_TTL = "Analytics Config Audit TTL";
+        this.LABEL_ANALYTICS_STATISTICS_TTL = "Analytics Stats TTL";
+        this.LABEL_VMWARE_IP = "VMware IP";
+        this.LABEL_VMWARE_VSWITCH = "VMware vSwitch";
+        this.LABEL_VMWARE_USERNAME = "VMware Username";
+        this.LABEL_VMWARE_PASSWORD = "VMware Password";
+        this.LABEL_VGW_PUBLIC_SUBNET= "VGW Public Interface";
+        this.LABEL_VGW_PUBLIC_VN_NAME= "VGW Public VN Name";
+        this.LABEL_VGW_INTERFACE= "VGW Interface";
+        this.LABEL_VGW_GATEWAY_ROUTES= "VGW Gateway Routes";
     };
 
     function capitalizeSentence(sentence) {

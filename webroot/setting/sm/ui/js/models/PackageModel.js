@@ -14,11 +14,12 @@ define([
             var ajaxConfig = {};
             if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
                 var imageAttrs = this.model().attributes,
+                    packageSchema = smwmc.getImageSchema,
                     putData = {}, packageAttrsEdited = [],
                     locks = this.model().attributes.locks.attributes;
 
                 locks['category' + cowc.LOCKED_SUFFIX_ID] = false;
-                packageAttrsEdited.push(cowu.getEditConfigObj(imageAttrs, locks));
+                packageAttrsEdited.push(cowu.getEditConfigObj(imageAttrs, locks, packageSchema, ''));
                 putData[smwc.IMAGE_PREFIX_ID] = packageAttrsEdited;
 
                 ajaxConfig.type = "POST";

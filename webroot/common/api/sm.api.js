@@ -52,7 +52,8 @@ function getObjectsDetails(req, res) {
         responseArray, filteredResponseArray, resultArray;
 
     filterInAllowedParams(qsObj);
-    objectUrl += '?detail&' + qs.stringify(qsObj);
+    // add show_pass field as we need passwords from SM backend
+    objectUrl += '?detail&show_pass&' + qs.stringify(qsObj);
 
     sm.get(objectUrl, function (error, responseJSON) {
         if (error != null) {

@@ -22,107 +22,75 @@ define([
                 required: false,
                 msg: smwm.getRequiredMessage('domain')
             },
-            'parameters.subnet_mask': {
-                required: true,
-                pattern: cowc.PATTERN_SUBNET_MASK,
-                msg: smwm.getInvalidErrorMessage('subnet_mask')
-            },
             'parameters.gateway': {
                 required: false,
                 pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('gateway')
             },
-
-            'parameters.analytics_data_ttl': {
+            'parameters.provision.contrail.analytics.data_ttl': {
                 required: true,
                 pattern: 'number',
-                msg: smwm.getInvalidErrorMessage('analytics_data_ttl')
+                msg: smwm.getInvalidErrorMessage('data_ttl')
             },
-            'parameters.router_asn': {
+            'parameters.provision.contrail.control.router_asn': {
                 required: true,
                 pattern: 'number',
                 msg: smwm.getInvalidErrorMessage('router_asn')
             },
-            'parameters.encapsulation_priority': {
+            'parameters.provision.contrail.control.encapsulation_priority': {
                 required: true,
                 msg: smwm.getRequiredMessage('encapsulation_priority')
             },
-
-            'parameters.openstack_mgmt_ip': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('openstack_mgmt_ip')
-            },
-            'parameters.compute_non_mgmt_ip': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('compute_non_mgmt_ip')
-            },
-            'parameters.compute_non_mgmt_gway': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('compute_non_mgmt_gway')
-            },
-
-            'parameters.keystone_tenant': {
+            'parameters.provision.openstack.keystone.service_tenant': {
                 required: true,
-                msg: smwm.getRequiredMessage('keystone_tenant')
+                msg: smwm.getRequiredMessage('service_tenant')
             },
-            'parameters.keystone_ip': {
+            'parameters.provision.openstack.keystone.ip': {
                 required: false,
                 pattern: smwc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('keystone_ip')
+                msg: smwm.getInvalidErrorMessage('ip')
             },
-            'parameters.keystone_username': {
+            'parameters.provision.openstack.keystone.admin_user': {
                 required: true,
-                msg: smwm.getRequiredMessage('keystone_username')
+                msg: smwm.getRequiredMessage('admin_user')
             },
-            'parameters.keystone_password': {
+            'parameters.provision.openstack.keystone.admin_password': {
                 required: true,
-                msg: smwm.getRequiredMessage('keystone_password')
+                msg: smwm.getRequiredMessage('admin_password')
             },
-            'parameters.password': {
-                required: true,
-                msg: smwm.getRequiredMessage('password')
-            },
-
-            'parameters.internal_vip': {
+            'parameters.provision.openstack.ha.internal_vip': {
                 required: false,
                 pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('internal_vip')
             },
-            'parameters.external_vip': {
+            'parameters.provision.openstack.ha.external_vip': {
                 required: false,
                 pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('external_vip')
             },
-            'parameters.contrail_internal_vip': {
+            'parameters.provision.contrail.ha.contrail_internal_vip': {
                 required: false,
                 pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('contrail_internal_vip')
             },
-            'parameters.contrail_external_vip': {
+            'parameters.provision.contrail.ha.contrail_external_vip': {
                 required: false,
                 pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('contrail_external_vip')
             },
-            'parameters.nfs_server': {
+            'parameters.provision.contrail.ha.nfs_server': {
                 required: false,
                 pattern: cowc.PATTERN_IP_ADDRESS,
                 msg: smwm.getInvalidErrorMessage('nfs_server')
             },
-            'parameters.database_dir': {
+            'parameters.provision.contrail.database.directory': {
                 required: true,
-                msg: smwm.getRequiredMessage('database_dir')
+                msg: smwm.getRequiredMessage('directory')
             },
-            'parameters.database_minimum_diskGB': {
+            'parameters.provision.contrail.database.minimum_diskGB': {
                 required: true,
                 pattern: 'number',
-                msg: smwm.getInvalidErrorMessage('database_minimum_diskGB')
-            },
-            'parameters.service_token': {
-                required: true,
-                msg: smwm.getRequiredMessage('service_token')
+                msg: smwm.getInvalidErrorMessage('minimum_diskGB')
             }
         };
 
@@ -149,10 +117,11 @@ define([
             if (this.model().isValid(true, validation)) {
                 var putData = {}, clusterAttrsEdited = [],
                     clusterAttrs = this.model().attributes,
+                    clusterSchema = smwmc.getClusterSchema(),
                     locks = this.model().attributes.locks.attributes,
                     that = this;
 
-                clusterAttrsEdited.push(cowu.getEditConfigObj(clusterAttrs, locks));
+                clusterAttrsEdited.push(cowu.getEditConfigObj(clusterAttrs, locks, clusterSchema, ''));
                 putData[smwc.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
 
                 ajaxConfig.async = false;

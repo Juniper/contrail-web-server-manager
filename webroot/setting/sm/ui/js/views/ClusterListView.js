@@ -70,6 +70,8 @@ define([
                                         controlPanelConfig: {
                                             filter: {
                                                 enable: true,
+                                                iconClass: 'icon-filter',
+                                                title: 'Filter',
                                                 viewConfig: getControlPanelFilterConfig()
                                             },
                                             legend: {
