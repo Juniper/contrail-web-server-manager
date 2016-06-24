@@ -324,14 +324,38 @@ define([
                 ]);
                 serverColumns = serverColumns.concat(ipColumnsSet);
                 serverColumns = serverColumns.concat([
-                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120, formatter: function (r, c, v, cd, dc) { return smwl.get(dc['status']); } }
+                    {
+                        id: "status", field: "status", name: "Status", width: 120, minWidth: 120,
+                        formatter: function (r, c, v, cd, dc) {
+                            var status = smwl.get(dc['status']);
+                            if (status == 'Provision Completed') {
+                                return '<div class="status-badge-rounded status-active"></div> ' + status;
+                            } else if (status == 'Server Added') {
+                                return '<div class="status-badge-rounded status-idle"></div> ' + status;
+                            } else {
+                                return '<div class="status-badge-rounded status-spawning"></div> ' + status;
+                            }
+                        }
+                    }
                 ]);
                 serverColumns = serverColumns.concat(tagColumnsSet);
             } else if (serverColumnsType == smwc.CLUSTER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat(ipColumnsSet).concat(this.getGridColumns4Roles());
 
                 serverColumns = serverColumns.concat([
-                    { id: "status", field: "status", name: "Status", width: 120, minWidth: 120, formatter: function (r, c, v, cd, dc) { return smwl.get(dc['status']); } }
+                    {
+                        id: "status", field: "status", name: "Status", width: 120, minWidth: 120,
+                        formatter: function (r, c, v, cd, dc) {
+                            var status = smwl.get(dc['status']);
+                            if (status == 'Provision Completed') {
+                                return '<div class="status-badge-rounded status-active"></div> ' + status;
+                            } else if (status == 'Server Added') {
+                                return '<div class="status-badge-rounded status-idle"></div> ' + status;
+                            } else {
+                                return '<div class="status-badge-rounded status-spawning"></div> ' + status;
+                            }
+                        }
+                    }
                 ]);
                 serverColumns = serverColumns.concat([
                     { id: "provisioned_id", field: "provisioned_id", name: "Provisioned Id", width: 120, minWidth: 120,
