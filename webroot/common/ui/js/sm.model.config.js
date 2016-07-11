@@ -26,7 +26,7 @@ define([
                             "kernel_version": "",
                             "enable_lbass": false,
                             "ha": {
-                                "haproxy_enable": true,
+                                "haproxy_enable": false,
                                 "contrail_internal_vip": "",
                                 "contrail_external_vip": "",
                                 "contrail_internal_virtual_router_id": 103,
@@ -210,7 +210,7 @@ define([
                                                 "properties": {
                                                     "haproxy_enable": {
                                                         "type": "boolean",
-                                                        "default": true
+                                                        "default": false
                                                     },
                                                     "contrail_internal_vip": {
                                                         "type": "string",
