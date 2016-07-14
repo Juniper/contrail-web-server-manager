@@ -800,6 +800,13 @@ define([
             }
         };
 
+        this.getJSONModel = function () {
+            return {
+                "json": {},
+                "schema": {}
+            };
+        };
+
         this.getInterfaceModel = function () {
             return {
                 "name": null,

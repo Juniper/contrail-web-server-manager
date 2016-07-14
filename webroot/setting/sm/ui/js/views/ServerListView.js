@@ -19,7 +19,6 @@ define([
                     ajaxConfig: {
                         url: smwu.getObjectDetailUrl(prefixId) + queryString
                     },
-                    dataParser: smwp.serverDataParser,
                     hlRemoteConfig: smwgc.getServerMonitoringHLazyRemoteConfig(viewConfig, smwp.serverMonitoringDataParser)
                 }
             };
@@ -61,14 +60,23 @@ define([
                                         forceY: [0, 1],
                                         noDataMessage: 'No Data found.',
                                         dataParser: function (response) {
+                                            var chartDataValues = [];
                                             for(var i = 0; i < response.length; i++) {
-                                                var server = response[i];
+                                                var server = response[i],
+                                                    serverUIParams = contrail.handleIfNull(server['ui_added_parameters'], {}),
+                                                    serverMonitoring = contrail.handleIfNull(serverUIParams['monitoring'], {});
 
-                                                server['x'] = contrail.handleIfNull(server['x'], 0);
-                                                server['y'] = contrail.handleIfNull(server['y'], 0);
-                                                server['size'] = contrail.handleIfNull(server['size'], 0);
+                                                chartDataValues.push({
+                                                    name: contrail.handleIfNull(server['id'], server['mac_address']),
+                                                    y: contrail.handleIfNull(serverMonitoring['y'], 0),
+                                                    x: contrail.handleIfNull(serverMonitoring['x'], 0),
+                                                    size: contrail.handleIfNull(serverMonitoring['size'], 0),
+                                                    interface_rt_bytes: serverMonitoring['interface_rt_bytes'],
+                                                    mem_usage_mb: serverMonitoring['mem_usage_mb'],
+                                                    rawData: serverMonitoring
+                                                });
                                             }
-                                            return response;
+                                            return chartDataValues;
                                         },
                                         tooltipConfigCB: serverTooltipFn,
                                         controlPanelConfig: {

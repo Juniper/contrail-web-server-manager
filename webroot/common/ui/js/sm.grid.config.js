@@ -163,6 +163,16 @@ define([
             };
         };
 
+        this.getConfigureJSONAction = function (onClickFunction, divider) {
+            return {
+                title: smwl.TITLE_EDIT_JSON,
+                iconClass: 'icon-code',
+                width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
+                onClick: onClickFunction
+            };
+        };
+
         this.getAddServersAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_ADD_SERVERS,

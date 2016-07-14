@@ -6,8 +6,9 @@ define([
     'underscore',
     'contrail-view',
     'sm-basedir/setting/sm/ui/js/models/ServerModel',
-    'sm-basedir/setting/sm/ui/js/views/ServerEditView'
-], function (_, ContrailView, ServerModel, ServerEditView) {
+    'sm-basedir/setting/sm/ui/js/views/ServerEditView',
+    'json-model', 'json-edit-view', 'sm-server-schema'
+], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, serverSchema) {
     var prefixId = smwc.SERVER_PREFIX_ID,
         gridElId = '#' + smwl.SM_SERVER_GRID_ID;
 
@@ -241,6 +242,25 @@ define([
                     dataView.refreshData();
                 }});
             }),
+            smwgc.getConfigureJSONAction(function (rowIndex) {
+                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex);
+
+                var oAttributes = cowu.getAttributes4Schema(dataItem, serverSchema),
+                    jsonModel = new JsonModel({json: oAttributes, schema: serverSchema}),
+                    checkedRow = [oAttributes],
+                    title = smwl.TITLE_EDIT_JSON + (contrail.checkIfExist(oAttributes['id']) ? (' (' + oAttributes['id'] + ')') : ''),
+                    jsonEditView = new JsonEditView();
+                jsonEditView.model = jsonModel;
+                jsonEditView.renderEditor({
+                    title: title,
+                    checkedRows: checkedRow,
+                    type: smwc.SERVER_PREFIX_ID,
+                    callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }
+                });
+            }),
             smwgc.getTagAction(function (rowIndex) {
                 var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
@@ -345,8 +365,7 @@ define([
             remote: {
                 ajaxConfig: {
                     url: smwu.getObjectDetailUrl(prefixId) + queryString
-                },
-                dataParser: smwp.serverDataParser
+                }
             }
         };
 
