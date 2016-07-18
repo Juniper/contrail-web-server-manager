@@ -59,7 +59,7 @@
             <iconClass>icon-cog</iconClass>
             <access>
                 <roles>
-                    <role>admin</role>
+                    <role>cloudAdmin</role>
                 </roles>
                 <orchModels>
                     <model>openstack</model>
