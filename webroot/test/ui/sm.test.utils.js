@@ -68,17 +68,8 @@ define([
 
     this.deleteFieldsForClusterScatterChart = function (dataArr) {
         _.each(dataArr, function (data) {
-            if (contrail.checkIfExist(data.interface_rt_bytes)) {
-                delete data.interface_rt_bytes;
-            }
-            if (contrail.checkIfExist(data.max_cpu_usage_percentage)) {
-                delete data.max_cpu_usage_percentage;
-            }
-            if (contrail.checkIfExist(data.max_mem_usage_percentage)) {
-                delete data.max_mem_usage_percentage;
-            }
-            if (contrail.checkIfExist(data.total_disk_rw_bytes)) {
-                delete data.total_disk_rw_bytes;
+            if (contrail.checkIfExist(data.ui_added_parameters.monitoring)) {
+                delete data['ui_added_parameters'].monitoring;
             }
         });
         return dataArr;
@@ -86,56 +77,8 @@ define([
 
     this.deleteFieldsForServerScatterChart = function (dataArr) {
         _.each(dataArr, function (data) {
-            if (contrail.checkIfExist(data.cpu_usage_percentage)) {
-                delete data.cpu_usage_percentage;
-            }
-            if (contrail.checkIfExist(data.interface_rt_bytes)) {
-                delete data.interface_rt_bytes;
-            }
-            if (contrail.checkIfExist(data.interface_rx_bytes)) {
-                delete data.interface_rx_bytes;
-            }
-            if (contrail.checkIfExist(data.interface_rx_packets)) {
-                delete data.interface_rx_packets;
-            }
-            if (contrail.checkIfExist(data.interface_tx_bytes)) {
-                delete data.interface_tx_bytes;
-            }
-            if (contrail.checkIfExist(data.interface_tx_packets)) {
-                delete data.interface_tx_packets;
-            }
-            if (contrail.checkIfExist(data.mem_usage_mb)) {
-                delete data.mem_usage_mb;
-            }
-            if (contrail.checkIfExist(data.mem_usage_percentage)) {
-                delete data.mem_usage_percentage;
-            }
-            if (contrail.checkIfExist(data.rawMonitoringData)) {
-                delete data.rawMonitoringData;
-            }
-            if (contrail.checkIfExist(data.size)) {
-                delete data.size;
-            }
-            if (contrail.checkIfExist(data.color)) {
-                delete data.color;
-            }
-            if (contrail.checkIfExist(data.top_of_rack)) {
-                delete data.top_of_rack;
-            }
-            if (contrail.checkIfExist(data.total_disk_read_bytes)) {
-                delete data.total_disk_read_bytes;
-            }
-            if (contrail.checkIfExist(data.total_disk_rw_bytes)) {
-                delete data.total_disk_rw_bytes;
-            }
-            if (contrail.checkIfExist(data.total_disk_write_bytes)) {
-                delete data.total_disk_write_bytes;
-            }
-            if (contrail.checkIfExist(data.x)) {
-                delete data.x;
-            }
-            if (contrail.checkIfExist(data.y)) {
-                delete data.y;
+            if (contrail.checkIfExist(data.ui_added_parameters)) {
+                delete data.ui_added_parameters;
             }
             if (contrail.checkIfExist(data.roles)) {
                 var roles = (contrail.checkIfExist(data.roles)) ? data.roles : [];

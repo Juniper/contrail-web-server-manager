@@ -57,16 +57,6 @@ define([
                 updateClusterListModels(clusterModelList, clusterMonitoringMap);
             }
         };
-
-        this.serverDataParser = function (servers) {
-            if(servers != null) {
-                for (var i = 0; i < servers.length; i++) {
-                    servers[i]['roleCount'] = servers[i]['roles'].length;
-                    servers[i]['name'] = contrail.handleIfNull(servers[i]['id'], servers[i]['mac_address']) ;
-                }
-            }
-            return servers;
-        };
     };
 
     function updateServerListModels(serverModelList, serverMonitoringMap) {
@@ -74,12 +64,13 @@ define([
             var serverItems = serverModelList[0].getItems();
             $.each(serverItems, function (key, server) {
                 var serverId = server['id'],
-                    serverMonitoringData = serverMonitoringMap[serverId];
-                if (serverMonitoringData != null) {
-                    $.extend(true, server, serverMonitoringData);
-                } else {
-                    $.extend(true, server, { size: 0, x: 0, y: 0 });
-                }
+                    serverMonitoringData = contrail.handleIfNull(serverMonitoringMap[serverId], { size: 0, x: 0, y: 0 });
+
+                $.extend(true, server, {
+                    ui_added_parameters: {
+                        monitoring: serverMonitoringData
+                    }
+                });
             });
 
             for (var i = 0; i < serverModelList.length; i++) {
@@ -116,7 +107,9 @@ define([
                 clusterMonitoringData['max_mem_usage_percentage'] = aggServerMonitoringData['max_mem_usage_percentage'];
             }
 
-            $.extend(true, cluster, clusterMonitoringData);
+            $.extend(true, cluster, {ui_added_parameters: {
+                monitoring: clusterMonitoringData
+            }});
         });
 
         for (var i = 0; i < clusterModelList.length; i++) {
@@ -157,7 +150,6 @@ define([
             }
 
             serverMonitoringMap[serverMonitoring['name']] = {
-                name: serverMonitoring['name'],
                 cpu_usage_percentage: cpuUsage,
                 mem_usage_mb: memUsageMB,
                 mem_usage_percentage: memUsage,

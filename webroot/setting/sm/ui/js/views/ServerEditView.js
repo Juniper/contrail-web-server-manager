@@ -60,6 +60,7 @@ define([
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
+                        cowch.reset();
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
@@ -97,6 +98,7 @@ define([
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
+                        cowch.reset();
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
@@ -130,6 +132,7 @@ define([
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
+                        cowch.reset();
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
@@ -220,6 +223,7 @@ define([
                                 success: function () {
                                     options['callback']();
                                     $("#" + modalId).modal('hide');
+                                    cowch.reset();
                                 },
                                 error: function (error) {
                                     cowu.disableModalLoading(modalId, function () {
@@ -255,6 +259,7 @@ define([
                     success: function () {
                         options['callback']();
                         $("#" + modalId).modal('hide');
+                        cowch.reset();
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {

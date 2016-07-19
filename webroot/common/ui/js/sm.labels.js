@@ -263,6 +263,7 @@ define([
         this.TITLE_SERVER_STATUS = "Server Status";
         this.TITLE_STATUS = "Status";
         this.TITLE_EDIT_CONFIG = "Edit Config";
+        this.TITLE_EDIT_JSON = "Edit JSON";
         this.TITLE_CREATE_CONFIG = "Create Config";
         this.TITLE_ADD = "Add";
         this.TITLE_REIMAGE = "Reimage";
