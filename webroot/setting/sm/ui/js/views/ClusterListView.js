@@ -53,14 +53,15 @@ define([
                                             var chartDataValues = [];
                                             for(var i = 0; i < response.length; i++) {
                                                 var cluster = response[i],
-                                                    serverStatus = cluster['ui_added_parameters']['servers_status'];
+                                                    serverStatus = cluster['ui_added_parameters']['servers_status'],
+                                                    monitoringStatus = contrail.handleIfNull(cluster['ui_added_parameters']['monitoring'], {});
 
                                                 chartDataValues.push({
                                                     name: cluster['id'],
                                                     y: serverStatus['total_servers'],
-                                                    x: contrail.handleIfNull(cluster['max_cpu_usage_percentage'], 0),
+                                                    x: contrail.handleIfNull(monitoringStatus['max_cpu_usage_percentage'], 0),
                                                     color: (serverStatus['total_servers'] == serverStatus['provisioned_servers']) ? "okay" : "default",
-                                                    size: contrail.handleIfNull(cluster['interface_rt_bytes'], 0),
+                                                    size: contrail.handleIfNull(monitoringStatus['interface_rt_bytes'], 0),
                                                     rawData: cluster
                                                 });
                                             }
@@ -109,7 +110,8 @@ define([
 
     function getClusterTooltipConfig(data) {
         var cluster = data.rawData,
-            serverStatus = data.rawData['ui_added_parameters']['servers_status'];
+            serverStatus = cluster['ui_added_parameters']['servers_status'],
+            monitoringStatus = cluster['ui_added_parameters']['monitoring'];
 
         var tooltipConfig = {
             title: {
@@ -119,8 +121,8 @@ define([
             content: {
                 iconClass: false,
                 info: [
-                    {label:'Max. CPU Utilization', value: cluster['max_cpu_usage_percentage'] + " %"},
-                    {label:'Network Traffic', value: cowu.addUnits2Bytes(cluster['interface_rt_bytes'], false, null, 1, smwc.MONITORING_CONFIG['monitoring_frequency'])},
+                    {label:'Max. CPU Utilization', value: monitoringStatus['max_cpu_usage_percentage'] + " %"},
+                    {label:'Network Traffic', value: cowu.addUnits2Bytes(monitoringStatus['interface_rt_bytes'], false, null, 1, smwc.MONITORING_CONFIG['monitoring_frequency'])},
                     {label:'In-Provision', value: serverStatus['inprovision_servers']},
                     {label:'Provisioned', value: serverStatus['provisioned_servers'] + ' out of ' + serverStatus['total_servers']}
                 ],

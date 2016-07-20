@@ -73,6 +73,7 @@
                         <resource>
                             <rootDir>/common/ui</rootDir>
                             <js>handlebars.helpers.js</js>
+                            <css>contrail.sm.css</css>
                             <class>smPageLoader</class>
                         </resource>
                         <resource>

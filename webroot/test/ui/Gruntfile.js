@@ -38,6 +38,7 @@ module.exports = function (grunt) {
         {pattern: 'contrail-web-server-manager/webroot/test/ui/*.js', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/templates/*.tmpl', included: false},
         {pattern: 'contrail-web-server-manager/webroot/common/**/*.js', included: false},
+        {pattern: 'contrail-web-server-manager/webroot/common/**/*.css', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/**/*.tmpl', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/js/**/*.js', included: false},
         {pattern: 'contrail-web-server-manager/webroot/dist/**/ui/js/**/*.js', included: false},

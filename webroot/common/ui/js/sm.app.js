@@ -44,7 +44,11 @@ function getSMAppPaths(smBaseDir, smBuildDir) {
         'sm-grid-config': smWebDir + '/common/ui/js/sm.grid.config',
         'sm-detail-tmpls': smWebDir + '/common/ui/js/sm.detail.tmpls',
         'sm-parsers': smWebDir + '/common/ui/js/sm.parsers',
-        'sm-init': smWebDir + '/common/ui/js/sm.init'
+        'sm-init': smWebDir + '/common/ui/js/sm.init',
+
+        'sm-server-schema' : smWebDir + '/setting/sm/ui/js/schemas/server.schema',
+        'sm-cluster-schema' : smWebDir + '/setting/sm/ui/js/schemas/cluster.schema'
+
     };
 }
 

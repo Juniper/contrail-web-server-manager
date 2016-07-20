@@ -163,6 +163,16 @@ define([
             };
         };
 
+        this.getConfigureJSONAction = function (onClickFunction, divider) {
+            return {
+                title: smwl.TITLE_EDIT_JSON,
+                iconClass: 'icon-code',
+                width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
+                onClick: onClickFunction
+            };
+        };
+
         this.getAddServersAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_ADD_SERVERS,
@@ -273,13 +283,6 @@ define([
         this.getServerColumns = function (serverColumnsType) {
             var serverColumns,
                 commonColumnsSet1 = [
-                    { id: "discovered", field: "discovered",  name: "", resizable: false, sortable: false, width: 30,
-                        searchable: false, exportConfig: { allow: false }, formatter: function (r, c, v, cd, dc) {
-                        if (dc['discovered'] == 'true') {
-                            return '<div class="padding-2-0;"><i class="icon-circle blue"></i></div>';
-                        }
-                    }
-                    },
                     { id: "server_id", field: "id", name: "ID", width: 80, minWidth: 80, cssClass: 'cell-hyperlink-blue', events: {
                         onClick: function (e, dc) {
                             loadFeature({p: 'setting_sm_servers', q: {'server_id': dc['id']}});
@@ -329,11 +332,13 @@ define([
                         formatter: function (r, c, v, cd, dc) {
                             var status = smwl.get(dc['status']);
                             if (status == 'Provision Completed') {
-                                return '<div class="status-badge-rounded status-active"></div> ' + status;
+                                return '<div class="status-badge-rounded status-server-provision-completed"></div> ' + status;
                             } else if (status == 'Server Added') {
-                                return '<div class="status-badge-rounded status-idle"></div> ' + status;
+                                return '<div class="status-badge-rounded status-server-added"></div> ' + status;
+                            } else if (status == 'Server Discovered') {
+                                return '<div class="status-badge-rounded status-server-discovered"></div> ' + status;
                             } else {
-                                return '<div class="status-badge-rounded status-spawning"></div> ' + status;
+                                return '<div class="status-badge-rounded status-server-other"></div> ' + status;
                             }
                         }
                     }
