@@ -36,13 +36,18 @@ define([
                                     activate: function (e, ui) {
                                         var selTab = $(ui.newTab.context).text();
                                         if (selTab == smwl.TITLE_INVENTORY) {
-                                            $('#' + smwl.SM_SERVER_INVENTORY_INTERFACE_GRID_ID).data('contrailGrid').refreshView();
-                                            $('#' + smwl.SM_SERVER_INVENTORY_FRU_GRID_ID).data('contrailGrid').refreshView();
+
+                                            cowu.checkAndRefreshContrailGrids([
+                                                $('#' + smwl.SM_SERVER_INVENTORY_INTERFACE_GRID_ID),
+                                                $('#' + smwl.SM_SERVER_INVENTORY_FRU_GRID_ID)
+                                            ]);
                                         } else if (selTab == smwl.TITLE_MONITORING) {
-                                            $('#' + smwl.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID).data('contrailGrid').refreshView();
-                                            $('#' + smwl.SM_SERVER_MONITORING_SENSOR_GRID_ID).data('contrailGrid').refreshView();
-                                            $('#' + smwl.SM_SERVER_MONITORING_INTERFACE_GRID_ID).data('contrailGrid').refreshView();
-                                            $('#' + smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID).data('contrailGrid').refreshView();
+                                            cowu.checkAndRefreshContrailGrids([
+                                                $('#' + smwl.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID),
+                                                $('#' + smwl.SM_SERVER_MONITORING_SENSOR_GRID_ID),
+                                                $('#' + smwl.SM_SERVER_MONITORING_INTERFACE_GRID_ID),
+                                                $('#' + smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID)
+                                            ]);
                                         }
                                     },
                                     tabs: [
@@ -60,6 +65,9 @@ define([
                                                 dataParser: function (response) {
                                                     return (response.length != 0) ? response[0] : {};
                                                 }
+                                            },
+                                            tabConfig: {
+                                                renderOnActivate: true
                                             }
                                         },
                                         {
@@ -67,14 +75,20 @@ define([
                                             title: smwl.TITLE_MONITORING,
                                             app: cowc.APP_CONTRAIL_SM,
                                             view: "ServerMonitoringView",
-                                            viewConfig: {serverId: serverId}
+                                            viewConfig: {serverId: serverId},
+                                            tabConfig: {
+                                                renderOnActivate: true
+                                            }
                                         },
                                         {
                                             elementId: smwl.SM_SERVER_TAB_INVENTORY_ID,
                                             title: smwl.TITLE_INVENTORY,
                                             app: cowc.APP_CONTRAIL_SM,
                                             view: "ServerInventoryView",
-                                            viewConfig: {serverId: serverId}
+                                            viewConfig: {serverId: serverId},
+                                            tabConfig: {
+                                                renderOnActivate: true
+                                            }
                                         }
                                     ]
                                 }
