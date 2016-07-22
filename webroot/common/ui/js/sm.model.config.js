@@ -640,6 +640,9 @@ define([
                     "management_interface": null,
                     "provisioning": "kickstart"
                 },
+                "contrail": {
+                    "control_data_interface": null
+                },
                 "top_of_rack": {
                     "switches": []
                 }

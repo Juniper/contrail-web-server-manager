@@ -748,6 +748,20 @@ define([
                                             defaultValueId: 0,
                                         }
                                     }
+                                },
+                                {
+                                    elementId: 'control_data_interface',
+                                    view: "FormDropdownView",
+                                    viewConfig: {
+                                        path: 'contrail.control_data_interface',
+                                        dataBindValue: 'contrail().control_data_interface',
+                                        dataBindOptionList: '$root.getControlDataInterfaces()',
+                                        class: "span6",
+                                        elementConfig: {
+                                            placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE,
+                                            defaultValueId: 0
+                                        }
+                                    }
                                 }
                             ]
                         }
