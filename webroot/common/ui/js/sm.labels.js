@@ -59,6 +59,7 @@ define([
         var labelMap = {
             //General
             "id": "ID",
+            "dhcp": "DHCP",
             'email': 'Email',
             "domain": "Domain",
             "gateway": "Gateway",

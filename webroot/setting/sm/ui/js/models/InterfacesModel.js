@@ -29,7 +29,7 @@ define([
                     msg: smwm.getRequiredMessage('name')
                 },
                 'ip_address': {
-                    required: true,
+                    required: false,
                     pattern: cowc.PATTERN_SUBNET_MASK,
                     msg: smwm.getShortInvalidErrorMessage('ip_address')
                 },

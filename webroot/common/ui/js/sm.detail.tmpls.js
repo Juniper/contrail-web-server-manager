@@ -378,7 +378,58 @@ define([
                                             templateGenerator: 'TextGenerator'
                                         }
                                     ]
-                                }
+                                },
+                                {
+                                    key: 'network.interfaces',
+                                    title: smwl.TITLE_INTERFACES,
+                                    templateGenerator: 'BlockGridTemplateGenerator',
+                                    templateGeneratorConfig: {
+                                        dataColumn: [
+                                            {
+                                                key: 'name',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    width: 35
+                                                }
+                                            },
+                                            {
+                                                key: 'ip_address',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    width: 85
+                                                }
+                                            },
+                                            {
+                                                key: 'default_gateway',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    width: 120
+                                                }
+                                            },
+                                            {
+                                                key: 'mac_address',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    width: 120
+                                                }
+                                            },
+                                            {
+                                                key: 'dhcp',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    width: 32
+                                                }
+                                            },
+                                            {
+                                                key: 'type',
+                                                templateGenerator: 'TextGenerator',
+                                                templateGeneratorConfig: {
+                                                    width: 45
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
                             ]
                         },
                         {
