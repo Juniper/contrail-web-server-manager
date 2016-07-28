@@ -390,7 +390,7 @@ define([], function () {
                                             }
                                         }
                                     },
-                                    "keystone_region_name": {
+                                    "region": {
                                         "type": "string",
                                         "default": "RegionOne"
                                     },
@@ -451,7 +451,7 @@ define([], function () {
                 }
             }
         },
-        "required": ["id", "package_image_id","base_image_id"]
+        "required": ["id"]
     }
     return clusterSchema;
 });
