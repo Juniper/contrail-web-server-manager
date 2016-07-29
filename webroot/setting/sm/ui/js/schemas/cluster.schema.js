@@ -108,8 +108,7 @@ define([], function () {
                                                 "type": "integer",
                                                 "default": 32
                                             }
-                                        },
-                                        "required": ["directory", "minimum_diskGB"]
+                                        }
                                     },
                                     "analytics": {
                                         "type": "object",
@@ -158,8 +157,7 @@ define([], function () {
                                                 "type": "string",
                                                 "default": null
                                             }
-                                        },
-                                        "required": ["data_ttl"]
+                                        }
                                     },
                                     "control": {
                                         "type": "object",
@@ -176,8 +174,7 @@ define([], function () {
                                                 "type": "string",
                                                 "default": ""
                                             }
-                                        },
-                                        "required": ["router_asn", "encapsulation_priority"]
+                                        }
                                     },
                                     "config": {
                                         "type": "object",
@@ -365,8 +362,7 @@ define([], function () {
                                                 "type": "string",
                                                 "default": "http"
                                             }
-                                        },
-                                        "required": ["service_tenant", "admin_user", "admin_password"]
+                                        }
                                     },
                                     "neutron": {
                                         "type": "object",
