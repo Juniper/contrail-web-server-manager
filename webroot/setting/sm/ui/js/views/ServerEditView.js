@@ -398,6 +398,10 @@ define([
                                 {
                                     elementId: 'domain', view: "FormInputView",
                                     viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
+                                },
+                                {
+                                    elementId: 'partition', view: "FormInputView",
+                                    viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "span6", view: "FormInputView"}
                                 }
                             ]
                         },
@@ -746,6 +750,20 @@ define([
                                             placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE,
                                             dataTextField: "id", dataValueField: "id",
                                             defaultValueId: 0,
+                                        }
+                                    }
+                                },
+                                {
+                                    elementId: 'control_data_interface',
+                                    view: "FormDropdownView",
+                                    viewConfig: {
+                                        path: 'contrail.control_data_interface',
+                                        dataBindValue: 'contrail().control_data_interface',
+                                        dataBindOptionList: '$root.getControlDataInterfaces()',
+                                        class: "span6",
+                                        elementConfig: {
+                                            placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE,
+                                            defaultValueId: 0
                                         }
                                     }
                                 }

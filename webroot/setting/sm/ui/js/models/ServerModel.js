@@ -516,9 +516,9 @@ define([
             });
         },
         addInterface: function(type) {
-            var interfaces = this.model().attributes['interfaces'],
-                newInterface = new InterfaceModel({name: "", type: type, "ip_address" : "", "mac_address" : "", "default_gateway" : "", "dhcp" : true, member_interfaces: [], "tor" : "", "tor_port" : ""});
-
+            var interfaces = this.model().attributes['interfaces'];
+            // ip_address is passed as null to avoid SM backend error
+            var newInterface = new InterfaceModel({name: "", type: type, "ip_address" : null, "mac_address" : "", "default_gateway" : "", "dhcp" : true, member_interfaces: [], "tor" : "", "tor_port" : ""});
             interfaces.add([newInterface]);
         },
         deleteInterface: function(data, kbInterface) {
@@ -574,7 +574,7 @@ define([
                     model = interfaces.at(i);
                     dhcp = model.attributes.dhcp();
                     interfaceType = model.attributes.type();
-                    if (dhcp == false && model.attributes.name() != "" && (interfaceType !== 'bond')) {
+                    if (dhcp != true && model.attributes.name() != "" && (interfaceType !== 'bond')) {
                         memberInterfaces.push(model.attributes.name());
                     }
                 }

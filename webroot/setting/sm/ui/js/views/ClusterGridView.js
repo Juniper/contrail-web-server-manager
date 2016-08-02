@@ -105,7 +105,7 @@ define([
                 jsonEditView.renderEditor({
                     title: title,
                     type : smwc.CLUSTER_PREFIX_ID,
-                    checkedRows: checkedRow, 
+                    checkedRows: checkedRow,
                     callback: function () {
                         var dataView = $(gridElId).data("contrailGrid")._dataView;
                         dataView.refreshData();

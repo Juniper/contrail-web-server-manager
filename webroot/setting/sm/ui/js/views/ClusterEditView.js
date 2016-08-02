@@ -1229,84 +1229,84 @@ define([
     function getSelectedServerGridElementConfig(gridPrefix, urlParam) {
         var filteredServerGrid = '#' + gridPrefix + '-filtered-servers',
             gridElementConfig = {
-                header: {
-                    title: {
-                        text: smwl.TITLE_SELECT_SERVERS
-                    },
-                    defaultControls: {
-                        refreshable: true
-                    },
-                    advanceControls: [
-                        {
-                            "type": "link",
-                            "title": 'Select Servers',
-                            "iconClass": "icon-plus",
-                            "onClick": function () {
-                                var checkedRows = $(filteredServerGrid).data('contrailGrid').getCheckedRows();
-                                updateSelectedServer(gridPrefix, 'add', checkedRows);
-                            }
-                        }, {
-                            type: 'checked-multiselect',
-                            iconClass: 'icon-filter',
-                            title: 'Filter Servers',
-                            placeholder: 'Filter Servers',
-                            elementConfig: {
-                                elementId: 'tagsCheckedMultiselect',
-                                dataTextField: 'text',
-                                dataValueField: 'id',
-                                filterConfig: {
-                                    placeholder: 'Search Tags'
-                                },
-                                parse: formatData4Ajax,
-                                minWidth: 200,
-                                height: 250,
-                                emptyOptionText: smwm.NO_TAGS_FOUND,
-                                dataSource: {
-                                    type: 'GET',
-                                    url: smwu.getTagsUrl('')
-                                },
-                                click: function(event, ui){
-                                    applyServerTagFilter(filteredServerGrid, event, ui)
-                                },
-                                optgrouptoggle: function(event, ui){
-                                    applyServerTagFilter(filteredServerGrid, event, ui)
-                                },
-                                control: false
-                            }
-                        }
-                    ]
-
+            header: {
+                title: {
+                    text: smwl.TITLE_SELECT_SERVERS
                 },
-                columnHeader: {
-                    columns: smwgc.EDIT_SERVERS_ROLES_COLUMNS
+                defaultControls: {
+                    refreshable: true
                 },
-                body: {
-                    options: {
-                        actionCell: {
-                            type: 'link',
-                            iconClass: 'icon-plus',
-                            onclick: function(e, args) {
-                                var selectedRow = $(filteredServerGrid).data('contrailGrid')._dataView.getItem(args.row);
-                                updateSelectedServer(gridPrefix, 'add', [selectedRow]);
-                            }
+                advanceControls: [
+                    {
+                        "type": "link",
+                        "title": 'Select Servers',
+                        "iconClass": "icon-plus",
+                        "onClick": function () {
+                            var checkedRows = $(filteredServerGrid).data('contrailGrid').getCheckedRows();
+                            updateSelectedServer(gridPrefix, 'add', checkedRows);
                         }
-                    },
-                    dataSource: {
-                        remote: {
-                            ajaxConfig: {
-                                url: smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + '?' + urlParam
-                            }
-                        }
-                    },
-                    statusMessages: {
-                        empty: {
-                            type: 'status',
-                            iconClasses: '',
-                            text: smwm.NO_SERVERS_2_SELECT
+                    }, {
+                        type: 'checked-multiselect',
+                        iconClass: 'icon-filter',
+                        title: 'Filter Servers',
+                        placeholder: 'Filter Servers',
+                        elementConfig: {
+                            elementId: 'tagsCheckedMultiselect',
+                            dataTextField: 'text',
+                            dataValueField: 'id',
+                            filterConfig: {
+                                placeholder: 'Search Tags'
+                            },
+                            parse: formatData4Ajax,
+                            minWidth: 200,
+                            height: 250,
+                            emptyOptionText: smwm.NO_TAGS_FOUND,
+                            dataSource: {
+                                type: 'GET',
+                                url: smwu.getTagsUrl('')
+                            },
+                            click: function(event, ui){
+                                applyServerTagFilter(filteredServerGrid, event, ui)
+                            },
+                            optgrouptoggle: function(event, ui){
+                                applyServerTagFilter(filteredServerGrid, event, ui)
+                            },
+                            control: false
                         }
                     }
+                ]
+
+            },
+            columnHeader: {
+                columns: smwgc.EDIT_SERVERS_ROLES_COLUMNS
+            },
+            body: {
+                options: {
+                    actionCell: {
+                        type: 'link',
+                        iconClass: 'icon-plus',
+                        onclick: function(e, args) {
+                            var selectedRow = $(filteredServerGrid).data('contrailGrid')._dataView.getItem(args.row);
+                            updateSelectedServer(gridPrefix, 'add', [selectedRow]);
+                        }
+                    }
+                },
+                dataSource: {
+                    remote: {
+                        ajaxConfig: {
+                            url: smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + '?' + urlParam
+                        }
+                    }
+                },
+                statusMessages: {
+                    empty: {
+                        type: 'status',
+                        iconClasses: '',
+                        text: smwm.NO_SERVERS_2_SELECT
+                    }
                 }
-            };
+            }
+        };
         return gridElementConfig;
     }
 
