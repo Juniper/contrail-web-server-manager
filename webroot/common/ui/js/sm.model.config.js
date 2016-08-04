@@ -118,7 +118,7 @@ define([
                             "amqp": {
                                 "server_ip": ""
                             },
-                            "keystone_region_name": "RegionOne",
+                            "region": "RegionOne",
                             "multi_tenancy": true,
                             "openstack_manage_amqp": false,
                             "enable_ceilometer": false,
@@ -537,7 +537,7 @@ define([
                                                 },
                                                 "required": ["server_ip"]
                                             },
-                                            "keystone_region_name": {
+                                            "region": {
                                                 "type": "string",
                                                 "default": "RegionOne"
                                             },
@@ -594,7 +594,7 @@ define([
                                                 "required": ["root_password"]
                                             }
                                         },
-                                        "required": ["keystone", "neutron", "amqp", "keystone_region_name", "multi_tenancy", "openstack_manage_amqp", "enable_ceilometer", "ha", "mysql"]
+                                        "required": ["keystone", "neutron", "amqp", "region", "multi_tenancy", "openstack_manage_amqp", "enable_ceilometer", "ha", "mysql"]
                                     }
                                 },
                                 "required": ["contrail", "openstack"]
@@ -622,14 +622,14 @@ define([
                 "package_image_id": null,
                 "roles": ["compute"],
                 "parameters": {
+                    "partition": null,
                     "provision": {
                         "contrail": {
                             "storage": {
                                 "storage_repo_id": "",
                                 "storage_osd_disks": [],
                                 "storage_chassis_id": "",
-                                "storage_chassis_id_input": "",
-                                "partition": ""
+                                "storage_chassis_id_input": ""
                             }
                         }
                     }

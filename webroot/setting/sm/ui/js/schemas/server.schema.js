@@ -49,6 +49,9 @@ define([], function () {
             "parameters": {
                 "type": "object",
                 "properties": {
+                    "partition": {
+                        "type": "string"
+                    },
                     "provision": {
                         "type": "object",
                         "properties": {
@@ -69,9 +72,6 @@ define([], function () {
                                                 "type": "string"
                                             },
                                             "storage_chassis_id_input": {
-                                                "type": "string"
-                                            },
-                                            "partition": {
                                                 "type": "string"
                                             }
                                         }
@@ -112,7 +112,7 @@ define([], function () {
                 }
             }
         },
-        "required": ["base_image_id", "package_image_id", "id", "ipmi_address", "password"]
+        "required": ["id", "ipmi_address", "password"]
     };
     return serverSchema;
 });

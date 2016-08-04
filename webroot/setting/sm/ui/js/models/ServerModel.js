@@ -574,7 +574,7 @@ define([
                     model = interfaces.at(i);
                     dhcp = model.attributes.dhcp();
                     interfaceType = model.attributes.type();
-                    if (dhcp == false && model.attributes.name() != "" && (interfaceType !== 'bond')) {
+                    if (dhcp != true && model.attributes.name() != "" && (interfaceType !== 'bond')) {
                         memberInterfaces.push(model.attributes.name());
                     }
                 }

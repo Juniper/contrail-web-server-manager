@@ -398,6 +398,10 @@ define([
                                 {
                                     elementId: 'domain', view: "FormInputView",
                                     viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
+                                },
+                                {
+                                    elementId: 'partition', view: "FormInputView",
+                                    viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "span6", view: "FormInputView"}
                                 }
                             ]
                         },
