@@ -361,7 +361,7 @@ define([
                 }
                 row['columns'].push({
                     elementId: tagName, view: "FormInputView",
-                    viewConfig: {path: "tag." + tagName, dataBindValue: "tag()." + tagName, class: "span6"}
+                    viewConfig: {path: "tag." + tagName, dataBindValue: "tag()." + tagName, class: "col-xs-6"}
                 });
             }
             callback(tagServersViewConfigRows)
@@ -385,11 +385,11 @@ define([
                             columns: [
                                 {
                                     elementId: 'id', view: "FormInputView",
-                                    viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "span6"}
+                                    viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "col-xs-6"}
                                 },
                                 {
                                     elementId: 'password', view: "FormInputView",
-                                    viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "span6"}
+                                    viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "col-xs-6"}
                                 }
                             ]
                         },
@@ -397,11 +397,11 @@ define([
                             columns: [
                                 {
                                     elementId: 'domain', view: "FormInputView",
-                                    viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
+                                    viewConfig: {path: "domain", dataBindValue: "domain", class: "col-xs-6", view: "FormInputView"}
                                 },
                                 {
                                     elementId: 'partition', view: "FormInputView",
-                                    viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "span6", view: "FormInputView"}
+                                    viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "col-xs-6", view: "FormInputView"}
                                 }
                             ]
                         },
@@ -409,7 +409,7 @@ define([
                             columns: [
                                 {
                                     elementId: 'ipmi_address', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "span6"}
+                                    viewConfig: {path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "col-xs-6"}
                                 },
                                 {
                                     elementId: 'ipmi_interface',
@@ -417,7 +417,7 @@ define([
                                     viewConfig: {
                                         path: 'ipmi_interface',
                                         dataBindValue: 'ipmi_interface',
-                                        class: "span6",
+                                        class: "col-xs-6",
                                         elementConfig: {defaultValueId: 0, dataTextField: "text", dataValueField: "id", data: smwc.IPMI_INTERFACE_TYPES}
                                     }
                                 }
@@ -427,11 +427,11 @@ define([
                             columns: [
                                 {
                                     elementId: 'ipmi_username', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}
+                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "col-xs-6"}
                                 },
                                 {
                                     elementId: 'ipmi_password', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "span6"}
+                                    viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -451,6 +451,7 @@ define([
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "interfaces",
+                                        class: 'col-xs-12',
                                         validation: 'physicalValidation',
                                         collection: "filterInterfaces('physical')",
                                         columns: [
@@ -483,7 +484,7 @@ define([
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'icon-minus'}
+                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'fa fa-minus'}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addInterface('physical'); }", buttonTitle: "Add"}
@@ -508,6 +509,7 @@ define([
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "interfaces",
+                                        class: 'col-xs-12',
                                         validation: 'bondValidation',
                                         collection: "filterInterfaces('bond')",
                                         columns: [
@@ -535,7 +537,7 @@ define([
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'icon-minus'}
+                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'fa fa-minus'}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addInterface('bond'); }", buttonTitle: "Add"}
@@ -560,6 +562,7 @@ define([
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "switches",
+                                        class: 'col-xs-12',
                                         validation: "topOfRackValidation",
                                         collection: "switches",
                                         columns: [
@@ -604,7 +607,7 @@ define([
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteSwitch($data, this); }", iconClass: 'icon-minus'}
+                                            {onClick: "function() { $root.deleteSwitch($data, this); }", iconClass: 'fa fa-minus'}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addSwitch(); }", buttonTitle: "Add"}
@@ -627,7 +630,7 @@ define([
                                 {
                                     elementId: 'storage_repo_id',
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_repo_id', dataBindValue: 'parameters().provision.contrail.storage.storage_repo_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_REPO_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
+                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_repo_id', dataBindValue: 'parameters().provision.contrail.storage.storage_repo_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_REPO_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
                                 }
                             ]
                         },
@@ -636,12 +639,12 @@ define([
                                 {
                                     elementId: 'storage_chassis_id',
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id', class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
+                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id', class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
                                 },
                                 {
                                     elementId: 'storage_chassis_id_input',
                                     view: "FormInputView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id_input', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id_input', class: "span6"}
+                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id_input', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id_input', class: "col-xs-6"}
                                 }
                             ]
                         },
@@ -652,6 +655,7 @@ define([
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "parameters.provision.contrail.storage.storage_osd_disks",
+                                        class: 'col-xs-12',
                                         validation: '',
                                         collection: "getStorageDisks()",
                                         columns: [
@@ -661,7 +665,7 @@ define([
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteDisk($data, this); }", iconClass: 'icon-minus'}
+                                            {onClick: "function() { $root.deleteDisk($data, this); }", iconClass: 'fa fa-minus'}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addDisk(); }", buttonTitle: "Add"}
@@ -688,7 +692,7 @@ define([
                                     viewConfig: {
                                         path: 'cluster_id',
                                         dataBindValue: "cluster_id",
-                                        class: "span6",
+                                        class: "col-xs-6",
                                         elementConfig: {
                                             allowClear: true,
                                             placeholder: smwl.SELECT_CLUSTER,
@@ -704,7 +708,7 @@ define([
                                 {
                                     elementId: 'email',
                                     view: "FormInputView",
-                                    viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}
+                                    viewConfig: {path: 'email', dataBindValue: 'email', class: "col-xs-6"}
                                 }
                             ]
                         },
@@ -716,7 +720,7 @@ define([
                                     viewConfig: {
                                         path: 'base_image_id',
                                         dataBindValue: 'base_image_id',
-                                        class: "span6",
+                                        class: "col-xs-6",
                                         elementConfig: {
                                             placeholder: smwl.SELECT_IMAGE,
                                             dataTextField: "id",
@@ -732,7 +736,8 @@ define([
                                     elementId: 'package_image_id',
                                     view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6",
+                                        path: 'package_image_id', dataBindValue: 'package_image_id',
+                                        class: "col-xs-6",
                                         elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
                                 }
                             ]
@@ -743,9 +748,10 @@ define([
                                     elementId: 'management_interface',
                                     view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'network.management_interface', class: "span6",
+                                        path: 'network.management_interface', class: "col-xs-6",
                                         dataBindValue: 'network().management_interface',
                                         dataBindOptionList: '$root.getManagementInterfaces()',
+                                        class: "col-xs-6",
                                         elementConfig: {
                                             placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE,
                                             dataTextField: "id", dataValueField: "id",
@@ -760,7 +766,7 @@ define([
                                         path: 'contrail.control_data_interface',
                                         dataBindValue: 'contrail().control_data_interface',
                                         dataBindOptionList: '$root.getControlDataInterfaces()',
-                                        class: "span6",
+                                        class: "col-xs-6",
                                         elementConfig: {
                                             placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE,
                                             defaultValueId: 0
@@ -790,7 +796,7 @@ define([
                             columns: [
                                 {
                                     elementId: 'domain', view: "FormInputView",
-                                    viewConfig: {path: "domain", dataBindValue: "domain", class: "span6", view: "FormInputView"}
+                                    viewConfig: {path: "domain", dataBindValue: "domain", class: "col-xs-6", view: "FormInputView"}
                                 }
                             ]
                         },
@@ -798,11 +804,11 @@ define([
                             columns: [
                                 {
                                     elementId: 'ipmi_username', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "span6"}
+                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "col-xs-6"}
                                 },
                                 {
                                     elementId: 'ipmi_password', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_password',  type: 'password', dataBindValue: 'ipmi_password', class: "span6"}
+                                    viewConfig: {path: 'ipmi_password',  type: 'password', dataBindValue: 'ipmi_password', class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -821,7 +827,7 @@ define([
                                 {
                                     elementId: 'package_image_id',
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
+                                    viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
                                 }
                             ]
                         }
@@ -839,7 +845,7 @@ define([
                                 {
                                     elementId: 'storage_repo_id',
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_repo_id', dataBindValue: 'parameters().provision.contrail.storage.storage_repo_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
+                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_repo_id', dataBindValue: 'parameters().provision.contrail.storage.storage_repo_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
                                 }
                             ]
                         },
@@ -848,12 +854,12 @@ define([
                                 {
                                     elementId: 'storage_chassis_id',
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id', class: "span6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
+                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id', class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
                                 },
                                 {
                                     elementId: 'storage_chassis_id_input',
                                     view: "FormInputView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id_input', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id_input', class: "span6"}
+                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id_input', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id_input', class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -871,9 +877,9 @@ define([
                                 {
                                     elementId: 'cluster_id',
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'cluster_id', dataBindValue: 'cluster_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_CLUSTER, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)}}}
+                                    viewConfig: {path: 'cluster_id', dataBindValue: 'cluster_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_CLUSTER, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)}}}
                                 },
-                                {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}}
+                                {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "col-xs-6"}}
                             ]
                         },
                         {
@@ -881,7 +887,7 @@ define([
                                 {
                                     elementId: 'base_image_id',
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                                    viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
                                 }
                             ]
                         },
@@ -893,13 +899,13 @@ define([
                                     viewConfig: {
                                         path: 'parameters.kernel_upgrade',
                                         dataBindValue: 'parameters().kernel_upgrade',
-                                        class: "span6",
+                                        class: "col-xs-6",
                                         elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES_YES_NO}
                                     }
                                 },
                                 {
                                     elementId: 'kernel_version', view: "FormInputView",
-                                    viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "span6"}
+                                    viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -920,7 +926,7 @@ define([
                         {
                             elementId: 'package_image_id',
                             view: "FormDropdownView",
-                            viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
+                            viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
                         }
                     ]
                 }
@@ -938,7 +944,7 @@ define([
                         {
                             elementId: 'base_image_id',
                             view: "FormDropdownView",
-                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "span6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
                         }
                     ]
                 }
@@ -955,7 +961,7 @@ define([
                     columns: [
                         {
                             elementId: 'roles', view: "FormMultiselectView",
-                            viewConfig: {path: 'roles', dataBindValue: 'roles', class: "span12", elementConfig: {placeholder: smwl.SELECT_ROLES, data: smwc.ROLES_OBJECTS}}
+                            viewConfig: {path: 'roles', dataBindValue: 'roles', class: "col-xs-12", elementConfig: {placeholder: smwl.SELECT_ROLES, data: smwc.ROLES_OBJECTS}}
                         }
                     ]
                 }

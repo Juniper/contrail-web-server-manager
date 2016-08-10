@@ -139,7 +139,7 @@ define([
                     {
                         type: 'link',
                         text: 'View',
-                        iconClass: 'icon-external-link',
+                        iconClass: 'fa fa-external-link',
                         callback: function(data) {
                             var serverId = data['name'],
                                 hashObj = {server_id: serverId};
@@ -163,7 +163,7 @@ define([
                     items: [
                         {
                             text: 'Network Traffic',
-                            labelCssClass: 'icon-circle',
+                            labelCssClass: 'fa fa-circle',
                             events: {
                                 click: function (event) {}
                             }

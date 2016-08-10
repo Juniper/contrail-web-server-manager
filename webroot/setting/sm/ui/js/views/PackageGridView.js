@@ -67,7 +67,7 @@ define([
             {
                 "type": "link",
                 "title": smwl.TITLE_ADD_PACKAGE,
-                "iconClass": "icon-plus",
+                "iconClass": "fa fa-plus",
                 "onClick": function () {
                     var packageModel = new PackageModel(),
                         packageEditView = new PackageEditView();

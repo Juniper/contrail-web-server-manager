@@ -3,8 +3,8 @@
  Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
 -->
 <script type="text/x-handlebars-template" id="bm-template" xmlns="http://www.w3.org/1999/html">
-    <div id="{{name}}-container" class="row-fluid ">
-        <div id="{{name}}-results" class="row-fluid"></div>
+    <div id="{{name}}-container" class="row ">
+        <div id="{{name}}-results" class="row"></div>
     </div>
 </script>
 
@@ -28,34 +28,34 @@
 
 <script type="text/x-handlebars-template" id="baremetal-detail-page-template">
     <div>
-        <div class="row-fluid
-            <div class="row-fluid">
-                <div class="span2"><label>Server</label></div>
-                <div class="span10"> {{serverId}}</div>
+        <div class="row
+            <div class="row">
+                <div class="col-xs-2"><label>Server</label></div>
+                <div class="col-xs-10"> {{serverId}}</div>
             </div>
-            <div class="row-fluid">
-                <div class="span2"><label>Mac Address</label></div>
-                <div class="span10"> {{mac}}</div>
+            <div class="row">
+                <div class="col-xs-2"><label>Mac Address</label></div>
+                <div class="col-xs-10"> {{mac}}</div>
             </div>
-            <div class="row-fluid">
-                <div class="span2"><label>IP Address</label></div>
-                <div class="span10"> {{ip}}</div>
+            <div class="row">
+                <div class="col-xs-2"><label>IP Address</label></div>
+                <div class="col-xs-10"> {{ip}}</div>
             </div>
-            <div class="row-fluid">
-                <div class="span2"><label>Physical Router</label></div>
-                <div class="span10">{{physical_router}}</div>
+            <div class="row">
+                <div class="col-xs-2"><label>Physical Router</label></div>
+                <div class="col-xs-10">{{physical_router}}</div>
             </div>
-            <div class="row-fluid">
-                <div class="span2"><label>Interface</label></div>
-                <div class="span10">{{interface}}</div>
+            <div class="row">
+                <div class="col-xs-2"><label>Interface</label></div>
+                <div class="col-xs-10">{{interface}}</div>
             </div>
-            <div class="row-fluid">
-                <div class="span2"><label>Virtual Network</label></div>
-                <div class="span10">{{vn}}</div>
+            <div class="row">
+                <div class="col-xs-2"><label>Virtual Network</label></div>
+                <div class="col-xs-10">{{vn}}</div>
             </div>
-            <div class="row-fluid">
-                <div class="span2"><label>Vlan</label></div>
-                <div class="span10">{{vlan}}</div>
+            <div class="row">
+                <div class="col-xs-2"><label>Vlan</label></div>
+                <div class="col-xs-10">{{vlan}}</div>
             </div>
         </div>
     </div>

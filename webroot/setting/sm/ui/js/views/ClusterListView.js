@@ -71,7 +71,7 @@ define([
                                         controlPanelConfig: {
                                             filter: {
                                                 enable: true,
-                                                iconClass: 'icon-filter',
+                                                iconClass: 'fa fa-filter',
                                                 title: 'Filter',
                                                 viewConfig: getControlPanelFilterConfig()
                                             },
@@ -130,7 +130,7 @@ define([
                     {
                         type: 'link',
                         text: 'View',
-                        iconClass: 'icon-external-link',
+                        iconClass: 'fa fa-external-link',
                         callback: function(data) {
                             var clusterID = data.name,
                                 hashObj = { cluster_id: clusterID };
@@ -178,14 +178,14 @@ define([
                     items: [
                         {
                             text: 'Provisioned Server = Total Servers',
-                            labelCssClass: 'icon-circle okay',
+                            labelCssClass: 'fa fa-circle okay',
                             events: {
                                 click: function (event) {}
                             }
                         },
                         {
                             text: 'Provisioned Server != Total Servers',
-                            labelCssClass: 'icon-circle medium',
+                            labelCssClass: 'fa fa-circle medium',
                             events: {
                                 click: function (event) {}
                             }
@@ -198,7 +198,7 @@ define([
                     items: [
                         {
                             text: 'Total Network Traffic',
-                            labelCssClass: 'icon-circle',
+                            labelCssClass: 'fa fa-circle',
                             events: {
                                 click: function (event) {}
                             }

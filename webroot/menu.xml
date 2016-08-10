@@ -5,13 +5,13 @@
         <item>
             <label>Monitor</label>
             <name>monitor</name>
-            <iconClass>icon-bar-chart</iconClass>
+            <iconClass>fa fa-bar-chart-o</iconClass>
             <items></items>
         </item>
         <item>
             <name>configure</name>
             <label>Configure</label>
-            <iconClass>icon-wrench</iconClass>
+            <iconClass>fa fa-wrench</iconClass>
             <items>
                 <item>
                     <label>Physical Devices</label>
@@ -40,7 +40,7 @@
                             <model>openstack</model>
                         </orchModels>
                     </access>
-                    <iconClass>icon-globe</iconClass>
+                    <iconClass>fa fa-globe</iconClass>
                     <items>
                         <item>
                             <label>Baremetal Servers</label>
@@ -56,7 +56,7 @@
         <item>
             <label>Setting</label>
             <name>setting</name>
-            <iconClass>icon-cog</iconClass>
+            <iconClass>fa fa-cog</iconClass>
             <access>
                 <roles>
                     <role>cloudAdmin</role>
@@ -68,7 +68,7 @@
             <items>
                 <item>
                     <label>Server Manager</label>
-                    <iconClass>icon-cogs</iconClass>
+                    <iconClass>menu-icon fa fa-cogs</iconClass>
                     <resources>
                         <resource>
                             <rootDir>/common/ui</rootDir>
@@ -127,7 +127,7 @@
         <item>
             <label>Query</label>
             <name>query</name>
-            <iconClass>icon-search</iconClass>
+            <iconClass>fa fa-search</iconClass>
             <items></items>
         </item>
     </items>

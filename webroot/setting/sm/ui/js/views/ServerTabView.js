@@ -188,7 +188,7 @@ define([
         return [
             {
                 title: smwl.TITLE_EDIT_SERVER_CONFIG,
-                iconClass: 'icon-cog',
+                iconClass: 'fa fa-cog',
                 type: 'dropdown',
                 optionList: rowActionConfig
             }

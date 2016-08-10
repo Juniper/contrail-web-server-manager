@@ -14,7 +14,7 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span6',
+                            class: 'col-xs-6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -163,7 +163,7 @@ define([
                             ]
                         },
                         {
-                            class: 'span6',
+                            class: 'col-xs-6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -289,7 +289,7 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span6',
+                            class: 'col-xs-6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -433,7 +433,7 @@ define([
                             ]
                         },
                         {
-                            class: 'span6',
+                            class: 'col-xs-6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -596,7 +596,7 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span6',
+                            class: 'col-xs-6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -623,7 +623,7 @@ define([
                             ]
                         },
                         {
-                            class: 'span6',
+                            class: 'col-xs-6',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -662,7 +662,7 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span12',
+                            class: 'col-xs-12',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -742,7 +742,7 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span12',
+                            class: 'col-xs-12',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',
@@ -904,7 +904,7 @@ define([
                 templateGeneratorConfig: {
                     columns: [
                         {
-                            class: 'span12',
+                            class: 'col-xs-12',
                             rows: [
                                 {
                                     templateGenerator: 'BlockListTemplateGenerator',

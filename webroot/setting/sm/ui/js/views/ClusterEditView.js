@@ -341,11 +341,11 @@ define([
                     columns: [
                         {
                             elementId: 'id', view: "FormInputView",
-                            viewConfig: {path: 'id', dataBindValue: 'id', class: "span6"}
+                            viewConfig: {path: 'id', dataBindValue: 'id', class: "col-xs-6"}
                         },
                         {
                             elementId: 'email', view: "FormInputView",
-                            viewConfig: {path: 'email', dataBindValue: 'email', class: "span6"}
+                            viewConfig: {path: 'email', dataBindValue: 'email', class: "col-xs-6"}
                         }
                     ]
                 }
@@ -364,11 +364,11 @@ define([
                         columns: [
                             {
                                 elementId: 'ip', view: "FormInputView",
-                                viewConfig: {label: smwl.LABEL_KEYSTONE_IP, path: 'parameters.provision.openstack.keystone.ip', dataBindValue: 'parameters().provision.openstack.keystone.ip', class: "span6"}
+                                viewConfig: {label: smwl.LABEL_KEYSTONE_IP, path: 'parameters.provision.openstack.keystone.ip', dataBindValue: 'parameters().provision.openstack.keystone.ip', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'admin_tenant', view: "FormInputView",
-                                viewConfig: {label: smwl.LABEL_KEYSTONE_ADMIN_TENANT, path: 'parameters.provision.openstack.keystone.admin_tenant', dataBindValue: 'parameters().provision.openstack.keystone.admin_tenant', class: "span6"}
+                                viewConfig: {label: smwl.LABEL_KEYSTONE_ADMIN_TENANT, path: 'parameters.provision.openstack.keystone.admin_tenant', dataBindValue: 'parameters().provision.openstack.keystone.admin_tenant', class: "col-xs-6"}
                             }
                         ]
                     },
@@ -376,11 +376,11 @@ define([
                         columns: [
                             {
                                 elementId: 'service_tenant', view: "FormInputView",
-                                viewConfig: {label: smwl.LABEL_KEYSTONE_SERVICE_TENANT, path: 'parameters.provision.openstack.keystone.service_tenant', dataBindValue: 'parameters().provision.openstack.keystone.service_tenant', class: "span6"}
+                                viewConfig: {label: smwl.LABEL_KEYSTONE_SERVICE_TENANT, path: 'parameters.provision.openstack.keystone.service_tenant', dataBindValue: 'parameters().provision.openstack.keystone.service_tenant', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'admin_user', view: "FormInputView",
-                                viewConfig: {label: smwl.LABEL_KEYSTONE_ADMIN_USER, path: 'parameters.provision.openstack.keystone.admin_user', dataBindValue: 'parameters().provision.openstack.keystone.admin_user', class: "span6"}
+                                viewConfig: {label: smwl.LABEL_KEYSTONE_ADMIN_USER, path: 'parameters.provision.openstack.keystone.admin_user', dataBindValue: 'parameters().provision.openstack.keystone.admin_user', class: "col-xs-6"}
                             }
                         ]
                     },
@@ -388,7 +388,7 @@ define([
                         columns: [
                             {
                                 elementId: 'keystone_region_name', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.openstack.keystone_region_name', dataBindValue: 'parameters().provision.openstack.keystone_region_name', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.openstack.keystone_region_name', dataBindValue: 'parameters().provision.openstack.keystone_region_name', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'admin_password', view: "FormInputView",
@@ -416,11 +416,11 @@ define([
                         columns: [
                             {
                                 elementId: 'openstack_manage_amqp', view: "FormDropdownView",
-                                viewConfig: {path: 'parameters.provision.openstack.openstack_manage_amqp', dataBindValue: 'parameters().provision.openstack.openstack_manage_amqp', class: "span6", elementConfig: { dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}}
+                                viewConfig: {path: 'parameters.provision.openstack.openstack_manage_amqp', dataBindValue: 'parameters().provision.openstack.openstack_manage_amqp', class: "col-xs-6", elementConfig: { dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}}
                             },
                             {
                                 elementId: 'server_ip', view: "FormInputView",
-                                viewConfig: {label: smwl.LABEL_AMQP_SERVER_IP, path: 'parameters.provision.openstack.amqp.server_ip', dataBindValue: 'parameters().provision.openstack.amqp.server_ip', class: "span6"}
+                                viewConfig: {label: smwl.LABEL_AMQP_SERVER_IP, path: 'parameters.provision.openstack.amqp.server_ip', dataBindValue: 'parameters().provision.openstack.amqp.server_ip', class: "col-xs-6"}
                             }
                         ]
                     },
@@ -428,11 +428,11 @@ define([
                         columns: [
                             {
                                 elementId: 'keystone_auth_port', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.openstack.keystone_auth_port', dataBindValue: 'parameters().provision.openstack.keystone_auth_port', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.openstack.keystone_auth_port', dataBindValue: 'parameters().provision.openstack.keystone_auth_port', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'keystone_auth_protocol', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.openstack.keystone_auth_protocol', dataBindValue: 'parameters().provision.openstack.keystone_auth_protocol', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.openstack.keystone_auth_protocol', dataBindValue: 'parameters().provision.openstack.keystone_auth_protocol', class: "col-xs-6"}
                             }
                         ]
                     },
@@ -440,11 +440,11 @@ define([
                         columns: [
                             {
                                 elementId: 'port', view: "FormInputView",
-                                viewConfig: {label: smwl.LABEL_NEUTRON_PORT, path: 'parameters.provision.openstack.neutron.port', dataBindValue: 'parameters().provision.openstack.neutron.port', class: "span6"}
+                                viewConfig: {label: smwl.LABEL_NEUTRON_PORT, path: 'parameters.provision.openstack.neutron.port', dataBindValue: 'parameters().provision.openstack.neutron.port', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'service_protocol', view: "FormInputView",
-                                viewConfig: {label: smwl.LABEL_NEUTRON_SERVICE_PROTOCOL, path: 'parameters.provision.openstack.neutron.service_protocol', dataBindValue: 'parameters().provision.openstack.neutron.service_protocol', class: "span6"}
+                                viewConfig: {label: smwl.LABEL_NEUTRON_SERVICE_PROTOCOL, path: 'parameters.provision.openstack.neutron.service_protocol', dataBindValue: 'parameters().provision.openstack.neutron.service_protocol', class: "col-xs-6"}
                             }
                         ]
                     },
@@ -452,11 +452,11 @@ define([
                         columns: [
                             {
                                 elementId: 'root_password', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.openstack.mysql.root_password', type: 'password', dataBindValue: 'parameters().provision.openstack.mysql.root_password', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.openstack.mysql.root_password', type: 'password', dataBindValue: 'parameters().provision.openstack.mysql.root_password', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'manage_neutron', view: "FormDropdownView",
-                                viewConfig: {path: 'parameters.provision.contrail.config.manage_neutron', dataBindValue: 'parameters().provision.contrail.config.manage_neutron', class: "span6", elementConfig: { dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}}
+                                viewConfig: {path: 'parameters.provision.contrail.config.manage_neutron', dataBindValue: 'parameters().provision.contrail.config.manage_neutron', class: "col-xs-6", elementConfig: { dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}}
                             }
                         ]
                     }
@@ -473,11 +473,11 @@ define([
                         columns: [
                             {
                                 elementId: 'external_bgp', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.control.external_bgp', dataBindValue: 'parameters().provision.contrail.control.external_bgp', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.contrail.control.external_bgp', dataBindValue: 'parameters().provision.contrail.control.external_bgp', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'router_asn', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.control.router_asn', dataBindValue: 'parameters().provision.contrail.control.router_asn', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.contrail.control.router_asn', dataBindValue: 'parameters().provision.contrail.control.router_asn', class: "col-xs-6"}
                             }
                         ]
                     },
@@ -485,11 +485,11 @@ define([
                         columns: [
                             {
                                 elementId: 'huge_pages', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.compute.huge_pages', dataBindValue: 'parameters().provision.contrail.compute.huge_pages', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.contrail.compute.huge_pages', dataBindValue: 'parameters().provision.contrail.compute.huge_pages', class: "col-xs-6"}
                             },
                             {
                                 elementId: 'core_mask', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.compute.core_mask', dataBindValue: 'parameters().provision.contrail.control.core_mask', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.contrail.compute.core_mask', dataBindValue: 'parameters().provision.contrail.control.core_mask', class: "col-xs-6"}
                             }
                         ]
                     },

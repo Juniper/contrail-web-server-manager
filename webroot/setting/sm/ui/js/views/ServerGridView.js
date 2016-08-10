@@ -66,7 +66,7 @@ define([
         var headerActionConfig, dropdownActions;
         dropdownActions = [
             {
-                "iconClass": "icon-edit",
+                "iconClass": "fa fa-edit",
                 "title": smwl.TITLE_EDIT_CONFIG,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
@@ -81,7 +81,7 @@ define([
                 }
             },
             {
-                "iconClass": "icon-tags",
+                "iconClass": "fa fa-tags",
                 "title": smwl.TITLE_EDIT_TAGS,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
@@ -104,7 +104,7 @@ define([
         ];
         if (showAssignRoles) {
             dropdownActions.push({
-                "iconClass": "icon-check",
+                "iconClass": "fa fa-check-square-o",
                 "title": smwl.TITLE_ASSIGN_ROLES,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
@@ -120,7 +120,7 @@ define([
             });
         }
         dropdownActions.push({
-            "iconClass": "icon-signin",
+            "iconClass": "fa fa-sign-in",
             "title": smwl.TITLE_REIMAGE,
             divider: true,
             "onClick": function () {
@@ -136,7 +136,7 @@ define([
             }
         }),
             dropdownActions.push({
-                "iconClass": "icon-cloud-upload",
+                "iconClass": "fa fa-cloud-upload",
                 "title": smwl.TITLE_PROVISION,
                 "onClick": function () {
                     var serverModel = new ServerModel(),
@@ -153,7 +153,7 @@ define([
         headerActionConfig = [
             {
                 "type": "dropdown",
-                "iconClass": "icon-cog",
+                "iconClass": "fa fa-cog",
                 "linkElementId": 'btnActionServers',
                 "disabledLink": true,
                 "actions": dropdownActions
@@ -164,7 +164,7 @@ define([
             {
                 "type": "link",
                 "title": smwl.TITLE_ADD_SERVER,
-                "iconClass": "icon-plus",
+                "iconClass": "fa fa-plus",
                 "onClick": function () {
                     var serverModel = new ServerModel(),
                         serverEditView = new ServerEditView();
@@ -177,7 +177,7 @@ define([
                 }
             }, {
                 type: 'checked-multiselect',
-                iconClass: 'icon-filter',
+                iconClass: 'fa fa-filter',
                 placeholder: 'Filter Servers',
                 elementConfig: {
                     elementId: 'tagsCheckedMultiselect',

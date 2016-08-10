@@ -69,7 +69,7 @@ define([
             {
                 "type": "link",
                 "title": smwl.TITLE_ADD_IMAGE,
-                "iconClass": "icon-plus",
+                "iconClass": "fa fa-plus",
                 "onClick": function () {
                     var imageModel = new ImageModel(),
                         imageEditView = new ImageEditView();

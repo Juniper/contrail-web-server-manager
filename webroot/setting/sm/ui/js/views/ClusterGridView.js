@@ -27,7 +27,7 @@ define([
             {
                 "type": "link",
                 "title": smwl.TITLE_ADD_CLUSTER,
-                "iconClass": "icon-plus",
+                "iconClass": "fa fa-plus",
                 "onClick": function () {
                     var clusterModel = new ClusterModel(),
                         clusterEditView = new ClusterEditView();

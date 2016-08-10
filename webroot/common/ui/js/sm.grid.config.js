@@ -156,7 +156,7 @@ define([
         this.getConfigureAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_CONFIG,
-                iconClass: 'icon-edit',
+                iconClass: 'fa fa-edit',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -166,7 +166,7 @@ define([
         this.getConfigureJSONAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_JSON,
-                iconClass: 'icon-code',
+                iconClass: 'fa fa-code',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -176,7 +176,7 @@ define([
         this.getAddServersAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_ADD_SERVERS,
-                iconClass: 'icon-plus',
+                iconClass: 'fa fa-plus',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -186,7 +186,7 @@ define([
         this.getRemoveServersAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_REMOVE_SERVERS,
-                iconClass: 'icon-minus',
+                iconClass: 'fa fa-minus',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -196,7 +196,7 @@ define([
         this.getReimageAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_REIMAGE,
-                iconClass: 'icon-upload-alt',
+                iconClass: 'fa fa-upload',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -206,7 +206,7 @@ define([
         this.getProvisionAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_PROVISION,
-                iconClass: 'icon-cloud-upload',
+                iconClass: 'fa fa-cloud-upload',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -216,7 +216,7 @@ define([
         this.getTagAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_TAGS,
-                iconClass: 'icon-tags',
+                iconClass: 'fa fa-tags',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -226,7 +226,7 @@ define([
         this.getAssignRoleAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_ASSIGN_ROLES,
-                iconClass: 'icon-check',
+                iconClass: 'fa fa-check-square-o',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -236,7 +236,7 @@ define([
         this.getDeleteAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_DELETE,
-                iconClass: 'icon-trash',
+                iconClass: 'fa fa-trash',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -246,7 +246,7 @@ define([
         this.getRunInventoryAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_REFRESH_INVENTORY,
-                    iconClass: 'icon-refresh',
+                    iconClass: 'fa fa-refresh',
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction

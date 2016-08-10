@@ -54,7 +54,7 @@ define([
                                 elementId: smwl.SM_SERVER_MONITORING_INNER_LEFT_SECTION_ID,
                                 view: "SectionView",
                                 viewConfig: {
-                                    class: "span6",
+                                    class: "col-xs-6",
                                     rows: [
                                         {
                                             columns: [
@@ -93,7 +93,7 @@ define([
                                 elementId: smwl.SM_SERVER_MONITORING_INNER_RIGHT_SECTION_ID,
                                 view: "SectionView",
                                 viewConfig: {
-                                    class: "span6",
+                                    class: "col-xs-6",
                                     rows: [
                                         {
                                             columns: [

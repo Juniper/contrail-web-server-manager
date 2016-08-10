@@ -91,11 +91,11 @@ define([
                     columns: [
                         {
                             elementId: 'id', view: "FormInputView",
-                            viewConfig: {path: "id", dataBindValue: "id", class: "span6"}
+                            viewConfig: {path: "id", dataBindValue: "id", class: "col-xs-6"}
                         },
                         {
                             elementId: 'type', view: "FormDropdownView",
-                            viewConfig: {path: "type", dataBindValue: "type", class: "span6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.IMAGE_TYPES}}
+                            viewConfig: {path: "type", dataBindValue: "type", class: "col-xs-6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.IMAGE_TYPES}}
                         }
                     ]
                 },
@@ -103,18 +103,18 @@ define([
                     columns: [
                         {
                             elementId: 'version', view: "FormInputView",
-                            viewConfig: {path: 'version', dataBindValue: "version", class: "span6"}
+                            viewConfig: {path: 'version', dataBindValue: "version", class: "col-xs-6"}
                         },
                         {
                             elementId: 'path', view: "FormInputView",
-                            viewConfig: {path: "path", dataBindValue: "path", class: "span6"}
+                            viewConfig: {path: "path", dataBindValue: "path", class: "col-xs-6"}
                         }
                     ]
                 },
                 {
                     columns: [
-                        {elementId: 'kickstart', view: "FormInputView", viewConfig: {path: 'parameters.kickstart', dataBindValue: "parameters().kickstart", class: "span6"}},
-                        {elementId: 'kickseed', view: "FormInputView", viewConfig: {path: "parameters.kickseed", dataBindValue: "parameters().kickseed", class: "span6"}}
+                        {elementId: 'kickstart', view: "FormInputView", viewConfig: {path: 'parameters.kickstart', dataBindValue: "parameters().kickstart", class: "col-xs-6"}},
+                        {elementId: 'kickseed', view: "FormInputView", viewConfig: {path: "parameters.kickseed", dataBindValue: "parameters().kickseed", class: "col-xs-6"}}
                     ]
                 }
             ]

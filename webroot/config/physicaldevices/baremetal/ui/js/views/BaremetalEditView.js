@@ -186,7 +186,7 @@ define([
                             view: "FormGridView",
                             viewConfig: {
                                 path: 'id',
-                                class: "span12",
+                                class: "col-xs-12",
                                 elementConfig: getSelectedServerGridElementConfig('select-baremetal', 'filterInNull=cluster_id')
                             }
                         }
@@ -210,7 +210,7 @@ define([
                                    view: "FormDynamicGridView",
                                    viewConfig: {
                                        path: 'network.interfaces',
-                                       class: "span12",
+                                       class: "col-xs-12",
                                        modelAttributePath: 'network.interfaces',
                                        elementConfig: {
                                            options: {
@@ -378,7 +378,7 @@ define([
                                             }
                                       ],
                                       rowActions: [
-                                          {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'icon-minus'}
+                                          {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'fa fa-minus'}
                                       ],
                                       gridActions: [
                                           {onClick: "function() { addInterface(); }", buttonTitle: "Add"}
@@ -404,7 +404,7 @@ define([
                             view: "FormDropdownView",
                             viewConfig : {
                                 path : 'base_image_id',
-                                class : "span6",
+                                class : "col-xs-6",
                                 dataBindValue : 'base_image_id',
                                 elementConfig : {
                                     placeholder : smwl.SELECT_IMAGE,
@@ -422,7 +422,7 @@ define([
                             view: "FormCheckboxView",
                             viewConfig : {
                                 path : 'baremetal_reimage',
-                                class : "span6",
+                                class : "col-xs-6",
                                 dataBindValue : 'baremetal_reimage',
                                 elementConfig : {
                                     label:'Reimage',
@@ -450,7 +450,7 @@ define([
                             viewConfig : {
                                 path : 'parameters.server',
                                 dataBindValue : 'parameters().servers',
-                                class : "span6",
+                                class : "col-xs-6",
                                 elementConfig : {
                                     dataTextField : "text",
                                     dataValueField : "id",
@@ -724,7 +724,7 @@ define([
                     /*{
                         "type": "link",
                         "title": 'Select Servers',
-                        "iconClass": "icon-plus",
+                        "iconClass": "fa fa-plus",
                         "onClick": function () {
                             var checkedRows = $(filteredServerGrid).data('contrailGrid').getCheckedRows();
                             updateSelectedServer(gridPrefix, 'add', checkedRows);
@@ -732,7 +732,7 @@ define([
                     }, */
                     {
                         type: 'checked-multiselect',
-                        iconClass: 'icon-filter',
+                        iconClass: 'fa fa-filter',
                         title: 'Filter Servers',
                         placeholder: 'Filter Servers',
                         elementConfig: {
@@ -769,7 +769,7 @@ define([
                 /*options: {
                     actionCell: {
                         type: 'link',
-                        iconClass: 'icon-plus',
+                        iconClass: 'fa fa-plus',
                         onclick: function(e, args) {
                             var selectedRow = $(filteredServerGrid).data('contrailGrid')._dataView.getItem(args.row);
                             updateSelectedServer(gridPrefix, 'add', [selectedRow]);
@@ -809,7 +809,7 @@ define([
                             viewConfig : {
                                 path : 'base_image_id',
                                 dataBindValue : 'base_image_id',
-                                class : "span6",
+                                class : "col-xs-6",
                                 elementConfig : {
                                     placeholder : smwl.SELECT_IMAGE,
                                     dataTextField : "id",
@@ -843,7 +843,7 @@ define([
                                     view: "FormDropdownView",
                                     viewConfig:{
                                         path : 'interfaces',
-                                        class : "span6",
+                                        class : "col-xs-6",
                                         dataBindValue : 'interfaces()',
                                        elementConfig: {
                                            width: 'element',

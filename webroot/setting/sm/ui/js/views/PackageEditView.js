@@ -89,11 +89,11 @@ define([
                     columns: [
                         {
                             elementId: 'id', view: "FormInputView",
-                            viewConfig: {path: "id", dataBindValue: "id", class: "span6"}
+                            viewConfig: {path: "id", dataBindValue: "id", class: "col-xs-6"}
                         },
                         {
                             elementId: 'type', view: "FormDropdownView",
-                            viewConfig: {path: "type", dataBindValue: "type", class: "span6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.PACKAGE_TYPES}}
+                            viewConfig: {path: "type", dataBindValue: "type", class: "col-xs-6", elementConfig: { placeholder: smwl.SELECT_TYPE,  data: smwc.PACKAGE_TYPES}}
                         }
                     ]
                 },
@@ -101,11 +101,11 @@ define([
                     columns: [
                         {
                             elementId: 'version', view: "FormInputView",
-                            viewConfig: {path: 'version', dataBindValue: "version", class: "span6"}
+                            viewConfig: {path: 'version', dataBindValue: "version", class: "col-xs-6"}
                         },
                         {
                             elementId: 'path', view: "FormInputView",
-                            viewConfig: {path: "path", dataBindValue: "path", class: "span6"}
+                            viewConfig: {path: "path", dataBindValue: "path", class: "col-xs-6"}
                         }
                     ]
                 }
