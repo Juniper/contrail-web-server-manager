@@ -288,27 +288,7 @@ define([], function () {
                                                 "type": "string",
                                                 "default": ""
                                             },
-                                            "storage_num_osd": {
-                                                "type": "string",
-                                                "default": ""
-                                            },
-                                            "storage_fsid": {
-                                                "type": "string",
-                                                "default": ""
-                                            },
-                                            "storage_num_hosts": {
-                                                "type": "string",
-                                                "default": ""
-                                            },
                                             "storage_admin_key": {
-                                                "type": "string",
-                                                "default": ""
-                                            },
-                                            "storage_virsh_uuid": {
-                                                "type": "string",
-                                                "default": ""
-                                            },
-                                            "storage_cluster_network": {
                                                 "type": "string",
                                                 "default": ""
                                             },

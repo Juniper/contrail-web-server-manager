@@ -822,22 +822,6 @@ define([
                     {
                         columns: [
                             {
-                                elementId: 'storage_num_osd', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.storage.storage_num_osd', dataBindValue: 'parameters().provision.contrail.storage.storage_num_osd', class: "span6"}
-                            },
-                            {
-                                elementId: 'storage_fsid', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.storage.storage_fsid', dataBindValue: 'parameters().provision.contrail.storage.storage_fsid', class: "span6"}
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: 'storage_num_hosts', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.storage.storage_num_hosts', dataBindValue: 'parameters().provision.contrail.storage.storage_num_hosts', class: "span6"}
-                            },
-                            {
                                 elementId: 'storage_enabled',
                                 view: 'FormDropdownView',
                                 viewConfig: {
@@ -846,18 +830,6 @@ define([
                                     class: "span6",
                                     elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}
                                 }
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: 'storage_virsh_uuid', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.storage.storage_virsh_uuid', dataBindValue: 'parameters().provision.contrail.storage.storage_virsh_uuid', class: "span6"}
-                            },
-                            {
-                                elementId: 'storage_cluster_network', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.storage.storage_cluster_network', dataBindValue: 'parameters().provision.contrail.storage.storage_cluster_network', class: "span6"}
                             }
                         ]
                     }
