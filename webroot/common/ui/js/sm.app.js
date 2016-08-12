@@ -46,9 +46,14 @@ function getSMAppPaths(smBaseDir, smBuildDir) {
         'sm-parsers': smWebDir + '/common/ui/js/sm.parsers',
         'sm-init': smWebDir + '/common/ui/js/sm.init',
 
-        'sm-server-schema' : smWebDir + '/setting/sm/ui/js/schemas/server.schema',
-        'sm-cluster-schema' : smWebDir + '/setting/sm/ui/js/schemas/cluster.schema'
-
+        //Schemas
+        'sm-server-ui-schema'           : smWebDir + '/setting/sm/ui/js/schemas/server.ui',
+        'sm-cluster-ui-schema'          : smWebDir + '/setting/sm/ui/js/schemas/cluster.ui',
+        'sm-image-ui-schema'          : smWebDir + '/setting/sm/ui/js/schemas/image.ui',
+        'sm-package-ui-schema'          : smWebDir + '/setting/sm/ui/js/schemas/package.ui',
+        'sm-cluster-custom-ui-schema' : smWebDir + '/setting/sm/ui/js/schemas/cluster.custom.ui',
+        'sm-image-custom-ui-schema' : smWebDir + '/setting/sm/ui/js/schemas/image.custom.ui',
+        'sm-package-custom-ui-schema' : smWebDir + '/setting/sm/ui/js/schemas/package.custom.ui'
     };
 }
 

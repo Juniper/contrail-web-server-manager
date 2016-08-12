@@ -4,95 +4,27 @@
 
 define([
     'underscore',
-    'contrail-model'
-], function (_, ContrailModel) {
+    'contrail-model',
+    'sm-basedir/setting/sm/ui/js/views/ClusterEditView',
+    'knockback',
+    'schema-model',
+    'text!sm-basedir/setting/sm/ui/js/schemas/cluster.json',
+    'sm-cluster-ui-schema',
+    'sm-cluster-custom-ui-schema',
+    'view-config-generator',
+    'backbone',
+    'knockout',
+    'sm-basedir/setting/sm/ui/js/models/DisksModel',
+], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, defaultSchema, stSchema, customSchema, VCG, Backbone, Knockout, DiskModel) {
+
+    defaultSchema = JSON.parse(defaultSchema);
+    var prefixId = smwc.CLUSTER_PREFIX_ID;
+    var schemaModel = new UISchemaModel(defaultSchema, stSchema, customSchema).schema;
+    var vcg = new VCG(prefixId, smwmc.getClusterModel());
 
     var getValidationByKey = function (key) {
-        var configureValidation = {
-            'id': {
-                required: true,
-                msg: smwm.getRequiredMessage('id')
-            },
-            'email': {
-                required: false,
-                pattern: 'email',
-                msg: smwm.getInvalidErrorMessage('email')
-            },
-            'parameters.domain': {
-                required: false,
-                msg: smwm.getRequiredMessage('domain')
-            },
-            'parameters.gateway': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('gateway')
-            },
-            'parameters.provision.contrail.analytics.data_ttl': {
-                required: true,
-                pattern: 'number',
-                msg: smwm.getInvalidErrorMessage('data_ttl')
-            },
-            'parameters.provision.contrail.control.router_asn': {
-                required: true,
-                pattern: 'number',
-                msg: smwm.getInvalidErrorMessage('router_asn')
-            },
-            'parameters.provision.contrail.control.encapsulation_priority': {
-                required: true,
-                msg: smwm.getRequiredMessage('encapsulation_priority')
-            },
-            'parameters.provision.openstack.keystone.service_tenant': {
-                required: true,
-                msg: smwm.getRequiredMessage('service_tenant')
-            },
-            'parameters.provision.openstack.keystone.ip': {
-                required: false,
-                pattern: smwc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('ip')
-            },
-            'parameters.provision.openstack.keystone.admin_user': {
-                required: true,
-                msg: smwm.getRequiredMessage('admin_user')
-            },
-            'parameters.provision.openstack.keystone.admin_password': {
-                required: true,
-                msg: smwm.getRequiredMessage('admin_password')
-            },
-            'parameters.provision.openstack.ha.internal_vip': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('internal_vip')
-            },
-            'parameters.provision.openstack.ha.external_vip': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('external_vip')
-            },
-            'parameters.provision.contrail.ha.contrail_internal_vip': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('contrail_internal_vip')
-            },
-            'parameters.provision.contrail.ha.contrail_external_vip': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('contrail_external_vip')
-            },
-            'parameters.provision.contrail.ha.nfs_server': {
-                required: false,
-                pattern: cowc.PATTERN_IP_ADDRESS,
-                msg: smwm.getInvalidErrorMessage('nfs_server')
-            },
-            'parameters.provision.contrail.database.directory': {
-                required: true,
-                msg: smwm.getRequiredMessage('directory')
-            },
-            'parameters.provision.contrail.database.minimum_diskGB': {
-                required: true,
-                pattern: 'number',
-                msg: smwm.getInvalidErrorMessage('minimum_diskGB')
-            }
-        };
+        var configureValidation = {};
+        vcg.addValidation(schemaModel, configureValidation);
 
         if (key == "configureValidation") {
             return configureValidation;
@@ -108,7 +40,25 @@ define([
     var ClusterModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getClusterModel(),
+        formatModelConfig : function(modelConfig){
+            // Populate DiskModel from network.interfaces
+            var disks = (contrail.checkIfExist(modelConfig.parameters.provision.contrail.storage.storage_osd_disks)) ? (modelConfig.parameters.provision.contrail.storage.storage_osd_disks) : [],
+                diskModels = [], diskModel,
+                diskCollectionModel;
 
+            $.each(disks, function(diskKey, diskValue) {
+                diskModel = new DiskModel({disk: diskValue});
+                diskModels.push(diskModel)
+            });
+
+            diskCollectionModel = new Backbone.Collection(diskModels);
+            modelConfig['disks'] = diskCollectionModel;
+            if(contrail.checkIfExist(modelConfig.parameters.disks)) {
+                delete modelConfig.parameters.provision.contrail.storage.storage_osd_disks;
+            }
+
+            return modelConfig;
+        },
         configure: function (callbackObj, ajaxMethod, validation) {
             var ajaxConfig = {}, returnFlag = false;
 
@@ -394,6 +344,64 @@ define([
                 }
             },
             configureValidation: getValidationByKey("configureValidation")
+        },
+        addDisk: function() {
+            var disks = this.model().attributes['disks'],
+                newDisk = new DiskModel({disk: ""});
+
+            disks.add([newDisk]);
+        },
+        deleteDisk: function(data, kbDisk) {
+            var diskCollection = data.model().collection,
+                intf = kbDisk.model();
+
+            diskCollection.remove(intf);
+        },
+        getStorageDisks: function() {
+            return Knockout.computed(function () {
+                var kbDisks = this.disks(),
+                    disks = this.model().attributes.disks,
+                    storageDisks = [], model, type;
+
+                for (var i = 0; i < disks.length; i++) {
+                    storageDisks.push(kbDisks[i]);
+                };
+                return storageDisks;
+            }, this);
+        },
+        goForward : function(rootViewPath, path, prefixId, rowIndex){
+            var self = this;
+            var modalId = 'configure-' + prefixId;
+            $("#" + modalId).modal('hide');
+            var viewConfigOptions = {
+                rootViewPath : rootViewPath,
+                path : path,
+                group : "",
+                page : "",
+                element : prefixId,
+                rowIndex: rowIndex,
+                formType: 'edit'
+            };
+            viewConfig = vcg.generateViewConfig(viewConfigOptions, schemaModel, 'default', 'form');
+
+            var dataItem = $("#" + smwl.SM_CLUSTER_GRID_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+                clusterModel = new ClusterModel(dataItem),
+                checkedRow = [dataItem],
+                title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
+
+            var clusterEditView = new ClusterEditView();
+            clusterEditView.model = self;
+            clusterEditView.renderConfigure({"title": title, checkedRows: checkedRow, rowIndex: rowIndex, viewConfig: viewConfig, callback: function () {
+                var dataView = $("#" + smwl.SM_CLUSTER_GRID_ID).data("contrailGrid")._dataView;
+                dataView.refreshData();
+            }});
+
+            clusterEditView.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), self, viewConfig, smwc.KEY_CONFIGURE_VALIDATION, null, null, function() {
+                self.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                Knockback.applyBindings(self, document.getElementById(modalId));
+                kbValidation.bind(clusterEditView);
+            });
+
         }
     });
 

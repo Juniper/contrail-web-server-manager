@@ -1,0 +1,43 @@
+{
+  "_copyright": "Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.",
+  "properties": {
+    "id": {
+      "label": "ID",
+      "editable" : false
+    },
+    "category": {
+      "label": "Category"
+    },
+    "type": {
+      "label": "Type"
+    },
+    "version": {
+      "label": "Version"
+    },
+    "path": {
+      "label": "Path"
+    },
+    "parameters": {
+      "properties": {
+        "puppet_manifest_version": {
+          "label": ""
+        },
+        "kickstart": {
+          "label": "Kickstart"
+        },
+        "version": {
+          "label": "Version"
+        },
+        "kickseed": {
+          "label": "Kickseed"
+        },
+        "sequence_provisioning_available": {
+          "label": ""
+        }
+      }
+    },
+    "cgrid": {
+      "type": "string"
+    }
+  }
+}

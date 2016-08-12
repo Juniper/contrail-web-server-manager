@@ -1,0 +1,349 @@
+{
+  "_copyright": "Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.",
+  "properties" : {
+    "id" : {
+      "label" : "ID",
+      "editable" : false
+    },
+    "email" : {
+      "label" : "Email"
+    },
+    "base_image_id" : {
+      "label" : "Configured OS Image"
+    },
+    "package_image_id" : {
+      "label" : "Configured Package"
+    },
+    "parameters" : {
+      "label" : "Parameters",
+      "properties" : {
+        "domain" : {
+          "label" : "Domain"
+        },
+        "subnet_mask" : {
+          "label" : "IP/MASK"
+        },
+        "gateway" : {
+          "label" : "Gateway"
+        },
+        "password" : {
+          "label" : "Password"
+        },
+        "provision" : {
+          "label" : "Provision",
+          "properties" : {
+            "contrail" : {
+              "label" : "Contrail",
+              "properties" : {
+                "xmpp_auth_enable" : {
+                  "label" : "XMPP Auth"
+                },
+                "xmpp_dns_auth_enable" : {
+                  "label" : "XMPP DNS Auth"
+                },
+                "kernel_upgrade" : {
+                  "label" : "Kernel Upgrade"
+                },
+                "kernel_version" : {
+                  "label" : "Kernel Version"
+                },
+                "enable_lbass" : {
+                  "label" : "Enable"
+                },
+                "ha" : {
+                  "label" : "High Availability",
+                  "properties" : {
+                    "haproxy_enable" : {
+                      "label" : "HA Proxy"
+                    },
+                    "contrail_internal_vip" : {
+                      "label" : "Contrail Internal VIP"
+                    },
+                    "contrail_external_vip" : {
+                      "label" : "Contrail External VIP"
+                    },
+                    "contrail_internal_virtual_router_id" : {
+                      "label" : "Contrail Internal Virtual Router ID"
+                    },
+                    "qqcontrail_internal_virtual_router_id" : {
+                      "label" : ""
+                    }
+                  }
+                },
+                "database" : {
+                  "label" : "Database",
+                  "properties" : {
+                    "ip_port" : {
+                      "label" : "Database IP Port"
+                    },
+                    "directory" : {
+                      "label" : "Database Dir"
+                    },
+                    "minimum_diskGB" : {
+                      "label" : "Database Min Disk (GB)"
+                    }
+                  }
+                },
+                "analytics" : {
+                  "label" : "Analytics",
+                  "properties" : {
+                    "data_ttl" : {
+                      "label" : "Analytics Data TTL"
+                    },
+                    "config_audit_ttl" : {
+                      "label" : "Analytics Config Audit TTL"
+                    },
+                    "statistics_ttl" : {
+                      "label" : "Analytics Stats TTL"
+                    },
+                    "flow_ttl" : {
+                      "label" : "Analytics Flow TTL"
+                    },
+                    "snmp_scan_frequency" : {
+                      "label" : "SNMP Scan Frequency (Seconds)"
+                    },
+                    "snmp_fast_scan_frequency" : {
+                      "label" : "SNMP Fast Scan Frequency (Seconds)"
+                    },
+                    "topology_scan_frequency" : {
+                      "label" : "Topology Scan Frequency (Seconds)"
+                    },
+                    "syslog_port" : {
+                      "label" : "Analytics Syslog Port"
+                    },
+                    "data_directory" : {
+                      "label" : "Analytics Data Dir"
+                    },
+                    "ssd_data_directory" : {
+                      "label" : "SSD Data Dir"
+                    },
+                    "redis_password" : {
+                      "label" : ""
+                    }
+                  }
+                },
+                "control" : {
+                  "label" : "Control",
+                  "properties" : {
+                    "encapsulation_priority" : {
+                      "label" : "Encapsulation Priority"
+                    },
+                    "router_asn" : {
+                      "label" : "Router ASN"
+                    },
+                    "external_bgp" : {
+                      "label" : "External BGP"
+                    }
+                  }
+                },
+                "config" : {
+                  "label" : "Config",
+                  "properties" : {
+                    "manage_neutron" : {
+                      "label" : ""
+                    },
+                    "zookeeper_ip_port" : {
+                      "label" : "Zookeeper IP Port"
+                    },
+                    "healthcheck_interval" : {
+                      "label" : "Health Check Interval"
+                    }
+                  }
+                },
+                "compute" : {
+                  "label" : "Compute",
+                  "properties" : {
+                    "huge_pages" : {
+                      "label" : ""
+                    },
+                    "core_mask" : {
+                      "label" : ""
+                    },
+                    "sriov" : {
+                      "properties" : {
+                        "enable" : {
+                          "label" : "Enable SRIOV"
+                        }
+                      }
+                    }
+                  }
+                },
+                "vmware" : {
+                  "label" : "VMware",
+                  "properties" : {
+                    "ip" : {
+                      "label" : "VMware IP"
+                    },
+                    "username" : {
+                      "label" : "VMware Username"
+                    },
+                    "password" : {
+                      "label" : "VMware Password"
+                    },
+                    "vswitch" : {
+                      "label" : "VMware vSwitch"
+                    }
+                  }
+                },
+                "vgw" : {
+                  "label" : "",
+                  "properties" : {
+                    "public_subnet" : {
+                      "label" : "Virtual Gateway Public Subnet"
+                    },
+                    "public_vn_name" : {
+                      "label" : "Virtual Gateway Public VN Name"
+                    },
+                    "interface" : {
+                      "label" : "Virtual Gateway Interface"
+                    },
+                    "gateway_routes" : {
+                      "label" : "Virtual Gateway Routes"
+                    }
+                  }
+                },
+                "storage" : {
+                  "label" : "Storage",
+                  "properties" : {
+                    "storage_monitor_secret" : {
+                      "label" : "Monitoring Key"
+                    },
+                    "osd_bootstrap_key" : {
+                      "label" : "OSD Bootstrap Key"
+                    },
+                    "storage_chassis_config" : {
+                      "label" : ""
+                    },
+                    "live_migration_host" : {
+                      "label" : "Live Migration NFS Host"
+                    },
+                    "live_migration_ip" : {
+                      "label" : "Live Migration IP"
+                    },
+                    "live_migration_storage_scope" : {
+                      "label" : "Live Migration Storage Scope"
+                    },
+                    "storage_num_osd" : {
+                      "label" : "Storage Num OSD"
+                    },
+                    "storage_fsid" : {
+                      "label" : "Storage FSID"
+                    },
+                    "storage_num_hosts" : {
+                      "label" : "Storage Num Hosts"
+                    },
+                    "storage_admin_key" : {
+                      "label" : "Storage Admin Key"
+                    },
+                    "storage_virsh_uuid" : {
+                      "label" : "Storage Virsh UUID"
+                    },
+                    "storage_cluster_network" : {
+                      "label" : "Storage Cluster Network"
+                    },
+                    "storage_enabled" : {
+                      "label" : ""
+                    }
+                  }
+                }
+              }
+            },
+            "openstack" : {
+              "label" : "Openstack",
+              "properties" : {
+                "region" : {
+                  "label" : ""
+                },
+                "multi_tenancy" : {
+                  "label" : "Multi Tenancy"
+                },
+                "openstack_manage_amqp" : {
+                  "label" : "Openstack Managed AMQP"
+                },
+                "enable_ceilometer" : {
+                  "label" : ""
+                },
+                "keystone" : {
+                  "label" : "",
+                  "properties" : {
+                    "admin_password" : {
+                      "label" : "Keystone Admin Password"
+                    },
+                    "ip" : {
+                      "label" : "Keystone IP"
+                    },
+                    "admin_user" : {
+                      "label" : "Keystone Admin Username"
+                    },
+                    "admin_tenant" : {
+                      "label" : "Keystone Admin Tenant"
+                    },
+                    "service_tenant" : {
+                      "label" : "Keystone Service Tenant"
+                    },
+                    "auth_port" : {
+                      "label" : ""
+                    },
+                    "auth_protocol" : {
+                      "label" : ""
+                    }
+                  }
+                },
+                "neutron" : {
+                  "label" : "",
+                  "properties" : {
+                    "service_protocol" : {
+                      "label" : "Neutron Service Protocol"
+                    },
+                    "port" : {
+                      "label" : "Neutron Port"
+                    }
+                  }
+                },
+                "amqp" : {
+                  "label" : "",
+                  "properties" : {
+                    "server_ip" : {
+                      "label" : "AMQP Server IP"
+                    }
+                  }
+                },
+                "ha" : {
+                  "label" : "High Availability",
+                  "properties" : {
+                    "internal_vip" : {
+                      "label" : "Internal VIP"
+                    },
+                    "external_vip" : {
+                      "label" : "External VIP"
+                    },
+                    "internal_virtual_router_id" : {
+                      "label" : "Internal Virtual Router ID"
+                    },
+                    "external_virtual_router_id" : {
+                      "label" : "External Virtual Router ID"
+                    },
+                    "nfs_server" : {
+                      "label" : "NFS Server"
+                    },
+                    "nfs_glance_path" : {
+                      "label" : "NFS Glance Path"
+                    }
+                  }
+                },
+                "mysql" : {
+                  "label" : "",
+                  "properties" : {
+                    "root_password" : {
+                      "label" : "MySQL Root Password"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

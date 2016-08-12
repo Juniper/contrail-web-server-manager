@@ -1,0 +1,88 @@
+{
+  "properties" : {
+    "domain" : {
+      "label" : "Domain"
+    },
+    "ipmi_interface" : {
+      "label" : "IPMI Interface"
+    },
+    "ipmi_username" : {
+      "label" : "IPMI Username"
+    },
+    "cluster_id" : {
+      "label" : "Cluster"
+    },
+    "id" : {
+      "label" : "ID"
+    },
+    "email" : {
+      "label" : "Email"
+    },
+    "package_image_id" : {
+      "label" : "Configured Package"
+    },
+    "base_image_id" : {
+      "label" : "Configured OS Image"
+    },
+    "ipmi_password" : {
+      "label" : "IPMI Password"
+    },
+    "password" : {
+      "label" : "Password"
+    },
+    "ipmi_address" : {
+      "label" : "IPMI Address"
+    },
+    "roles" : {
+      "label" : "Roles"
+    },
+    "network" : {
+      "label" : "",
+      "properties" : {
+        "interfaces" : {
+          "label" : "Interfaces"
+        },
+        "management_interface" : {
+          "label" : "Management Interfaces"
+        },
+        "provisioning" : {
+          "label" : "Provisioning"
+        }
+      }
+    },
+    "parameters" : {
+      "label" : "",
+      "properties" : {
+        "provision" : {
+          "label" : "",
+          "properties" : {
+            "contrail" : {
+              "label" : "",
+              "properties" : {
+                "storage" : {
+                  "properties" : {
+                    "storage_repo_id" : {
+                      "label" : "Configured Package"
+                    },
+                    "storage_osd_disks" : {
+                      "label" : "Configured Disks"
+                    },
+                    "storage_chassis_id" : {
+                      "label" : "Chassis ID"
+                    },
+                    "storage_chassis_id_input" : {
+                      "label" : "Add New Chassis ID"
+                    },
+                    "partition" : {
+                      "label" : "Partition"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

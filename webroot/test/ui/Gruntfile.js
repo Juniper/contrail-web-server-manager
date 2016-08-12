@@ -42,6 +42,9 @@ module.exports = function (grunt) {
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/**/*.tmpl', included: false},
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/js/**/*.js', included: false},
         {pattern: 'contrail-web-server-manager/webroot/dist/**/ui/js/**/*.js', included: false},
+        {pattern: 'contrail-web-server-manager/webroot/dist/**/*.json', included: false},
+        {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/js/schemas/*.json', included: false},
+        {pattern: 'contrail-web-server-manager/webroot/setting/sm/ui/js/schemas/*.js', included: false},
 
         {pattern: 'contrail-web-server-manager/webroot/setting/sm/test/**/*.mock.data.js', included: false},
 
