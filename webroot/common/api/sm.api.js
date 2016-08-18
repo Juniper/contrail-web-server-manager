@@ -229,8 +229,7 @@ function deleteObjects(req, res, appdata) {
     var objectName = req.param(smConstants.KEY_NAME),
         urlParts = url.parse(req.url, true),
         objectUrl = '/' + objectName,
-        qsObj = urlParts.query,
-        responseArray, resultArray;
+        qsObj = urlParts.query;
 
     filterInAllowedParams(qsObj);
     objectUrl += '?' + qs.stringify(qsObj);
@@ -239,7 +238,7 @@ function deleteObjects(req, res, appdata) {
         if (error != null) {
             commonUtils.handleJSONResponse(formatErrorMessage(error), res);
         } else {
-            commonUtils.handleJSONResponse(null, res, responseArray);
+            commonUtils.handleJSONResponse(null, res, responseJSON);
         }
     });
 };
