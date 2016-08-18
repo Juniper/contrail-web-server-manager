@@ -169,6 +169,11 @@ define([
                 }
                 /* Special handling to reaplace switch_id by id and add type as 'ovs'- END*/
 
+                // need to delete these as they are collections
+                delete serverAttrs.interfaces;
+                delete serverAttrs.disks;
+                delete serverAttrs.switches;
+
                 serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
 
                 serverAttrsEdited['network']['interfaces'] = interfaces;
@@ -288,6 +293,11 @@ define([
                 }
                 /* Special handling to reaplace switch_id by id and add type as 'ovs'- END*/
 
+                // need to delete these as they are collections
+                delete serverAttrs.interfaces;
+                delete serverAttrs.disks;
+                delete serverAttrs.switches;
+
                 serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks,  serverSchema, '');
 
                 serverAttrsEdited['network']['interfaces'] = interfaces;
@@ -382,6 +392,11 @@ define([
                             serverAttrs.tag[tagValue] = null;
                         }
                     });
+
+                    // need to delete these as they are collections
+                    delete serverAttrs.interfaces;
+                    delete serverAttrs.disks;
+                    delete serverAttrs.switches;
 
                     serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
 
