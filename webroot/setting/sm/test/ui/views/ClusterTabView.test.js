@@ -1,12 +1,12 @@
 define([
-    'co-test-constants',
-    'co-test-runner',
-    'sm-test-utils',
-    'sm-test-messages',
-    'setting/sm/test/ui/views/ClusterTabView.mock.data',
-    'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite',
-    'co-details-view-test-suite'
+    "co-test-constants",
+    "co-test-runner",
+    "sm-test-utils",
+    "sm-test-messages",
+    "setting/sm/test/ui/views/ClusterTabView.mock.data",
+    "co-grid-contrail-list-model-test-suite",
+    "co-grid-view-test-suite",
+    "co-details-view-test-suite"
 ], function (cotc, cotr, smtu, smtm, ClusterTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite) {
 
     var moduleId = smtm.CLUSTER_TAB_VIEW_COMMON_TEST_MODULE;
@@ -24,22 +24,22 @@ define([
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('cluster')),
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl("cluster")),
             body: JSON.stringify(ClusterTabViewMockData.getSingleClusterDetailData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('server')),
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl("server")),
             body: JSON.stringify(ClusterTabViewMockData.getServerDetailsData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl('/sm/server/monitoring/config'),
+            url: smtu.getRegExForUrl("/sm/server/monitoring/config"),
             body: JSON.stringify(ClusterTabViewMockData.getSingleClusterMonitoringConfigData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl('/sm/server/monitoring/info/summary'),
+            url: smtu.getRegExForUrl("/sm/server/monitoring/info/summary"),
             body: JSON.stringify(ClusterTabViewMockData.getSingleClusterMonitoringData())
         }));
 
@@ -49,7 +49,7 @@ define([
 
     var pageConfig = cotr.getDefaultPageConfig();
     pageConfig.hashParams = {
-        p: 'setting_sm_clusters',
+        p: "setting_sm_clusters",
         q: {
             cluster_id : "r22_cluster"
         }
@@ -65,7 +65,7 @@ define([
                     suites: [
                         {
                             class: DetailsViewTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 dataGenerator: smtu.commonDetailsDataGenerator
                             }
@@ -77,11 +77,11 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all']
+                            groups: ["all"]
                         },
                         {
                             class: GridListModelTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {

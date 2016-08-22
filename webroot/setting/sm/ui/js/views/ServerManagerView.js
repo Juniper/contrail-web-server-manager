@@ -3,16 +3,16 @@
  */
 
 define([
-    'underscore',
-    'contrail-view'
+    "underscore",
+    "contrail-view"
 ], function (_, ContrailView) {
     var ServerManagerView = ContrailView.extend({
         el: $(contentContainer),
 
         renderClusters: function (paramObject) {
             var self = this,
-                hashParams = paramObject['hashParams'],
-                clusterId = hashParams['cluster_id'];
+                hashParams = paramObject["hashParams"],
+                clusterId = hashParams["cluster_id"];
 
             if (contrail.checkIfExist(clusterId)) {
                 var clusterViewConfig = {
@@ -36,8 +36,8 @@ define([
 
         renderServers: function (paramObject) {
             var self = this,
-                hashParams = paramObject['hashParams'],
-                serverId = hashParams['server_id'];
+                hashParams = paramObject["hashParams"],
+                serverId = hashParams["server_id"];
 
             if (contrail.checkIfExist(serverId)) {
                 var serverViewConfig = {

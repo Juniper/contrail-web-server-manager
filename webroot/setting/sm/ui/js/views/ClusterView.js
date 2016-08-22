@@ -3,13 +3,13 @@
  */
 
 define([
-    'underscore',
-    'contrail-view'
+    "underscore",
+    "contrail-view"
 ], function (_, ContrailView) {
     var ClusterView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,
-                clusterId = viewConfig['clusterId'];
+                clusterId = viewConfig["clusterId"];
 
             self.renderServerTabs(clusterId);
         },
@@ -40,8 +40,8 @@ define([
                     }
                 ]
             }
-        }
-    };
+        };
+    }
 
     return ClusterView;
 });

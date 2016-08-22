@@ -1,12 +1,12 @@
 define([
-    'co-test-constants',
-    'co-test-runner',
-    'sm-test-utils',
-    'sm-test-messages',
-    'setting/sm/test/ui/views/ServerTabView.mock.data',
-    'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite',
-    'co-details-view-test-suite'
+    "co-test-constants",
+    "co-test-runner",
+    "sm-test-utils",
+    "sm-test-messages",
+    "setting/sm/test/ui/views/ServerTabView.mock.data",
+    "co-grid-contrail-list-model-test-suite",
+    "co-grid-view-test-suite",
+    "co-details-view-test-suite"
 ], function (cotc, cotr, smtu, smtm, ServerTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite) {
 
     var moduleId = smtm.SERVER_TAB_VIEW_COMMON_TEST_MODULE;
@@ -32,27 +32,27 @@ define([
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('server')),
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl("server")),
             body: JSON.stringify(ServerTabViewMockData.getServerDetailsData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('server')),
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl("server")),
             body: JSON.stringify(ServerTabViewMockData.getServerDetailsData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl('/sm/server/monitoring/config'),
+            url: smtu.getRegExForUrl("/sm/server/monitoring/config"),
             body: JSON.stringify(ServerTabViewMockData.getServerMonitoringConfigData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl('/sm/server/monitoring/info'),
+            url: smtu.getRegExForUrl("/sm/server/monitoring/info"),
             body: JSON.stringify(ServerTabViewMockData.getServerMonitoringInfoData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl('/sm/server/inventory/info'),
+            url: smtu.getRegExForUrl("/sm/server/inventory/info"),
             body: JSON.stringify(ServerTabViewMockData.getServerInventoryInfoData())
         }));
 
@@ -62,7 +62,7 @@ define([
 
     var pageConfig = cotr.getDefaultPageConfig();
     pageConfig.hashParams = {
-        p: 'setting_sm_servers',
+        p: "setting_sm_servers",
         q: {
             server_id : "a7s12"
         }
@@ -78,7 +78,7 @@ define([
                     suites: [
                         {
                             class: DetailsViewTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 dataGenerator: smtu.commonDetailsDataGenerator
                             }
@@ -112,7 +112,7 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all']
+                            groups: ["all"]
                         }
                     ]
                 },

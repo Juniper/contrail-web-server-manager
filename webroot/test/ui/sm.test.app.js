@@ -5,26 +5,26 @@
 var coreBaseDir = "/base/contrail-web-core/webroot",
     smBaseDir = "/base/contrail-web-server-manager/webroot",
     pkgBaseDir = smBaseDir,
-    featurePkg = 'serverManager';
+    featurePkg = "serverManager";
 
 var smwc, smwgc, smwu, smwl, smwm, smwgc, smwmc, smwru, smwdt;
 
 require([
-    coreBaseDir + '/test/ui/js/co.test.app.utils.js'
+    coreBaseDir + "/test/ui/js/co.test.app.utils.js"
 ], function () {
-    require([coreBaseDir + '/test/ui/js/co.test.config.js'], function(testConf) {
-        globalObj['env'] = testConf['env'];
+    require([coreBaseDir + "/test/ui/js/co.test.config.js"], function(testConf) {
+        globalObj["env"] = testConf["env"];
 
         //will copy the testConfig to globalObj so window can access it later.
-        globalObj['testConf'] = testConf;
+        globalObj["testConf"] = testConf;
         var bundles = {};
-        if (globalObj['env'] == 'prod') {
-            globalObj['buildBaseDir'] = '/dist';
+        if (globalObj["env"] == "prod") {
+            globalObj["buildBaseDir"] = "/dist";
             bundles = coreBundles;
         } else {
-            globalObj['buildBaseDir'] = '';
+            globalObj["buildBaseDir"] = "";
         }
-        globalObj['test-env'] = globalObj['env'] + "-test";
+        globalObj["test-env"] = globalObj["env"] + "-test";
 
         requirejs.config({
             baseUrl: smBaseDir,
@@ -35,13 +35,13 @@ require([
             waitSeconds: 0
         });
 
-        require(['co-test-mockdata', 'co-test-init'], function (coreTestMockData) {
+        require(["co-test-mockdata", "co-test-init"], function (coreTestMockData) {
             setFeaturePkgAndInit(featurePkg, coreTestMockData);
         });
 
         function getServerManagerTestAppPaths(coreBaseDir) {
             var serverManagerTestAppPathObj = {};
-            var coreAppPaths = getCoreAppPaths(coreBaseDir, globalObj['buildBaseDir']);
+            var coreAppPaths = getCoreAppPaths(coreBaseDir, globalObj["buildBaseDir"]);
             var coreTestAppPaths = getCoreTestAppPaths(coreBaseDir);
 
             for (var key in coreAppPaths) {
@@ -67,7 +67,7 @@ require([
             serverManagerTestAppPathObj ["package-model-custom-test-suite"] = smBaseDir + "/setting/sm/test/ui/models/PackageModel.custom.test.suite";
 
             return serverManagerTestAppPathObj;
-        };
+        }
 
         function getServerManagerTestAppShim() {
 
@@ -87,11 +87,11 @@ require([
                 }
             }
 
-            smTestAppShim['handlebars-helpers'] = {
-                deps: ['jquery', 'handlebars']
+            smTestAppShim["handlebars-helpers"] = {
+                deps: ["jquery", "handlebars"]
             };
 
             return smTestAppShim;
-        };
+        }
     });
 });

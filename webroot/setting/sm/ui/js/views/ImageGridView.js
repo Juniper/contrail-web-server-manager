@@ -3,10 +3,10 @@
  */
 
 define([
-    'underscore',
-    'contrail-view',
-    'sm-basedir/setting/sm/ui/js/models/ImageModel',
-    'sm-basedir/setting/sm/ui/js/views/ImageEditView'
+    "underscore",
+    "contrail-view",
+    "sm-basedir/setting/sm/ui/js/models/ImageModel",
+    "sm-basedir/setting/sm/ui/js/views/ImageEditView"
 ], function (_, ContrailView, ImageModel, ImageEditView) {
     var prefixId = smwc.IMAGE_PREFIX_ID,
         gridElId = "#" + smwl.SM_IMAGE_GRID_ID;
@@ -15,7 +15,7 @@ define([
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
-                pagerOptions = viewConfig['pagerOptions'];
+                pagerOptions = viewConfig["pagerOptions"];
 
             self.renderView4Config(self.$el, self.model, getImageGridViewConfig(pagerOptions));
         }
@@ -41,16 +41,16 @@ define([
                     }
                 ]
             }
-        }
-    };
+        };
+    }
 
     function getRowActionConfig() {
         return [
             smwgc.getDeleteAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     imageModel = new ImageModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DELETE_IMAGE + ' (' + dataItem['id'] + ')',
+                    title = smwl.TITLE_DELETE_IMAGE + " (" + dataItem["id"] + ")",
                     imageEditView = new ImageEditView();
 
                 imageEditView.model = imageModel;
@@ -62,7 +62,7 @@ define([
                 });
             })
         ];
-    };
+    }
 
     function getHeaderActionConfig() {
         return [
@@ -84,7 +84,7 @@ define([
                 }
             }
         ];
-    };
+    }
 
     function getImageGridConfig(pagerOptions) {
         var gridElementConfig = {
@@ -102,10 +102,10 @@ define([
                     actionCell: getRowActionConfig(),
                     checkboxSelectable: {
                         onNothingChecked: function (e) {
-                            $('#btnDeleteImages').addClass('disabled-link');
+                            $("#btnDeleteImages").addClass("disabled-link");
                         },
                         onSomethingChecked: function (e) {
-                            $('#btnDeleteImages').removeClass('disabled-link');
+                            $("#btnDeleteImages").removeClass("disabled-link");
                         }
                     },
                     fixedRowHeight: 30,
@@ -116,7 +116,7 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwu.getObjectDetailUrl(prefixId, 'filterInImages')
+                            url: smwu.getObjectDetailUrl(prefixId, "filterInImages")
                         }
                     },
                     cacheConfig: {
@@ -135,7 +135,7 @@ define([
         };
 
         return gridElementConfig;
-    };
+    }
 
     return ImageGridView;
 });

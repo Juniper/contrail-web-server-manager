@@ -2,26 +2,26 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 define([
-    'co-test-utils',
-    'contrail-list-model',
-    'contrail-view-model'
+    "co-test-utils",
+    "contrail-list-model",
+    "contrail-view-model"
 ], function (cotu, ContrailListModel, ContrailViewModel) {
 
     this.getRegExForUrl = function (url) {
         var regexUrlMap = {
-            '/sm/tags/names': /\/sm\/tags\/names$/,
-            '/sm/tags/values/': /\/sm\/tags\/values.*$/,
+            "/sm/tags/names": /\/sm\/tags\/names$/,
+            "/sm/tags/values/": /\/sm\/tags\/values.*$/,
 
-            '/sm/objects/details/image': /\/sm\/objects\/details\/image\?.*$/,
-            '/sm/objects/details/package': /\/sm\/objects\/details\/image\?.*$/,
-            '/sm/objects/details/cluster': /\/sm\/objects\/details\/cluster\?.*$/,
-            '/sm/objects/details/server': /\/sm\/objects\/details\/server\?.*$/,
+            "/sm/objects/details/image": /\/sm\/objects\/details\/image\?.*$/,
+            "/sm/objects/details/package": /\/sm\/objects\/details\/image\?.*$/,
+            "/sm/objects/details/cluster": /\/sm\/objects\/details\/cluster\?.*$/,
+            "/sm/objects/details/server": /\/sm\/objects\/details\/server\?.*$/,
 
-            '/sm/server/monitoring/config': /\/sm\/server\/monitoring\/config$/,
-            '/sm/server/monitoring/info/summary': /\/sm\/server\/monitoring\/info\/summary\?.*$/,
+            "/sm/server/monitoring/config": /\/sm\/server\/monitoring\/config$/,
+            "/sm/server/monitoring/info/summary": /\/sm\/server\/monitoring\/info\/summary\?.*$/,
 
-             '/sm/server/monitoring/info': /\/sm\/server\/monitoring\/info\?.*$/,
-             '/sm/server/inventory/info': /\/sm\/server\/inventory\/info\?.*$/,
+             "/sm/server/monitoring/info": /\/sm\/server\/monitoring\/info\?.*$/,
+             "/sm/server/inventory/info": /\/sm\/server\/inventory\/info\?.*$/,
         };
 
         return regexUrlMap [url];
@@ -55,7 +55,7 @@ define([
             contrailViewModel = new ContrailViewModel($.extend(true, {data: modelData}, modelRemoteDataConfig));
         }
         return contrailViewModel;
-    }
+    };
 
     this.deleteSizeField = function (dataArr) {
         _.each(dataArr, function (data) {
@@ -69,7 +69,7 @@ define([
     this.deleteFieldsForClusterScatterChart = function (dataArr) {
         _.each(dataArr, function (data) {
             if (contrail.checkIfExist(data.ui_added_parameters.monitoring)) {
-                delete data['ui_added_parameters'].monitoring;
+                delete data["ui_added_parameters"].monitoring;
             }
         });
         return dataArr;
@@ -99,7 +99,7 @@ define([
             delete data.locks;
         }
         return data;
-    }
+    };
 
     return {
         self                              : self,

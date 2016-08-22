@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
-define(['sm-labels'], function (SMLables) {
+define(["sm-labels"], function (SMLables) {
     var labels = new SMLables();
 
     var customClusterSchema = {
@@ -12,8 +12,8 @@ define(['sm-labels'], function (SMLables) {
                 "elementConfig" : {
                     "placeholder": smwl.SELECT_IMAGE,
                     "dataSource": {
-                        "type": 'remote',
-                        "url": smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')
+                        "type": "remote",
+                        "url": smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInImages")
                     }
                 }
             },
@@ -22,8 +22,8 @@ define(['sm-labels'], function (SMLables) {
                 "elementConfig" : {
                     "placeholder": smwl.SELECT_PACKAGE,
                     "dataSource": {
-                        "type": 'remote',
-                        "url": smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')
+                        "type": "remote",
+                        "url": smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInPackages")
                     }
                 }
             },
@@ -79,7 +79,7 @@ define(['sm-labels'], function (SMLables) {
                                     },
                                     "analytics" : {
                                         "properties" : {
-                                            'syslog_port': {
+                                            "syslog_port": {
                                                 label: smwl.LABEL_ANALYTICS_SYSLOG_PORT
                                             },
                                             "data_ttl" : {
@@ -88,10 +88,10 @@ define(['sm-labels'], function (SMLables) {
                                             "flow_ttl": {
                                                 label: smwl.LABEL_ANALYTICS_FLOW_TTL
                                             },
-                                            'config_audit_ttl' : {
+                                            "config_audit_ttl" : {
                                                 label: smwl.LABEL_ANALYTICS_CONFIG_AUDIT_TTL
                                             },
-                                            'statistics_ttl' : {
+                                            "statistics_ttl" : {
                                                 label: smwl.LABEL_ANALYTICS_STATISTICS_TTL
                                             },
                                         }
@@ -107,7 +107,7 @@ define(['sm-labels'], function (SMLables) {
                                                 "rowActions": [
                                                     {
                                                         "onClick" : "function() { $root.deleteDisk($data, this); }",
-                                                        "iconClass": 'icon-minus'}
+                                                        "iconClass": "icon-minus"}
                                                 ],
                                                 "gridActions": [
                                                     {

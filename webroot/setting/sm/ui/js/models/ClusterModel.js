@@ -3,18 +3,18 @@
  */
 
 define([
-    'underscore',
-    'contrail-model',
-    'sm-basedir/setting/sm/ui/js/views/ClusterEditView',
-    'knockback',
-    'schema-model',
-    'text!sm-basedir/setting/sm/ui/js/schemas/cluster.json',
-    'sm-cluster-ui-schema',
-    'sm-cluster-custom-ui-schema',
-    'view-config-generator',
-    'backbone',
-    'knockout',
-    'sm-basedir/setting/sm/ui/js/models/DisksModel',
+    "underscore",
+    "contrail-model",
+    "sm-basedir/setting/sm/ui/js/views/ClusterEditView",
+    "knockback",
+    "schema-model",
+    "text!sm-basedir/setting/sm/ui/js/schemas/cluster.json",
+    "sm-cluster-ui-schema",
+    "sm-cluster-custom-ui-schema",
+    "view-config-generator",
+    "backbone",
+    "knockout",
+    "sm-basedir/setting/sm/ui/js/models/DisksModel",
 ], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, defaultSchema, stSchema, customSchema, VCG, Backbone, Knockout, DiskModel) {
 
     defaultSchema = JSON.parse(defaultSchema);
@@ -29,9 +29,9 @@ define([
         if (key == "configureValidation") {
             return configureValidation;
         } else if (key == "provisionValidation") {
-            configureValidation['package_image_id'] = {
+            configureValidation["package_image_id"] = {
                 required: true,
-                msg: smwm.getRequiredMessage('package_image_id')
+                msg: smwm.getRequiredMessage("package_image_id")
             };
             return configureValidation;
         }
@@ -48,11 +48,11 @@ define([
 
             $.each(disks, function(diskKey, diskValue) {
                 diskModel = new DiskModel({disk: diskValue});
-                diskModels.push(diskModel)
+                diskModels.push(diskModel);
             });
 
             diskCollectionModel = new Backbone.Collection(diskModels);
-            modelConfig['disks'] = diskCollectionModel;
+            modelConfig["disks"] = diskCollectionModel;
             if(contrail.checkIfExist(modelConfig.parameters.disks)) {
                 delete modelConfig.parameters.provision.contrail.storage.storage_osd_disks;
             }
@@ -71,7 +71,7 @@ define([
                     locks = this.model().attributes.locks.attributes,
                     that = this;
 
-                clusterAttrsEdited.push(cowu.getEditConfigObj(clusterAttrs, locks, clusterSchema, ''));
+                clusterAttrsEdited.push(cowu.getEditConfigObj(clusterAttrs, locks, clusterSchema, ""));
                 putData[smwc.CLUSTER_PREFIX_ID] = clusterAttrsEdited;
 
                 ajaxConfig.async = false;
@@ -111,7 +111,7 @@ define([
                 that = this;
 
             $.each(serverList, function (key, value) {
-                servers.push({'id': value['id'], 'cluster_id': clusterAttrs['id']});
+                servers.push({"id": value["id"], "cluster_id": clusterAttrs["id"]});
             });
             putData[smwc.SERVER_PREFIX_ID] = servers;
 
@@ -145,7 +145,7 @@ define([
                 putData = {}, servers = [];
 
             $.each(serverList, function (key, value) {
-                servers.push({'id': value['id'], 'cluster_id': ""});
+                servers.push({"id": value["id"], "cluster_id": ""});
             });
 
             putData[smwc.SERVER_PREFIX_ID] = servers;
@@ -181,7 +181,7 @@ define([
                 that = this;
 
             $.each(serverList, function (key, value) {
-                servers.push({'id': value['id'], 'roles': value['roles']});
+                servers.push({"id": value["id"], "roles": value["roles"]});
             });
 
             putData[smwc.SERVER_PREFIX_ID] = servers;
@@ -217,7 +217,7 @@ define([
                     putData = {}, clusters = [],
                     that = this;
 
-                clusters.push({'cluster_id': clusterAttrs['id'], 'base_image_id': clusterAttrs['base_image_id']});
+                clusters.push({"cluster_id": clusterAttrs["id"], "base_image_id": clusterAttrs["base_image_id"]});
                 putData = clusters;
 
                 ajaxConfig.type = "POST";
@@ -252,7 +252,7 @@ define([
                     putData = {}, clusters = [],
                     that = this;
 
-                clusters.push({'cluster_id': clusterAttrs['id'], 'package_image_id': clusterAttrs['package_image_id']});
+                clusters.push({"cluster_id": clusterAttrs["id"], "package_image_id": clusterAttrs["package_image_id"]});
                 putData = clusters;
 
                 ajaxConfig.type = "POST";
@@ -282,7 +282,7 @@ define([
         },
         deleteCluster: function (checkedRow, callbackObj) {
             var ajaxConfig = {}, that = this,
-                clusterId = checkedRow['id'];
+                clusterId = checkedRow["id"];
 
             ajaxConfig.type = "DELETE";
             ajaxConfig.url = smwc.URL_OBJ_CLUSTER_ID + clusterId;
@@ -304,10 +304,10 @@ define([
         },
         runInventory: function (checkedRow, callbackObj) {
             var ajaxConfig = {}, that = this,
-                clusterId = checkedRow['id'];
+                clusterId = checkedRow["id"];
 
             ajaxConfig.type = "POST";
-            ajaxConfig.url = smwc.URL_RUN_INVENTORY + '?cluster_id=' +clusterId;
+            ajaxConfig.url = smwc.URL_RUN_INVENTORY + "?cluster_id=" +clusterId;
 
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
@@ -326,27 +326,27 @@ define([
         },
         validations: {
             reimageValidation: {
-                'base_image_id': {
+                "base_image_id": {
                     required: true,
-                    msg: smwm.getRequiredMessage('base_image_id')
+                    msg: smwm.getRequiredMessage("base_image_id")
                 }
             },
             provisionValidation: getValidationByKey("provisionValidation"),
             addValidation: {
-                'id': {
+                "id": {
                     required: true,
-                    msg: smwm.getRequiredMessage('id')
+                    msg: smwm.getRequiredMessage("id")
                 },
-                'email': {
+                "email": {
                     required: false,
-                    pattern: 'email',
-                    msg: smwm.getInvalidErrorMessage('email')
+                    pattern: "email",
+                    msg: smwm.getInvalidErrorMessage("email")
                 }
             },
             configureValidation: getValidationByKey("configureValidation")
         },
         addDisk: function() {
-            var disks = this.model().attributes['disks'],
+            var disks = this.model().attributes["disks"],
                 newDisk = new DiskModel({disk: ""});
 
             disks.add([newDisk]);
@@ -365,14 +365,14 @@ define([
 
                 for (var i = 0; i < disks.length; i++) {
                     storageDisks.push(kbDisks[i]);
-                };
+                }
                 return storageDisks;
             }, this);
         },
         goForward : function(rootViewPath, path, prefixId, rowIndex){
             var self = this;
-            var modalId = 'configure-' + prefixId;
-            $("#" + modalId).modal('hide');
+            var modalId = "configure-" + prefixId;
+            $("#" + modalId).modal("hide");
             var viewConfigOptions = {
                 rootViewPath : rootViewPath,
                 path : path,
@@ -380,14 +380,14 @@ define([
                 page : "",
                 element : prefixId,
                 rowIndex: rowIndex,
-                formType: 'edit'
+                formType: "edit"
             };
-            viewConfig = vcg.generateViewConfig(viewConfigOptions, schemaModel, 'default', 'form');
+            viewConfig = vcg.generateViewConfig(viewConfigOptions, schemaModel, "default", "form");
 
-            var dataItem = $("#" + smwl.SM_CLUSTER_GRID_ID).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $("#" + smwl.SM_CLUSTER_GRID_ID).data("contrailGrid")._dataView.getItem(rowIndex),
                 clusterModel = new ClusterModel(dataItem),
                 checkedRow = [dataItem],
-                title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
+                title = smwl.TITLE_EDIT_CONFIG + " ("+ dataItem["id"] +")";
 
             var clusterEditView = new ClusterEditView();
             clusterEditView.model = self;

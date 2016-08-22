@@ -3,13 +3,13 @@
  */
 
 define([
-    'co-test-constants',
-    'co-test-runner',
-    'sm-test-utils',
-    'sm-test-messages',
-    'setting/sm/test/ui/views/PackageListView.mock.data',
-    'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite'
+    "co-test-constants",
+    "co-test-runner",
+    "sm-test-utils",
+    "sm-test-messages",
+    "setting/sm/test/ui/views/PackageListView.mock.data",
+    "co-grid-contrail-list-model-test-suite",
+    "co-grid-view-test-suite"
 ], function (cotc, cotr, smtu, smtm, PackageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
     var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
@@ -26,7 +26,7 @@ define([
             body: JSON.stringify(PackageListViewMockData.getTagNamesData())
         }));
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('package')),
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl("package")),
             body: JSON.stringify(PackageListViewMockData.getSinglePackageDetailData())
         }));
 
@@ -36,7 +36,7 @@ define([
 
     var pageConfig = cotr.getDefaultPageConfig();
     pageConfig.hashParams = {
-        p: 'setting_sm_packages'
+        p: "setting_sm_packages"
     };
     pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT;
 
@@ -49,11 +49,11 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all']
+                            groups: ["all"]
                         },
                         {
                             class: GridListModelTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {

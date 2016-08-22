@@ -3,13 +3,13 @@
  */
 
 define([
-    'underscore',
-    'contrail-view',
-    'knockback'
+    "underscore",
+    "contrail-view",
+    "knockback"
 ], function (_, ContrailView, Knockback) {
 
     var prefixId = smwc.SERVER_PREFIX_ID,
-        modalId = 'configure-' + prefixId,
+        modalId = "configure-" + prefixId,
         editTemplate = contrail.getTemplate4Id(cowc.TMPL_EDIT_FORM);
 
     var ServerEditView = ContrailView.extend({
@@ -18,15 +18,15 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                self.model.reimage(options['checkedRows'], {
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options["title"], "body": editLayout, "onSave": function () {
+                self.model.reimage(options["checkedRows"], {
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
@@ -34,10 +34,10 @@ define([
                         });
                     }
                 }); // TODO: Release binding on successful configure
-            }, 'onCancel': function () {
+            }, "onCancel": function () {
                 Knockback.release(self.model, document.getElementById(modalId));
                 kbValidation.unbind(self);
-                $("#" + modalId).modal('hide');
+                $("#" + modalId).modal("hide");
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, reimageViewConfig, null, null, null, function() {
@@ -51,15 +51,15 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 disableId, modelAttr, self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-980', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                self.model.configure(options['checkedRows'], {
+            cowu.createModal({"modalId": modalId, "className": "modal-980", "title": options["title"], "body": editLayout, "onSave": function () {
+                self.model.configure(options["checkedRows"], {
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                         cowch.reset();
                     },
                     error: function (error) {
@@ -68,14 +68,14 @@ define([
                         });
                     }
                 });
-            }, 'onCancel': function () {
+            }, "onCancel": function () {
                 Knockback.release(self.model, document.getElementById(modalId));
                 kbValidation.unbind(self);
-                $("#" + modalId).modal('hide');
+                $("#" + modalId).modal("hide");
             }});
 
-            modelAttr = this.model.model().get('id');
-            disableId = (modelAttr == null || modelAttr == '') ? false : true;
+            modelAttr = this.model.model().get("id");
+            disableId = (modelAttr == null || modelAttr == "") ? false : true;
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getConfigureViewConfig(disableId), smwc.KEY_CONFIGURE_VALIDATION, null, null, function() {
                 self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
@@ -89,15 +89,15 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                self.model.configureServers(options['checkedRows'], {
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options["title"], "body": editLayout, "onSave": function () {
+                self.model.configureServers(options["checkedRows"], {
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                         cowch.reset();
                     },
                     error: function (error) {
@@ -106,10 +106,10 @@ define([
                         });
                     }
                 });
-            }, 'onCancel': function () {
+            }, "onCancel": function () {
                 Knockback.release(self.model, document.getElementById(modalId));
                 kbValidation.unbind(self);
-                $("#" + modalId).modal('hide');
+                $("#" + modalId).modal("hide");
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, configureServersViewConfig, smwc.KEY_CONFIGURE_VALIDATION, true, null, function() {
@@ -123,15 +123,15 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-980', 'title': options['title'], 'body': editLayout, 'onSave': function () {
+            cowu.createModal({"modalId": modalId, "className": "modal-980", "title": options["title"], "body": editLayout, "onSave": function () {
                 self.model.createServer({
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                         cowch.reset();
                     },
                     error: function (error) {
@@ -140,10 +140,10 @@ define([
                         });
                     }
                 }, "POST");
-            }, 'onCancel': function () {
+            }, "onCancel": function () {
                 Knockback.release(self.model, document.getElementById(modalId));
                 kbValidation.unbind(self);
-                $("#" + modalId).modal('hide');
+                $("#" + modalId).modal("hide");
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, getConfigureViewConfig(false), smwc.KEY_CONFIGURE_VALIDATION, null, null, function() {
@@ -158,15 +158,15 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                self.model.provision(options['checkedRows'], {
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options["title"], "body": editLayout, "onSave": function () {
+                self.model.provision(options["checkedRows"], {
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
@@ -175,10 +175,10 @@ define([
                     }
                 });
                 // TODO: Release binding on successful configure
-            }, 'onCancel': function () {
+            }, "onCancel": function () {
                 Knockback.release(self.model, document.getElementById(modalId));
                 kbValidation.unbind(self);
-                $("#" + modalId).modal('hide');
+                $("#" + modalId).modal("hide");
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionServersViewConfig, null, null, null, function() {
@@ -197,15 +197,15 @@ define([
 
                 if(tagServersViewConfigRows.length == 0){
                     cowu.createModal({
-                        'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': smwm.NO_TAGS_CONFIGURED,
-                        'onClose': function () {
-                            $("#" + modalId).modal('hide');
+                        "modalId": modalId, "className": "modal-700", "title": options["title"], "body": smwm.NO_TAGS_CONFIGURED,
+                        "onClose": function () {
+                            $("#" + modalId).modal("hide");
                         }
                     });
                 } else {
                     var editLayout = editTemplate({prefixId: prefixId}),
                         editTagViewConfig = {
-                            elementId: (prefixId + '_' + smwl.TITLE_TAG).toLowerCase(),
+                            elementId: (prefixId + "_" + smwl.TITLE_TAG).toLowerCase(),
                             view: "SectionView",
                             viewConfig: {
                                 rows: tagServersViewConfigRows
@@ -213,16 +213,16 @@ define([
                         };
 
                     cowu.createModal({
-                        'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout,
-                        'onSave': function () {
-                            self.model.editTags(options['checkedRows'], {
+                        "modalId": modalId, "className": "modal-700", "title": options["title"], "body": editLayout,
+                        "onSave": function () {
+                            self.model.editTags(options["checkedRows"], {
                                 init: function () {
                                     self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                                     cowu.enableModalLoading(modalId);
                                 },
                                 success: function () {
-                                    options['callback']();
-                                    $("#" + modalId).modal('hide');
+                                    options["callback"]();
+                                    $("#" + modalId).modal("hide");
                                     cowch.reset();
                                 },
                                 error: function (error) {
@@ -231,14 +231,14 @@ define([
                                     });
                                 }
                             }); // TODO: Release binding on successful configure
-                        }, 'onCancel': function () {
+                        }, "onCancel": function () {
                             Knockback.release(self.model, document.getElementById(modalId));
                             kbValidation.unbind(self);
-                            $("#" + modalId).modal('hide');
+                            $("#" + modalId).modal("hide");
                         }
                     });
 
-                    self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), self.model, editTagViewConfig, 'editTagsValidation', lockEditingByDefault, null, function() {
+                    self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), self.model, editTagViewConfig, "editTagsValidation", lockEditingByDefault, null, function() {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         Knockback.applyBindings(self.model, document.getElementById(modalId));
                     });
@@ -250,15 +250,15 @@ define([
             var editLayout = editTemplate({prefixId: prefixId}),
                 self = this;
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'body': editLayout, 'onSave': function () {
-                self.model.editRoles(options['checkedRows'], {
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options["title"], "body": editLayout, "onSave": function () {
+                self.model.editRoles(options["checkedRows"], {
                     init: function () {
                         self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                         cowch.reset();
                     },
                     error: function (error) {
@@ -267,10 +267,10 @@ define([
                         });
                     }
                 }); // TODO: Release binding on successful configure
-            }, 'onCancel': function () {
+            }, "onCancel": function () {
                 Knockback.release(self.model, document.getElementById(modalId));
                 kbValidation.unbind(self);
-                $("#" + modalId).modal('hide');
+                $("#" + modalId).modal("hide");
             }});
 
             self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, assignRolesViewConfig, null, null, null, function() {
@@ -281,21 +281,21 @@ define([
 
         renderDeleteServer: function (options) {
             var textTemplate = contrail.getTemplate4Id("sm-delete-server-template"),
-                elId = 'deleteServer',
+                elId = "deleteServer",
                 self = this,
-                checkedRows = options['checkedRows'],
-                serversToBeDeleted = {'serverId': [], 'elementId': elId};
-            serversToBeDeleted['serverId'].push(checkedRows['id']);
+                checkedRows = options["checkedRows"],
+                serversToBeDeleted = {"serverId": [], "elementId": elId};
+            serversToBeDeleted["serverId"].push(checkedRows["id"]);
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(serversToBeDeleted), 'onSave': function () {
-                self.model.deleteServer(options['checkedRows'], {
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options["title"], "btnName": "Confirm", "body": textTemplate(serversToBeDeleted), "onSave": function () {
+                self.model.deleteServer(options["checkedRows"], {
                     init: function () {
                         self.model.showErrorAttr(elId, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
@@ -303,8 +303,8 @@ define([
                         });
                     }
                 });
-            }, 'onCancel': function () {
-                $("#" + modalId).modal('hide');
+            }, "onCancel": function () {
+                $("#" + modalId).modal("hide");
             }});
 
             self.model.showErrorAttr(elId, false);
@@ -314,21 +314,21 @@ define([
 
         renderRunInventory: function (options) {
             var textTemplate = contrail.getTemplate4Id("sm-server-run-inventory-template"),
-                elId = 'runInventoryServer',
+                elId = "runInventoryServer",
                 self = this,
-                checkedRows = options['checkedRows'],
-                runInventoryServers = {'serverId': [], 'elementId': elId};
-            runInventoryServers['serverId'].push(checkedRows['id']);
+                checkedRows = options["checkedRows"],
+                runInventoryServers = {"serverId": [], "elementId": elId};
+            runInventoryServers["serverId"].push(checkedRows["id"]);
 
-            cowu.createModal({'modalId': modalId, 'className': 'modal-700', 'title': options['title'], 'btnName': 'Confirm', 'body': textTemplate(runInventoryServers), 'onSave': function () {
-                self.model.runInventory(options['checkedRows'], {
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options["title"], "btnName": "Confirm", "body": textTemplate(runInventoryServers), "onSave": function () {
+                self.model.runInventory(options["checkedRows"], {
                     init: function () {
                         self.model.showErrorAttr(elId, false);
                         cowu.enableModalLoading(modalId);
                     },
                     success: function () {
-                        options['callback']();
-                        $("#" + modalId).modal('hide');
+                        options["callback"]();
+                        $("#" + modalId).modal("hide");
                     },
                     error: function (error) {
                         cowu.disableModalLoading(modalId, function () {
@@ -336,8 +336,8 @@ define([
                         });
                     }
                 });
-            }, 'onCancel': function () {
-                $("#" + modalId).modal('hide');
+            }, "onCancel": function () {
+                $("#" + modalId).modal("hide");
             }});
 
             this.model.showErrorAttr(elId, false);
@@ -359,16 +359,16 @@ define([
                     row = {columns: []};
                     tagServersViewConfigRows.push(row);
                 }
-                row['columns'].push({
+                row["columns"].push({
                     elementId: tagName, view: "FormInputView",
                     viewConfig: {path: "tag." + tagName, dataBindValue: "tag()." + tagName, class: "col-xs-6"}
                 });
             }
-            callback(tagServersViewConfigRows)
+            callback(tagServersViewConfigRows);
         }, function () {
-            callback(tagServersViewConfigRows)
+            callback(tagServersViewConfigRows);
         });
-    };
+    }
 
     function getConfigureViewConfig(disableId) {
         return {
@@ -384,23 +384,23 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'id', view: "FormInputView",
+                                    elementId: "id", view: "FormInputView",
                                     viewConfig: {disabled: disableId, path: "id", dataBindValue: "id", class: "col-xs-6"}
                                 },
                                 {
-                                    elementId: 'password', view: "FormInputView",
-                                    viewConfig: {path: 'password', type: 'password', dataBindValue: 'password', class: "col-xs-6"}
+                                    elementId: "password", view: "FormInputView",
+                                    viewConfig: {path: "password", type: "password", dataBindValue: "password", class: "col-xs-6"}
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'domain', view: "FormInputView",
+                                    elementId: "domain", view: "FormInputView",
                                     viewConfig: {path: "domain", dataBindValue: "domain", class: "col-xs-6", view: "FormInputView"}
                                 },
                                 {
-                                    elementId: 'partition', view: "FormInputView",
+                                    elementId: "partition", view: "FormInputView",
                                     viewConfig: {path: "parameters.partition", dataBindValue: "parameters().partition", class: "col-xs-6", view: "FormInputView"}
                                 }
                             ]
@@ -408,15 +408,15 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'ipmi_address', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_address', dataBindValue: 'ipmi_address', class: "col-xs-6"}
+                                    elementId: "ipmi_address", view: "FormInputView",
+                                    viewConfig: {path: "ipmi_address", dataBindValue: "ipmi_address", class: "col-xs-6"}
                                 },
                                 {
-                                    elementId: 'ipmi_interface',
-                                    view: 'FormDropdownView',
+                                    elementId: "ipmi_interface",
+                                    view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'ipmi_interface',
-                                        dataBindValue: 'ipmi_interface',
+                                        path: "ipmi_interface",
+                                        dataBindValue: "ipmi_interface",
                                         class: "col-xs-6",
                                         elementConfig: {defaultValueId: 0, dataTextField: "text", dataValueField: "id", data: smwc.IPMI_INTERFACE_TYPES}
                                     }
@@ -426,12 +426,12 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'ipmi_username', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "col-xs-6"}
+                                    elementId: "ipmi_username", view: "FormInputView",
+                                    viewConfig: {path: "ipmi_username", dataBindValue: "ipmi_username", class: "col-xs-6"}
                                 },
                                 {
-                                    elementId: 'ipmi_password', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_password', type: 'password', dataBindValue: 'ipmi_password', class: "col-xs-6"}
+                                    elementId: "ipmi_password", view: "FormInputView",
+                                    viewConfig: {path: "ipmi_password", type: "password", dataBindValue: "ipmi_password", class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -447,44 +447,44 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'interfaces',
+                                    elementId: "interfaces",
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "interfaces",
-                                        class: 'col-xs-12',
-                                        validation: 'physicalValidation',
+                                        class: "col-xs-12",
+                                        validation: "physicalValidation",
                                         collection: "filterInterfaces('physical')",
                                         columns: [
                                             {
-                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "",
+                                                elementId: "name", name: "Name", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 170,path: "name", dataBindValue: "name()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "",
+                                                elementId: "ip_address", name: "IP/Mask", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 155, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
-                                                elementId: 'mac_address', name: 'MAC Address', view: "FormInputView", class: "",
+                                                elementId: "mac_address", name: "MAC Address", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 160, path: "mac_address", dataBindValue: "mac_address()"}
                                             },
                                             {
-                                                elementId: 'default_gateway', name: 'Gateway', view: "FormInputView", class: "",
+                                                elementId: "default_gateway", name: "Gateway", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "default_gateway", dataBindValue: "default_gateway()"}
                                             },
                                             {
-                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "",
+                                                elementId: "dhcp", name: "DHCP", view: "FormCheckboxView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width: 50, path: "dhcp", dataBindValue: "dhcp()"}},
                                             {
-                                                elementId: 'tor', name: 'TOR', view: "FormInputView", class: "",
+                                                elementId: "tor", name: "TOR", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "tor", dataBindValue: "tor()"}
                                             },
                                             {
-                                                elementId: 'tor_port', name: 'TOR Port', view: "FormInputView", class: "",
+                                                elementId: "tor_port", name: "TOR Port", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 70, path: "tor_port", dataBindValue: "tor_port()"}
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'fa fa-minus'}
+                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: "fa fa-minus"}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addInterface('physical'); }", buttonTitle: "Add"}
@@ -505,39 +505,39 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'interfaces',
+                                    elementId: "interfaces",
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "interfaces",
-                                        class: 'col-xs-12',
-                                        validation: 'bondValidation',
+                                        class: "col-xs-12",
+                                        validation: "bondValidation",
                                         collection: "filterInterfaces('bond')",
                                         columns: [
                                             {
-                                                elementId: 'name', name: 'Name', view: "FormInputView", class: "",
+                                                elementId: "name", name: "Name", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 200, path: "name", dataBindValue: "name()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP/Mask', view: "FormInputView", class: "",
+                                                elementId: "ip_address", name: "IP/Mask", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 200, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
-                                                elementId: 'dhcp', name: 'DHCP', view: "FormCheckboxView", class: "",
+                                                elementId: "dhcp", name: "DHCP", view: "FormCheckboxView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_CHECKBOX_VIEW, width: 50, path: "dhcp", dataBindValue: "dhcp()"}
                                             },
                                             {
-                                                elementId: 'member_interfaces', name: 'Members', view: "FormMultiselectView", class: "",
+                                                elementId: "member_interfaces", name: "Members", view: "FormMultiselectView", class: "",
                                                 viewConfig: {
                                                     templateId: cowc.TMPL_EDITABLE_GRID_MULTISELECT_VIEW,
-                                                    path: 'member_interfaces', width: 300,
-                                                    dataBindValue: 'member_interfaces()',
-                                                    dataBindOptionList: '$root.getMemberInterfaces()',
+                                                    path: "member_interfaces", width: 300,
+                                                    dataBindValue: "member_interfaces()",
+                                                    dataBindOptionList: "$root.getMemberInterfaces()",
                                                     elementConfig: {placeholder: smwl.SELECT_MEMBERS}
                                                 }
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: 'fa fa-minus'}
+                                            {onClick: "function() { $root.deleteInterface($data, this); }", iconClass: "fa fa-minus"}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addInterface('bond'); }", buttonTitle: "Add"}
@@ -558,56 +558,56 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'switches',
+                                    elementId: "switches",
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "switches",
-                                        class: 'col-xs-12',
+                                        class: "col-xs-12",
                                         validation: "topOfRackValidation",
                                         collection: "switches",
                                         columns: [
                                             {
-                                                elementId: 'switch_id', name: 'ID', view: "FormInputView", class: "",
+                                                elementId: "switch_id", name: "ID", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 50,path: "switch_id", dataBindValue: "switch_id()"}
                                             },
                                             {
-                                                elementId: 'ip_address', name: 'IP Address', view: "FormInputView", class: "",
+                                                elementId: "ip_address", name: "IP Address", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "ip_address", dataBindValue: "ip_address()"}
                                             },
                                             {
-                                                elementId: 'switch_name', name: 'Name', view: "FormInputView", class: "",
+                                                elementId: "switch_name", name: "Name", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "switch_name", dataBindValue: "switch_name()"}
                                             },
                                             {
-                                                elementId: 'vendor_name', name: 'Vendor', view: "FormInputView", class: "",
+                                                elementId: "vendor_name", name: "Vendor", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "vendor_name", dataBindValue: "vendor_name()"}
                                             },
                                             {
-                                                elementId: 'product_name', name: 'Product', view: "FormInputView", class: "",
+                                                elementId: "product_name", name: "Product", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 130, path: "product_name", dataBindValue: "product_name()"}
                                             },
                                             {
-                                                elementId: 'ovs_port', name: 'Port', view: "FormInputView", class: "",
+                                                elementId: "ovs_port", name: "Port", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 100, path: "ovs_port", dataBindValue: "ovs_port()"}
                                             },
                                             {
-                                                elementId: 'ovs_protocol', name: 'Protocol', view: "FormDropdownView", class: "",
+                                                elementId: "ovs_protocol", name: "Protocol", view: "FormDropdownView", class: "",
                                                 viewConfig: {
-                                                    templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW, path: 'ovs_protocol', width: 100, dataBindValue: 'ovs_protocol()',
+                                                    templateId: cowc.TMPL_EDITABLE_GRID_DROPDOWN_VIEW, path: "ovs_protocol", width: 100, dataBindValue: "ovs_protocol()",
                                                     elementConfig: {placeholder: smwl.SELECT_PROTOCOL, defaultValueId: 0, dataTextField: "text", dataValueField: "id", data: smwc.OVS_PROTOCOLS}
                                                 }
                                             },
                                             {
-                                                elementId: 'http_server_port', name: 'HTTP Port', view: "FormInputView", class: "",
+                                                elementId: "http_server_port", name: "HTTP Port", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 100, path: "http_server_port", dataBindValue: "http_server_port()"}
                                             },
                                             {
-                                                elementId: 'keepalive_time', name: 'Keepalive Time', view: "FormInputView", class: "",
+                                                elementId: "keepalive_time", name: "Keepalive Time", view: "FormInputView", class: "",
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 140, path: "keepalive_time", dataBindValue: "keepalive_time()"}
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteSwitch($data, this); }", iconClass: 'fa fa-minus'}
+                                            {onClick: "function() { $root.deleteSwitch($data, this); }", iconClass: "fa fa-minus"}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addSwitch(); }", buttonTitle: "Add"}
@@ -628,44 +628,44 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'storage_repo_id',
+                                    elementId: "storage_repo_id",
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_repo_id', dataBindValue: 'parameters().provision.contrail.storage.storage_repo_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_REPO_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
+                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_repo_id", dataBindValue: "parameters().provision.contrail.storage.storage_repo_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_REPO_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInContrailStoragePackages")}}}
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'storage_chassis_id',
+                                    elementId: "storage_chassis_id",
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id', class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
+                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_chassis_id", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id", class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwc.URL_CHASSIS_ID}}}
                                 },
                                 {
-                                    elementId: 'storage_chassis_id_input',
+                                    elementId: "storage_chassis_id_input",
                                     view: "FormInputView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id_input', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id_input', class: "col-xs-6"}
+                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_chassis_id_input", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id_input", class: "col-xs-6"}
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'storage_osd_disks',
+                                    elementId: "storage_osd_disks",
                                     view: "FormEditableGridView",
                                     viewConfig: {
                                         path: "parameters.provision.contrail.storage.storage_osd_disks",
-                                        class: 'col-xs-12',
-                                        validation: '',
+                                        class: "col-xs-12",
+                                        validation: "",
                                         collection: "getStorageDisks()",
                                         columns: [
                                             {
-                                                elementId: 'disk', name: 'Storage Disks', view: "FormInputView", class: "", width: 800,
+                                                elementId: "disk", name: "Storage Disks", view: "FormInputView", class: "", width: 800,
                                                 viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "disk", dataBindValue: "disk()"}
                                             }
                                         ],
                                         rowActions: [
-                                            {onClick: "function() { $root.deleteDisk($data, this); }", iconClass: 'fa fa-minus'}
+                                            {onClick: "function() { $root.deleteDisk($data, this); }", iconClass: "fa fa-minus"}
                                         ],
                                         gridActions: [
                                             {onClick: "function() { addDisk(); }", buttonTitle: "Add"}
@@ -687,10 +687,10 @@ define([
                             columns: [
 
                                 {
-                                    elementId: 'cluster_id',
+                                    elementId: "cluster_id",
                                     view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'cluster_id',
+                                        path: "cluster_id",
                                         dataBindValue: "cluster_id",
                                         class: "col-xs-6",
                                         elementConfig: {
@@ -699,58 +699,58 @@ define([
                                             dataTextField: "id",
                                             dataValueField: "id",
                                             dataSource: {
-                                                type: 'remote',
+                                                type: "remote",
                                                 url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)
                                             }
                                         }
                                     }
                                 },
                                 {
-                                    elementId: 'email',
+                                    elementId: "email",
                                     view: "FormInputView",
-                                    viewConfig: {path: 'email', dataBindValue: 'email', class: "col-xs-6"}
+                                    viewConfig: {path: "email", dataBindValue: "email", class: "col-xs-6"}
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'base_image_id',
+                                    elementId: "base_image_id",
                                     view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'base_image_id',
-                                        dataBindValue: 'base_image_id',
+                                        path: "base_image_id",
+                                        dataBindValue: "base_image_id",
                                         class: "col-xs-6",
                                         elementConfig: {
                                             placeholder: smwl.SELECT_IMAGE,
                                             dataTextField: "id",
                                             dataValueField: "id",
                                             dataSource: {
-                                                type: 'remote',
-                                                url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')
+                                                type: "remote",
+                                                url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInImages")
                                             }
                                         }
                                     }
                                 },
                                 {
-                                    elementId: 'package_image_id',
+                                    elementId: "package_image_id",
                                     view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'package_image_id', dataBindValue: 'package_image_id',
+                                        path: "package_image_id", dataBindValue: "package_image_id",
                                         class: "col-xs-6",
-                                        elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
+                                        elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInContrailControllerPackages")}}}
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'management_interface',
+                                    elementId: "management_interface",
                                     view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'network.management_interface', class: "col-xs-6",
-                                        dataBindValue: 'network().management_interface',
-                                        dataBindOptionList: '$root.getManagementInterfaces()',
+                                        path: "network.management_interface", class: "col-xs-6",
+                                        dataBindValue: "network().management_interface",
+                                        dataBindOptionList: "$root.getManagementInterfaces()",
                                         class: "col-xs-6",
                                         elementConfig: {
                                             placeholder: smwl.TITLE_SELECT_MANAGEMENT_INTERFACE,
@@ -760,12 +760,12 @@ define([
                                     }
                                 },
                                 {
-                                    elementId: 'control_data_interface',
+                                    elementId: "control_data_interface",
                                     view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'contrail.control_data_interface',
-                                        dataBindValue: 'contrail().control_data_interface',
-                                        dataBindOptionList: '$root.getControlDataInterfaces()',
+                                        path: "contrail.control_data_interface",
+                                        dataBindValue: "contrail().control_data_interface",
+                                        dataBindOptionList: "$root.getControlDataInterfaces()",
                                         class: "col-xs-6",
                                         elementConfig: {
                                             placeholder: smwl.TITLE_SELECT_CONTROL_DATA_INTERFACE,
@@ -780,7 +780,7 @@ define([
             },
         ]
         };
-    };
+    }
 
     var configureServersViewConfig = {
         elementId: prefixId,
@@ -795,7 +795,7 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'domain', view: "FormInputView",
+                                    elementId: "domain", view: "FormInputView",
                                     viewConfig: {path: "domain", dataBindValue: "domain", class: "col-xs-6", view: "FormInputView"}
                                 }
                             ]
@@ -803,12 +803,12 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'ipmi_username', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_username', dataBindValue: 'ipmi_username', class: "col-xs-6"}
+                                    elementId: "ipmi_username", view: "FormInputView",
+                                    viewConfig: {path: "ipmi_username", dataBindValue: "ipmi_username", class: "col-xs-6"}
                                 },
                                 {
-                                    elementId: 'ipmi_password', view: "FormInputView",
-                                    viewConfig: {path: 'ipmi_password',  type: 'password', dataBindValue: 'ipmi_password', class: "col-xs-6"}
+                                    elementId: "ipmi_password", view: "FormInputView",
+                                    viewConfig: {path: "ipmi_password", type: "password", dataBindValue: "ipmi_password", class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -825,9 +825,9 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'package_image_id',
+                                    elementId: "package_image_id",
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailControllerPackages')}}}
+                                    viewConfig: {path: "package_image_id", dataBindValue: "package_image_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInContrailControllerPackages")}}}
                                 }
                             ]
                         }
@@ -843,23 +843,23 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'storage_repo_id',
+                                    elementId: "storage_repo_id",
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_repo_id', dataBindValue: 'parameters().provision.contrail.storage.storage_repo_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInContrailStoragePackages')}}}
+                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_repo_id", dataBindValue: "parameters().provision.contrail.storage.storage_repo_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInContrailStoragePackages")}}}
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'storage_chassis_id',
+                                    elementId: "storage_chassis_id",
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id', class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwc.URL_CHASSIS_ID}}}
+                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_chassis_id", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id", class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwc.URL_CHASSIS_ID}}}
                                 },
                                 {
-                                    elementId: 'storage_chassis_id_input',
+                                    elementId: "storage_chassis_id_input",
                                     view: "FormInputView",
-                                    viewConfig: {path: 'parameters.provision.contrail.storage.storage_chassis_id_input', dataBindValue: 'parameters().provision.contrail.storage.storage_chassis_id_input', class: "col-xs-6"}
+                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_chassis_id_input", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id_input", class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -875,37 +875,37 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: 'cluster_id',
+                                    elementId: "cluster_id",
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'cluster_id', dataBindValue: 'cluster_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_CLUSTER, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)}}}
+                                    viewConfig: {path: "cluster_id", dataBindValue: "cluster_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_CLUSTER, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectUrl(smwc.CLUSTER_PREFIX_ID, smwc.CLUSTER_PREFIX_ID)}}}
                                 },
-                                {elementId: 'email', view: "FormInputView", viewConfig: {path: 'email', dataBindValue: 'email', class: "col-xs-6"}}
+                                {elementId: "email", view: "FormInputView", viewConfig: {path: "email", dataBindValue: "email", class: "col-xs-6"}}
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'base_image_id',
+                                    elementId: "base_image_id",
                                     view: "FormDropdownView",
-                                    viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                                    viewConfig: {path: "base_image_id", dataBindValue: "base_image_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInImages")}}}
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: 'kernel_upgrade',
-                                    view: 'FormDropdownView',
+                                    elementId: "kernel_upgrade",
+                                    view: "FormDropdownView",
                                     viewConfig: {
-                                        path: 'parameters.kernel_upgrade',
-                                        dataBindValue: 'parameters().kernel_upgrade',
+                                        path: "parameters.kernel_upgrade",
+                                        dataBindValue: "parameters().kernel_upgrade",
                                         class: "col-xs-6",
                                         elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.STATES_YES_NO}
                                     }
                                 },
                                 {
-                                    elementId: 'kernel_version', view: "FormInputView",
-                                    viewConfig: {path: 'parameters.kernel_version', dataBindValue: 'parameters().kernel_version', class: "col-xs-6"}
+                                    elementId: "kernel_version", view: "FormInputView",
+                                    viewConfig: {path: "parameters.kernel_version", dataBindValue: "parameters().kernel_version", class: "col-xs-6"}
                                 }
                             ]
                         }
@@ -924,9 +924,9 @@ define([
                 {
                     columns: [
                         {
-                            elementId: 'package_image_id',
+                            elementId: "package_image_id",
                             view: "FormDropdownView",
-                            viewConfig: {path: 'package_image_id', dataBindValue: 'package_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')}}}
+                            viewConfig: {path: "package_image_id", dataBindValue: "package_image_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInPackages")}}}
                         }
                     ]
                 }
@@ -942,9 +942,9 @@ define([
                 {
                     columns: [
                         {
-                            elementId: 'base_image_id',
+                            elementId: "base_image_id",
                             view: "FormDropdownView",
-                            viewConfig: {path: 'base_image_id', dataBindValue: 'base_image_id', class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: 'remote', url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInImages')}}}
+                            viewConfig: {path: "base_image_id", dataBindValue: "base_image_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInImages")}}}
                         }
                     ]
                 }
@@ -960,8 +960,8 @@ define([
                 {
                     columns: [
                         {
-                            elementId: 'roles', view: "FormMultiselectView",
-                            viewConfig: {path: 'roles', dataBindValue: 'roles', class: "col-xs-12", elementConfig: {placeholder: smwl.SELECT_ROLES, data: smwc.ROLES_OBJECTS}}
+                            elementId: "roles", view: "FormMultiselectView",
+                            viewConfig: {path: "roles", dataBindValue: "roles", class: "col-xs-12", elementConfig: {placeholder: smwl.SELECT_ROLES, data: smwc.ROLES_OBJECTS}}
                         }
                     ]
                 }

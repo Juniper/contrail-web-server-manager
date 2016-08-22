@@ -3,8 +3,8 @@
  */
 
 define([
-    'underscore',
-    'contrail-model'
+    "underscore",
+    "contrail-model"
 ], function (_, ContrailModel) {
     var DisksModel = ContrailModel.extend({
 

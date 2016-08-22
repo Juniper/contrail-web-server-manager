@@ -3,13 +3,13 @@
  */
 
 define([
-    'underscore',
-    'backbone',
-    'knockout',
-    'contrail-model',
-    'sm-basedir/setting/sm/ui/js/models/InterfacesModel',
-    'sm-basedir/setting/sm/ui/js/models/DisksModel',
-    'sm-basedir/setting/sm/ui/js/models/SwitchModel'
+    "underscore",
+    "backbone",
+    "knockout",
+    "contrail-model",
+    "sm-basedir/setting/sm/ui/js/models/InterfacesModel",
+    "sm-basedir/setting/sm/ui/js/models/DisksModel",
+    "sm-basedir/setting/sm/ui/js/models/SwitchModel"
 ], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, DiskModel, SwitchModel) {
     var ServerModel = ContrailModel.extend({
 
@@ -20,46 +20,46 @@ define([
             /*
                 Populating contrail and network objects if set to null
              */
-            if(modelConfig.contrail == null || modelConfig.contrail == '') {
+            if(modelConfig.contrail == null || modelConfig.contrail == "") {
                 modelConfig.contrail = {
-                    'control_data_interface': null
+                    "control_data_interface": null
                 };
             }
 
-            if(modelConfig.network == null || modelConfig.network == '') {
+            if(modelConfig.network == null || modelConfig.network == "") {
                 modelConfig.network = {
-                    'management_interface': null,
-                    'interfaces': []
+                    "management_interface": null,
+                    "interfaces": []
                 };
             }
-            if(modelConfig.top_of_rack == null || modelConfig.top_of_rack == '') {
+            if(modelConfig.top_of_rack == null || modelConfig.top_of_rack == "") {
                 modelConfig.top_of_rack = {
-                    'switches': []
+                    "switches": []
                 };
             }
 
             /*
                 Populating InterfaceModel from network.interfaces
              */
-            var interfaces = (modelConfig['network'] != null) ? (modelConfig['network']['interfaces']) : [],
+            var interfaces = (modelConfig["network"] != null) ? (modelConfig["network"]["interfaces"]) : [],
                 interfaceModels = [], interfaceModel,
                 interfaceCollectionModel;
 
             for(var i = 0; i < interfaces.length; i++) {
                 interfaceModel = new InterfaceModel(interfaces[i]);
-                interfaceModels.push(interfaceModel)
+                interfaceModels.push(interfaceModel);
             }
 
             interfaceCollectionModel = new Backbone.Collection(interfaceModels);
-            modelConfig['interfaces'] = interfaceCollectionModel;
-            if(modelConfig['network'] != null) {
-                delete modelConfig['network']['interfaces'];
+            modelConfig["interfaces"] = interfaceCollectionModel;
+            if(modelConfig["network"] != null) {
+                delete modelConfig["network"]["interfaces"];
             }
 
             /*
                 Populating SwitchModel from top_of_rack.switches
              */
-            var switches = (modelConfig['top_of_rack'] != null) ? (modelConfig['top_of_rack']['switches']) : [],
+            var switches = (modelConfig["top_of_rack"] != null) ? (modelConfig["top_of_rack"]["switches"]) : [],
                 switchModels = [], switchModel,
                 switchCollectionModel;
 
@@ -71,13 +71,13 @@ define([
                     delete switches[i].id;
                 }
                 switchModel = new SwitchModel(switches[i]);
-                switchModels.push(switchModel)
+                switchModels.push(switchModel);
             }
 
             switchCollectionModel = new Backbone.Collection(switchModels);
-            modelConfig['switches'] = switchCollectionModel;
-            if(modelConfig['top_of_rack'] != null) {
-                delete modelConfig['top_of_rack']['switches'];
+            modelConfig["switches"] = switchCollectionModel;
+            if(modelConfig["top_of_rack"] != null) {
+                delete modelConfig["top_of_rack"]["switches"];
             }
 
             /*
@@ -89,11 +89,11 @@ define([
 
             $.each(disks, function(diskKey, diskValue) {
                 diskModel = new DiskModel({disk: diskValue});
-                diskModels.push(diskModel)
+                diskModels.push(diskModel);
             });
 
             diskCollectionModel = new Backbone.Collection(diskModels);
-            modelConfig['disks'] = diskCollectionModel;
+            modelConfig["disks"] = diskCollectionModel;
             if(contrail.checkIfExist(modelConfig.parameters.disks)) {
                 delete modelConfig.parameters.provision.contrail.storage.storage_osd_disks;
             }
@@ -142,8 +142,8 @@ define([
         configure: function (checkedRows, callbackObj) {
             var validations = [
                 { key: null, type: cowc.OBJECT_TYPE_MODEL, getValidation: smwc.KEY_CONFIGURE_VALIDATION },
-                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } },
-                { key: 'switches', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: 'topOfRackValidation' }
+                { key: "interfaces", type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + "Validation"); } },
+                { key: "switches", type: cowc.OBJECT_TYPE_COLLECTION, getValidation: "topOfRackValidation" }
             ];
 
             if (this.isDeepValid(validations)) {
@@ -174,26 +174,26 @@ define([
                 delete serverAttrs.disks;
                 delete serverAttrs.switches;
 
-                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
+                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
 
-                serverAttrsEdited['network']['interfaces'] = interfaces;
-                delete serverAttrsEdited['interfaces'];
+                serverAttrsEdited["network"]["interfaces"] = interfaces;
+                delete serverAttrsEdited["interfaces"];
 
-                serverAttrsEdited['top_of_rack'] = {switches : switches};
-                delete serverAttrsEdited['switches'];
+                serverAttrsEdited["top_of_rack"] = {switches : switches};
+                delete serverAttrsEdited["switches"];
 
                 serverAttrsEdited.parameters.provision.contrail.storage.storage_osd_disks = disks;
-                delete serverAttrsEdited['disks'];
+                delete serverAttrsEdited["disks"];
 
                 for (var i = 0; i < checkedRows.length; i++) {
                     /* START handling for storage chassis id */
-                    serverAttrsEdited['parameters'] = smwu.handleChassisId(serverAttrsEdited['parameters']);
+                    serverAttrsEdited["parameters"] = smwu.handleChassisId(serverAttrsEdited["parameters"]);
                     /* END handling for storage chassis id */
                     serversEdited.push(serverAttrsEdited);
                 }
 
                 putData[smwc.SERVER_PREFIX_ID] = serversEdited;
-                if(originalAttrs['cluster_id'] != serverAttrsEdited['cluster_id']) {
+                if(originalAttrs["cluster_id"] != serverAttrsEdited["cluster_id"]) {
                     smwu.removeRolesFromServers(putData);
                 }
 
@@ -229,13 +229,13 @@ define([
                 locks = this.model().attributes.locks.attributes,
                 that = this;
 
-            serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
+            serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
             $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
 
                 /* START handling for storage chassis id */
-                if(_.has(serverAttrsEdited, 'parameters')){
-                    if(_.has(serverAttrsEdited['parameters'], 'storage_chassis_id') || _.has(serverAttrsEdited['parameters'], 'storage_chassis_id_input')){
-                        serverAttrsEdited['parameters'] = smwu.handleChassisId(serverAttrsEdited['parameters']);
+                if(_.has(serverAttrsEdited, "parameters")){
+                    if(_.has(serverAttrsEdited["parameters"], "storage_chassis_id") || _.has(serverAttrsEdited["parameters"], "storage_chassis_id_input")){
+                        serverAttrsEdited["parameters"] = smwu.handleChassisId(serverAttrsEdited["parameters"]);
                     }
                 }
                 /* END handling for storage chassis id */
@@ -267,8 +267,8 @@ define([
         createServer: function (callbackObj, ajaxMethod) {
             var validations = [
                 { key: null, type: cowc.OBJECT_TYPE_MODEL, getValidation: smwc.KEY_CONFIGURE_VALIDATION },
-                { key: 'interfaces', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + 'Validation'); } },
-                { key: 'switches', type: cowc.OBJECT_TYPE_COLLECTION, getValidation: 'topOfRackValidation'}
+                { key: "interfaces", type: cowc.OBJECT_TYPE_COLLECTION, getValidation: function (interfaceModel) { return (interfaceModel.attributes.type() + "Validation"); } },
+                { key: "switches", type: cowc.OBJECT_TYPE_COLLECTION, getValidation: "topOfRackValidation"}
             ];
 
             if (this.isDeepValid(validations)) {
@@ -298,15 +298,15 @@ define([
                 delete serverAttrs.disks;
                 delete serverAttrs.switches;
 
-                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks,  serverSchema, '');
+                serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
 
-                serverAttrsEdited['network']['interfaces'] = interfaces;
-                delete serverAttrsEdited['interfaces'];
+                serverAttrsEdited["network"]["interfaces"] = interfaces;
+                delete serverAttrsEdited["interfaces"];
                 serverAttrsEdited.parameters.disks = disks;
-                delete serverAttrsEdited['disks'];
+                delete serverAttrsEdited["disks"];
 
-                serverAttrsEdited['top_of_rack'] = {switches : switches};
-                delete serverAttrsEdited['switches'];
+                serverAttrsEdited["top_of_rack"] = {switches : switches};
+                delete serverAttrsEdited["switches"];
 
                 serversCreated.push(serverAttrsEdited);
 
@@ -341,11 +341,11 @@ define([
             if (this.model().isValid(true, smwc.KEY_CONFIGURE_VALIDATION)) {
                 var serverAttrs = this.model().attributes,
                     putData = {}, servers = [],
-                    roles = serverAttrs['roles'].split(','),
+                    roles = serverAttrs["roles"].split(","),
                     that = this;
 
                 for (var i = 0; i < checkedRows.length; i++) {
-                    servers.push({'id': checkedRows[i]['id'], 'roles': roles});
+                    servers.push({"id": checkedRows[i]["id"], "roles": roles});
                 }
                 putData[smwc.SERVER_PREFIX_ID] = servers;
 
@@ -383,7 +383,7 @@ define([
                     that = this;
 
                 contrail.ajaxHandler({
-                    type: 'GET',
+                    type: "GET",
                     url: smwc.URL_TAG_NAMES
                 }, function () {
                 }, function (response) {
@@ -398,10 +398,10 @@ define([
                     delete serverAttrs.disks;
                     delete serverAttrs.switches;
 
-                    serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, '');
+                    serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
 
                     $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
-                        serversEdited.push({'id': checkedRowsValue.id, 'tag': serverAttrsEdited['tag']});
+                        serversEdited.push({"id": checkedRowsValue.id, "tag": serverAttrsEdited["tag"]});
                     });
                     putData[smwc.SERVER_PREFIX_ID] = serversEdited;
 
@@ -425,7 +425,7 @@ define([
                     });
                 }, function (error) {
                     console.log(error);
-                    that.showErrorAttr(smwc.SERVER_PREFIX_ID + '_form', error.responseText);
+                    that.showErrorAttr(smwc.SERVER_PREFIX_ID + "_form", error.responseText);
                 });
             } else {
                 if (contrail.checkIfFunction(callbackObj.error)) {
@@ -441,7 +441,7 @@ define([
                     that = this;
 
                 for (var i = 0; i < checkedRows.length; i++) {
-                    servers.push({'id': checkedRows[i]['id'], 'base_image_id': serverAttrs['base_image_id']});
+                    servers.push({"id": checkedRows[i]["id"], "base_image_id": serverAttrs["base_image_id"]});
                 }
                 putData = servers;
                 ajaxConfig.type = "POST";
@@ -463,7 +463,7 @@ define([
                         callbackObj.error(error);
                     }
                 });
-            }  else {
+            } else {
                 if (contrail.checkIfFunction(callbackObj.error)) {
                     callbackObj.error(this.getFormErrorText(smwc.SERVER_PREFIX_ID));
                 }
@@ -477,7 +477,7 @@ define([
                     that = this;
 
                 for (var i = 0; i < checkedRows.length; i++) {
-                    servers.push({'id': checkedRows[i]['id'], 'package_image_id': serverAttrs['package_image_id']});
+                    servers.push({"id": checkedRows[i]["id"], "package_image_id": serverAttrs["package_image_id"]});
                 }
                 putData = servers;
 
@@ -510,10 +510,10 @@ define([
             var ajaxConfig = {}, that = this;
             ajaxConfig.type = "DELETE";
             // check if server to be deleted has a id else delete using mac address
-            if(contrail.checkIfExist(checkedRow) && contrail.checkIfExist(checkedRow['id'])) {
-                ajaxConfig.url = smwc.URL_OBJ_SERVER_ID + checkedRow['id'];
-            } else if (contrail.checkIfExist(checkedRow) && contrail.checkIfExist(checkedRow['mac_address'])){
-                ajaxConfig.url = smwc.URL_OBJ_SERVER_MAC_ADDRESS + checkedRow['mac_address'];
+            if(contrail.checkIfExist(checkedRow) && contrail.checkIfExist(checkedRow["id"])) {
+                ajaxConfig.url = smwc.URL_OBJ_SERVER_ID + checkedRow["id"];
+            } else if (contrail.checkIfExist(checkedRow) && contrail.checkIfExist(checkedRow["mac_address"])){
+                ajaxConfig.url = smwc.URL_OBJ_SERVER_MAC_ADDRESS + checkedRow["mac_address"];
             }
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
@@ -531,7 +531,7 @@ define([
             });
         },
         addInterface: function(type) {
-            var interfaces = this.model().attributes['interfaces'];
+            var interfaces = this.model().attributes["interfaces"];
             // ip_address is passed as null to avoid SM backend error
             var newInterface = new InterfaceModel({name: "", type: type, "ip_address" : null, "mac_address" : "", "default_gateway" : "", "dhcp" : true, member_interfaces: [], "tor" : "", "tor_port" : ""});
             interfaces.add([newInterface]);
@@ -543,7 +543,7 @@ define([
             interfaceCollection.remove(intf);
         },
         addSwitch: function() {
-            var switches = this.model().get('switches'),
+            var switches = this.model().get("switches"),
                 newSwitch = new SwitchModel({
                 "switch_id"       : "",
                 "ip_address"      : "",
@@ -584,12 +584,12 @@ define([
             return Knockout.computed(function () {
                 var kbInterfaces = this.interfaces(),
                     interfaces = this.model().attributes.interfaces,
-                    memberInterfaces = [], model, dhcp, interfaceType = '';
+                    memberInterfaces = [], model, dhcp, interfaceType = "";
                 for (var i = 0; i < interfaces.length; i++) {
                     model = interfaces.at(i);
                     dhcp = model.attributes.dhcp();
                     interfaceType = model.attributes.type();
-                    if (dhcp != true && model.attributes.name() != "" && (interfaceType !== 'bond')) {
+                    if (dhcp != true && model.attributes.name() != "" && (interfaceType !== "bond")) {
                         memberInterfaces.push(model.attributes.name());
                     }
                 }
@@ -650,7 +650,7 @@ define([
             }, this);
         },
         addDisk: function() {
-            var disks = this.model().attributes['disks'],
+            var disks = this.model().attributes["disks"],
                 newDisk = new DiskModel({disk: ""});
 
             disks.add([newDisk]);
@@ -669,16 +669,16 @@ define([
 
                 for (var i = 0; i < disks.length; i++) {
                     storageDisks.push(kbDisks[i]);
-                };
+                }
                 return storageDisks;
             }, this);
         },
         runInventory: function (checkedRow, callbackObj) {
             var ajaxConfig = {}, that = this,
-                serverId = checkedRow['id'];
+                serverId = checkedRow["id"];
 
             ajaxConfig.type = "POST";
-            ajaxConfig.url = smwc.URL_RUN_INVENTORY + '?id=' +serverId;
+            ajaxConfig.url = smwc.URL_RUN_INVENTORY + "?id=" +serverId;
 
             contrail.ajaxHandler(ajaxConfig, function () {
                 if (contrail.checkIfFunction(callbackObj.init)) {
@@ -698,39 +698,39 @@ define([
 
         validations: {
             reimageValidation: {
-                'base_image_id': {
+                "base_image_id": {
                     required: true,
-                    msg: smwm.getRequiredMessage('base_image_id')
+                    msg: smwm.getRequiredMessage("base_image_id")
                 }
             },
             provisionValidation: {
-                'package_image_id': {
+                "package_image_id": {
                     required: true,
-                    msg: smwm.getRequiredMessage('package_image_id')
+                    msg: smwm.getRequiredMessage("package_image_id")
                 }
             },
             configureValidation: {
-                'id': {
+                "id": {
                     required: true,
-                    msg: smwm.getRequiredMessage('id')
+                    msg: smwm.getRequiredMessage("id")
                 },
-                'network.management_interface': {
+                "network.management_interface": {
                     required: true,
-                    msg: smwm.getRequiredMessage('management_interface')
+                    msg: smwm.getRequiredMessage("management_interface")
                 },
-                'ipmi_address': {
+                "ipmi_address": {
                     required: true,
                     pattern: cowc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getInvalidErrorMessage('ipmi_address')
+                    msg: smwm.getInvalidErrorMessage("ipmi_address")
                 },
-                'password': {
+                "password": {
                     required: true,
-                    msg: smwm.getInvalidErrorMessage('password')
+                    msg: smwm.getInvalidErrorMessage("password")
                 },
-                'email': {
+                "email": {
                     required: false,
-                    pattern: 'email',
-                    msg: smwm.getInvalidErrorMessage('email')
+                    pattern: "email",
+                    msg: smwm.getInvalidErrorMessage("email")
                 }
             },
             editTagsValidation: {}

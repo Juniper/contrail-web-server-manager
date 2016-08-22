@@ -3,10 +3,10 @@
  */
 
 define([
-    'underscore',
-    'contrail-view',
-    'sm-basedir/setting/sm/ui/js/models/ServerModel',
-    'sm-basedir/setting/sm/ui/js/views/ServerEditView'
+    "underscore",
+    "contrail-view",
+    "sm-basedir/setting/sm/ui/js/models/ServerModel",
+    "sm-basedir/setting/sm/ui/js/views/ServerEditView"
 ], function (_, ContrailView, ServerModel, ServerEditView) {
     var serverEditView = new ServerEditView();
 
@@ -18,7 +18,7 @@ define([
     });
 
     var getServerTabViewConfig = function (viewConfig) {
-        var serverId = viewConfig['serverId'];
+        var serverId = viewConfig["serverId"];
 
         return {
             elementId: smwl.SM_SERVER_TAB_SECTION_ID,
@@ -31,22 +31,22 @@ define([
                                 elementId: smwl.SM_SERVER_TAB_ID,
                                 view: "TabsView",
                                 viewConfig: {
-                                    theme: 'overcast',
+                                    theme: "overcast",
                                     active: 0,
                                     activate: function (e, ui) {
                                         var selTab = $(ui.newTab.context).text();
                                         if (selTab == smwl.TITLE_INVENTORY) {
 
                                             cowu.checkAndRefreshContrailGrids([
-                                                $('#' + smwl.SM_SERVER_INVENTORY_INTERFACE_GRID_ID),
-                                                $('#' + smwl.SM_SERVER_INVENTORY_FRU_GRID_ID)
+                                                $("#" + smwl.SM_SERVER_INVENTORY_INTERFACE_GRID_ID),
+                                                $("#" + smwl.SM_SERVER_INVENTORY_FRU_GRID_ID)
                                             ]);
                                         } else if (selTab == smwl.TITLE_MONITORING) {
                                             cowu.checkAndRefreshContrailGrids([
-                                                $('#' + smwl.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID),
-                                                $('#' + smwl.SM_SERVER_MONITORING_SENSOR_GRID_ID),
-                                                $('#' + smwl.SM_SERVER_MONITORING_INTERFACE_GRID_ID),
-                                                $('#' + smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID)
+                                                $("#" + smwl.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID),
+                                                $("#" + smwl.SM_SERVER_MONITORING_SENSOR_GRID_ID),
+                                                $("#" + smwl.SM_SERVER_MONITORING_INTERFACE_GRID_ID),
+                                                $("#" + smwl.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID)
                                             ]);
                                         }
                                     },
@@ -58,7 +58,7 @@ define([
                                             viewConfig: {
                                                 ajaxConfig: {
                                                     url: smwu.getObjectDetailUrl(smwc.SERVER_PREFIX_ID) + "?id=" + serverId,
-                                                    type: 'GET'
+                                                    type: "GET"
                                                 },
                                                 templateConfig: smwdt.getServerDetailsTemplate(cowc.THEME_DETAIL_WIDGET, getDetailActionConfig(false)),
                                                 app: cowc.APP_CONTRAIL_SM,
@@ -97,7 +97,7 @@ define([
                     }
                 ]
             }
-        }
+        };
     };
 
     var getDetailActionConfig = function(showAssignRoles) {
@@ -105,24 +105,24 @@ define([
             smwgc.getConfigureAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_CONFIG + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_EDIT_CONFIG + " ("+ dataItem["id"] +")";
 
                 serverEditView.model = serverModel;
                 serverEditView.renderConfigure({"title": title, checkedRows: checkedRow, callback: function () {
-                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem["id"]}});
                 }});
             }),
             smwgc.getTagAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_EDIT_TAGS + " ("+ dataItem["id"] +")";
 
                 serverEditView.model = serverModel;
                 serverEditView.renderTagServers({
                     title: title,
                     checkedRows: checkedRow,
                     callback: function () {
-                        loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                        loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem["id"]}});
                     },
                     lockEditingByDefault: false
                 });
@@ -133,11 +133,11 @@ define([
             rowActionConfig.push(smwgc.getAssignRoleAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_ASSIGN_ROLES + " ("+ dataItem["id"] +")";
 
                 serverEditView.model = serverModel;
                 serverEditView.renderAssignRoles({"title": title, checkedRows: checkedRow, callback: function () {
-                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem["id"]}});
                 }});
             }));
         }
@@ -146,37 +146,37 @@ define([
             smwgc.getReimageAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_REIMAGE + " ("+ dataItem["id"] +")";
 
                 serverEditView.model = serverModel;
                 serverEditView.renderReimage({"title": title, checkedRows: checkedRow, callback: function () {
-                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem["id"]}});
                 }});
             }, true),
             smwgc.getProvisionAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_PROVISION_SERVER + " ("+ dataItem["id"] +")";
 
                 serverEditView.model = serverModel;
                 serverEditView.renderProvisionServers({"title": title, checkedRows: checkedRow, callback: function () {
-                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem["id"]}});
                 }});
             }),
             smwgc.getRunInventoryAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_REFRESH_INVENTORY + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_REFRESH_INVENTORY + " ("+ dataItem["id"] +")";
 
                 serverEditView.model = serverModel;
                 serverEditView.renderRunInventory({"title": title, checkedRows: checkedRow, callback: function () {
-                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem['id']}});
+                    loadFeature({p: smwc.URL_HASH_SM_SERVERS, q: {server_id: dataItem["id"]}});
                 }});
             }),
             smwgc.getDeleteAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')';
+                    title = smwl.TITLE_DEL_SERVER + " ("+ dataItem["id"] +")";
 
                 serverEditView.model = serverModel;
                 serverEditView.renderDeleteServer({"title": title, checkedRows: checkedRow, callback: function () {
@@ -188,8 +188,8 @@ define([
         return [
             {
                 title: smwl.TITLE_EDIT_SERVER_CONFIG,
-                iconClass: 'fa fa-cog',
-                type: 'dropdown',
+                iconClass: "fa fa-cog",
+                type: "dropdown",
                 optionList: rowActionConfig
             }
         ];

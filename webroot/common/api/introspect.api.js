@@ -3,10 +3,10 @@
  */
 
 
-var  rest = require(process.mainModule.exports["corePath"] + '/src/serverroot/common/rest.api');
+var rest = require(process.mainModule.exports["corePath"] + "/src/serverroot/common/rest.api");
 
-var smConfig = require('../../common/api/sm.config'),
-    smConstants = require('../../common/api/sm.constants'),
+var smConfig = require("../../common/api/sm.config"),
+    smConstants = require("../../common/api/sm.constants"),
     introspect = module.exports;
 
 var smIntrospectIP = smConfig.sm.introspect_ip,

@@ -3,8 +3,8 @@
  */
 
 define([
-    'underscore',
-    'contrail-model'
+    "underscore",
+    "contrail-model"
 ], function (_, ContrailModel) {
     var InterfacesModel = ContrailModel.extend({
 
@@ -24,46 +24,46 @@ define([
 
         validations: {
             physicalValidation: {
-                'name': {
+                "name": {
                     required: true,
-                    msg: smwm.getRequiredMessage('name')
+                    msg: smwm.getRequiredMessage("name")
                 },
-                'ip_address': {
+                "ip_address": {
                     required: false,
                     pattern: cowc.PATTERN_SUBNET_MASK,
-                    msg: smwm.getShortInvalidErrorMessage('ip_address')
+                    msg: smwm.getShortInvalidErrorMessage("ip_address")
                 },
-                'mac_address': {
+                "mac_address": {
                     required: true,
                     pattern: cowc.PATTERN_MAC_ADDRESS,
-                    msg: smwm.getShortInvalidErrorMessage('mac_address')
+                    msg: smwm.getShortInvalidErrorMessage("mac_address")
                 },
-                'default_gateway': {
+                "default_gateway": {
                     required: false,
                     pattern: cowc.PATTERN_IP_ADDRESS,
-                    msg: smwm.getShortInvalidErrorMessage('gateway')
+                    msg: smwm.getShortInvalidErrorMessage("gateway")
                 }
             },
             bondValidation: {
-                'name': {
+                "name": {
                     required: true,
-                    msg: smwm.getRequiredMessage('name')
+                    msg: smwm.getRequiredMessage("name")
                 },
-                'ip_address': {
+                "ip_address": {
                     required: true,
                     pattern: cowc.PATTERN_SUBNET_MASK,
-                    msg: smwm.getShortInvalidErrorMessage('ip_address')
+                    msg: smwm.getShortInvalidErrorMessage("ip_address")
                 }
             },
             subinterfaceValidation: {
-                'name': {
+                "name": {
                     required: true,
-                    msg: smwm.getRequiredMessage('name')
+                    msg: smwm.getRequiredMessage("name")
                 },
-                'ip_address': {
+                "ip_address": {
                     required: false,
                     pattern: cowc.PATTERN_SUBNET_MASK,
-                    msg: smwm.getShortInvalidErrorMessage('ip_address')
+                    msg: smwm.getShortInvalidErrorMessage("ip_address")
                 }
             }
         }

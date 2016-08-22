@@ -3,9 +3,9 @@
  */
 
 define([
-    'underscore',
-    'contrail-view',
-    'contrail-list-model'
+    "underscore",
+    "contrail-view",
+    "contrail-list-model"
 ], function (_, ContrailView, ContrailListModel) {
     var ImageListView = ContrailView.extend({
         el: $(contentContainer),
@@ -16,7 +16,7 @@ define([
             var listModelConfig = {
                 remote: {
                     ajaxConfig: {
-                        url: smwu.getObjectDetailUrl(prefixId, 'filterInImages')
+                        url: smwu.getObjectDetailUrl(prefixId, "filterInImages")
                     }
                 },
                 cacheConfig: {
@@ -48,7 +48,7 @@ define([
                     }
                 ]
             }
-        }
+        };
     };
 
     return ImageListView;

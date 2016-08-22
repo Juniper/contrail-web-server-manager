@@ -3,81 +3,81 @@
  */
 
 define([
-    'underscore'
+    "underscore"
 ], function (_) {
     var GridConfig = function () {
-        this.GRID_HEADER_ACTION_TYPE_ACTION = 'action';
-        this.GRID_HEADER_ACTION_TYPE_DROPLIST = 'action-droplist';
+        this.GRID_HEADER_ACTION_TYPE_ACTION = "action";
+        this.GRID_HEADER_ACTION_TYPE_DROPLIST = "action-droplist";
 
         this.IMAGE_COLUMNS = [
-            {id: "image_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "image_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: "word-break-normal"},
             {id: "category", field: "category", name: "Category", width: 60, minWidth: 50},
             {id: "image_type", field: "type", name: "Type", width: 120, minWidth: 100},
-            {id: "image_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
-            {id: "image_path", field: "path", name: "Path", width: 300, minWidth: 100, cssClass: 'word-break-normal'}
+            {id: "image_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: "word-break-normal"},
+            {id: "image_path", field: "path", name: "Path", width: 300, minWidth: 100, cssClass: "word-break-normal"}
         ];
 
         this.PACKAGE_COLUMNS = [
-            {id: "package_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: 'word-break-normal'},
+            {id: "package_id", field: "id", name: "ID", width: 120, minWidth: 100, cssClass: "word-break-normal"},
             {id: "package_category", field: "category", name: "Category", width: 60, minWidth: 50},
             {id: "package_type", field: "type", name: "Type", width: 120, minWidth: 100},
-            {id: "package_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: 'word-break-normal'},
-            {id: "package_path", field: "path", name: "Path", width: 300, minWidth: 100, cssClass: 'word-break-normal'}
+            {id: "package_version", field: "version", name: "Version", width: 120, minWidth: 50, cssClass: "word-break-normal"},
+            {id: "package_path", field: "path", name: "Path", width: 300, minWidth: 100, cssClass: "word-break-normal"}
         ];
 
         this.CLUSTER_COLUMNS = [
-            { id: "cluster_id", field: "id", name: "ID", width: 150, minWidth: 100, cssClass: 'cell-hyperlink-blue', events: {
+            { id: "cluster_id", field: "id", name: "ID", width: 150, minWidth: 100, cssClass: "cell-hyperlink-blue", events: {
                 onClick: function (e, dc) {
-                    loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['id']}});
+                    loadFeature({p: "setting_sm_clusters", q: {"cluster_id": dc["id"]}});
                 }
             }},
-            { id: "new-servers", field: "", name: "New", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "new-servers", field: "", name: "New", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams['servers_status'];
-                    return serverStatus['new_servers'];
+                        serverStatus = uiParams["servers_status"];
+                    return serverStatus["new_servers"];
                 }
             },
-            { id: "configured-servers", field: "", name: "Configured", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "configured-servers", field: "", name: "Configured", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams['servers_status'];
-                    return serverStatus['configured_servers'];
+                        serverStatus = uiParams["servers_status"];
+                    return serverStatus["configured_servers"];
                 }
             },
-            { id: "inreimage_servers", field: "", name: "In-Reimage", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "inreimage_servers", field: "", name: "In-Reimage", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams['servers_status'];
-                    return serverStatus['inreimage_servers'];
+                        serverStatus = uiParams["servers_status"];
+                    return serverStatus["inreimage_servers"];
                 }
             },
-            { id: "reimaged_servers", field: "", name: "Reimaged", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "reimaged_servers", field: "", name: "Reimaged", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams['servers_status'];
-                    return serverStatus['reimaged_servers'];
+                        serverStatus = uiParams["servers_status"];
+                    return serverStatus["reimaged_servers"];
                 }
             },
-            { id: "inprovision_servers", field: "", name: "In-Provision", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "inprovision_servers", field: "", name: "In-Provision", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams['servers_status'];
-                    return serverStatus['inprovision_servers'];
+                        serverStatus = uiParams["servers_status"];
+                    return serverStatus["inprovision_servers"];
                 }
             },
-            { id: "provisioned-servers", field: "", name: "Provisioned", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "provisioned-servers", field: "", name: "Provisioned", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams['servers_status'];
-                    return serverStatus['provisioned_servers'];
+                        serverStatus = uiParams["servers_status"];
+                    return serverStatus["provisioned_servers"];
                 }
             },
-            { id: "total-servers", field: "", name: "Total", width: 120, minWidth: 80, sortable : {sortBy: 'formattedValue'},
+            { id: "total-servers", field: "", name: "Total", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams['servers_status'];
-                    return serverStatus['total_servers'];
+                        serverStatus = uiParams["servers_status"];
+                    return serverStatus["total_servers"];
                 }
             }
         ];
@@ -88,15 +88,15 @@ define([
             {
                 id: "reading", field: "reading", name: "Reading", width: 120, minWidth: 15,
                 formatter: function (r, c, v, cd, dc) {
-                    var unit = dc['unit'],
-                        reading = dc['reading'];
+                    var unit = dc["unit"],
+                        reading = dc["reading"];
                     return reading + " " + unit;
                 }
             },
             {
                 id: "status", field: "status", name: "Status", width: 120, minWidth: 15,
                 formatter: function(r, c, v, cd, dc) {
-                    return cowf.getFormattedValue('status-state', dc.status)
+                    return cowf.getFormattedValue("status-state", dc.status);
                 }
             }
         ];
@@ -110,10 +110,10 @@ define([
         this.SERVER_DISKUSAGE_COLUMNS = [
             {id: "disk_name", field: "disk_name", name: "Disk Name", width: 80, minWidth: 15},
             {id: "total_read_bytes", field: "total_read_bytes", name: "Read", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['total_read_bytes'], false, null, 1);
+                return formatBytes(dc["total_read_bytes"], false, null, 1);
             }},
             {id: "total_write_bytes", field: "total_write_bytes", name: "Write", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['total_write_bytes'], false, null, 1);
+                return formatBytes(dc["total_write_bytes"], false, null, 1);
              }}
         ];
 
@@ -121,11 +121,11 @@ define([
             {id: "fs_name", field: "fs_name", name: "Name", width: 80, minWidth: 15},
             {id: "type", field: "type", name: "Type", width: 80, minWidth: 15},
             {id: "size_kb", field: "size_kb", name: "Size", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['size_kb'] * 1024, false, null, 1);
+                return formatBytes(dc["size_kb"] * 1024, false, null, 1);
             }},
             {id: "used_percentage", field: "used_percentage", name: "Used", width: 80, minWidth: 15,
                 formatter: function(r, c, v, cd, dc) {
-                    return cowf.getFormattedValue('alert-percentage', dc.used_percentage)
+                    return cowf.getFormattedValue("alert-percentage", dc.used_percentage);
                 }
             }
         ];
@@ -140,23 +140,23 @@ define([
         this.SERVER_MONITORING_INTERFACE_COLUMNS = [
             {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
             {id: "total_tx_bytes", field: "total_tx_bytes", name: "TX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['total_tx_bytes'], false, null, 1);
+                return formatBytes(dc["total_tx_bytes"], false, null, 1);
             }},
             {id: "total_tx_packets", field: "total_tx_packets", name: "TX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(',')(dc['total_tx_packets']);
+                return d3.format(",")(dc["total_tx_packets"]);
             }},
             {id: "total_rx_bytes", field: "total_rx_bytes", name: "RX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc['total_rx_bytes'], false, null, 1);
+                return formatBytes(dc["total_rx_bytes"], false, null, 1);
             }},
             {id: "total_rx_packets", field: "total_rx_packets", name: "RX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(',')(dc['total_rx_packets']);
+                return d3.format(",")(dc["total_rx_packets"]);
             }}
         ];
 
         this.getConfigureAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_CONFIG,
-                iconClass: 'fa fa-edit',
+                iconClass: "fa fa-edit",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -166,7 +166,7 @@ define([
         this.getConfigureJSONAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_JSON,
-                iconClass: 'fa fa-code',
+                iconClass: "fa fa-code",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -176,7 +176,7 @@ define([
         this.getAddServersAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_ADD_SERVERS,
-                iconClass: 'fa fa-plus',
+                iconClass: "fa fa-plus",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -186,7 +186,7 @@ define([
         this.getRemoveServersAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_REMOVE_SERVERS,
-                iconClass: 'fa fa-minus',
+                iconClass: "fa fa-minus",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -196,7 +196,7 @@ define([
         this.getReimageAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_REIMAGE,
-                iconClass: 'fa fa-upload',
+                iconClass: "fa fa-upload",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -206,7 +206,7 @@ define([
         this.getProvisionAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_PROVISION,
-                iconClass: 'fa fa-cloud-upload',
+                iconClass: "fa fa-cloud-upload",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -216,7 +216,7 @@ define([
         this.getTagAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_TAGS,
-                iconClass: 'fa fa-tags',
+                iconClass: "fa fa-tags",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -226,7 +226,7 @@ define([
         this.getAssignRoleAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_ASSIGN_ROLES,
-                iconClass: 'fa fa-check-square-o',
+                iconClass: "fa fa-check-square-o",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -236,7 +236,7 @@ define([
         this.getDeleteAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_DELETE,
-                iconClass: 'fa fa-trash',
+                iconClass: "fa fa-trash",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -246,7 +246,7 @@ define([
         this.getRunInventoryAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_REFRESH_INVENTORY,
-                    iconClass: 'fa fa-refresh',
+                    iconClass: "fa fa-refresh",
                 width: 80,
                 divider: contrail.checkIfExist(divider) ? divider : false,
                 onClick: onClickFunction
@@ -260,13 +260,13 @@ define([
                 name: "Roles",
                 width: width,
                 minWidth: width,
-                sortable: {sortBy: 'formattedValue'},
+                sortable: {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
-                    var roles = (contrail.checkIfExist(dc['roles'])) ? dc['roles'] : [], formattedRoles = [];
+                    var roles = (contrail.checkIfExist(dc["roles"])) ? dc["roles"] : [], formattedRoles = [];
                     for (var i = 0; i < roles.length; i++) {
                         formattedRoles.push(smwl.getFirstCharUpperCase(roles[i]));
                     }
-                    return formattedRoles.join(', ');
+                    return formattedRoles.join(", ");
                 },
                 exportConfig: {
                     allow: true
@@ -283,9 +283,9 @@ define([
         this.getServerColumns = function (serverColumnsType) {
             var serverColumns,
                 commonColumnsSet1 = [
-                    { id: "server_id", field: "id", name: "ID", width: 80, minWidth: 80, cssClass: 'cell-hyperlink-blue', events: {
+                    { id: "server_id", field: "id", name: "ID", width: 80, minWidth: 80, cssClass: "cell-hyperlink-blue", events: {
                         onClick: function (e, dc) {
-                            loadFeature({p: 'setting_sm_servers', q: {'server_id': dc['id']}});
+                            loadFeature({p: "setting_sm_servers", q: {"server_id": dc["id"]}});
                         }
                     } }
                 ],
@@ -319,9 +319,9 @@ define([
 
             if (serverColumnsType == smwc.SERVER_PREFIX_ID) {
                 serverColumns = commonColumnsSet1.concat([
-                    { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 80, cssClass: 'cell-hyperlink-blue', events: {
+                    { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 80, cssClass: "cell-hyperlink-blue", events: {
                         onClick: function (e, dc) {
-                            loadFeature({p: 'setting_sm_clusters', q: {'cluster_id': dc['cluster_id']}});
+                            loadFeature({p: "setting_sm_clusters", q: {"cluster_id": dc["cluster_id"]}});
                         }
                     }}
                 ]);
@@ -330,12 +330,12 @@ define([
                     {
                         id: "status", field: "status", name: "Status", width: 120, minWidth: 120,
                         formatter: function (r, c, v, cd, dc) {
-                            var status = smwl.get(dc['status']);
-                            if (status == 'Provision Completed') {
+                            var status = smwl.get(dc["status"]);
+                            if (status == "Provision Completed") {
                                 return '<div class="status-badge-rounded status-server-provision-completed"></div> ' + status;
-                            } else if (status == 'Server Added') {
+                            } else if (status == "Server Added") {
                                 return '<div class="status-badge-rounded status-server-added"></div> ' + status;
-                            } else if (status == 'Server Discovered') {
+                            } else if (status == "Server Discovered") {
                                 return '<div class="status-badge-rounded status-server-discovered"></div> ' + status;
                             } else {
                                 return '<div class="status-badge-rounded status-server-other"></div> ' + status;
@@ -351,10 +351,10 @@ define([
                     {
                         id: "status", field: "status", name: "Status", width: 120, minWidth: 120,
                         formatter: function (r, c, v, cd, dc) {
-                            var status = smwl.get(dc['status']);
-                            if (status == 'Provision Completed') {
+                            var status = smwl.get(dc["status"]);
+                            if (status == "Provision Completed") {
                                 return '<div class="status-badge-rounded status-active"></div> ' + status;
-                            } else if (status == 'Server Added') {
+                            } else if (status == "Server Added") {
                                 return '<div class="status-badge-rounded status-idle"></div> ' + status;
                             } else {
                                 return '<div class="status-badge-rounded status-spawning"></div> ' + status;
@@ -365,7 +365,7 @@ define([
                 serverColumns = serverColumns.concat([
                     { id: "provisioned_id", field: "provisioned_id", name: "Provisioned Id", width: 120, minWidth: 120,
                         formatter: function (r, c, v, cd, dc) {
-                            return (contrail.checkIfExist(dc['provisioned_id'])) ? smwl.get(dc['provisioned_id']) : '-';
+                            return (contrail.checkIfExist(dc["provisioned_id"])) ? smwl.get(dc["provisioned_id"]) : "-";
                         }
                     }
                 ]);
@@ -379,8 +379,8 @@ define([
         };
 
         this.getServerMonitoringHLazyRemoteConfig = function (viewConfig, dataParser) {
-            var queryString = contrail.checkIfExist(viewConfig['hashParams']) ? smwu.getQueryString4ServersUrl(viewConfig['hashParams']) : '',
-                hashParams = viewConfig['hashParams'];
+            var queryString = contrail.checkIfExist(viewConfig["hashParams"]) ? smwu.getQueryString4ServersUrl(viewConfig["hashParams"]) : "",
+                hashParams = viewConfig["hashParams"];
 
             queryString = queryString.replace("?", "");
 
@@ -398,10 +398,10 @@ define([
                 }
             };
 
-            if (queryString == '') {
-                listModelConfig['cacheConfig']['ucid'] = smwc.UCID_ALL_SERVER_MONITORING_SUMMARY_LIST;
-            } else if (hashParams['cluster_id'] != null && hashParams['tag'] == null) {
-                listModelConfig['cacheConfig']['ucid'] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_SUMMARY_LIST, hashParams['cluster_id']);
+            if (queryString == "") {
+                listModelConfig["cacheConfig"]["ucid"] = smwc.UCID_ALL_SERVER_MONITORING_SUMMARY_LIST;
+            } else if (hashParams["cluster_id"] != null && hashParams["tag"] == null) {
+                listModelConfig["cacheConfig"]["ucid"] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_SUMMARY_LIST, hashParams["cluster_id"]);
             }
 
             return listModelConfig;
@@ -410,34 +410,34 @@ define([
         this.getBaremetalServerColumns = function (baremetalServerColumnsType) {
             var serverColumns =
                 [{
-                    id: 'serverId',
-                    field: 'serverId',
-                    name: 'Server'
+                    id: "serverId",
+                    field: "serverId",
+                    name: "Server"
                 },
                 {
-                    id: 'mac',
-                    field: 'mac',
-                    name: 'Mac Address'
+                    id: "mac",
+                    field: "mac",
+                    name: "Mac Address"
                 },
                 {
-                    id: 'ip',
-                    field: 'ip',
-                    name: 'IP Address'
+                    id: "ip",
+                    field: "ip",
+                    name: "IP Address"
                 },
                 {
-                    id: 'physical_router',
-                    field: 'physical_router',
-                    name: 'Physical Router'
+                    id: "physical_router",
+                    field: "physical_router",
+                    name: "Physical Router"
                 },
                 {
-                    id: 'interface',
-                    field: 'interface',
-                    name: 'Interface'
+                    id: "interface",
+                    field: "interface",
+                    name: "Interface"
                 },
                 {
-                    id: 'vn',
-                    field: 'vn',
-                    name: 'Virtual Network'
+                    id: "vn",
+                    field: "vn",
+                    name: "Virtual Network"
                 }];
             return serverColumns;
         };

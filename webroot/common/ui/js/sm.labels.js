@@ -3,7 +3,7 @@
  */
 
 define([
-    'underscore'
+    "underscore"
 ], function (_) {
     var Labels = function () {
         this.get = function (key) {
@@ -11,7 +11,7 @@ define([
             if (_.has(labelMap, key)) {
                 return labelMap[key];
             } else {
-                keyArray = key.split('.');
+                keyArray = key.split(".");
                 newKey = keyArray[keyArray.length - 1];
                 if (keyArray.length > 1 && _.has(labelMap, newKey)) {
                     return labelMap[newKey];
@@ -27,7 +27,7 @@ define([
             if (_.has(labelMap, key)) {
                 return true;
             } else {
-                keyArray = key.split('.');
+                keyArray = key.split(".");
                 newKey = keyArray[keyArray.length - 1];
                 if (keyArray.length > 1 && _.has(labelMap, newKey)) {
                     return true;
@@ -60,7 +60,7 @@ define([
             //General
             "id": "ID",
             "dhcp": "DHCP",
-            'email': 'Email',
+            "email": "Email",
             "domain": "Domain",
             "gateway": "Gateway",
             "ip_address": "IP Address",
@@ -77,7 +77,7 @@ define([
             "ipmi_password": "IPMI Password",
             "ipmi_interface": "IPMI Interface",
             "base_image_id": "Configured OS Image",
-            'baremetal_edit_vn' : 'Virtual Network',
+            "baremetal_edit_vn" : "Virtual Network",
             "reimaged_id": "Installed OS Image",
             "package_image_id": "Configured Package",
             "storage_repo_id": "Storage Repo ID",
@@ -270,7 +270,7 @@ define([
         this.TITLE_REIMAGE = "Reimage";
         this.TITLE_FILTER = "Filter";
         this.TITLE_SELECT = "Select";
-        this.TITLE_CONFIRM = 'Confirm';
+        this.TITLE_CONFIRM = "Confirm";
         this.TITLE_PROVISION = "Provision";
         this.TITLE_PROVISIONING = "Provisioning";
         this.TITLE_TAG = "Tag";
@@ -278,109 +278,109 @@ define([
         this.TITLE_ROLE = "Role";
         this.TITLE_ROLES = "Roles";
         this.TITLE_DELETE = "Delete";
-        this.TITLE_CONFIGURE = 'Configure';
-        this.TITLE_CREATE = 'Create';
+        this.TITLE_CONFIGURE = "Configure";
+        this.TITLE_CREATE = "Create";
         this.TITLE_REFRESH_INVENTORY = "Refresh Inventory";
 
-        this.TITLE_CLUSTERS = 'Clusters';
-        this.TITLE_CLUSTER = 'Cluster';
-        this.TITLE_SERVERS = 'Servers';
-        this.TITLE_SERVER_FRU_INFO = 'FRU Information';
-        this.TITLE_SERVER_INTERFACE_INFO = 'Interface Information';
-        this.TITLE_SERVER_SENSORS = 'Sensors';
-        this.TITLE_SERVER_MONITORING_INTERFACE = 'Interface Monitoring';
-        this.TITLE_SERVER_DISK_USAGE = 'Disk Usage';
-        this.TITLE_SERVER_FILE_SYSTEM = 'File System';
-        this.TITLE_CPU_MEM_INFO = 'CPU/Memory Information';
-        this.TITLE_SERVER = 'Server';
-        this.TITLE_IMAGES = 'OS Images';
-        this.TITLE_IMAGE = 'OS Image';
-        this.TITLE_PACKAGES = 'Packages';
-        this.TITLE_PACKAGE = 'Package';
-        this.TITLE_BAREMETAL_SERVERS = 'Baremetal Servers';
-        this.TITLE_MONITORING = 'Monitoring';
-        this.TITLE_INVENTORY = 'Inventory';
+        this.TITLE_CLUSTERS = "Clusters";
+        this.TITLE_CLUSTER = "Cluster";
+        this.TITLE_SERVERS = "Servers";
+        this.TITLE_SERVER_FRU_INFO = "FRU Information";
+        this.TITLE_SERVER_INTERFACE_INFO = "Interface Information";
+        this.TITLE_SERVER_SENSORS = "Sensors";
+        this.TITLE_SERVER_MONITORING_INTERFACE = "Interface Monitoring";
+        this.TITLE_SERVER_DISK_USAGE = "Disk Usage";
+        this.TITLE_SERVER_FILE_SYSTEM = "File System";
+        this.TITLE_CPU_MEM_INFO = "CPU/Memory Information";
+        this.TITLE_SERVER = "Server";
+        this.TITLE_IMAGES = "OS Images";
+        this.TITLE_IMAGE = "OS Image";
+        this.TITLE_PACKAGES = "Packages";
+        this.TITLE_PACKAGE = "Package";
+        this.TITLE_BAREMETAL_SERVERS = "Baremetal Servers";
+        this.TITLE_MONITORING = "Monitoring";
+        this.TITLE_INVENTORY = "Inventory";
 
-        this.SENSORS_INFO = 'Sensors Information';
-        this.SELECT_CLUSTER = 'Select Cluster';
-        this.SELECT_TYPE = 'Select Type';
-        this.SELECT_PARENT_INTERFACE = 'Select Parent';
-        this.SELECT_PROTOCOL = 'Select Protocol';
-        this.SELECT_MEMBERS = 'Select Members';
-        this.TITLE_ADD_CLUSTER = 'Add Cluster';
-        this.TITLE_DEL_CLUSTER = 'Delete Cluster';
-        this.TITLE_DEL_CLUSTERS = 'Delete Clusters';
-        this.TITLE_ADD_SERVER = 'Add Server';
-        this.TITLE_ADD_SERVERS = 'Add Servers';
-        this.TITLE_REMOVE_SERVERS = 'Remove Servers';
-        this.TITLE_ADD_SERVERS_TO_CLUSTER = 'Add Servers to Cluster';
-        this.TITLE_ADD_TAGS = 'Add Tags';
-        this.TITLE_ADD_IMAGE = 'Add OS Image';
-        this.TITLE_ADD_PACKAGE = 'Add Package';
-        this.TITLE_PROVISION_CLUSTER = 'Provision Cluster';
-        this.TITLE_ADD_TO_CLUSTER = 'Add to Cluster';
-        this.TITLE_REMOVE_FROM_CLUSTER = 'Remove from Cluster';
-        this.TITLE_EDIT_CLUSTER_CONFIG = 'Edit Cluster Configurations';
-        this.TITLE_REFRESH_INVENTORY = 'Refresh Inventory';
+        this.SENSORS_INFO = "Sensors Information";
+        this.SELECT_CLUSTER = "Select Cluster";
+        this.SELECT_TYPE = "Select Type";
+        this.SELECT_PARENT_INTERFACE = "Select Parent";
+        this.SELECT_PROTOCOL = "Select Protocol";
+        this.SELECT_MEMBERS = "Select Members";
+        this.TITLE_ADD_CLUSTER = "Add Cluster";
+        this.TITLE_DEL_CLUSTER = "Delete Cluster";
+        this.TITLE_DEL_CLUSTERS = "Delete Clusters";
+        this.TITLE_ADD_SERVER = "Add Server";
+        this.TITLE_ADD_SERVERS = "Add Servers";
+        this.TITLE_REMOVE_SERVERS = "Remove Servers";
+        this.TITLE_ADD_SERVERS_TO_CLUSTER = "Add Servers to Cluster";
+        this.TITLE_ADD_TAGS = "Add Tags";
+        this.TITLE_ADD_IMAGE = "Add OS Image";
+        this.TITLE_ADD_PACKAGE = "Add Package";
+        this.TITLE_PROVISION_CLUSTER = "Provision Cluster";
+        this.TITLE_ADD_TO_CLUSTER = "Add to Cluster";
+        this.TITLE_REMOVE_FROM_CLUSTER = "Remove from Cluster";
+        this.TITLE_EDIT_CLUSTER_CONFIG = "Edit Cluster Configurations";
+        this.TITLE_REFRESH_INVENTORY = "Refresh Inventory";
 
-        this.TITLE_REGISTER = 'Register';
-        this.TITLE_CONFIGURE_SERVER = 'Configure Server';
-        this.TITLE_CONFIGURE_SERVERS = 'Configure Servers';
-        this.TITLE_EDIT_SERVER_CONFIG = 'Edit Server Configurations';
-        this.TITLE_DEL_SERVER = 'Delete Server';
-        this.TITLE_EDIT_TAGS = 'Edit Tags';
-        this.TITLE_ASSIGN_ROLES = 'Assign Roles';
-        this.TITLE_PROVISION_SERVER = 'Provision Server';
-        this.TITLE_PROVISION_SERVERS = 'Provision Servers';
-        this.TITLE_SEARCH_SERVERS = 'Search Servers';
-        this.TITLE_FILTER_SERVERS = 'Filter Servers';
-        this.TITLE_SELECT_SERVERS = 'Select Servers';
-        this.TITLE_SELECT_SERVER = 'Select Server';
-        this.TITLE_SELECTED_SERVERS = 'Selected Servers';
-        this.TITLE_SELECT_MANAGEMENT_INTERFACE = 'Select Management Interface';
-        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = 'Select Control Data Interface';
-        this.TITLE_SERVER_DETAIL = 'Details';
-        this.TITLE_CONFIGURE_INTERFACES = 'Configure Interfaces';
-        this.TITLE_SELECT_MANAGEMENT_INTERFACE = 'Select Management Interface';
-        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = 'Select Control Data Interface';
-        this.TITLE_SERVER_DETAIL = 'Details';
-        this.TITLE_CONFIGURE_INTERFACES = 'Configure Interfaces';
-        this.TITLE_SELECT_MANAGEMENT_INTERFACE = 'Select Management Interface';
-        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = 'Select Control Data Interface';
-        this.TITLE_SERVER_DETAIL = 'Details';
-        this.TITLE_CONFIGURE_INTERFACES = 'Configure Interfaces';
+        this.TITLE_REGISTER = "Register";
+        this.TITLE_CONFIGURE_SERVER = "Configure Server";
+        this.TITLE_CONFIGURE_SERVERS = "Configure Servers";
+        this.TITLE_EDIT_SERVER_CONFIG = "Edit Server Configurations";
+        this.TITLE_DEL_SERVER = "Delete Server";
+        this.TITLE_EDIT_TAGS = "Edit Tags";
+        this.TITLE_ASSIGN_ROLES = "Assign Roles";
+        this.TITLE_PROVISION_SERVER = "Provision Server";
+        this.TITLE_PROVISION_SERVERS = "Provision Servers";
+        this.TITLE_SEARCH_SERVERS = "Search Servers";
+        this.TITLE_FILTER_SERVERS = "Filter Servers";
+        this.TITLE_SELECT_SERVERS = "Select Servers";
+        this.TITLE_SELECT_SERVER = "Select Server";
+        this.TITLE_SELECTED_SERVERS = "Selected Servers";
+        this.TITLE_SELECT_MANAGEMENT_INTERFACE = "Select Management Interface";
+        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = "Select Control Data Interface";
+        this.TITLE_SERVER_DETAIL = "Details";
+        this.TITLE_CONFIGURE_INTERFACES = "Configure Interfaces";
+        this.TITLE_SELECT_MANAGEMENT_INTERFACE = "Select Management Interface";
+        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = "Select Control Data Interface";
+        this.TITLE_SERVER_DETAIL = "Details";
+        this.TITLE_CONFIGURE_INTERFACES = "Configure Interfaces";
+        this.TITLE_SELECT_MANAGEMENT_INTERFACE = "Select Management Interface";
+        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = "Select Control Data Interface";
+        this.TITLE_SERVER_DETAIL = "Details";
+        this.TITLE_CONFIGURE_INTERFACES = "Configure Interfaces";
 
-        this.TITLE_BAREMETAL_SERVERS = 'Baremetal Servers';
-        this.TITLE_BAREMETAL_SERVER = 'Baremetal Server';
-        this.TITLE_ADD_BAREMETAL_SERVER = 'Add Baremetal Servers';
-        this.TITLE_EDIT_BAREMETAL_SERVER = 'Edit Baremetal Server';
-        this.TITLE_EDIT_BAREMETAL_VN = 'Edit VN';
-        this.TITLE_SELECT_BAREMETAL_SERVER = 'Select Baremetal Server';
-        this.TITLE_SELECT_INTERFACE = 'Select Interface';
-        this.TITLE_BAREMETAL_INTERFACES = 'Baremetal Interfaces';
-        this.TITLE_SELECT_IMAGE = 'Select OS Image';
-        this.TITLE_FILTER_BAREMETALS = 'Filtered Baremetal Servers';
+        this.TITLE_BAREMETAL_SERVERS = "Baremetal Servers";
+        this.TITLE_BAREMETAL_SERVER = "Baremetal Server";
+        this.TITLE_ADD_BAREMETAL_SERVER = "Add Baremetal Servers";
+        this.TITLE_EDIT_BAREMETAL_SERVER = "Edit Baremetal Server";
+        this.TITLE_EDIT_BAREMETAL_VN = "Edit VN";
+        this.TITLE_SELECT_BAREMETAL_SERVER = "Select Baremetal Server";
+        this.TITLE_SELECT_INTERFACE = "Select Interface";
+        this.TITLE_BAREMETAL_INTERFACES = "Baremetal Interfaces";
+        this.TITLE_SELECT_IMAGE = "Select OS Image";
+        this.TITLE_FILTER_BAREMETALS = "Filtered Baremetal Servers";
 
-        this.TITLE_SAVE_NEXT = 'Save &amp; Next';
-        this.TITLE_NEXT = 'Next';
+        this.TITLE_SAVE_NEXT = "Save &amp; Next";
+        this.TITLE_NEXT = "Next";
 
         this.TITLE_SERVER_CPU = "CPU";
         this.TITLE_SERVER_MEMORY = "Memory";
         this.TITLE_SERVER_ETH_CONTROLLER = "Interface Controller";
         this.TITLE_SERVER_CHASSIS_STATE = "Chassis State";
 
-        this.SELECT_IMAGE = 'Select OS Image';
-        this.TITLE_DELETE_IMAGE = 'Delete OS Image';
-        this.SELECT_PACKAGE = 'Select Package';
-        this.SELECT_REPO_ID = 'Select Repo ID';
-        this.SELECT_CHASSIS_ID = 'Select Chassis ID';
-        this.TITLE_DELETE_PACKAGE = 'Delete Package';
-        this.SELECT_ROLES = 'Select Roles';
-        this.SEARCH_ROLES = 'Search Roles';
-        this.FILTER_TAGS = 'Filter Tags';
-        this.SEARCH_TAGS = 'Search Tags';
-        this.SELECT_NETWORK = 'Select Network';
-        this.SELECT_INTERFACE = 'Select Interface';
+        this.SELECT_IMAGE = "Select OS Image";
+        this.TITLE_DELETE_IMAGE = "Delete OS Image";
+        this.SELECT_PACKAGE = "Select Package";
+        this.SELECT_REPO_ID = "Select Repo ID";
+        this.SELECT_CHASSIS_ID = "Select Chassis ID";
+        this.TITLE_DELETE_PACKAGE = "Delete Package";
+        this.SELECT_ROLES = "Select Roles";
+        this.SEARCH_ROLES = "Search Roles";
+        this.FILTER_TAGS = "Filter Tags";
+        this.SEARCH_TAGS = "Search Tags";
+        this.SELECT_NETWORK = "Select Network";
+        this.SELECT_INTERFACE = "Select Interface";
 
         this.SM_CLUSTER_LIST_VIEW_ID = "cluster-list-view";
         this.SM_CLUSTER_VIEW_ID = "cluster-view";
@@ -467,7 +467,7 @@ define([
             word[i] = word[i].charAt(0).toUpperCase() + word[i].slice(1);
         }
         return word.join(" ");
-    };
+    }
 
     return Labels;
 });

@@ -65,7 +65,7 @@ define([], function () {
             },
 
         ]
-    }
+    };
 
     return {
         validations: validations,

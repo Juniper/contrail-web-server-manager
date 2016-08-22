@@ -1,11 +1,11 @@
 define([
-    'co-test-constants',
-    'co-test-runner',
-    'sm-test-utils',
-    'sm-test-messages',
-    'setting/sm/test/ui/models/PackageModel.mock.data',
-    'co-form-model-validations-test-suite',
-    'package-model-custom-test-suite',
+    "co-test-constants",
+    "co-test-runner",
+    "sm-test-utils",
+    "sm-test-messages",
+    "setting/sm/test/ui/models/PackageModel.mock.data",
+    "co-form-model-validations-test-suite",
+    "package-model-custom-test-suite",
 ], function (cotc, cotr, smtu, smtm, PackageModelMockData, FormValidationsTestSuite, PackageModelCustomTestSuite) {
 
     var moduleId = smtm.PACKAGE_MODEL_TEST_MODULE;
@@ -16,12 +16,12 @@ define([
         return {
             tests: [
                 {
-                    model: 'PackageModel',
-                    modelPathPrefix: 'setting/sm/ui/js/models/',
+                    model: "PackageModel",
+                    modelPathPrefix: "setting/sm/ui/js/models/",
                     suites: [
                         {
                             class: FormValidationsTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 mockData: PackageModelMockData,
                                 validationKey: smwc.KEY_CONFIGURE_VALIDATION,
@@ -29,7 +29,7 @@ define([
                         },
                         {
                             class: PackageModelCustomTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 mockData: PackageModelMockData,
                                 dataParsers: {

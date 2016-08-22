@@ -3,15 +3,15 @@
  */
 
 define([
-    'underscore',
-    'contrail-view'
+    "underscore",
+    "contrail-view"
 ], function (_, ContrailView) {
     var ServerView = ContrailView.extend({
         el: $(contentContainer),
 
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,
-                serverId = viewConfig['serverId'];
+                serverId = viewConfig["serverId"];
 
             self.renderServerTabs(serverId);
         },
@@ -42,8 +42,8 @@ define([
                     }
                 ]
             }
-        }
-    };
+        };
+    }
 
     return ServerView;
 });

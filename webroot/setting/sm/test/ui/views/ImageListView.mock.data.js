@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
+define(["underscore"], function (_) {
 
     this.getSingleImageDetailData = function () {
         return [
@@ -24,10 +24,10 @@ define(['underscore'], function (_) {
     };
     this.formatMockData = function (rawMockData) {
         return {
-            'data': {
-                'value': rawMockData
+            "data": {
+                "value": rawMockData
             }
-        }
+        };
     };
     return {
         getSingleImageDetailData: getSingleImageDetailData,

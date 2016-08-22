@@ -3,10 +3,10 @@
  */
 
 define([
-    'underscore',
-    'contrail-view',
-    'sm-basedir/setting/sm/ui/js/models/PackageModel',
-    'sm-basedir/setting/sm/ui/js/views/PackageEditView'
+    "underscore",
+    "contrail-view",
+    "sm-basedir/setting/sm/ui/js/models/PackageModel",
+    "sm-basedir/setting/sm/ui/js/views/PackageEditView"
 ], function (_, ContrailView, PackageModel, PackageEditView) {
     var prefixId = smwc.PACKAGE_PREFIX_ID,
         gridElId = "#" + smwl.SM_PACKAGE_GRID_ID;
@@ -15,7 +15,7 @@ define([
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
-                pagerOptions = viewConfig['pagerOptions'];
+                pagerOptions = viewConfig["pagerOptions"];
 
             self.renderView4Config(self.$el, self.model, getPackageGridViewConfig(pagerOptions));
         }
@@ -41,8 +41,8 @@ define([
                     }
                 ]
             }
-        }
-    };
+        };
+    }
 
     function getRowActionConfig() {
         return [
@@ -50,7 +50,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     packageModel = new PackageModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DELETE_PACKAGE + ' ('+ dataItem['id'] +')',
+                    title = smwl.TITLE_DELETE_PACKAGE + " ("+ dataItem["id"] +")",
                     packageEditView = new PackageEditView();
 
                 packageEditView.model = packageModel;
@@ -60,7 +60,7 @@ define([
                 }});
             })
         ];
-    };
+    }
 
     function getHeaderActionConfig() {
         return [
@@ -80,7 +80,7 @@ define([
                 }
             }
         ];
-    };
+    }
 
     function getPackageGridConfig(pagerOptions) {
         var gridElementConfig = {
@@ -98,10 +98,10 @@ define([
                     actionCell: getRowActionConfig(),
                     checkboxSelectable: {
                         onNothingChecked: function(e){
-                            $('#btnDeleteRepos').addClass('disabled-link');
+                            $("#btnDeleteRepos").addClass("disabled-link");
                         },
                         onSomethingChecked: function(e){
-                            $('#btnDeleteRepos').removeClass('disabled-link');
+                            $("#btnDeleteRepos").removeClass("disabled-link");
                         }
                     },
                     fixedRowHeight: 30,
@@ -112,7 +112,7 @@ define([
                 dataSource: {
                     remote: {
                         ajaxConfig: {
-                            url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, 'filterInPackages')
+                            url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInPackages")
                         }
                     },
                     cacheConfig: {
@@ -131,7 +131,7 @@ define([
         };
 
         return gridElementConfig;
-    };
+    }
 
     return PackageGridView;
 });

@@ -3,12 +3,12 @@
  */
 
 define([
-    'jquery',
-    'underscore',
-    'co-test-utils',
-    'co-test-messages',
-    'co-test-constants',
-    'co-test-runner'
+    "jquery",
+    "underscore",
+    "co-test-utils",
+    "co-test-messages",
+    "co-test-constants",
+    "co-test-runner"
 ], function ($, _, cotu, cotm, cotc, cotr) {
 
     var testSuiteClass = function (modelObj, suiteConfig){
@@ -19,16 +19,16 @@ define([
             modelDataParser;
 
         if (dataParsers) {
-            modelDataParser = contrail.checkIfExist(dataParsers.modelDataParseFn) ? dataParsers.modelDataParseFn: function() {return;}
+            modelDataParser = contrail.checkIfExist(dataParsers.modelDataParseFn) ? dataParsers.modelDataParseFn: function() {return;};
         }
         module("Package Model Custom test suite");
 
-        var packageModelCustomTestSuite = cotr.createTestSuite('PackageModelTestSuite');
+        var packageModelCustomTestSuite = cotr.createTestSuite("PackageModelTestSuite");
 
         /**
          * Test group for form validations
          */
-        var setAttrTestGroup = packageModelCustomTestSuite.createTestGroup('Attribute');
+        var setAttrTestGroup = packageModelCustomTestSuite.createTestGroup("Attribute");
 
         /**
          * Set each data sample attributes and verify.
@@ -48,7 +48,7 @@ define([
                 //console.log(modelDataParser(formDataModel.model().attributes));
                 //console.log(data.expected);
                 //equal(formDataModel.model().attributes, data.expected, "assert equal  true for data set");
-            })
+            });
 
         }, cotc.SEVERITY_HIGH));
 

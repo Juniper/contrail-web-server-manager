@@ -3,15 +3,15 @@
  */
 
 define([
-    'underscore',
-    'sm-constants',
-    'sm-utils',
-    'sm-labels',
-    'sm-messages',
-    'sm-model-config',
-    'sm-grid-config',
-    'sm-detail-tmpls',
-    'sm-parsers'
+    "underscore",
+    "sm-constants",
+    "sm-utils",
+    "sm-labels",
+    "sm-messages",
+    "sm-model-config",
+    "sm-grid-config",
+    "sm-detail-tmpls",
+    "sm-parsers"
 ], function (_, Constants, SMUtils, Labels, Messages, DeafultModelConfig, GridConfig, DetailTemplates, Parsers) {
     smwc = new Constants();
     initSMWebCache();
@@ -24,14 +24,14 @@ define([
     smwp = new Parsers();
     var deferredObj;
 
-    if(globalObj['initFeatureAppDefObjMap'] != null)  {
-        deferredObj = globalObj['initFeatureAppDefObjMap'][FEATURE_PCK_WEB_SERVER_MANAGER];
+    if(globalObj["initFeatureAppDefObjMap"] != null) {
+        deferredObj = globalObj["initFeatureAppDefObjMap"][FEATURE_PCK_WEB_SERVER_MANAGER];
     } else {
         deferredObj = contentHandler.initFeatureAppDefObjMap[FEATURE_PCK_WEB_SERVER_MANAGER];
     }
 
     if(contrail.checkIfExist(deferredObj)) {
-        deferredObj.resolve()
+        deferredObj.resolve();
     }
 });
 
@@ -39,7 +39,7 @@ function initSMWebCache() {
     var tagAjaxConfig = {type: "GET", cache: "true", url: smwc.SM_SERVER_MONITORING_CONFIG_URL};
     contrail.ajaxHandler(tagAjaxConfig, function () {}, function (response) {
         if(response != null && response.length > 0) {
-            smwc.MONITORING_CONFIG = response[0]['config'];
+            smwc.MONITORING_CONFIG = response[0]["config"];
         }
     });
 
@@ -49,4 +49,4 @@ function initSMWebCache() {
             smwc.CACHED_TAG_COLORS[response[i]] = i;
         }
     });
-};
+}

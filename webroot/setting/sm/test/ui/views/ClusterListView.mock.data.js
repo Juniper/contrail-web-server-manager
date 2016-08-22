@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(['underscore'], function (_) {
+define(["underscore"], function (_) {
 
     this.getSingleClusterDetailData = function () {
         return [
@@ -70,7 +70,7 @@ define(['underscore'], function (_) {
                     }
                 }
             }
-        ]
+        ];
     };
 
     this.getSingleClusterMonitoringData = function () {
@@ -159,7 +159,7 @@ define(['underscore'], function (_) {
                 "cluster_id"          : "r22_cluster",
                 "name"                : "a7s13"
             }
-        ]
+        ];
     };
 
     this.getSingleClusterMonitoringConfigData = function () {
@@ -190,7 +190,7 @@ define(['underscore'], function (_) {
                     ]
                 }
             }
-        ]
+        ];
     };
 
     this.getTagNamesData = function () {
@@ -199,10 +199,10 @@ define(['underscore'], function (_) {
 
     this.formatMockData = function (rawMockData) {
         return {
-            'data': {
-                'value': rawMockData
+            "data": {
+                "value": rawMockData
             }
-        }
+        };
     };
     return {
         getSingleClusterDetailData: getSingleClusterDetailData,

@@ -1,12 +1,12 @@
 define([
-    'co-test-constants',
-    'co-test-runner',
-    'sm-test-utils',
-    'sm-test-messages',
-    'setting/sm/test/ui/views/ServerListView.mock.data',
-    'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite',
-    'co-chart-view-zoom-scatter-test-suite',
+    "co-test-constants",
+    "co-test-runner",
+    "sm-test-utils",
+    "sm-test-messages",
+    "setting/sm/test/ui/views/ServerListView.mock.data",
+    "co-grid-contrail-list-model-test-suite",
+    "co-grid-view-test-suite",
+    "co-chart-view-zoom-scatter-test-suite",
 ], function (cotc, cotr, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
 
     var moduleId = smtm.SERVER_LIST_VIEW_COMMON_TEST_MODULE;
@@ -29,17 +29,17 @@ define([
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('server')),
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl("server")),
             body: JSON.stringify(ServerListViewMockData.getSingleServerDetailData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl('/sm/server/monitoring/config'),
+            url: smtu.getRegExForUrl("/sm/server/monitoring/config"),
             body: JSON.stringify(ServerListViewMockData.getSingleServerMonitoringConfigData())
         }));
 
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl('/sm/server/monitoring/info/summary'),
+            url: smtu.getRegExForUrl("/sm/server/monitoring/info/summary"),
             body: JSON.stringify(ServerListViewMockData.getSingleServerMonitoringData())
         }));
 
@@ -49,7 +49,7 @@ define([
 
     var pageConfig = cotr.getDefaultPageConfig();
     pageConfig.hashParams = {
-        p: 'setting_sm_servers'
+        p: "setting_sm_servers"
     };
     pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT * 5;
 
@@ -62,7 +62,7 @@ define([
                     suites: [
                         {
                             class: ZoomScatterChartViewTestSuite,
-                            groups: ['all']
+                            groups: ["all"]
                         }
                     ]
                 },
@@ -71,11 +71,11 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all']
+                            groups: ["all"]
                         },
                         {
                             class: GridListModelTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {

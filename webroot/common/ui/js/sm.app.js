@@ -15,11 +15,11 @@ var smwc, smwgc, smwdt, smwl, smwm, smwmc, smwu, smwp,
  * to access VRouterDashboardView source instead of minified js file.
  */
 
-if (typeof smBaseDir !== 'undefined') {
-    smBuildDir = '';
+if (typeof smBaseDir !== "undefined") {
+    smBuildDir = "";
     smWebDir = smBaseDir; // will initialize the webDir with baseDir
-    if ((typeof globalObj !== 'undefined') && globalObj.hasOwnProperty('buildBaseDir')) {
-        smBuildDir = globalObj['buildBaseDir'];
+    if ((typeof globalObj !== "undefined") && globalObj.hasOwnProperty("buildBaseDir")) {
+        smBuildDir = globalObj["buildBaseDir"];
     }
 
     require.config({
@@ -28,36 +28,36 @@ if (typeof smBaseDir !== 'undefined') {
         waitSeconds: 0
     });
 
-    require(['sm-init'], function () {});
+    require(["sm-init"], function () {});
 }
 
 function getSMAppPaths(smBaseDir, smBuildDir) {
     smWebDir = smBaseDir + smBuildDir;
     return {
-        'sm-srcdir': smBaseDir,
-        'sm-basedir': smWebDir,
-        'sm-constants': smWebDir + '/common/ui/js/sm.constants',
-        'sm-utils': smWebDir + '/common/ui/js/sm.utils',
-        'sm-labels': smWebDir + '/common/ui/js/sm.labels',
-        'sm-messages': smWebDir + '/common/ui/js/sm.messages',
-        'sm-model-config': smWebDir + '/common/ui/js/sm.model.config',
-        'sm-grid-config': smWebDir + '/common/ui/js/sm.grid.config',
-        'sm-detail-tmpls': smWebDir + '/common/ui/js/sm.detail.tmpls',
-        'sm-parsers': smWebDir + '/common/ui/js/sm.parsers',
-        'sm-init': smWebDir + '/common/ui/js/sm.init',
+        "sm-srcdir": smBaseDir,
+        "sm-basedir": smWebDir,
+        "sm-constants": smWebDir + "/common/ui/js/sm.constants",
+        "sm-utils": smWebDir + "/common/ui/js/sm.utils",
+        "sm-labels": smWebDir + "/common/ui/js/sm.labels",
+        "sm-messages": smWebDir + "/common/ui/js/sm.messages",
+        "sm-model-config": smWebDir + "/common/ui/js/sm.model.config",
+        "sm-grid-config": smWebDir + "/common/ui/js/sm.grid.config",
+        "sm-detail-tmpls": smWebDir + "/common/ui/js/sm.detail.tmpls",
+        "sm-parsers": smWebDir + "/common/ui/js/sm.parsers",
+        "sm-init": smWebDir + "/common/ui/js/sm.init",
 
         //Schemas
-        'sm-server-ui-schema'           : smWebDir + '/setting/sm/ui/js/schemas/server.ui',
-        'sm-cluster-ui-schema'          : smWebDir + '/setting/sm/ui/js/schemas/cluster.ui',
-        'sm-image-ui-schema'          : smWebDir + '/setting/sm/ui/js/schemas/image.ui',
-        'sm-package-ui-schema'          : smWebDir + '/setting/sm/ui/js/schemas/package.ui',
-        'sm-cluster-custom-ui-schema' : smWebDir + '/setting/sm/ui/js/schemas/cluster.custom.ui',
-        'sm-image-custom-ui-schema' : smWebDir + '/setting/sm/ui/js/schemas/image.custom.ui',
-        'sm-package-custom-ui-schema' : smWebDir + '/setting/sm/ui/js/schemas/package.custom.ui'
+        "sm-server-ui-schema"           : smWebDir + "/setting/sm/ui/js/schemas/server.ui",
+        "sm-cluster-ui-schema"          : smWebDir + "/setting/sm/ui/js/schemas/cluster.ui",
+        "sm-image-ui-schema"          : smWebDir + "/setting/sm/ui/js/schemas/image.ui",
+        "sm-package-ui-schema"          : smWebDir + "/setting/sm/ui/js/schemas/package.ui",
+        "sm-cluster-custom-ui-schema" : smWebDir + "/setting/sm/ui/js/schemas/cluster.custom.ui",
+        "sm-image-custom-ui-schema" : smWebDir + "/setting/sm/ui/js/schemas/image.custom.ui",
+        "sm-package-custom-ui-schema" : smWebDir + "/setting/sm/ui/js/schemas/package.custom.ui"
     };
 }
 
-if (typeof exports !== 'undefined' && module.exports) {
+if (typeof exports !== "undefined" && module.exports) {
     exports = module.exports;
     exports.getSMAppPaths = getSMAppPaths;
 }

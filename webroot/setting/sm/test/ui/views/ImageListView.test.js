@@ -1,11 +1,11 @@
 define([
-    'co-test-constants',
-    'co-test-runner',
-    'sm-test-utils',
-    'sm-test-messages',
-    'setting/sm/test/ui/views/ImageListView.mock.data',
-    'co-grid-contrail-list-model-test-suite',
-    'co-grid-view-test-suite'
+    "co-test-constants",
+    "co-test-runner",
+    "sm-test-utils",
+    "sm-test-messages",
+    "setting/sm/test/ui/views/ImageListView.mock.data",
+    "co-grid-contrail-list-model-test-suite",
+    "co-grid-view-test-suite"
 ], function (cotc, cotr, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
 
     var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
@@ -22,7 +22,7 @@ define([
             body: JSON.stringify(ImageListViewMockData.getTagNamesData())
         }));
         responses.push(cotr.createFakeServerResponse({
-            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl('image')),
+            url: smtu.getRegExForUrl(smwu.getObjectDetailUrl("image")),
             body: JSON.stringify(ImageListViewMockData.getSingleImageDetailData())
         }));
 
@@ -32,7 +32,7 @@ define([
 
     var pageConfig = cotr.getDefaultPageConfig();
     pageConfig.hashParams = {
-        p: 'setting_sm_images'
+        p: "setting_sm_images"
     };
     pageConfig.loadTimeout = cotc.PAGE_LOAD_TIMEOUT;
 
@@ -45,11 +45,11 @@ define([
                     suites: [
                         {
                             class: GridViewTestSuite,
-                            groups: ['all']
+                            groups: ["all"]
                         },
                         {
                             class: GridListModelTestSuite,
-                            groups: ['all'],
+                            groups: ["all"],
                             modelConfig: {
                                 dataGenerator: smtu.commonGridDataGenerator,
                                 dataParsers: {

@@ -3,14 +3,14 @@
  */
 
 define([
-    'underscore',
-    'contrail-view',
-    'sm-basedir/setting/sm/ui/js/models/ServerModel',
-    'sm-basedir/setting/sm/ui/js/views/ServerEditView',
-    'json-model', 'json-edit-view', 'text!sm-basedir/setting/sm/ui/js/schemas/server.json'
+    "underscore",
+    "contrail-view",
+    "sm-basedir/setting/sm/ui/js/models/ServerModel",
+    "sm-basedir/setting/sm/ui/js/views/ServerEditView",
+    "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/server.json"
 ], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, serverSchema) {
     var prefixId = smwc.SERVER_PREFIX_ID,
-        gridElId = '#' + smwl.SM_SERVER_GRID_ID,
+        gridElId = "#" + smwl.SM_SERVER_GRID_ID,
         serverSchema = JSON.parse(serverSchema);
 
     var ServerGridView = ContrailView.extend({
@@ -40,15 +40,15 @@ define([
             });
         }
         return returnFlag;
-    };
+    }
 
     function applyServerTagFilter(event, ui) {
-        var checkedRows = $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').getChecked();
-        $(gridElId).data('contrailGrid')._dataView.setFilterArgs({
+        var checkedRows = $("#tagsCheckedMultiselect").data("contrailCheckedMultiselect").getChecked();
+        $(gridElId).data("contrailGrid")._dataView.setFilterArgs({
             checkedRows: checkedRows
         });
-        $(gridElId).data('contrailGrid')._dataView.setFilter(serverTagGridFilter);
-    };
+        $(gridElId).data("contrailGrid")._dataView.setFilter(serverTagGridFilter);
+    }
 
     function formatData4Ajax(response) {
         var filterServerData = [];
@@ -56,12 +56,12 @@ define([
             var childrenData = [],
                 children = value;
             $.each(children, function (k, v) {
-                childrenData.push({'id': v, 'text': v});
+                childrenData.push({"id": v, "text": v});
             });
-            filterServerData.push({'id': key, 'text': smwl.get(key), children: childrenData});
+            filterServerData.push({"id": key, "text": smwl.get(key), children: childrenData});
         });
         return filterServerData;
-    };
+    }
 
     function getHeaderActionConfig(queryString, showAssignRoles) {
         var headerActionConfig, dropdownActions;
@@ -96,7 +96,7 @@ define([
                         callback: function () {
                             var dataView = $(gridElId).data("contrailGrid")._dataView;
                             dataView.refreshData();
-                            $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').refresh();
+                            $("#tagsCheckedMultiselect").data("contrailCheckedMultiselect").refresh();
                         },
                         lockEditingByDefault: true
                     });
@@ -155,7 +155,7 @@ define([
             {
                 "type": "dropdown",
                 "iconClass": "fa fa-cog",
-                "linkElementId": 'btnActionServers',
+                "linkElementId": "btnActionServers",
                 "disabledLink": true,
                 "actions": dropdownActions
             }
@@ -177,13 +177,13 @@ define([
                     }});
                 }
             }, {
-                type: 'checked-multiselect',
-                iconClass: 'fa fa-filter',
-                placeholder: 'Filter Servers',
+                type: "checked-multiselect",
+                iconClass: "fa fa-filter",
+                placeholder: "Filter Servers",
                 elementConfig: {
-                    elementId: 'tagsCheckedMultiselect',
-                    dataTextField: 'text',
-                    dataValueField: 'id',
+                    elementId: "tagsCheckedMultiselect",
+                    dataTextField: "text",
+                    dataValueField: "id",
                     noneSelectedText: smwl.FILTER_TAGS,
                     filterConfig: {
                         placeholder: smwl.SEARCH_TAGS
@@ -191,9 +191,9 @@ define([
                     parse: formatData4Ajax,
                     minWidth: 150,
                     height: 250,
-                    emptyOptionText: 'No Tags found.',
+                    emptyOptionText: "No Tags found.",
                     dataSource: {
-                        type: 'GET',
+                        type: "GET",
                         url: smwu.getTagsUrl(queryString)
                     },
                     click: applyServerTagFilter,
@@ -203,7 +203,7 @@ define([
             }
         ]);
         return headerActionConfig;
-    };
+    }
 
     function getServerGridViewConfig(viewConfig) {
         return {
@@ -225,16 +225,16 @@ define([
                     }
                 ]
             }
-        }
-    };
+        };
+    }
 
     function getRowActionConfig(showAssignRoles) {
         var rowActionConfig = [
             smwgc.getConfigureAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_CONFIG + (contrail.checkIfExist(dataItem['id']) ? (' ('+ dataItem['id'] +')') : ''),
+                    title = smwl.TITLE_EDIT_CONFIG + (contrail.checkIfExist(dataItem["id"]) ? (" ("+ dataItem["id"] +")") : ""),
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -244,12 +244,12 @@ define([
                 }});
             }),
             smwgc.getConfigureJSONAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex);
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex);
 
                 var oAttributes = cowu.getAttributes4Schema(dataItem, serverSchema),
                     jsonModel = new JsonModel({json: oAttributes, schema: serverSchema}),
                     checkedRow = [oAttributes],
-                    title = smwl.TITLE_EDIT_JSON + (contrail.checkIfExist(oAttributes['id']) ? (' (' + oAttributes['id'] + ')') : ''),
+                    title = smwl.TITLE_EDIT_JSON + (contrail.checkIfExist(oAttributes["id"]) ? (" (" + oAttributes["id"] + ")") : ""),
                     jsonEditView = new JsonEditView();
                 jsonEditView.model = jsonModel;
                 jsonEditView.renderEditor({
@@ -263,10 +263,10 @@ define([
                 });
             }),
             smwgc.getTagAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_TAGS + ' ('+ dataItem['id'] +')',
+                    title = smwl.TITLE_EDIT_TAGS + " ("+ dataItem["id"] +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -276,7 +276,7 @@ define([
                     callback: function () {
                         var dataView = $(gridElId).data("contrailGrid")._dataView;
                         dataView.refreshData();
-                        $('#tagsCheckedMultiselect').data('contrailCheckedMultiselect').refresh();
+                        $("#tagsCheckedMultiselect").data("contrailCheckedMultiselect").refresh();
                     },
                     lockEditingByDefault: false
                 });
@@ -285,10 +285,10 @@ define([
 
         if (showAssignRoles) {
             rowActionConfig.push(smwgc.getAssignRoleAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_ASSIGN_ROLES + ' ('+ dataItem['id'] +')',
+                    title = smwl.TITLE_ASSIGN_ROLES + " ("+ dataItem["id"] +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -299,10 +299,10 @@ define([
             }));
         }
         rowActionConfig = rowActionConfig.concat([smwgc.getReimageAction(function (rowIndex) {
-            var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+            var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 checkedRow = [dataItem],
-                title = smwl.TITLE_REIMAGE + ' ('+ dataItem['id'] +')',
+                title = smwl.TITLE_REIMAGE + " ("+ dataItem["id"] +")",
                 serverEditView = new ServerEditView();
 
             serverEditView.model = serverModel;
@@ -312,10 +312,10 @@ define([
             }});
         }, true),
             smwgc.getProvisionAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_PROVISION_SERVER + ' ('+ dataItem['id'] +')',
+                    title = smwl.TITLE_PROVISION_SERVER + " ("+ dataItem["id"] +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -325,10 +325,10 @@ define([
                 }});
             }),
             smwgc.getRunInventoryAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_REFRESH_INVENTORY + ' ('+ dataItem['id'] +')',
+                    title = smwl.TITLE_REFRESH_INVENTORY + " ("+ dataItem["id"] +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -338,10 +338,10 @@ define([
                 }});
             }),
             smwgc.getDeleteAction(function (rowIndex) {
-                var dataItem = $(gridElId).data('contrailGrid')._dataView.getItem(rowIndex),
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DEL_SERVER + ' ('+ dataItem['id'] +')',
+                    title = smwl.TITLE_DEL_SERVER + " ("+ dataItem["id"] +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -353,14 +353,14 @@ define([
         ]);
 
         return rowActionConfig;
-    };
+    }
 
     function getServerGridConfig(viewConfig) {
-        var pagerOptions = viewConfig['pagerOptions'],
-            serverColumnsType = viewConfig['serverColumnsType'],
-            showAssignRoles = viewConfig['showAssignRoles'],
-            queryString = smwu.getQueryString4ServersUrl(viewConfig['hashParams']),
-            hashParams = viewConfig['hashParams'];
+        var pagerOptions = viewConfig["pagerOptions"],
+            serverColumnsType = viewConfig["serverColumnsType"],
+            showAssignRoles = viewConfig["showAssignRoles"],
+            queryString = smwu.getQueryString4ServersUrl(viewConfig["hashParams"]),
+            hashParams = viewConfig["hashParams"];
 
         var listModelConfig = {
             remote: {
@@ -370,13 +370,13 @@ define([
             }
         };
 
-        if(queryString == '') {
-            listModelConfig['cacheConfig'] = {
+        if(queryString == "") {
+            listModelConfig["cacheConfig"] = {
                 ucid: smwc.UCID_ALL_SERVER_LIST
             };
-        } else if(hashParams['cluster_id'] != null && hashParams['tag'] == null) {
-            listModelConfig['cacheConfig'] = {
-                ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_LIST, hashParams['cluster_id'])
+        } else if(hashParams["cluster_id"] != null && hashParams["tag"] == null) {
+            listModelConfig["cacheConfig"] = {
+                ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_LIST, hashParams["cluster_id"])
             };
         }
 
@@ -395,10 +395,10 @@ define([
                     actionCell: getRowActionConfig(showAssignRoles),
                     checkboxSelectable: {
                         onNothingChecked: function (e) {
-                            $('#btnActionServers').addClass('disabled-link').removeAttr('data-toggle');
+                            $("#btnActionServers").addClass("disabled-link").removeAttr("data-toggle");
                         },
                         onSomethingChecked: function (e) {
-                            $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
+                            $("#btnActionServers").removeClass("disabled-link").attr("data-toggle", "dropdown");
                         }
                     },
                     fixedRowHeight: 30,
@@ -414,7 +414,7 @@ define([
         };
 
         return gridElementConfig;
-    };
+    }
 
     return ServerGridView;
 });

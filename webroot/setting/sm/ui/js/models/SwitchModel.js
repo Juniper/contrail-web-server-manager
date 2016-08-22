@@ -3,8 +3,8 @@
  */
 
 define([
-    'underscore',
-    'contrail-model'
+    "underscore",
+    "contrail-model"
 ], function (_, ContrailModel) {
     var SwitchesModel = ContrailModel.extend({
 
@@ -24,45 +24,45 @@ define([
 
         validations: {
             topOfRackValidation: {
-                'switch_id': {
+                "switch_id": {
                     required: true,
                     msg: cowm.DATA_ERROR_REQUIRED
                 },
-                'switch_name': {
+                "switch_name": {
                     required: true,
                     msg: cowm.DATA_ERROR_REQUIRED
                 },
-                'vendor_name': {
+                "vendor_name": {
                     required: true,
                     msg: cowm.DATA_ERROR_REQUIRED
                 },
-                'product_name': {
+                "product_name": {
                     required: true,
                     msg: cowm.DATA_ERROR_REQUIRED
                 },
-                'ip_address': {
+                "ip_address": {
                     required: true,
                     pattern: cowc.PATTERN_SUBNET_MASK,
                     msg: cowm.DATA_ERROR_INVALID
                 },
-                'ovs_port': {
+                "ovs_port": {
                     required: true,
-                    pattern: 'number',
-                    msg: smwm.getShortInvalidErrorMessage('port')
+                    pattern: "number",
+                    msg: smwm.getShortInvalidErrorMessage("port")
                 },
-                'ovs_protocol': {
+                "ovs_protocol": {
                     required: true,
                     msg: cowm.DATA_ERROR_REQUIRED
                 },
-                'http_server_port': {
+                "http_server_port": {
                     required: true,
-                    pattern: 'number',
-                    msg: smwm.getShortInvalidErrorMessage('port')
+                    pattern: "number",
+                    msg: smwm.getShortInvalidErrorMessage("port")
                 },
-                'keepalive_time': {
+                "keepalive_time": {
                     required: true,
-                    pattern: 'number',
-                    msg: smwm.getShortInvalidErrorMessage('time')
+                    pattern: "number",
+                    msg: smwm.getShortInvalidErrorMessage("time")
                 }
             }
         }

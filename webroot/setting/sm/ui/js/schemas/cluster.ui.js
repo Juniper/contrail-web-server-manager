@@ -664,4 +664,4 @@ define([], function(){ return {
     },
     "viewable": true,
     "path": ""
-}});
+};});

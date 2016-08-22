@@ -3,12 +3,12 @@
  */
 
 define([
-    'underscore'
+    "underscore"
 ], function (_) {
     var DefaultConfig = function () {
 
         this.getClusterModel = function () {
-            return   {
+            return {
                 "id": null,
                 "email": null,
                 "base_image_id": null,
@@ -136,7 +136,7 @@ define([
                         }
                     }
                 }
-            }
+            };
         };
 
         this.getClusterSchema = function () {
@@ -604,7 +604,7 @@ define([
                     }
                 },
                 "required": ["id", "email", "base_image_id", "package_image_id", "parameters"]
-            }
+            };
         };
 
         this.getServerModel = function () {
@@ -646,7 +646,7 @@ define([
                 "top_of_rack": {
                     "switches": []
                 }
-            }
+            };
         };
 
         this.getServerSchema = function () {
@@ -800,7 +800,7 @@ define([
                 "network",
                 "top_of_rack"
             ]
-            }
+            };
         };
 
         this.getJSONModel = function () {
@@ -836,7 +836,7 @@ define([
                 "vendor_name"     : null,
                 "product_name"    : null,
                 "keepalive_time"  : null
-            }
+            };
         };
 
         this.getDiskModel = function () {
@@ -847,12 +847,12 @@ define([
 
         this.getImageModel = function (category) {
             return {
-                'id': null,
-                'category': category,
-                'type': null,
-                'version': null,
-                'path': null,
-                'parameters': {}
+                "id": null,
+                "category": category,
+                "type": null,
+                "version": null,
+                "path": null,
+                "parameters": {}
             };
         };
 
@@ -882,14 +882,14 @@ define([
                     }
                 },
                 "required": ["id", "category", "type", "version", "path", "parameters"]
-            }
+            };
         };
 
         this.getBaremetalModel = function (category) {
             return {
-                'baremetal_reimage' : null,
-                'base_image_id' : null,
-                'interfaces' : []
+                "baremetal_reimage" : null,
+                "base_image_id" : null,
+                "interfaces" : []
             };
         };
     };
