@@ -623,7 +623,7 @@ define([
                     type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : smwc.INTERFACE_TYPE_PHYSICAL;
                     dhcp = model.attributes.dhcp();
 
-                    if (type == smwc.INTERFACE_TYPE_PHYSICAL && dhcp && model.attributes.name() !== "") {
+                    if (type == smwc.INTERFACE_TYPE_PHYSICAL && model.attributes.name() !== "") {
                         managementInterfaces.push(model.attributes.name());
                     }
                 }
