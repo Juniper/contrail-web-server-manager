@@ -46,6 +46,14 @@ define([], function () {
                     "type": "string"
                 }
             },
+            "contrail": {
+                "type": "object",
+                "properties": {
+                    "control_data_interface": {
+                        "type": "string"
+                    }
+                }
+            },
             "parameters": {
                 "type": "object",
                 "properties": {
