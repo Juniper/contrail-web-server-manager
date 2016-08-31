@@ -18,10 +18,6 @@
                     <hash>config_pd</hash>
                     <resources>
                         <resource>
-                            <rootDir>/common/ui</rootDir>
-                            <js>handlebars.helpers.js</js>
-                        </resource>
-                        <resource>
                             <rootDir>/config/physicaldevices/baremetal/ui</rootDir>
                             <js>baremetal.main.js</js>
                             <template>baremetal.tmpl</template>
@@ -72,7 +68,6 @@
                     <resources>
                         <resource>
                             <rootDir>/common/ui</rootDir>
-                            <js>handlebars.helpers.js</js>
                             <css>contrail.sm.css</css>
                             <class>smPageLoader</class>
                         </resource>

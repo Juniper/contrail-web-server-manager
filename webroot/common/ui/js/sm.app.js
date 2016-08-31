@@ -45,6 +45,7 @@ function getSMAppPaths(smBaseDir, smBuildDir) {
         "sm-detail-tmpls": smWebDir + "/common/ui/js/sm.detail.tmpls",
         "sm-parsers": smWebDir + "/common/ui/js/sm.parsers",
         "sm-init": smWebDir + "/common/ui/js/sm.init",
+        "sm-handlebars-helpers": smWebDir + "/common/ui/js/sm.handlebars.helpers",
 
         //Schemas
         "sm-server-ui-schema"           : smWebDir + "/setting/sm/ui/js/schemas/server.ui",

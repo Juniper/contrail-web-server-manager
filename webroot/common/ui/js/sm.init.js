@@ -11,7 +11,8 @@ define([
     "sm-model-config",
     "sm-grid-config",
     "sm-detail-tmpls",
-    "sm-parsers"
+    "sm-parsers",
+    "sm-handlebars-helpers"
 ], function (_, Constants, SMUtils, Labels, Messages, DeafultModelConfig, GridConfig, DetailTemplates, Parsers) {
     smwc = new Constants();
     initSMWebCache();
