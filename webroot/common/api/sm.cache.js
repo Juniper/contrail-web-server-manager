@@ -2,10 +2,10 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var logutils = require(process.mainModule.exports["corePath"] + "/src/serverroot/utils/log.utils"),
-    commonUtils = require(process.mainModule.exports["corePath"] + "/src/serverroot/utils/common.utils"),
-    coreConfig = require(process.mainModule.exports["corePath"] + "/config/config.global.js"),
-    coreConstants = require(process.mainModule.exports["corePath"] + "/src/serverroot/common/global");
+var logutils = require(process.mainModule.exports.corePath + "/src/serverroot/utils/log.utils"),
+    commonUtils = require(process.mainModule.exports.corePath + "/src/serverroot/utils/common.utils"),
+    coreConfig = require(process.mainModule.exports.corePath + "/config/config.global.js"),
+    coreConstants = require(process.mainModule.exports.corePath + "/src/serverroot/common/global");
 
 var smConstants = require("../../common/api/sm.constants"),
     smMessages = require("../../common/api/sm.messages"),

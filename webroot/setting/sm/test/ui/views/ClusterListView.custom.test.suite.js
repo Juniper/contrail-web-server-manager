@@ -11,10 +11,8 @@ define([
 ], function (_, cotu, cotc, cotr, smtm) {
     var testSuiteClass = function (viewObj, suiteConfig) {
 
-        var viewConfig = cotu.getViewConfigObj(viewObj),
-            el = viewObj.el,
-            gridData = $(el).data("contrailGrid"),
-            gridItems = gridData._dataView.getItems();
+
+        var el = viewObj.el;
 
         module(cotu.formatTestModuleMessage(smtm.CLUSTER_LIST_VIEW_CUSTOM_TEST_MODULE, el.id));
 

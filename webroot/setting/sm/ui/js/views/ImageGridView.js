@@ -15,7 +15,7 @@ define([
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
-                pagerOptions = viewConfig["pagerOptions"];
+                pagerOptions = viewConfig.pagerOptions;
 
             self.renderView4Config(self.$el, self.model, getImageGridViewConfig(pagerOptions));
         }
@@ -50,7 +50,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     imageModel = new ImageModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DELETE_IMAGE + " (" + dataItem["id"] + ")",
+                    title = smwl.TITLE_DELETE_IMAGE + " (" + dataItem.id + ")",
                     imageEditView = new ImageEditView();
 
                 imageEditView.model = imageModel;
@@ -101,10 +101,10 @@ define([
                 options: {
                     actionCell: getRowActionConfig(),
                     checkboxSelectable: {
-                        onNothingChecked: function (e) {
+                        onNothingChecked: function () {
                             $("#btnDeleteImages").addClass("disabled-link");
                         },
-                        onSomethingChecked: function (e) {
+                        onSomethingChecked: function () {
                             $("#btnDeleteImages").removeClass("disabled-link");
                         }
                     },

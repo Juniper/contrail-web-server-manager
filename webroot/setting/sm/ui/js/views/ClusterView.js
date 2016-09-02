@@ -9,14 +9,13 @@ define([
     var ClusterView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,
-                clusterId = viewConfig["clusterId"];
+                clusterId = viewConfig.clusterId;
 
             self.renderServerTabs(clusterId);
         },
 
         renderServerTabs: function(clusterId) {
-            var currentHashParams = layoutHandler.getURLHashParams(),
-                clusterViewConfig = getClusterViewConfig(clusterId);
+            var clusterViewConfig = getClusterViewConfig(clusterId);
 
             this.renderView4Config(this.$el, null, clusterViewConfig, null, null, null);
         }

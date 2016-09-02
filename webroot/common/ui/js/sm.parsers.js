@@ -2,9 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-define([
-    "underscore"
-], function (_) {
+define([], function () {
     var SMParsers = function () {
         this.serverMonitoringDataParser = function (contrailListModel, serverModelList) {
             var serverMonitoringMap = getServerMonitoringMap(contrailListModel);
@@ -26,7 +24,7 @@ define([
 
             for (var key in serverMonitoringMap) {
                 var serverMonitoringData = serverMonitoringMap[key],
-                    clusterId = serverMonitoringData["rawMonitoringData"]["cluster_id"];
+                    clusterId = serverMonitoringData.rawMonitoringData.cluster_id;
 
                 if(contrail.checkIfExist(clusterId) && clusterId != "") {
                     if(!contrail.checkIfExist(clusterMonitoringMap[clusterId])) {
@@ -39,11 +37,11 @@ define([
                         };
                     }
                     var cluster = clusterMonitoringMap[clusterId];
-                    cluster["total_disk_rw_bytes"] += serverMonitoringData["total_disk_rw_bytes"];
-                    cluster["interface_rt_bytes"] += serverMonitoringData["interface_rt_bytes"];
-                    cluster["max_cpu_usage_percentage"] = (serverMonitoringData["cpu_usage_percentage"] > cluster["max_cpu_usage_percentage"]) ? serverMonitoringData["cpu_usage_percentage"] : cluster["max_cpu_usage_percentage"];
-                    cluster["max_mem_usage_percentage"] = (serverMonitoringData["mem_usage_percentage"] > cluster["max_mem_usage_percentage"]) ? serverMonitoringData["mem_usage_percentage"] : cluster["max_mem_usage_percentage"];
-                    cluster["servers"] += 1;
+                    cluster.total_disk_rw_bytes += serverMonitoringData.total_disk_rw_bytes;
+                    cluster.interface_rt_bytesers += serverMonitoringData.interface_rt_bytesers;
+                    cluster.max_cpu_usage_percentage = (serverMonitoringData.cpu_usage_percentage > cluster.max_cpu_usage_percentage) ? serverMonitoringData.cpu_usage_percentage : cluster.max_cpu_usage_percentage;
+                    cluster.max_mem_usage_percentage = (serverMonitoringData.mem_usage_percentage > cluster.max_mem_usage_percentage) ? serverMonitoringData.mem_usage_percentage : cluster.max_mem_usage_percentage;
+                    cluster.servers += 1;
                 }
             }
 
@@ -63,7 +61,7 @@ define([
         serverModelList[0].onAllRequestsComplete.subscribe(function() {
             var serverItems = serverModelList[0].getItems();
             $.each(serverItems, function (key, server) {
-                var serverId = server["id"],
+                var serverId = server.id,
                     serverMonitoringData = contrail.handleIfNull(serverMonitoringMap[serverId], { size: 0, x: 0, y: 0 });
 
                 $.extend(true, server, {
@@ -91,7 +89,7 @@ define([
     function updateClusterListModels(clusterModelList, clusterMonitoringMap) {
         var clusterItems = clusterModelList[0].getItems();
         $.each(clusterItems, function (key, cluster) {
-            var clusterId = cluster["id"],
+            var clusterId = cluster.id,
                 aggServerMonitoringData = clusterMonitoringMap[clusterId],
                 clusterMonitoringData = {
                     total_disk_rw_bytes: 0,
@@ -101,10 +99,10 @@ define([
                 };
 
             if (aggServerMonitoringData != null) {
-                clusterMonitoringData["total_disk_rw_bytes"] = aggServerMonitoringData["total_disk_rw_bytes"];
-                clusterMonitoringData["interface_rt_bytes"] = aggServerMonitoringData["interface_rt_bytes"];
-                clusterMonitoringData["max_cpu_usage_percentage"] = aggServerMonitoringData["max_cpu_usage_percentage"];
-                clusterMonitoringData["max_mem_usage_percentage"] = aggServerMonitoringData["max_mem_usage_percentage"];
+                clusterMonitoringData.total_disk_rw_bytes = aggServerMonitoringData.total_disk_rw_bytes;
+                clusterMonitoringData.interface_rt_bytesers = aggServerMonitoringData.interface_rt_bytesers;
+                clusterMonitoringData.max_cpu_usage_percentage = aggServerMonitoringData.max_cpu_usage_percentage;
+                clusterMonitoringData.max_mem_usage_percentage = aggServerMonitoringData.max_mem_usage_percentage;
             }
 
             $.extend(true, cluster, {ui_added_parameters: {
@@ -127,29 +125,29 @@ define([
 
         for (var i = 0; i < serverMonitoringItems.length; i++) {
             var serverMonitoring = serverMonitoringItems[i],
-                serverMonitoringInfo = contrail.handleIfNull(serverMonitoring["ServerMonitoringInfo"], {}),
-                disksUsage = contrail.handleIfNull(serverMonitoringInfo["disk_usage_totals"], []),
-                interfacesStats = contrail.handleIfNull(serverMonitoringInfo["network_info_stats"], []),
-                resourceInfo = contrail.handleIfNull(serverMonitoringInfo["resource_info_stats"], {}),
+                serverMonitoringInfo = contrail.handleIfNull(serverMonitoring.ServerMonitoringInfo, {}),
+                disksUsage = contrail.handleIfNull(serverMonitoringInfo.disk_usage_totals, []),
+                interfacesStats = contrail.handleIfNull(serverMonitoringInfo.network_info_stats, []),
+                resourceInfo = contrail.handleIfNull(serverMonitoringInfo.resource_info_stats, {}),
                 diskReadBytes = 0, diskWriteBytes = 0,
-                cpuUsage =  contrail.handleIfNull(resourceInfo["cpu_usage_percentage"], 0),
-                memUsageMB = resourceInfo["mem_usage_mb"],
-                memUsage = resourceInfo["mem_usage_percent"],
+                cpuUsage =  contrail.handleIfNull(resourceInfo.cpu_usage_percentage, 0),
+                memUsageMB = resourceInfo.mem_usage_mb,
+                memUsage = resourceInfo.mem_usage_percent,
                 rxBytes = 0, rxPackets = 0, txBytes = 0, txPackets = 0;
 
             for (var j = 0; j < disksUsage.length; j++) {
-                diskReadBytes += disksUsage[j]["total_read_bytes"];
-                diskWriteBytes += disksUsage[j]["total_write_bytes"];
+                diskReadBytes += disksUsage[j].total_read_bytes;
+                diskWriteBytes += disksUsage[j].total_write_bytes;
             }
 
             for (var k = 0; k < interfacesStats.length; k++) {
-                rxBytes += interfacesStats[k]["rx_bytes"];
-                rxPackets += interfacesStats[k]["rx_packets"];
-                txBytes += interfacesStats[k]["tx_bytes"];
-                txPackets += interfacesStats[k]["tx_packets"];
+                rxBytes += interfacesStats[k].rx_bytes;
+                rxPackets += interfacesStats[k].rx_packets;
+                txBytes += interfacesStats[k].tx_bytes;
+                txPackets += interfacesStats[k].tx_packets;
             }
 
-            serverMonitoringMap[serverMonitoring["name"]] = {
+            serverMonitoringMap[serverMonitoring.name] = {
                 cpu_usage_percentage: cpuUsage,
                 mem_usage_mb: memUsageMB,
                 mem_usage_percentage: memUsage,

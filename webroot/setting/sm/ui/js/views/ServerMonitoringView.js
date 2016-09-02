@@ -10,7 +10,7 @@ define([
     var ServerMonitoringView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = self.attributes.viewConfig,
-                serverId = viewConfig["serverId"],
+                serverId = viewConfig.serverId,
                 modelMap = contrail.handleIfNull(self.modelMap, {}),
                 modelKey = smwc.get(smwc.UMID_SERVER_MONITORING_UVE, serverId);
 
@@ -32,14 +32,14 @@ define([
             };
 
             var contrailViewModel = new ContrailViewModel(viewModelConfig);
-            modelMap[viewModelConfig["modelKey"]] = contrailViewModel;
+            modelMap[viewModelConfig.modelKey] = contrailViewModel;
 
             self.renderView4Config(this.$el, null, getServerMonitoringViewConfig(viewConfig, contrailViewModel), null, null, modelMap);
         }
     });
 
     function getServerMonitoringViewConfig(viewConfig, contrailViewModel) {
-        var serverId = viewConfig["serverId"],
+        var serverId = viewConfig.serverId,
             modelKey = smwc.get(smwc.UMID_SERVER_MONITORING_UVE, serverId);
 
         return {
@@ -83,7 +83,7 @@ define([
                                                         templateConfig: smwdt.getServerChassisDetailsTemplate(cowc.THEME_DETAIL_WIDGET),
                                                         app: cowc.APP_CONTRAIL_SM
                                                     }
-                                                    }
+                                                }
                                             ]
                                         }
                                     ]
@@ -166,8 +166,8 @@ define([
                             type: "GET"
                         },
                         dataParser: function (response) {
-                            var serverMonitoringInfo = response[0]["ServerMonitoringInfo"];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo["disk_usage_totals"] : [];
+                            var serverMonitoringInfo = response[0].ServerMonitoringInfo;
+                            return contrail.checkIfExist(serverMonitoringInfo.disk_usage_totals) ? serverMonitoringInfo.disk_usage_totals : [];
                         }
                     },
                     cacheConfig: {
@@ -222,7 +222,6 @@ define([
             },
             body: {
                 options: {
-                    detail: false,
                     checkboxSelectable: false,
                     fixedRowHeight: 30,
                     detail: {
@@ -236,8 +235,8 @@ define([
                             type: "GET"
                         },
                         dataParser: function (response) {
-                            var serverMonitoringInfo = response[0]["ServerMonitoringInfo"];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo["file_system_view_stats"] : [];
+                            var serverMonitoringInfo = response[0].ServerMonitoringInfo;
+                            return contrail.checkIfExist(serverMonitoringInfo.file_system_view_stats) ? serverMonitoringInfo.file_system_view_stats : [];
                         }
                     },
                     cacheConfig: {
@@ -302,8 +301,8 @@ define([
                             type: "GET"
                         },
                         dataParser: function (response) {
-                            var serverMonitoringInfo = response[0]["ServerMonitoringInfo"];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo["sensor_stats"] : [];
+                            var serverMonitoringInfo = response[0].ServerMonitoringInfo;
+                            return contrail.checkIfExist(serverMonitoringInfo.sensor_stats) ? serverMonitoringInfo.sensor_stats : [];
                         }
                     },
                     cacheConfig: {
@@ -368,8 +367,8 @@ define([
                             type: "GET"
                         },
                         dataParser: function (response) {
-                            var serverMonitoringInfo = response[0]["ServerMonitoringInfo"];
-                            return contrail.checkIfExist(serverMonitoringInfo) ? serverMonitoringInfo["network_info_totals"] : [];
+                            var serverMonitoringInfo = response[0].ServerMonitoringInfo;
+                            return contrail.checkIfExist(serverMonitoringInfo.network_info_totals) ? serverMonitoringInfo.network_info_totals : [];
                         }
                     },
                     cacheConfig: {

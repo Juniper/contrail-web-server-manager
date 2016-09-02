@@ -55,7 +55,7 @@ module.exports = function (grunt) {
         {pattern: "contrail-web-core/webroot/common/ui/templates/*.tmpl", included: false}
     ];
 
-    function browserSubdirFn(browser, platform) {
+    function browserSubdirFn(browser) {
         // normalization process to keep a consistent browser name
         return browser.toLowerCase().split(" ")[0];
     }
@@ -266,16 +266,16 @@ module.exports = function (grunt) {
 
     for (var target in karmaConfig) {
         if (target != "options") {
-            allTestFiles = allTestFiles.concat(karmaConfig[target]["options"]["files"]);
-            var feature = karmaConfig[target]["options"]["feature"];
+            allTestFiles = allTestFiles.concat(karmaConfig[target].options.files);
+            var feature = karmaConfig[target].options.feature;
             if (feature == "sm") {
-                allSMTestFiles = allSMTestFiles.concat(karmaConfig[target]["options"]["files"]);
+                allSMTestFiles = allSMTestFiles.concat(karmaConfig[target].options.files);
             }
-            karmaConfig[target]["options"]["files"] = commonFiles.concat(karmaConfig[target]["options"]["files"]);
+            karmaConfig[target].options.files = commonFiles.concat(karmaConfig[target].options.files);
         }
     }
 
-    karmaConfig["runAllSMTests"] = {
+    karmaConfig.runAllSMTests = {
         options: {
             files: [],
             preprocessors: {
@@ -307,7 +307,7 @@ module.exports = function (grunt) {
             }
         }
     };
-    karmaConfig["runAllTests"] = {
+    karmaConfig.runAllTests = {
         options: {
             files: [],
             preprocessors: {
@@ -345,8 +345,8 @@ module.exports = function (grunt) {
         }
     };
     // Now add the test files along with common files.
-    karmaConfig["runAllSMTests"]["options"]["files"] = commonFiles.concat(allSMTestFiles);
-    karmaConfig["runAllTests"]["options"]["files"] = commonFiles.concat(allTestFiles);
+    karmaConfig.runAllSMTests.options.files = commonFiles.concat(allSMTestFiles);
+    karmaConfig.runAllTests.options.files = commonFiles.concat(allTestFiles);
 
 
     grunt.initConfig({
@@ -371,10 +371,10 @@ module.exports = function (grunt) {
 
     function printCoverageReportLoc(reporter) {
         grunt.log.writeln("Coverage Reports: ");
-        var reporters = reporter["reporters"] ? reporter["reporters"] : [reporter];
+        var reporters = reporter.reporters ? reporter.reporters : [reporter];
         for (var i = 0; i < reporters.length; i++) {
-            grunt.log.writeln("Type: " + reporters[i]["type"]);
-            grunt.log.writeln("Dir: " + reporters[i]["dir"]);
+            grunt.log.writeln("Type: " + reporters[i].type);
+            grunt.log.writeln("Dir: " + reporters[i].dir);
         }
     }
 
@@ -388,13 +388,13 @@ module.exports = function (grunt) {
             grunt.log.writeln(">>>>>>>> No feature specified. will run all the feature tests. <<<<<<<");
             grunt.log.writeln("If you need to run specific feature tests only; then run: grunt run:sm\n\n");
             grunt.task.run("karma:runAllTests");
-            grunt.log.writeln("Test results: " + karmaConfig["runAllTests"]["options"]["htmlReporter"]["outputFile"]);
-            printCoverageReportLoc(karmaConfig["runAllTests"]["options"]["coverageReporter"]);
+            grunt.log.writeln("Test results: " + karmaConfig.runAllTests.options.htmlReporter.outputFile);
+            printCoverageReportLoc(karmaConfig.runAllTests.options.coverageReporter);
         } else if (feature == "sm") {
             grunt.log.writeln(">>>>>>>> Running Server Monitoring feature tests. <<<<<<<");
             grunt.task.run("karma:runAllSMTests");
-            grunt.log.writeln("Test results: " + karmaConfig["runAllSMTests"]["options"]["htmlReporter"]["outputFile"]);
-            printCoverageReportLoc(karmaConfig["runAllSMTests"]["options"]["coverageReporter"]);
+            grunt.log.writeln("Test results: " + karmaConfig.runAllSMTests.options.htmlReporter.outputFile);
+            printCoverageReportLoc(karmaConfig.runAllSMTests.options.coverageReporter);
         }
     });
 
@@ -402,8 +402,8 @@ module.exports = function (grunt) {
         if (target == null) {
             grunt.log.writeln(">>>>>>>> Running Server Manager feature tests. <<<<<<<");
             grunt.task.run("karma:runAllSMTests");
-            grunt.log.writeln("Test results: " + karmaConfig["runAllSMTests"]["options"]["htmlReporter"]["outputFile"]);
-            printCoverageReportLoc(karmaConfig["runAllSMTests"]["options"]["coverageReporter"]);
+            grunt.log.writeln("Test results: " + karmaConfig.runAllSMTests.options.htmlReporter.outputFile);
+            printCoverageReportLoc(karmaConfig.runAllSMTests.options.coverageReporter);
         } else if (target == "imageListView") {
             grunt.task.run("karma:imageListView");
         } else if (target == "packageListView") {

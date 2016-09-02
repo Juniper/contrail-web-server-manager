@@ -4,37 +4,46 @@
   "type": "object",
   "properties": {
     "base_image_id": {
-      "type": "string"
+      "type": "string",
+      "description": "Id of base image OS that the server will be reimaged with."
     },
     "cluster_id": {
-      "type": "string"
+      "type": "string",
+      "description": "Id of the cluster that the server belongs to."
     },
     "domain": {
-      "type": "string"
+      "type": "string",
+      "description": "The domain that the server belongs to."
     },
     "email": {
       "type": "string"
     },
     "id": {
-      "type": "string"
+      "type": "string",
+      "description": "The id of the server. Mandatory"
     },
     "ipmi_address": {
-      "type": "string"
+      "type": "string",
+      "description": "Address of the IPMI Interface for this server (if available)"
     },
     "ipmi_username": {
-      "type": "string"
+      "type": "string",
+      "description": "The username to login to IPMI interface"
     },
     "ipmi_password": {
-      "type": "string"
+      "type": "string",
+      "description": "The password to login to IPMI interface"
     },
     "ipmi_interface": {
       "type": "string"
     },
     "password": {
-      "type": "string"
+      "type": "string",
+      "description": "Root password for this server"
     },
     "package_image_id": {
-      "type": "string"
+      "type": "string",
+      "description": "Id of Contrail package that the server will be provisioned with."
     },
     "roles": {
       "type": "array",
@@ -66,14 +75,17 @@
                   "type": "object",
                   "properties": {
                     "storage_repo_id": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "If server has storage compute or master role configured, the storage repo id should be specified. mandatory if storage role is configured. SM does not calculate the value."
                     },
                     "storage_osd_disks": {
                       "type": "array",
-                      "items": {}
+                      "items": {},
+                      "description": "If server has storage-compute role, specify list of disks that are used for storage."
                     },
                     "storage_chassis_id": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "If server has storage-compute role this field should contain value of storage chassis id. This value along with server id and configuration from other storage-compute nodes is used to calculate storage_chassis_config"
                     },
                     "storage_chassis_id_input": {
                       "type": "string"
@@ -95,13 +107,16 @@
       "properties": {
         "interfaces": {
           "type": "array",
-          "items": {}
+          "items": {},
+          "description": "Description of the interface config for this server"
         },
         "management_interface": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the interface to be set as the management interface for this server"
         },
         "provisioning": {
-          "type": "string"
+          "type": "string",
+          "description": "Provisioning method"
         }
       },
       "required": ["management_interface"]

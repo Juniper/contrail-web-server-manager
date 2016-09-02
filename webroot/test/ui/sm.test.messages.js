@@ -2,19 +2,17 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-define([
-    "underscore"
-], function (_) {
-    this.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE = "Package List view - Common Tests";
-    this.CLUSTER_LIST_VIEW_COMMON_TEST_MODULE = "Cluster List view - Common Tests";
-    this.CLUSTER_TAB_VIEW_COMMON_TEST_MODULE = "Cluster Tab view - Common Tests";
-    this.SERVER_TAB_VIEW_COMMON_TEST_MODULE = "Server Tab view - Common Tests";
-    this.SERVER_LIST_VIEW_COMMON_TEST_MODULE = "Server List view - Common Tests";
-    this.IMAGE_LIST_VIEW_COMMON_TEST_MODULE = "Image List view - Common Tests";
-    this.PACKAGE_MODEL_TEST_MODULE = "Package Model - Form Edit Tests";
-    this.CLUSTER_LIST_VIEW_CUSTOM_TEST_MODULE = "Cluster List view - Custom Tests";
+define([], function () {
+    var PACKAGE_LIST_VIEW_COMMON_TEST_MODULE = "Package List view - Common Tests";
+    var CLUSTER_LIST_VIEW_COMMON_TEST_MODULE = "Cluster List view - Common Tests";
+    var CLUSTER_TAB_VIEW_COMMON_TEST_MODULE = "Cluster Tab view - Common Tests";
+    var SERVER_TAB_VIEW_COMMON_TEST_MODULE = "Server Tab view - Common Tests";
+    var SERVER_LIST_VIEW_COMMON_TEST_MODULE = "Server List view - Common Tests";
+    var IMAGE_LIST_VIEW_COMMON_TEST_MODULE = "Image List view - Common Tests";
+    var PACKAGE_MODEL_TEST_MODULE = "Package Model - Form Edit Tests";
+    var CLUSTER_LIST_VIEW_CUSTOM_TEST_MODULE = "Cluster List view - Custom Tests";
 
-    this.get = function () {
+    var get = function () {
         var args = arguments;
         return args[0].replace(/\{(\d+)\}/g, function (m, n) {
             n = parseInt(n) + 1;

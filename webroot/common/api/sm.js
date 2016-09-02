@@ -3,12 +3,11 @@
  */
 
 
-var rest = require(process.mainModule.exports["corePath"] + "/src/serverroot/common/rest.json.api"),
-    logutils = require(process.mainModule.exports["corePath"] + "/src/serverroot/utils/log.utils");
+var rest = require(process.mainModule.exports.corePath + "/src/serverroot/common/rest.json.api"),
+    logutils = require(process.mainModule.exports.corePath + "/src/serverroot/utils/log.utils");
 
 var smConfig = require("../../common/api/sm.config"),
     smConstants = require("../../common/api/sm.constants"),
-    assert = require("assert");
     sm = module.exports;
 
 var smServerIP = smConfig.sm.server_ip,

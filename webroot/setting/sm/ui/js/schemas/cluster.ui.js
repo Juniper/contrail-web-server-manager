@@ -417,47 +417,11 @@ define([], function(){ return {
                                             "label": "Live Migration Storage Scope",
                                             "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.live_migration_storage_scope"
                                         },
-                                        "storage_num_osd": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "Storage Num OSD",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_num_osd"
-                                        },
-                                        "storage_fsid": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "Storage FSID",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_fsid"
-                                        },
-                                        "storage_num_hosts": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "Storage Num Hosts",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_num_hosts"
-                                        },
                                         "storage_admin_key": {
                                             "viewable": true,
                                             "editable": true,
                                             "label": "Storage Admin Key",
                                             "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_admin_key"
-                                        },
-                                        "storage_virsh_uuid": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "Storage Virsh UUID",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_virsh_uuid"
-                                        },
-                                        "storage_cluster_network": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "Storage Cluster Network",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_cluster_network"
-                                        },
-                                        "storage_enabled": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_enabled"
                                         }
                                     },
                                     "viewable": true,

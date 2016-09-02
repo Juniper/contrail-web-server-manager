@@ -2,9 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-define([
-    "underscore"
-], function (_) {
+define([], function () {
     var GridConfig = function () {
         this.GRID_HEADER_ACTION_TYPE_ACTION = "action";
         this.GRID_HEADER_ACTION_TYPE_DROPLIST = "action-droplist";
@@ -28,56 +26,56 @@ define([
         this.CLUSTER_COLUMNS = [
             { id: "cluster_id", field: "id", name: "ID", width: 150, minWidth: 100, cssClass: "cell-hyperlink-blue", events: {
                 onClick: function (e, dc) {
-                    loadFeature({p: "setting_sm_clusters", q: {"cluster_id": dc["id"]}});
+                    loadFeature({p: "setting_sm_clusters", q: {"cluster_id": dc.id}});
                 }
             }},
             { id: "new-servers", field: "", name: "New", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams["servers_status"];
-                    return serverStatus["new_servers"];
+                        serverStatus = uiParams.servers_status;
+                    return serverStatus.new_servers;
                 }
             },
             { id: "configured-servers", field: "", name: "Configured", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams["servers_status"];
-                    return serverStatus["configured_servers"];
+                        serverStatus = uiParams.servers_status;
+                    return serverStatus.configured_servers;
                 }
             },
             { id: "inreimage_servers", field: "", name: "In-Reimage", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams["servers_status"];
-                    return serverStatus["inreimage_servers"];
+                        serverStatus = uiParams.servers_status;
+                    return serverStatus.inreimage_servers;
                 }
             },
             { id: "reimaged_servers", field: "", name: "Reimaged", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams["servers_status"];
-                    return serverStatus["reimaged_servers"];
+                        serverStatus = uiParams.servers_status;
+                    return serverStatus.reimaged_servers;
                 }
             },
             { id: "inprovision_servers", field: "", name: "In-Provision", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams["servers_status"];
-                    return serverStatus["inprovision_servers"];
+                        serverStatus = uiParams.servers_status;
+                    return serverStatus.inprovision_servers;
                 }
             },
             { id: "provisioned-servers", field: "", name: "Provisioned", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams["servers_status"];
-                    return serverStatus["provisioned_servers"];
+                        serverStatus = uiParams.servers_status;
+                    return serverStatus.provisioned_servers;
                 }
             },
             { id: "total-servers", field: "", name: "Total", width: 120, minWidth: 80, sortable : {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
                     var uiParams = dc[cowc.KEY_UI_ADDED_PARAMS],
-                        serverStatus = uiParams["servers_status"];
-                    return serverStatus["total_servers"];
+                        serverStatus = uiParams.servers_status;
+                    return serverStatus.total_servers;
                 }
             }
         ];
@@ -88,8 +86,8 @@ define([
             {
                 id: "reading", field: "reading", name: "Reading", width: 120, minWidth: 15,
                 formatter: function (r, c, v, cd, dc) {
-                    var unit = dc["unit"],
-                        reading = dc["reading"];
+                    var unit = dc.unit,
+                        reading = dc.reading;
                     return reading + " " + unit;
                 }
             },
@@ -110,10 +108,10 @@ define([
         this.SERVER_DISKUSAGE_COLUMNS = [
             {id: "disk_name", field: "disk_name", name: "Disk Name", width: 80, minWidth: 15},
             {id: "total_read_bytes", field: "total_read_bytes", name: "Read", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc["total_read_bytes"], false, null, 1);
+                return formatBytes(dc.total_read_bytes, false, null, 1);
             }},
             {id: "total_write_bytes", field: "total_write_bytes", name: "Write", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc["total_write_bytes"], false, null, 1);
+                return formatBytes(dc.total_write_bytes, false, null, 1);
              }}
         ];
 
@@ -121,7 +119,7 @@ define([
             {id: "fs_name", field: "fs_name", name: "Name", width: 80, minWidth: 15},
             {id: "type", field: "type", name: "Type", width: 80, minWidth: 15},
             {id: "size_kb", field: "size_kb", name: "Size", width: 80, minWidth: 15, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc["size_kb"] * 1024, false, null, 1);
+                return formatBytes(dc.size_kb * 1024, false, null, 1);
             }},
             {id: "used_percentage", field: "used_percentage", name: "Used", width: 80, minWidth: 15,
                 formatter: function(r, c, v, cd, dc) {
@@ -140,16 +138,16 @@ define([
         this.SERVER_MONITORING_INTERFACE_COLUMNS = [
             {id: "interface_name", field: "interface_name", name: "Name", width: 120, minWidth: 20},
             {id: "total_tx_bytes", field: "total_tx_bytes", name: "TX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc["total_tx_bytes"], false, null, 1);
+                return formatBytes(dc.total_tx_bytes, false, null, 1);
             }},
             {id: "total_tx_packets", field: "total_tx_packets", name: "TX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(",")(dc["total_tx_packets"]);
+                return d3.format(",")(dc.total_tx_packets);
             }},
             {id: "total_rx_bytes", field: "total_rx_bytes", name: "RX Bytes", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return formatBytes(dc["total_rx_bytes"], false, null, 1);
+                return formatBytes(dc.total_rx_bytes, false, null, 1);
             }},
             {id: "total_rx_packets", field: "total_rx_packets", name: "RX Packets", width: 120, minWidth: 20, formatter: function (r, c, v, cd, dc) {
-                return d3.format(",")(dc["total_rx_packets"]);
+                return d3.format(",")(dc.total_rx_packets);
             }}
         ];
 
@@ -262,7 +260,7 @@ define([
                 minWidth: width,
                 sortable: {sortBy: "formattedValue"},
                 formatter: function (r, c, v, cd, dc) {
-                    var roles = (contrail.checkIfExist(dc["roles"])) ? dc["roles"] : [], formattedRoles = [];
+                    var roles = (contrail.checkIfExist(dc.roles)) ? dc.roles : [], formattedRoles = [];
                     for (var i = 0; i < roles.length; i++) {
                         formattedRoles.push(smwl.getFirstCharUpperCase(roles[i]));
                     }
@@ -285,7 +283,7 @@ define([
                 commonColumnsSet1 = [
                     { id: "server_id", field: "id", name: "ID", width: 80, minWidth: 80, cssClass: "cell-hyperlink-blue", events: {
                         onClick: function (e, dc) {
-                            loadFeature({p: "setting_sm_servers", q: {"server_id": dc["id"]}});
+                            loadFeature({p: "setting_sm_servers", q: {"server_id": dc.id}});
                         }
                     } }
                 ],
@@ -321,7 +319,7 @@ define([
                 serverColumns = commonColumnsSet1.concat([
                     { id: "cluster_id", field: "cluster_id", name: "Cluster", width: 80, minWidth: 80, cssClass: "cell-hyperlink-blue", events: {
                         onClick: function (e, dc) {
-                            loadFeature({p: "setting_sm_clusters", q: {"cluster_id": dc["cluster_id"]}});
+                            loadFeature({p: "setting_sm_clusters", q: {"cluster_id": dc.cluster_id}});
                         }
                     }}
                 ]);
@@ -330,7 +328,7 @@ define([
                     {
                         id: "status", field: "status", name: "Status", width: 120, minWidth: 120,
                         formatter: function (r, c, v, cd, dc) {
-                            var status = smwl.get(dc["status"]);
+                            var status = smwl.get(dc.status);
                             if (status == "Provision Completed") {
                                 return '<div class="status-badge-rounded status-server-provision-completed"></div> ' + status;
                             } else if (status == "Server Added") {
@@ -351,7 +349,7 @@ define([
                     {
                         id: "status", field: "status", name: "Status", width: 120, minWidth: 120,
                         formatter: function (r, c, v, cd, dc) {
-                            var status = smwl.get(dc["status"]);
+                            var status = smwl.get(dc.status);
                             if (status == "Provision Completed") {
                                 return '<div class="status-badge-rounded status-active"></div> ' + status;
                             } else if (status == "Server Added") {
@@ -365,7 +363,7 @@ define([
                 serverColumns = serverColumns.concat([
                     { id: "provisioned_id", field: "provisioned_id", name: "Provisioned Id", width: 120, minWidth: 120,
                         formatter: function (r, c, v, cd, dc) {
-                            return (contrail.checkIfExist(dc["provisioned_id"])) ? smwl.get(dc["provisioned_id"]) : "-";
+                            return (contrail.checkIfExist(dc.provisioned_id)) ? smwl.get(dc.provisioned_id) : "-";
                         }
                     }
                 ]);
@@ -379,8 +377,8 @@ define([
         };
 
         this.getServerMonitoringHLazyRemoteConfig = function (viewConfig, dataParser) {
-            var queryString = contrail.checkIfExist(viewConfig["hashParams"]) ? smwu.getQueryString4ServersUrl(viewConfig["hashParams"]) : "",
-                hashParams = viewConfig["hashParams"];
+            var queryString = contrail.checkIfExist(viewConfig.hashParams) ? smwu.getQueryString4ServersUrl(viewConfig.hashParams) : "",
+                hashParams = viewConfig.hashParams;
 
             queryString = queryString.replace("?", "");
 
@@ -399,9 +397,9 @@ define([
             };
 
             if (queryString == "") {
-                listModelConfig["cacheConfig"]["ucid"] = smwc.UCID_ALL_SERVER_MONITORING_SUMMARY_LIST;
-            } else if (hashParams["cluster_id"] != null && hashParams["tag"] == null) {
-                listModelConfig["cacheConfig"]["ucid"] = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_SUMMARY_LIST, hashParams["cluster_id"]);
+                listModelConfig.cacheConfig.ucid = smwc.UCID_ALL_SERVER_MONITORING_SUMMARY_LIST;
+            } else if (hashParams.cluster_id != null && hashParams.tag == null) {
+                listModelConfig.cacheConfig.ucid = smwc.get(smwc.UCID_CLUSTER_SERVER_MONITORING_SUMMARY_LIST, hashParams.cluster_id);
             }
 
             return listModelConfig;
