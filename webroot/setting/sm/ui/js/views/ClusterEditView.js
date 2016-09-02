@@ -818,20 +818,6 @@ define([
                                 viewConfig: {path: 'parameters.provision.contrail.storage.live_migration_host', dataBindValue: 'parameters().provision.contrail.storage.live_migration_host', class: "span6"}
                             }
                         ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: 'storage_enabled',
-                                view: 'FormDropdownView',
-                                viewConfig: {
-                                    path: 'parameters.provision.contrail.storage.storage_enabled',
-                                    dataBindValue: 'parameters().provision.contrail.storage.storage_enabled',
-                                    class: "span6",
-                                    elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}
-                                }
-                            }
-                        ]
                     }
                 ]
             }

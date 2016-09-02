@@ -291,10 +291,6 @@ define([], function () {
                                             "storage_admin_key": {
                                                 "type": "string",
                                                 "default": ""
-                                            },
-                                            "storage_enabled": {
-                                                "type": "string",
-                                                "default": ""
                                             }
                                         }
                                     },

@@ -88,8 +88,7 @@ define([
                                 "live_migration_host": "",
                                 "live_migration_ip": "",
                                 "live_migration_storage_scope": "",
-                                "storage_admin_key": "",
-                                "storage_enabled": ""
+                                "storage_admin_key": ""
                             },
                             "toragent": {
                             },
@@ -432,13 +431,9 @@ define([
                                                     "storage_admin_key": {
                                                         "type": "string",
                                                         "default": ""
-                                                    },
-                                                    "storage_enabled": {
-                                                        "type": "string",
-                                                        "default": ""
                                                     }
                                                 },
-                                                "required": ["storage_monitor_secret", "osd_bootstrap_key", "storage_chassis_config", "live_migration_host", "live_migration_ip", "live_migration_storage_scope", "storage_admin_key", "storage_enabled"]
+                                                "required": ["storage_monitor_secret", "osd_bootstrap_key", "storage_chassis_config", "live_migration_host", "live_migration_ip", "live_migration_storage_scope", "storage_admin_key"]
                                             },
                                             "toragent": {
                                                 "type": "object",
