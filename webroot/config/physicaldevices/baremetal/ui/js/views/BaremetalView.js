@@ -1,9 +1,10 @@
 define([
     'underscore',
     'contrail-view',
+    'contrail-list-model',
     'sm-basedir/config/physicaldevices/baremetal/ui/js/models/BaremetalModel',
     'sm-basedir/config/physicaldevices/baremetal/ui/js/views/BaremetalEditView'
-], function (_, ContrailView, BaremetalModel, BaremetalEditView) {
+], function (_, ContrailView, ContrailListModel, BaremetalModel, BaremetalEditView) {
          var prefixId = smwc.BAREMETAL_PREFIX_ID,
          baremetalEditView = new BaremetalEditView(),
          gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID;
@@ -12,67 +13,94 @@ define([
         el: $(contentContainer),
 
         render: function (viewConfig) {
+            var self = this;
             var hashParams = viewConfig['hashParams']
             if (hashParams['server_id'] != null) {
                 this.renderServer(hashParams['server_id']);
             } else {
-                this.renderServersList(viewConfig);
-            }
-        },
-        
-        renderServersList: function (viewConfig) {
-            var bmTemplate = contrail.getTemplate4Id(smwc.BM_PREFIX_ID + cowc.TMPL_SUFFIX_ID),
-                serverColumnsType = viewConfig['serverColumnsType'],
-                showAssignRoles = viewConfig['showAssignRoles'];
-            
-            this.$el.html(bmTemplate({name: prefixId}));
-
-            var gridConfig = {
-                header: {
-                    title: {
-                        text: smwl.TITLE_BAREMETAL_SERVERS
-                    },
-                    advanceControls: headerActionConfig
-                },
-                columnHeader: {
-                    columns: smwgc.getBaremetalServerColumns(serverColumnsType)
-                },
-                body: {
-                    options: {
-                        actionCell: rowActionConfig,
-                        /*checkboxSelectable: {
-                            onNothingChecked: function (e) {
-                                $('#btnActionServers').addClass('disabled-link').removeAttr('data-toggle');
-                            },
-                            onSomethingChecked: function (e) {
-                                $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
-                            }
-                        },*/
-                        checkboxSelectable : false,
-                        detail: {
-                            template: $('#' + smwc.TMPL_BAREMETAL_PAGE_DETAIL).html()
-                        }                        
-                    },
-                    dataSource: { 
+                var remoteAjaxConfig = {
                         remote: {
                             ajaxConfig: {
                                 url: smwc.URL_BAREMETAL_SERVER
                             }
+                        },
+                        cacheConfig: {
                         }
-                    }
                 }
-            };
+                var contrailListModel = new ContrailListModel(remoteAjaxConfig);
+                self.renderView4Config(this.$el, contrailListModel,
+                        getBMServersViewConfig(viewConfig));
+            }
+        },
 
-            cowu.renderGrid(gridElId, gridConfig);
-        }
+        
     });
+    
+    function getBMServersGridConfig (viewConfig) {
+        var serverColumnsType = viewConfig['serverColumnsType'],
+            showAssignRoles = viewConfig['showAssignRoles'];
+
+        var gridConfig = {
+            header: {
+                title: {
+                    text: smwl.TITLE_BAREMETAL_SERVERS
+                },
+                advanceControls: headerActionConfig
+            },
+            columnHeader: {
+                columns: smwgc.getBaremetalServerColumns(serverColumnsType)
+            },
+            body: {
+                options: {
+                    actionCell: rowActionConfig,
+                    /*checkboxSelectable: {
+                        onNothingChecked: function (e) {
+                            $('#btnActionServers').addClass('disabled-link').removeAttr('data-toggle');
+                        },
+                        onSomethingChecked: function (e) {
+                            $('#btnActionServers').removeClass('disabled-link').attr('data-toggle', 'dropdown');
+                        }
+                    },*/
+                    checkboxSelectable : false,
+                    detail: {
+                        template: $('#' + smwc.TMPL_BAREMETAL_PAGE_DETAIL).html()
+                    }
+                },
+                dataSource: {
+                    data : []
+                }
+            }
+        };
+        
+        return gridConfig;
+    }
+    
+    function getBMServersViewConfig (viewConfig) {
+        return {
+            elementId : 'BareMetalServersSection',
+            view : "SectionView",
+            viewConfig : {
+                rows : [ {
+                    columns : [ {
+                        elementId : 'BareMetalServersGrid',
+                        title : smwl.TITLE_BAREMETAL_SERVERS,
+                        view : "GridView",
+                        viewConfig : {
+                            elementConfig :
+                                getBMServersGridConfig(viewConfig)
+                        }
+                    } ]
+                } ]
+            }
+        }
+    }
     var rowActionConfig = [
         smwgc.getConfigureAction(function (rowIndex) {
             var dataItem = $('#' + prefixId + cowc.RESULTS_SUFFIX_ID).data('contrailGrid')._dataView.getItem(rowIndex),
                 baremetalModel = new BaremetalModel(dataItem),
                 checkedRow = [dataItem],
                 title = smwl.TITLE_EDIT_CONFIG;
-        
+
             baremetalEditView.model = baremetalModel;
             baremetalEditView.renderEditBaremetal({"title": title, checkedRows: checkedRow, callback: function () {
                 var dataView = $(gridElId).data("contrailGrid")._dataView;
@@ -102,7 +130,7 @@ define([
                 loadFeature({p: smwc.URL_HASH_BM_SERVERS});
             }});
         }, true)
-    ];    
+    ];
     var headerActionConfig = [
           {
               "type": "link",
@@ -110,7 +138,7 @@ define([
               "iconClass": "fa fa-plus",
               "onClick": function () {
                   var baremetalModel = new BaremetalModel();
-    
+
                   baremetalEditView.model = baremetalModel;
                   baremetalEditView.renderAddBaremetal({"title": smwl.TITLE_BAREMETAL_SERVER, callback: function () {
                       var dataView = $(gridElId).data("contrailGrid")._dataView;
