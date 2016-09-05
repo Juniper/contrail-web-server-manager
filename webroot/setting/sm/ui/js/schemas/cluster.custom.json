@@ -223,26 +223,8 @@
                     "live_migration_storage_scope" : {
                       "label" : "Live Migration Storage Scope"
                     },
-                    "storage_num_osd" : {
-                      "label" : "Storage Num OSD"
-                    },
-                    "storage_fsid" : {
-                      "label" : "Storage FSID"
-                    },
-                    "storage_num_hosts" : {
-                      "label" : "Storage Num Hosts"
-                    },
                     "storage_admin_key" : {
                       "label" : "Storage Admin Key"
-                    },
-                    "storage_virsh_uuid" : {
-                      "label" : "Storage Virsh UUID"
-                    },
-                    "storage_cluster_network" : {
-                      "label" : "Storage Cluster Network"
-                    },
-                    "storage_enabled" : {
-                      "label" : ""
                     }
                   }
                 }

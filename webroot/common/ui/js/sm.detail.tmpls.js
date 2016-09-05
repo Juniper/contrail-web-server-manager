@@ -2,12 +2,10 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-define([
-    "underscore"
-], function (_) {
+define([], function () {
     var DetailTemplates = function () {
-        this.getClusterDetailsTemplate = function (detailTheme, detailActions) {
-            var detailTheme = contrail.checkIfExist(detailTheme) ? detailTheme : cowc.THEME_DETAIL_DEFAULT;
+        this.getClusterDetailsTemplate = function (theme, detailActions) {
+            var detailTheme = contrail.checkIfExist(theme) ? theme : cowc.THEME_DETAIL_DEFAULT;
             return {
                 actions: contrail.handleIfNull(detailActions, []),
                 templateGenerator: "ColumnSectionTemplateGenerator",
@@ -51,7 +49,7 @@ define([
                                             templateGenerator: "TextGenerator"
                                         },
                                         {
-                                            key: "parameters.provision.openstack.keystone_region_name",
+                                            key: "parameters.provision.openstack.keystone.region_name",
                                             templateGenerator: "TextGenerator"
                                         },
                                         {

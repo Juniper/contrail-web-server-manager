@@ -2,9 +2,9 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(["underscore"], function (_) {
+define([], function () {
 
-    this.getSingleImageDetailData = function () {
+    var getSingleImageDetailData = function () {
         return [
             {
                 "category": "image",
@@ -19,10 +19,10 @@ define(["underscore"], function (_) {
             }
         ];
     };
-    this.getTagNamesData = function () {
+    var getTagNamesData = function () {
         return ["datacenter", "floor", "hall", "rack", "user_tag"];
     };
-    this.formatMockData = function (rawMockData) {
+    var formatMockData = function (rawMockData) {
         return {
             "data": {
                 "value": rawMockData

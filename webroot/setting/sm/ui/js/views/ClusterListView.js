@@ -53,15 +53,15 @@ define([
                                             var chartDataValues = [];
                                             for(var i = 0; i < response.length; i++) {
                                                 var cluster = response[i],
-                                                    serverStatus = cluster["ui_added_parameters"]["servers_status"],
-                                                    monitoringStatus = contrail.handleIfNull(cluster["ui_added_parameters"]["monitoring"], {});
+                                                    serverStatus = cluster.ui_added_parameters.servers_status,
+                                                    monitoringStatus = contrail.handleIfNull(cluster.ui_added_parameters.monitoring, {});
 
                                                 chartDataValues.push({
-                                                    name: cluster["id"],
-                                                    y: serverStatus["total_servers"],
-                                                    x: contrail.handleIfNull(monitoringStatus["max_cpu_usage_percentage"], 0),
-                                                    color: (serverStatus["total_servers"] == serverStatus["provisioned_servers"]) ? "okay" : "default",
-                                                    size: contrail.handleIfNull(monitoringStatus["interface_rt_bytes"], 0),
+                                                    name: cluster.id,
+                                                    y: serverStatus.total_servers,
+                                                    x: contrail.handleIfNull(monitoringStatus.max_cpu_usage_percentage, 0),
+                                                    color: (serverStatus.total_servers == serverStatus.provisioned_servers) ? "okay" : "default",
+                                                    size: contrail.handleIfNull(monitoringStatus.interface_rt_bytes, 0),
                                                     rawData: cluster
                                                 });
                                             }
@@ -110,8 +110,8 @@ define([
 
     function getClusterTooltipConfig(data) {
         var cluster = data.rawData,
-            serverStatus = cluster["ui_added_parameters"]["servers_status"],
-            monitoringStatus = cluster["ui_added_parameters"]["monitoring"];
+            serverStatus = cluster.ui_added_parameters.servers_status,
+            monitoringStatus = cluster.ui_added_parameters.monitoring;
 
         var tooltipConfig = {
             title: {
@@ -121,10 +121,10 @@ define([
             content: {
                 iconClass: false,
                 info: [
-                    {label:"Max. CPU Utilization", value: monitoringStatus["max_cpu_usage_percentage"] + " %"},
-                    {label:"Network Traffic", value: cowu.addUnits2Bytes(monitoringStatus["interface_rt_bytes"], false, null, 1, smwc.MONITORING_CONFIG["monitoring_frequency"])},
-                    {label:"In-Provision", value: serverStatus["inprovision_servers"]},
-                    {label:"Provisioned", value: serverStatus["provisioned_servers"] + " out of " + serverStatus["total_servers"]}
+                    {label:"Max. CPU Utilization", value: monitoringStatus.max_cpu_usage_percentage + " %"},
+                    {label:"Network Traffic", value: cowu.addUnits2Bytes(monitoringStatus.interface_rt_bytes, false, null, 1, smwc.MONITORING_CONFIG.monitoring_frequency)},
+                    {label:"In-Provision", value: serverStatus.inprovision_servers},
+                    {label:"Provisioned", value: serverStatus.provisioned_servers + " out of " + serverStatus.total_servers}
                 ],
                 actions: [
                     {
@@ -156,12 +156,12 @@ define([
                         {
                             text: "Provisioned Server = Total Servers",
                             labelCssClass: "okay",
-                            filterFn: function(d) { return d["total_servers"] == d["provisioned_servers"]; }
+                            filterFn: function(d) { return d.total_servers == d.provisioned_servers; }
                         },
                         {
                             text: "Provisioned Server != Total Servers",
                             labelCssClass: "default",
-                            filterFn: function(d) { return d["total_servers"] != d["provisioned_servers"];}
+                            filterFn: function(d) { return d.total_servers != d.provisioned_servers;}
                         }
                     ]
                 }
@@ -180,14 +180,14 @@ define([
                             text: "Provisioned Server = Total Servers",
                             labelCssClass: "fa fa-circle okay",
                             events: {
-                                click: function (event) {}
+                                click: function () {}
                             }
                         },
                         {
                             text: "Provisioned Server != Total Servers",
                             labelCssClass: "fa fa-circle medium",
                             events: {
-                                click: function (event) {}
+                                click: function () {}
                             }
                         }
                     ]
@@ -200,7 +200,7 @@ define([
                             text: "Total Network Traffic",
                             labelCssClass: "fa fa-circle",
                             events: {
-                                click: function (event) {}
+                                click: function () {}
                             }
                         }
                     ]

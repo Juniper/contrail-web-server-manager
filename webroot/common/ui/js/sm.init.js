@@ -25,8 +25,8 @@ define([
     smwp = new Parsers();
     var deferredObj;
 
-    if(globalObj["initFeatureAppDefObjMap"] != null) {
-        deferredObj = globalObj["initFeatureAppDefObjMap"][FEATURE_PCK_WEB_SERVER_MANAGER];
+    if(globalObj.initFeatureAppDefObjMap != null) {
+        deferredObj = globalObj.initFeatureAppDefObjMap[FEATURE_PCK_WEB_SERVER_MANAGER];
     } else {
         deferredObj = contentHandler.initFeatureAppDefObjMap[FEATURE_PCK_WEB_SERVER_MANAGER];
     }

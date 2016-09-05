@@ -8,10 +8,10 @@ define([
     "sm-basedir/setting/sm/ui/js/models/ServerModel",
     "sm-basedir/setting/sm/ui/js/views/ServerEditView",
     "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/server.json"
-], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, serverSchema) {
+], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, schema) {
     var prefixId = smwc.SERVER_PREFIX_ID,
         gridElId = "#" + smwl.SM_SERVER_GRID_ID,
-        serverSchema = JSON.parse(serverSchema);
+        serverSchema = JSON.parse(schema);
 
     var ServerGridView = ContrailView.extend({
         render: function () {
@@ -42,7 +42,7 @@ define([
         return returnFlag;
     }
 
-    function applyServerTagFilter(event, ui) {
+    function applyServerTagFilter() {
         var checkedRows = $("#tagsCheckedMultiselect").data("contrailCheckedMultiselect").getChecked();
         $(gridElId).data("contrailGrid")._dataView.setFilterArgs({
             checkedRows: checkedRows
@@ -135,22 +135,22 @@ define([
                     dataView.refreshData();
                 }});
             }
-        }),
-            dropdownActions.push({
-                "iconClass": "fa fa-cloud-upload",
-                "title": smwl.TITLE_PROVISION,
-                "onClick": function () {
-                    var serverModel = new ServerModel(),
-                        checkedRows = $(gridElId).data("contrailGrid").getCheckedRows(),
-                        serverEditView = new ServerEditView();
+        });
+        dropdownActions.push({
+            "iconClass": "fa fa-cloud-upload",
+            "title": smwl.TITLE_PROVISION,
+            "onClick": function () {
+                var serverModel = new ServerModel(),
+                    checkedRows = $(gridElId).data("contrailGrid").getCheckedRows(),
+                    serverEditView = new ServerEditView();
 
-                    serverEditView.model = serverModel;
-                    serverEditView.renderProvisionServers({"title": smwl.TITLE_PROVISION_SERVERS, "checkedRows": checkedRows, callback: function () {
-                        var dataView = $(gridElId).data("contrailGrid")._dataView;
-                        dataView.refreshData();
-                    }});
-                }
-            });
+                serverEditView.model = serverModel;
+                serverEditView.renderProvisionServers({"title": smwl.TITLE_PROVISION_SERVERS, "checkedRows": checkedRows, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            }
+        });
         headerActionConfig = [
             {
                 "type": "dropdown",
@@ -234,7 +234,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_CONFIG + (contrail.checkIfExist(dataItem["id"]) ? (" ("+ dataItem["id"] +")") : ""),
+                    title = smwl.TITLE_EDIT_CONFIG + (contrail.checkIfExist(dataItem.id) ? (" ("+ dataItem.id +")") : ""),
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -249,7 +249,7 @@ define([
                 var oAttributes = cowu.getAttributes4Schema(dataItem, serverSchema),
                     jsonModel = new JsonModel({json: oAttributes, schema: serverSchema}),
                     checkedRow = [oAttributes],
-                    title = smwl.TITLE_EDIT_JSON + (contrail.checkIfExist(oAttributes["id"]) ? (" (" + oAttributes["id"] + ")") : ""),
+                    title = smwl.TITLE_EDIT_JSON + (contrail.checkIfExist(oAttributes.id) ? (" (" + oAttributes.id + ")") : ""),
                     jsonEditView = new JsonEditView();
                 jsonEditView.model = jsonModel;
                 jsonEditView.renderEditor({
@@ -266,7 +266,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_EDIT_TAGS + " ("+ dataItem["id"] +")",
+                    title = smwl.TITLE_EDIT_TAGS + " ("+ dataItem.id +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -288,7 +288,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_ASSIGN_ROLES + " ("+ dataItem["id"] +")",
+                    title = smwl.TITLE_ASSIGN_ROLES + " ("+ dataItem.id +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -302,7 +302,7 @@ define([
             var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
                 checkedRow = [dataItem],
-                title = smwl.TITLE_REIMAGE + " ("+ dataItem["id"] +")",
+                title = smwl.TITLE_REIMAGE + " ("+ dataItem.id +")",
                 serverEditView = new ServerEditView();
 
             serverEditView.model = serverModel;
@@ -315,7 +315,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = [dataItem],
-                    title = smwl.TITLE_PROVISION_SERVER + " ("+ dataItem["id"] +")",
+                    title = smwl.TITLE_PROVISION_SERVER + " ("+ dataItem.id +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -328,7 +328,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_REFRESH_INVENTORY + " ("+ dataItem["id"] +")",
+                    title = smwl.TITLE_REFRESH_INVENTORY + " ("+ dataItem.id +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -341,7 +341,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DEL_SERVER + " ("+ dataItem["id"] +")",
+                    title = smwl.TITLE_DEL_SERVER + " ("+ dataItem.id +")",
                     serverEditView = new ServerEditView();
 
                 serverEditView.model = serverModel;
@@ -356,11 +356,11 @@ define([
     }
 
     function getServerGridConfig(viewConfig) {
-        var pagerOptions = viewConfig["pagerOptions"],
-            serverColumnsType = viewConfig["serverColumnsType"],
-            showAssignRoles = viewConfig["showAssignRoles"],
-            queryString = smwu.getQueryString4ServersUrl(viewConfig["hashParams"]),
-            hashParams = viewConfig["hashParams"];
+        var pagerOptions = viewConfig.pagerOptions,
+            serverColumnsType = viewConfig.serverColumnsType,
+            showAssignRoles = viewConfig.showAssignRoles,
+            queryString = smwu.getQueryString4ServersUrl(viewConfig.hashParams),
+            hashParams = viewConfig.hashParams;
 
         var listModelConfig = {
             remote: {
@@ -371,12 +371,12 @@ define([
         };
 
         if(queryString == "") {
-            listModelConfig["cacheConfig"] = {
+            listModelConfig.cacheConfig = {
                 ucid: smwc.UCID_ALL_SERVER_LIST
             };
-        } else if(hashParams["cluster_id"] != null && hashParams["tag"] == null) {
-            listModelConfig["cacheConfig"] = {
-                ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_LIST, hashParams["cluster_id"])
+        } else if(hashParams.cluster_id != null && hashParams.tag == null) {
+            listModelConfig.cacheConfig = {
+                ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_LIST, hashParams.cluster_id)
             };
         }
 
@@ -394,10 +394,10 @@ define([
                 options: {
                     actionCell: getRowActionConfig(showAssignRoles),
                     checkboxSelectable: {
-                        onNothingChecked: function (e) {
+                        onNothingChecked: function () {
                             $("#btnActionServers").addClass("disabled-link").removeAttr("data-toggle");
                         },
-                        onSomethingChecked: function (e) {
+                        onSomethingChecked: function () {
                             $("#btnActionServers").removeClass("disabled-link").attr("data-toggle", "dropdown");
                         }
                     },

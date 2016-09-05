@@ -2,9 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-define([
-    "underscore"
-], function (_) {
+define([], function () {
     var SMConstants = function () {
         this.TIMEOUT = 600 * 1000;
         this.IMAGE_PREFIX_ID = "image";

@@ -22,7 +22,7 @@ define([], function () {
         ],
         failure: [
             {
-                id: "abcd_1234",
+                id: "abcd_1234"
             },
             {
 
@@ -62,13 +62,13 @@ define([], function () {
                 expected: {
 
                 }
-            },
+            }
 
         ]
     };
 
     return {
         validations: validations,
-        setAttributes: setAttributes,
+        setAttributes: setAttributes
     };
 });

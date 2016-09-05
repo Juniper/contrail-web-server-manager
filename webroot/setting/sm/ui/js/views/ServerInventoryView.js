@@ -10,7 +10,7 @@ define([
     var ServerInventoryView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = self.attributes.viewConfig,
-                serverId = viewConfig["serverId"],
+                serverId = viewConfig.serverId,
                 modelMap = contrail.handleIfNull(self.modelMap, {}),
                 modelKey = smwc.get(smwc.UMID_SERVER_INVENTORY_UVE, serverId);
 
@@ -32,13 +32,13 @@ define([
             };
 
             var contrailViewModel = new ContrailViewModel(viewModelConfig);
-            modelMap[viewModelConfig["modelKey"]] = contrailViewModel;
+            modelMap[viewModelConfig.modelKey] = contrailViewModel;
             self.renderView4Config(this.$el, null, getServerInventoryViewConfig(viewConfig, contrailViewModel), null, null, modelMap);
         }
     });
 
     function getServerInventoryViewConfig(viewConfig, contrailViewModel) {
-        var serverId = viewConfig["serverId"],
+        var serverId = viewConfig.serverId,
             modelKey = smwc.get(smwc.UMID_SERVER_INVENTORY_UVE, serverId);
 
         return {
@@ -140,8 +140,8 @@ define([
                             type: "GET"
                         },
                         dataParser: function (response) {
-                            var serverInventoryInfo = response[0]["ServerInventoryInfo"];
-                            return contrail.checkIfExist(serverInventoryInfo) ? serverInventoryInfo["fru_infos"] : [];
+                            var serverInventoryInfo = response[0].ServerInventoryInfo;
+                            return contrail.checkIfExist(serverInventoryInfo.fru_infos) ? serverInventoryInfo.fru_infos : [];
                         }
                     },
                     cacheConfig: {
@@ -210,8 +210,8 @@ define([
                             type: "GET"
                         },
                         dataParser: function (response) {
-                            var serverInventoryInfo = response[0]["ServerInventoryInfo"];
-                            return contrail.checkIfExist(serverInventoryInfo) ? serverInventoryInfo["interface_infos"] : [];
+                            var serverInventoryInfo = response[0].ServerInventoryInfo;
+                            return contrail.checkIfExist(serverInventoryInfo.interface_infos) ? serverInventoryInfo.interface_infos : [];
                         }
                     },
                     cacheConfig: {

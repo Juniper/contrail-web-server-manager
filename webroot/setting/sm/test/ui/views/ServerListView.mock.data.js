@@ -2,9 +2,9 @@
  * Copyright (c) 2015 Juniper Networks, Inc. All rights reserved.
  */
 
-define(["underscore"], function (_) {
+define([], function () {
 
-    this.getSingleServerDetailData = function () {
+    var getSingleServerDetailData = function () {
         return [
             {
                 "domain"          : "contrail.juniper.net",
@@ -83,7 +83,7 @@ define(["underscore"], function (_) {
         ];
     };
 
-    this.getSingleServerMonitoringData = function () {
+    var getSingleServerMonitoringData = function () {
         return [
             {
                 "ServerMonitoringInfo": {
@@ -172,7 +172,7 @@ define(["underscore"], function (_) {
         ];
     };
 
-    this.getSingleServerMonitoringConfigData = function () {
+    var getSingleServerMonitoringConfigData = function () {
         return [
             {
                 "config": {
@@ -203,11 +203,11 @@ define(["underscore"], function (_) {
         ];
     };
 
-    this.getTagNamesData = function () {
+    var getTagNamesData = function () {
         return ["datacenter", "floor", "hall", "rack", "user_tag"];
     };
 
-    this.getTagValuesData = function () {
+    var getTagValuesData = function () {
         return {
             "datacenter": [
                 "contrail-lab"
@@ -225,7 +225,7 @@ define(["underscore"], function (_) {
         };
     };
 
-    this.formatMockData = function (rawMockData) {
+    var formatMockData = function (rawMockData) {
         return {
             "data": {
                 "value": rawMockData

@@ -2,8 +2,8 @@
  Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var commonUtils = require(process.mainModule.exports["corePath"] + "/src/serverroot/utils/common.utils"),
-    logutils = require(process.mainModule.exports["corePath"] + "/src/serverroot/utils/log.utils");
+var commonUtils = require(process.mainModule.exports.corePath + "/src/serverroot/utils/common.utils"),
+    logutils = require(process.mainModule.exports.corePath + "/src/serverroot/utils/log.utils");
 
 var sm = require("../../common/api/sm"),
     introspect = require("../../common/api/introspect.api"),
@@ -16,7 +16,7 @@ var sm = require("../../common/api/sm"),
     jsonPath = require("JSONPath").eval,
     _ = require("underscore");
 
-var rest = require(process.mainModule.exports["corePath"] + "/src/serverroot/common/rest.api"),
+var rest = require(process.mainModule.exports.corePath + "/src/serverroot/common/rest.api"),
     smConfig = require("../../common/api/sm.config"),
     analytics = rest.getAPIServer({apiName:global.label.OPS_API_SERVER, server:smConfig.sm.analytics_ip, port:smConfig.sm.analytics_port });
 
@@ -129,13 +129,13 @@ function computeServerStates(res, filteredResponseArray) {
                 clusterId = cluster[smConstants.KEY_ID];
                 clusterStatus = clusterStatusMap[clusterId];
                 if (clusterStatus != null) {
-                    clusterStatus["total_servers"] = getTotalServers4Cluster(clusterStatus);
-                    clusterStatus["new_servers"] = getServerCount4State(clusterStatus, "server_discovered");
-                    clusterStatus["configured_servers"] = getServerCount4State(clusterStatus, "server_added");
-                    clusterStatus["provisioned_servers"] = getServerCount4State(clusterStatus, "provision_completed");
-                    clusterStatus["inreimage_servers"] = getServerCount4State(clusterStatus, "reimage_started") + getServerCount4State(clusterStatus, "restart_issued");
-                    clusterStatus["reimaged_servers"] = getServerCount4State(clusterStatus, "reimage_completed");
-                    clusterStatus["inprovision_servers"] = clusterStatus["total_servers"] - clusterStatus["new_servers"] - clusterStatus["configured_servers"] - clusterStatus["provisioned_servers"] - clusterStatus["inreimage_servers"] - clusterStatus["reimaged_servers"];
+                    clusterStatus.total_servers = getTotalServers4Cluster(clusterStatus);
+                    clusterStatus.new_servers = getServerCount4State(clusterStatus, "server_discovered");
+                    clusterStatus.configured_servers = getServerCount4State(clusterStatus, "server_added");
+                    clusterStatus.provisioned_servers = getServerCount4State(clusterStatus, "provision_completed");
+                    clusterStatus.inreimage_servers = getServerCount4State(clusterStatus, "reimage_started") + getServerCount4State(clusterStatus, "restart_issued");
+                    clusterStatus.reimaged_servers = getServerCount4State(clusterStatus, "reimage_completed");
+                    clusterStatus.inprovision_servers = clusterStatus.total_servers - clusterStatus.new_servers - clusterStatus.configured_servers - clusterStatus.provisioned_servers - clusterStatus.inreimage_servers - clusterStatus.reimaged_servers;
                     filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: clusterStatus}});
                 } else {
                     filteredResponseArray[j] = _.extend(cluster, {ui_added_parameters: {servers_status: {total_servers: 0, new_servers: 0, configured_servers: 0, inreimage_servers: 0, reimaged_servers: 0, inprovision_servers: 0, provisioned_servers: 0}}});
@@ -166,8 +166,8 @@ function filterImagesPackages(res, filteredResponseArray, types, imageCategory) 
     var image, type, responseArray = [], category;
     for (var i = 0; i < filteredResponseArray.length; i++) {
         image = filteredResponseArray[i];
-        type = image["type"];
-        category = image["category"];
+        type = image.type;
+        category = image.category;
         if((category == null || category == imageCategory) && types.indexOf(type) != -1) {
             responseArray.push(image);
         }
@@ -214,7 +214,7 @@ function postObjects(req, res, appdata) {
         objectUrl = "/" + objectName,
         postData = req.body;
 
-    check4DuplicateId(res, objectName, postData[objectName][0]["id"], function () {
+    check4DuplicateId(res, objectName, postData[objectName][0].id, function () {
         sm.put(objectUrl, postData, appdata, function (error, resultJSON) {
             if (error != null) {
                 commonUtils.handleJSONResponse(formatErrorMessage(error), res);
@@ -323,7 +323,7 @@ function getChassisIds(req, res) {
             commonUtils.handleJSONResponse(null, res, []);
             logutils.logger.error(error.stack);
         } else {
-            commonUtils.handleJSONResponse(null, res, responseJSON["chassis_id"]);
+            commonUtils.handleJSONResponse(null, res, responseJSON.chassis_id);
         }
     });
 }
@@ -341,8 +341,8 @@ function getServerIPMIInfo (req, res) {
             ipmiInfo = jsonPath(result, "$..smipmiinfo");
             for(var i = 0; i < ipmiInfo.length; i++) {
                 sensorStats = ipmiInfo[i];
-                if(sensorStats["name"] == serverId) {
-                    formattedResult = sensorStats["sensor_state"]["list"]["ipmisensor"];
+                if(sensorStats.name == serverId) {
+                    formattedResult = sensorStats.sensor_state.list.ipmisensor;
                     break;
                 }
             }
@@ -461,11 +461,11 @@ function check4DuplicateId(res, objectName, id, callback) {
 
 function formatErrorMessage(error) {
     var message;
-    if (error["message"] != null) {
+    if (error.message != null) {
         try {
-            message = JSON.parse(error["message"]);
-            if (message["return_msg"] != null) {
-                error["message"] = message["return_msg"];
+            message = JSON.parse(error.message);
+            if (message.return_msg != null) {
+                error.message = message.return_msg;
             }
         } catch (error) {
             //Ignore

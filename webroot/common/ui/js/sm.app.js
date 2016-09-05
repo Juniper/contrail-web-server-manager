@@ -19,7 +19,7 @@ if (typeof smBaseDir !== "undefined") {
     smBuildDir = "";
     smWebDir = smBaseDir; // will initialize the webDir with baseDir
     if ((typeof globalObj !== "undefined") && globalObj.hasOwnProperty("buildBaseDir")) {
-        smBuildDir = globalObj["buildBaseDir"];
+        smBuildDir = globalObj.buildBaseDir;
     }
 
     require.config({

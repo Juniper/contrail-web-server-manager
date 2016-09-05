@@ -11,8 +11,8 @@ define([
 
         renderClusters: function (paramObject) {
             var self = this,
-                hashParams = paramObject["hashParams"],
-                clusterId = hashParams["cluster_id"];
+                hashParams = paramObject.hashParams,
+                clusterId = hashParams.cluster_id;
 
             if (contrail.checkIfExist(clusterId)) {
                 var clusterViewConfig = {
@@ -36,8 +36,8 @@ define([
 
         renderServers: function (paramObject) {
             var self = this,
-                hashParams = paramObject["hashParams"],
-                serverId = hashParams["server_id"];
+                hashParams = paramObject.hashParams,
+                serverId = hashParams.server_id;
 
             if (contrail.checkIfExist(serverId)) {
                 var serverViewConfig = {
@@ -59,7 +59,7 @@ define([
             }
         },
 
-        renderImages: function (paramObject) {
+        renderImages: function () {
             var self = this;
 
             var imageListViewConfig = {
@@ -71,7 +71,7 @@ define([
             self.renderView4Config(contentContainer, null, imageListViewConfig);
         },
 
-        renderPackages: function (paramObject) {
+        renderPackages: function () {
             var self = this;
 
             var packageListViewConfig = {

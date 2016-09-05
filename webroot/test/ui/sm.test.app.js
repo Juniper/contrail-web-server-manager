@@ -13,18 +13,18 @@ require([
     coreBaseDir + "/test/ui/js/co.test.app.utils.js"
 ], function () {
     require([coreBaseDir + "/test/ui/js/co.test.config.js"], function(testConf) {
-        globalObj["env"] = testConf["env"];
+        globalObj.env = testConf.env;
 
         //will copy the testConfig to globalObj so window can access it later.
-        globalObj["testConf"] = testConf;
+        globalObj.testConf = testConf;
         var bundles = {};
-        if (globalObj["env"] == "prod") {
-            globalObj["buildBaseDir"] = "/dist";
+        if (globalObj.env == "prod") {
+            globalObj.buildBaseDir = "/dist";
             bundles = coreBundles;
         } else {
-            globalObj["buildBaseDir"] = "";
+            globalObj.buildBaseDir = "";
         }
-        globalObj["test-env"] = globalObj["env"] + "-test";
+        globalObj["test-env"] = globalObj.env + "-test";
 
         requirejs.config({
             baseUrl: smBaseDir,
@@ -41,7 +41,7 @@ require([
 
         function getServerManagerTestAppPaths(coreBaseDir) {
             var serverManagerTestAppPathObj = {};
-            var coreAppPaths = getCoreAppPaths(coreBaseDir, globalObj["buildBaseDir"]);
+            var coreAppPaths = getCoreAppPaths(coreBaseDir, globalObj.buildBaseDir);
             var coreTestAppPaths = getCoreTestAppPaths(coreBaseDir);
 
             for (var key in coreAppPaths) {

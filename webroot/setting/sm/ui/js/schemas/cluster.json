@@ -5,40 +5,48 @@
   "properties": {
     "id": {
       "type": "string",
-      "default": null
+      "default": null,
+      "description": "Id of the cluster being added. Mandatory parameter."
     },
     "email": {
       "type": "string",
-      "default": null
+      "default": null,
+      "description": "Email id to send status of reimage/provision."
     },
     "base_image_id": {
       "type": "string",
-      "default": null
+      "default": null,
+      "description": "Id of base image OS that the cluster will be reimaged with."
     },
     "package_image_id": {
       "type": "string",
-      "default": null
+      "default": null,
+      "description": "Id of Contrail package that the cluster will be provisioned with."
     },
     "parameters": {
       "type": "object",
       "properties": {
         "domain": {
           "type": "string",
-          "default": null
+          "default": null,
+          "description": "Domain that all the servers of the cluster will default to."
         },
         "subnet_mask": {
           "type": "string",
           "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-          "default": null
+          "default": null,
+          "description": "Subnet mask that all the servers of the cluster will default to."
         },
         "gateway": {
           "type": "string",
           "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-          "default": null
+          "default": null,
+          "description": "Gateway IP that all the servers of the cluster will default to."
         },
         "password": {
           "type": "string",
-          "default": null
+          "default": null,
+          "description": "Root Password that all the servers of the cluster will default to."
         },
         "provision": {
           "type": "object",
@@ -48,48 +56,53 @@
               "properties": {
                 "xmpp_auth_enable": {
                   "type": "boolean",
-                  "default": false
+                  "default": false,
+                  "description": "flag to indicate if xmpp athentication is enabled between control node and vrouter agent."
                 },
                 "xmpp_dns_auth_enable": {
                   "type": "boolean",
-                  "default": false
+                  "default": false,
+                  "description": "flag to indicate if xmpp athentication is enabled between control node and vrouter dns agent."
                 },
                 "kernel_upgrade": {
                   "type": "boolean",
-                  "default": true
+                  "default": true,
+                  "description": "Whether to upgrade kernel version of target servers."
                 },
                 "kernel_version": {
                   "type": "string",
-                  "default": ""
+                  "default": "",
+                  "description": "Kernel version to upgrade to. Optional. Default upgrades to kernel version included with contrail package, if upgrade flag is set."
                 },
                 "enable_lbass": {
                   "type": "boolean",
-                  "default": false
+                  "default": false,
+                  "description": "flag to indicate if lbaas feature is enabled for the cluster."
                 },
                 "ha": {
                   "type": "object",
                   "properties": {
                     "haproxy_enable": {
                       "type": "boolean",
-                      "default": true
+                      "default": true,
+                      "description": "Whether HAproxy service is enabled or disabled."
                     },
                     "contrail_internal_vip": {
                       "type": "string",
                       "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-                      "default": ""
+                      "default": "",
+                      "description": "Virtual Interface IP to be used for control/data interface of contrail HA nodes"
                     },
                     "contrail_external_vip": {
                       "type": "string",
                       "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-                      "default": ""
+                      "default": "",
+                      "description": "Virtual Interface IP to be used for management interface of contrail HA nodes"
                     },
                     "contrail_internal_virtual_router_id": {
                       "type": "integer",
-                      "default": 103
-                    },
-                    "qqcontrail_internal_virtual_router_id": {
-                      "type": "integer",
-                      "default": 1034
+                      "default": 103,
+                      "description": "VRID for control/data interface HA functionality."
                     }
                   }
                 },
@@ -98,16 +111,19 @@
                   "properties": {
                     "ip_port": {
                       "type": "integer",
-                      "default": 9160
+                      "default": 9160,
+                      "description": "Port number used by database service."
                     },
                     "directory": {
                       "type": "string",
-                      "default": "/var/lib/cassandra"
+                      "default": "/var/lib/cassandra",
+                      "description": "Dataabse directory path for Cassandra to use"
                     },
                     "minimum_diskGB": {
                       "type": "integer",
                       "pattern": "number",
-                      "default": 32
+                      "default": 32,
+                      "description": "Minimum free disk size needed"
                     }
                   }
                 },
@@ -117,47 +133,58 @@
                     "data_ttl": {
                       "type": "integer",
                       "pattern": "number",
-                      "default": 48
+                      "default": 48,
+                      "description": "Analytics Data TTL in hours"
                     },
                     "config_audit_ttl": {
                       "type": "integer",
-                      "default": 2160
+                      "default": 2160,
+                      "description": "Analytics config audit TTL in hours"
                     },
                     "statistics_ttl": {
                       "type": "integer",
-                      "default": 168
+                      "default": 168,
+                      "description": "Analytics statistics TTL in hours"
                     },
                     "flow_ttl": {
                       "type": "integer",
-                      "default": 2
+                      "default": 2,
+                      "description": "Analytics flow TTL in hours"
                     },
                     "snmp_scan_frequency": {
                       "type": "integer",
-                      "default": 600
+                      "default": 600,
+                      "description": "SNMP scan interval in seconds"
                     },
                     "snmp_fast_scan_frequency": {
                       "type": "integer",
-                      "default": 60
+                      "default": 60,
+                      "description": "SNMP fast scan interval in seconds"
                     },
                     "topology_scan_frequency": {
                       "type": "integer",
-                      "default": 60
+                      "default": 60,
+                      "description": "Topology scan interval in seconds"
                     },
                     "syslog_port": {
                       "type": "integer",
-                      "default": -1
+                      "default": -1,
+                      "description": "Analytics syslog port value"
                     },
                     "data_directory": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "Analytics dir name where data files are stored, default use the same value as database_dir in database role."
                     },
                     "ssd_data_directory": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "Analytics dir name where ssd files are stored, default use the same value as database_dir in database role."
                     },
                     "redis_password": {
                       "type": "string",
-                      "default": null
+                      "default": null,
+                      "description": "redis password"
                     }
                   }
                 },
@@ -166,15 +193,18 @@
                   "properties": {
                     "encapsulation_priority": {
                       "type": "string",
-                      "default": "VXLAN,MPLSoUDP,MPLSoGRE"
+                      "default": "VXLAN,MPLSoUDP,MPLSoGRE",
+                      "description": "Encapsulation priority"
                     },
                     "router_asn": {
                       "type": "integer",
-                      "default": 64512
+                      "default": 64512,
+                      "description": "Router ASN value"
                     },
                     "external_bgp": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "List of external BGP peers in the form of name, address tuples e.g. [('montreal', '13.1.0.254')]"
                     }
                   }
                 },
@@ -183,15 +213,18 @@
                   "properties": {
                     "manage_neutron": {
                       "type": "boolean",
-                      "default": true
+                      "default": true,
+                      "description": "Whether config manages neutron service"
                     },
                     "zookeeper_ip_port": {
                       "type": "integer",
-                      "default": 2181
+                      "default": 2181,
+                      "description": "Zookeeper IP port value"
                     },
                     "healthcheck_interval": {
                       "type": "integer",
-                      "default": 5
+                      "default": 5,
+                      "description": "Discovery health check interval"
                     }
                   }
                 },
@@ -204,18 +237,21 @@
                   "properties": {
                     "huge_pages": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "Specify what percentage of host memory should be reserved for access with huge pages"
                     },
                     "core_mask": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "Specify CPU affinity mask to run vRouter with. Supports hexadecimal, comma-separated list of CPUs, dash-separated range of CPUs"
                     },
                     "sriov": {
                       "type": "object",
                       "properties": {
                         "enable": {
                           "type": "boolean",
-                          "default": false
+                          "default": false,
+                          "description": "Flag to set if SRIOV is enabled"
                         }
                       }
                     }
@@ -226,19 +262,23 @@
                   "properties": {
                     "ip": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VM ware IP address."
                     },
                     "username": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VMware user name"
                     },
                     "password": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VMware user password"
                     },
                     "vswitch": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VMware vswitch name"
                     }
                   }
                 },
@@ -247,19 +287,23 @@
                   "properties": {
                     "public_subnet": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VGW public subnet address."
                     },
                     "public_vn_name": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VGW public virtual network name."
                     },
                     "interface": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VGW interface name"
                     },
                     "gateway_routes": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "VGW routes"
                     }
                   }
                 },
@@ -268,21 +312,25 @@
                   "properties": {
                     "storage_monitor_secret": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "Key for Storage monitor Secret"
                     },
                     "osd_bootstrap_key": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "OSD Bootstrap Key value"
                     },
                     "storage_chassis_config": {
                       "type": "array",
                       "items": {
                         "type": "string"
-                      }
+                      },
+                      "description": "Storage chassis config"
                     },
                     "live_migration_host": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "Live migration host IP"
                     },
                     "live_migration_ip": {
                       "type": "string",
@@ -292,33 +340,10 @@
                       "type": "string",
                       "default": ""
                     },
-                    "storage_num_osd": {
-                      "type": "string",
-                      "default": ""
-                    },
-                    "storage_fsid": {
-                      "type": "string",
-                      "default": ""
-                    },
-                    "storage_num_hosts": {
-                      "type": "string",
-                      "default": ""
-                    },
                     "storage_admin_key": {
                       "type": "string",
-                      "default": ""
-                    },
-                    "storage_virsh_uuid": {
-                      "type": "string",
-                      "default": ""
-                    },
-                    "storage_cluster_network": {
-                      "type": "string",
-                      "default": ""
-                    },
-                    "storage_enabled": {
-                      "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "Ceph Storage admin key"
                     }
                   }
                 },
@@ -340,32 +365,39 @@
                   "properties": {
                     "admin_password": {
                       "type": "string",
-                      "default": "contrail123"
+                      "default": "contrail123",
+                      "description": "Keystone Admin Password value"
                     },
                     "ip": {
                       "type": "string",
                       "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-                      "default": ""
+                      "default": "",
+                      "description": "The External Keystone IP to use"
                     },
                     "admin_user": {
                       "type": "string",
-                      "default": "admin"
+                      "default": "admin",
+                      "description": "Keystone admin user value"
                     },
                     "admin_tenant": {
                       "type": "string",
-                      "default": "admin"
+                      "default": "admin",
+                      "description": "Keystone admin tenant value"
                     },
                     "service_tenant": {
                       "type": "string",
-                      "default": "services"
+                      "default": "services",
+                      "description": "Keystone service tenant value"
                     },
                     "auth_port": {
                       "type": "integer",
-                      "default": 35357
+                      "default": 35357,
+                      "description": "Keystone authentication port"
                     },
                     "auth_protocol": {
                       "type": "string",
-                      "default": "http"
+                      "default": "http",
+                      "description": "Keystone authentication protocol (http/https)"
                     }
                   }
                 },
@@ -374,11 +406,13 @@
                   "properties": {
                     "service_protocol": {
                       "type": "string",
-                      "default": "http"
+                      "default": "http",
+                      "description": "Neutron service protocol (https/http)"
                     },
                     "port": {
                       "type": "integer",
-                      "default": 9697
+                      "default": 9697,
+                      "description": "Neutron port to use"
                     }
                   }
                 },
@@ -387,25 +421,30 @@
                   "properties": {
                     "server_ip": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "AMQP Service IP to connect to"
                     }
                   }
                 },
                 "region": {
                   "type": "string",
-                  "default": "RegionOne"
+                  "default": "RegionOne",
+                  "description": "Openstack keystone region name"
                 },
                 "multi_tenancy": {
                   "type": "boolean",
-                  "default": true
+                  "default": true,
+                  "description": "Flag to set if multi tenancy is enabled"
                 },
                 "openstack_manage_amqp": {
                   "type": "boolean",
-                  "default": false
+                  "default": false,
+                  "description": "Flag to set if Openstack nodes use their own AMQP cluster (Rabbit cluster)"
                 },
                 "enable_ceilometer": {
                   "type": "boolean",
-                  "default": false
+                  "default": false,
+                  "description": "Flag to set if ceilometer service is enabled."
                 },
                 "ha": {
                   "type": "object",
@@ -413,29 +452,35 @@
                     "internal_vip": {
                       "type": "string",
                       "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-                      "default": ""
+                      "default": "",
+                      "description": "Virtual IP address for openstack node control interface"
                     },
                     "external_vip": {
                       "type": "string",
                       "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-                      "default": ""
+                      "default": "",
+                      "description": "Virtual IP address for openstack node management interface"
                     },
                     "internal_virtual_router_id": {
                       "type": "integer",
-                      "default": 102
+                      "default": 102,
+                      "description": "VRID for openstack control network"
                     },
                     "external_virtual_router_id": {
                       "type": "integer",
-                      "default": 101
+                      "default": 101,
+                      "description": "VRID for openstack management network"
                     },
                     "nfs_server": {
                       "type": "string",
                       "pattern": "^$|^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/[0-9][0-9])?$",
-                      "default": ""
+                      "default": "",
+                      "description": "Address of NFS server used to keep images for HA."
                     },
                     "nfs_glance_path": {
                       "type": "string",
-                      "default": ""
+                      "default": "",
+                      "description": "NFS path for glance images, used for HA."
                     }
                   }
                 },
@@ -444,7 +489,8 @@
                   "properties": {
                     "root_password": {
                       "type": "string",
-                      "default": "c0ntrail123"
+                      "default": "c0ntrail123",
+                      "description": "mysql root password value"
                     }
                   }
                 }

@@ -14,13 +14,13 @@ define([
     var testSuiteClass = function (modelObj, suiteConfig){
 
         var mockData = suiteConfig.modelConfig.mockData,
-            setAttrData = mockData.setAttributes,
-            dataParsers = suiteConfig.modelConfig.dataParsers,
-            modelDataParser;
+            setAttrData = mockData.setAttributes;
+            //dataParsers = suiteConfig.modelConfig.dataParsers;
+            //modelDataParser;
 
-        if (dataParsers) {
-            modelDataParser = contrail.checkIfExist(dataParsers.modelDataParseFn) ? dataParsers.modelDataParseFn: function() {return;};
-        }
+        //if (dataParsers) {
+        //    modelDataParser = contrail.checkIfExist(dataParsers.modelDataParseFn) ? dataParsers.modelDataParseFn: function() {return;};
+        //}
         module("Package Model Custom test suite");
 
         var packageModelCustomTestSuite = cotr.createTestSuite("PackageModelTestSuite");

@@ -1,0 +1,16 @@
+/**
+Addtional Linting Rules for SM Repo
+**/
+
+{
+  "globals": {
+    "smwc": true,
+    "smwl": true,
+    "smwu": true,
+    "smwmc": true,
+    "smwm": true,
+    "smwgc": true,
+    "smwdt": true,
+    "smwp": true
+  }
+}

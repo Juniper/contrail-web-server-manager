@@ -6,11 +6,11 @@ var smPageLoader = new SMPageLoader();
 
 function SMPageLoader() {
     this.load = function (paramObject) {
-        var self = this, currMenuObj = globalObj.currMenuObj,
-            hashParams = paramObject["hashParams"],
+        var self = this,
+            hashParams = paramObject.hashParams,
             pathSMView = smWebDir + "/setting/sm/ui/js/views/ServerManagerView.js",
-            renderFn = paramObject["function"],
-            loadingStartedDefObj = paramObject["loadingStartedDefObj"];
+            renderFn = paramObject.function,
+            loadingStartedDefObj = paramObject.loadingStartedDefObj;
 
         require([pathSMView], function (ServerManagerView) {
             self.smView = new ServerManagerView();
@@ -40,10 +40,10 @@ function SMPageLoader() {
                 this.smView.renderPackages({hashParams: hashParams});
                 break;
         }
-    },
+    };
 
     this.updateViewByHash = function (currPageQueryStr, lastPageQueryStr, currMenuObj) {
-        var hash = currMenuObj["hash"],
+        var hash = currMenuObj.hash,
             renderFn;
 
         //TODO: The renderFunction should be passed from ContentHandler

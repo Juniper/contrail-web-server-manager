@@ -18,7 +18,7 @@ define([
     });
 
     var getClusterTabViewConfig = function (viewConfig) {
-        var clusterId = viewConfig["clusterId"];
+        var clusterId = viewConfig.clusterId;
 
         return {
             elementId: smwl.SM_CLUSTER_TAB_SECTION_ID,
@@ -78,74 +78,74 @@ define([
         var rowActionConfig = [
             smwgc.getAddServersAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
-                    title = smwl.TITLE_ADD_SERVERS + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_ADD_SERVERS + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderAddServers({
                     "title": title, callback: function () {
-                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem["id"]}});
+                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem.id}});
                     }
                 });
             }),
             smwgc.getRemoveServersAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
-                    title = smwl.TITLE_REMOVE_SERVERS + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_REMOVE_SERVERS + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderRemoveServers({
                     "title": title, callback: function () {
-                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem["id"]}});
+                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem.id}});
                     }
                 });
             }),
             smwgc.getAssignRoleAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
-                    title = smwl.TITLE_ASSIGN_ROLES + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_ASSIGN_ROLES + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderAssignRoles({
                     "title": title, callback: function () {
-                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem["id"]}});
+                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem.id}});
                     }
                 });
             }),
             smwgc.getConfigureAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
-                    title = smwl.TITLE_EDIT_CONFIG + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_EDIT_CONFIG + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderConfigure({
                     "title": title, callback: function () {
-                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem["id"]}});
+                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem.id}});
                     }
                 });
             }),
             smwgc.getReimageAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
-                    title = smwl.TITLE_REIMAGE + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_REIMAGE + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderReimage({
                     "title": title, callback: function () {
-                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem["id"]}});
+                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem.id}});
                     }
                 });
             }, true),
             smwgc.getProvisionAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
-                    title = smwl.TITLE_PROVISION_CLUSTER + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_PROVISION_CLUSTER + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderProvision({
                     "title": title, callback: function () {
-                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem["id"]}});
+                        loadFeature({p: smwc.URL_HASH_SM_CLUSTERS, q: {cluster_id: dataItem.id}});
                     }
                 });
             }),
             smwgc.getRunInventoryAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_REFRESH_INVENTORY + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_REFRESH_INVENTORY + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderRunInventory({
@@ -157,7 +157,7 @@ define([
             smwgc.getDeleteAction(function (dataItem) {
                 var clusterModel = new ClusterModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DEL_CLUSTER + " (" + dataItem["id"] + ")";
+                    title = smwl.TITLE_DEL_CLUSTER + " (" + dataItem.id + ")";
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderDeleteCluster({

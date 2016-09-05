@@ -8,14 +8,13 @@ define([
     "sm-basedir/setting/sm/ui/js/models/PackageModel",
     "sm-basedir/setting/sm/ui/js/views/PackageEditView"
 ], function (_, ContrailView, PackageModel, PackageEditView) {
-    var prefixId = smwc.PACKAGE_PREFIX_ID,
-        gridElId = "#" + smwl.SM_PACKAGE_GRID_ID;
+    var gridElId = "#" + smwl.SM_PACKAGE_GRID_ID;
 
     var PackageGridView = ContrailView.extend({
         render: function () {
             var self = this,
                 viewConfig = this.attributes.viewConfig,
-                pagerOptions = viewConfig["pagerOptions"];
+                pagerOptions = viewConfig.pagerOptions;
 
             self.renderView4Config(self.$el, self.model, getPackageGridViewConfig(pagerOptions));
         }
@@ -50,7 +49,7 @@ define([
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     packageModel = new PackageModel(dataItem),
                     checkedRow = dataItem,
-                    title = smwl.TITLE_DELETE_PACKAGE + " ("+ dataItem["id"] +")",
+                    title = smwl.TITLE_DELETE_PACKAGE + " ("+ dataItem.id +")",
                     packageEditView = new PackageEditView();
 
                 packageEditView.model = packageModel;
@@ -97,10 +96,10 @@ define([
                 options: {
                     actionCell: getRowActionConfig(),
                     checkboxSelectable: {
-                        onNothingChecked: function(e){
+                        onNothingChecked: function(){
                             $("#btnDeleteRepos").addClass("disabled-link");
                         },
-                        onSomethingChecked: function(e){
+                        onSomethingChecked: function(){
                             $("#btnDeleteRepos").removeClass("disabled-link");
                         }
                     },

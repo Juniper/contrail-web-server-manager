@@ -11,8 +11,8 @@ define([
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,
                 prefixId = smwc.SERVER_PREFIX_ID,
-                queryString = smwu.getQueryString4ServersUrl(viewConfig["hashParams"]),
-                hashParams = viewConfig["hashParams"];
+                queryString = smwu.getQueryString4ServersUrl(viewConfig.hashParams),
+                hashParams = viewConfig.hashParams;
 
             var listModelConfig = {
                 remote: {
@@ -24,12 +24,12 @@ define([
             };
 
             if(queryString == "") {
-                listModelConfig["cacheConfig"] = {
+                listModelConfig.cacheConfig = {
                     ucid: smwc.UCID_ALL_SERVER_LIST
                 };
-            } else if(hashParams["cluster_id"] != null && hashParams["tag"] == null) {
-                listModelConfig["cacheConfig"] = {
-                    ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_LIST, hashParams["cluster_id"])
+            } else if(hashParams.cluster_id != null && hashParams.tag == null) {
+                listModelConfig.cacheConfig = {
+                    ucid: smwc.get(smwc.UCID_CLUSTER_SERVER_LIST, hashParams.cluster_id)
                 };
             }
 
@@ -63,16 +63,16 @@ define([
                                             var chartDataValues = [];
                                             for(var i = 0; i < response.length; i++) {
                                                 var server = response[i],
-                                                    serverUIParams = contrail.handleIfNull(server["ui_added_parameters"], {}),
-                                                    serverMonitoring = contrail.handleIfNull(serverUIParams["monitoring"], {});
+                                                    serverUIParams = contrail.handleIfNull(server.ui_added_parameters, {}),
+                                                    serverMonitoring = contrail.handleIfNull(serverUIParams.monitoring, {});
 
                                                 chartDataValues.push({
-                                                    name: contrail.handleIfNull(server["id"], server["mac_address"]),
-                                                    y: contrail.handleIfNull(serverMonitoring["y"], 0),
-                                                    x: contrail.handleIfNull(serverMonitoring["x"], 0),
-                                                    size: contrail.handleIfNull(serverMonitoring["size"], 0),
-                                                    interface_rt_bytes: serverMonitoring["interface_rt_bytes"],
-                                                    mem_usage_mb: serverMonitoring["mem_usage_mb"],
+                                                    name: contrail.handleIfNull(server.id, server.mac_address),
+                                                    y: contrail.handleIfNull(serverMonitoring.y, 0),
+                                                    x: contrail.handleIfNull(serverMonitoring.x, 0),
+                                                    size: contrail.handleIfNull(serverMonitoring.size, 0),
+                                                    interface_rt_bytes: serverMonitoring.interface_rt_bytes,
+                                                    mem_usage_mb: serverMonitoring.mem_usage_mb,
                                                     rawData: serverMonitoring
                                                 });
                                             }
@@ -116,7 +116,7 @@ define([
 
 
     function onScatterChartClick(chartConfig) {
-        var serverId = chartConfig["name"],
+        var serverId = chartConfig.name,
             hashObj = {server_id: serverId};
 
         layoutHandler.setURLHashParams(hashObj, {p: "setting_sm_servers", merge: false, triggerHashChange: true});
@@ -131,9 +131,9 @@ define([
             content: {
                 iconClass: false,
                 info: [
-                    {label: "CPU Utilization", value: d3.format(".02f")(server["x"]) + " %"},
-                    {label: "Memory Usage", value: server["y"] + " % (" + formatBytes(server["mem_usage_mb"] * 1024 * 1024) + ")"},
-                    {label: "Network Traffic", value: cowu.addUnits2Bytes(server["interface_rt_bytes"], false, null, 1, smwc.MONITORING_CONFIG["monitoring_frequency"])}
+                    {label: "CPU Utilization", value: d3.format(".02f")(server.x) + " %"},
+                    {label: "Memory Usage", value: server.y + " % (" + formatBytes(server.mem_usage_mb * 1024 * 1024) + ")"},
+                    {label: "Network Traffic", value: cowu.addUnits2Bytes(server.interface_rt_bytes, false, null, 1, smwc.MONITORING_CONFIG.monitoring_frequency)}
                 ],
                 actions: [
                     {
@@ -141,7 +141,7 @@ define([
                         text: "View",
                         iconClass: "fa fa-external-link",
                         callback: function(data) {
-                            var serverId = data["name"],
+                            var serverId = data.name,
                                 hashObj = {server_id: serverId};
 
                             layoutHandler.setURLHashParams(hashObj, {p: "setting_sm_servers", merge: false, triggerHashChange: true});
@@ -165,7 +165,7 @@ define([
                             text: "Network Traffic",
                             labelCssClass: "fa fa-circle",
                             events: {
-                                click: function (event) {}
+                                click: function () {}
                             }
                         }
                     ]
