@@ -144,7 +144,7 @@ define([
                             return contrail.checkIfExist(serverInventoryInfo.fru_infos) ? serverInventoryInfo.fru_infos : [];
                         }
                     },
-                    cacheConfig: {
+                    /*cacheConfig: {
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
@@ -173,7 +173,7 @@ define([
                             }
                             return status;
                         }
-                    }
+                    }*/
                 }
             },
             footer: { pager: { options: { pageSize: 10, pageSizeSelect: [10, 20] } } }
@@ -214,7 +214,7 @@ define([
                             return contrail.checkIfExist(serverInventoryInfo.interface_infos) ? serverInventoryInfo.interface_infos : [];
                         }
                     },
-                    cacheConfig: {
+                    /*cacheConfig: {
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
@@ -242,7 +242,7 @@ define([
 
                             return status;
                         }
-                    }
+                    }*/
                 }
             },
             footer: { pager: { options: { pageSize: 10, pageSizeSelect: [10, 20] } } }

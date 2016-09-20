@@ -301,7 +301,7 @@ define([
         rowActionConfig = rowActionConfig.concat([smwgc.getReimageAction(function (rowIndex) {
             var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                 serverModel = new ServerModel(dataItem),
-                checkedRow = [dataItem],
+                checkedRow = dataItem,
                 title = smwl.TITLE_REIMAGE + " ("+ dataItem.id +")",
                 serverEditView = new ServerEditView();
 
@@ -314,7 +314,7 @@ define([
             smwgc.getProvisionAction(function (rowIndex) {
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem],
+                    checkedRow = dataItem,
                     title = smwl.TITLE_PROVISION_SERVER + " ("+ dataItem.id +")",
                     serverEditView = new ServerEditView();
 

@@ -102,7 +102,6 @@ define([
             "control_data_interface": "Control Data Interface",
             "live_migration": "Live Migration",
             "live_migration_nfs_vm_host": "Live Migration NFS Host",
-            "live_migration_storage_scope": "Live Migration Storage Scope",
 
             //Tags
             "reservedby": "Reserved By",
@@ -161,7 +160,6 @@ define([
             "vgw_interface": "Virtual Gateway Interface",
             "vgw_gateway_routes": "Virtual Gateway Routes",
             "storage_mon_secret": "Monitoring Key",
-            "live_migration_ip": "Live Migration IP",
             "osd_bootstrap_key": "OSD Bootstrap Key",
             "admin_key": "Admin Key",
             "internal_vip": "Internal VIP",

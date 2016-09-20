@@ -431,8 +431,8 @@ define([
                 }
             }
         },
-        reimage: function (checkedRows, callbackObj) {
-            var ajaxConfig = {};
+        reimage: function (rows, callbackObj) {
+            var ajaxConfig = {}, checkedRows = [rows];
             if (this.model().isValid(true, smwc.KEY_REIMAGE_VALIDATION)) {
                 var serverAttrs = this.model().attributes,
                     putData = {}, servers = [];
@@ -466,8 +466,8 @@ define([
                 }
             }
         },
-        provision: function (checkedRows, callbackObj) {
-            var ajaxConfig = {};
+        provision: function (rows, callbackObj) {
+            var ajaxConfig = {}, checkedRows = [rows];
             if (this.model().isValid(true, smwc.KEY_PROVISION_VALIDATION)) {
                 var serverAttrs = this.model().attributes,
                     putData = {}, servers = [];

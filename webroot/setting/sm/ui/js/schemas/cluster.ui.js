@@ -405,18 +405,6 @@ define([], function(){ return {
                                             "label": "Live Migration NFS Host",
                                             "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.live_migration_host"
                                         },
-                                        "live_migration_ip": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "Live Migration IP",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.live_migration_ip"
-                                        },
-                                        "live_migration_storage_scope": {
-                                            "viewable": true,
-                                            "editable": true,
-                                            "label": "Live Migration Storage Scope",
-                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.storage.properties.live_migration_storage_scope"
-                                        },
                                         "storage_admin_key": {
                                             "viewable": true,
                                             "editable": true,

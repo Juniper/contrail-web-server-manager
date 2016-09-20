@@ -332,14 +332,6 @@
                       "default": "",
                       "description": "Live migration host IP"
                     },
-                    "live_migration_ip": {
-                      "type": "string",
-                      "default": ""
-                    },
-                    "live_migration_storage_scope": {
-                      "type": "string",
-                      "default": ""
-                    },
                     "storage_admin_key": {
                       "type": "string",
                       "default": "",

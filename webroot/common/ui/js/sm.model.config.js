@@ -84,8 +84,6 @@ define([], function () {
                                 "osd_bootstrap_key": "",
                                 "storage_chassis_config": [],
                                 "live_migration_host": "",
-                                "live_migration_ip": "",
-                                "live_migration_storage_scope": "",
                                 "storage_admin_key": ""
                             },
                             "toragent": {
@@ -418,20 +416,12 @@ define([], function () {
                                                         "type": "string",
                                                         "default": ""
                                                     },
-                                                    "live_migration_ip": {
-                                                        "type": "string",
-                                                        "default": ""
-                                                    },
-                                                    "live_migration_storage_scope": {
-                                                        "type": "string",
-                                                        "default": ""
-                                                    },
                                                     "storage_admin_key": {
                                                         "type": "string",
                                                         "default": ""
                                                     }
                                                 },
-                                                "required": ["storage_monitor_secret", "osd_bootstrap_key", "storage_chassis_config", "live_migration_host", "live_migration_ip", "live_migration_storage_scope", "storage_admin_key"]
+                                                "required": ["storage_monitor_secret", "osd_bootstrap_key", "storage_chassis_config", "live_migration_host", "storage_admin_key"]
                                             },
                                             "toragent": {
                                                 "type": "object",

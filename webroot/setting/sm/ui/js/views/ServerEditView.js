@@ -17,36 +17,56 @@ define([
     var ServerEditView = ContrailView.extend({
 
         renderReimage: function (options) {
-            var editLayout = editTemplate({prefixId: prefixId}),
+            var textTemplate = contrail.getTemplate4Id("sm-reimage-template"),
+                reimageServer = {"serverId": [], "elementId": prefixId, "baseImageId" : "", "isBaseImageIdConfigured" : false},
+                checkedRows = options.checkedRows,
+                onSaveFn = false, onCancelFn = false, onCloseFn = false,
                 self = this;
 
-            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options.title, "body": editLayout, "onSave": function () {
-                self.model.reimage(options.checkedRows, {
-                    init: function () {
-                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                        cowu.enableModalLoading(modalId);
-                    },
-                    success: function () {
-                        options.callback();
-                        $("#" + modalId).modal("hide");
-                    },
-                    error: function (error) {
-                        cowu.disableModalLoading(modalId, function () {
-                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
-                        });
-                    }
-                }); // TODO: Release binding on successful configure
-            }, "onCancel": function () {
-                Knockback.release(self.model, document.getElementById(modalId));
-                kbValidation.unbind(self);
-                $("#" + modalId).modal("hide");
-            }});
+            reimageServer.serverId.push(checkedRows.id);
+            reimageServer.baseImageId = contrail.checkIfExist(checkedRows.base_image_id) ? checkedRows.base_image_id : "Not Configured";
+            reimageServer.isBaseImageIdConfigured = (contrail.checkIfExist(checkedRows.base_image_id) && (checkedRows.base_image_id !== '')) ? true : false;
 
-            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, reimageViewConfig, null, null, null, function() {
-                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self.model, document.getElementById(modalId));
-                kbValidation.bind(self);
+            if (reimageServer.isBaseImageIdConfigured) {
+
+                onSaveFn = function () {
+                    self.model.reimage(options.checkedRows, {
+                        init: function () {
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                            cowu.enableModalLoading(modalId);
+                        },
+                        success: function () {
+                            options.callback();
+                            $("#" + modalId).modal("hide");
+                        },
+                        error: function (error) {
+                            cowu.disableModalLoading(modalId, function () {
+                                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            });
+                        }
+                    });
+                };
+
+                onCancelFn = function () {
+                    Knockback.release(self.model, document.getElementById(modalId));
+                    kbValidation.unbind(self);
+                    $("#" + modalId).modal("hide");
+                };
+            } else {
+                onCloseFn = function() {
+                    $("#" + modalId).modal("hide");
+                }
+            }
+
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options.title, "btnName": "Confirm", "body": textTemplate(reimageServer),
+                "onSave"   : onSaveFn,
+                "onCancel" : onCancelFn,
+                "onClose"  : onCloseFn
             });
+
+            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+            Knockback.applyBindings(self.model, document.getElementById(modalId));
+            kbValidation.bind(self);
         },
 
         renderConfigure: function (options) {
@@ -157,37 +177,57 @@ define([
         },
 
         renderProvisionServers: function (options) {
-            var editLayout = editTemplate({prefixId: prefixId}),
+            var textTemplate = contrail.getTemplate4Id("sm-provision-template"),
+                provisionServers = {"serverId": [], "elementId": prefixId, "packageImageId" : "", "isPackageImageIdConfigured" : false},
+                checkedRows = options.checkedRows,
+                onSaveFn = false, onCancelFn = false, onCloseFn = false,
                 self = this;
 
-            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options.title, "body": editLayout, "onSave": function () {
-                self.model.provision(options.checkedRows, {
-                    init: function () {
-                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                        cowu.enableModalLoading(modalId);
-                    },
-                    success: function () {
-                        options.callback();
-                        $("#" + modalId).modal("hide");
-                    },
-                    error: function (error) {
-                        cowu.disableModalLoading(modalId, function () {
-                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
-                        });
-                    }
-                });
-                // TODO: Release binding on successful configure
-            }, "onCancel": function () {
-                Knockback.release(self.model, document.getElementById(modalId));
-                kbValidation.unbind(self);
-                $("#" + modalId).modal("hide");
-            }});
+            provisionServers.serverId.push(checkedRows.id);
+            provisionServers.packageImageId = contrail.checkIfExist(checkedRows.package_image_id) ? checkedRows.package_image_id : "Not Configured";
+            provisionServers.isPackageImageIdConfigured = (contrail.checkIfExist(checkedRows.package_image_id) && (checkedRows.package_image_id !== '')) ? true : false;
 
-            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionServersViewConfig, null, null, null, function() {
-                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self.model, document.getElementById(modalId));
-                kbValidation.bind(self);
+            if (provisionServers.isPackageImageIdConfigured) {
+                onSaveFn = function () {
+                    self.model.provision(options.checkedRows, {
+                        init: function () {
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                            cowu.enableModalLoading(modalId);
+                        },
+                        success: function () {
+                            options.callback();
+                            $("#" + modalId).modal("hide");
+                        },
+                        error: function (error) {
+                            cowu.disableModalLoading(modalId, function () {
+                                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            });
+                        }
+                    });
+
+                };
+
+                onCancelFn = function () {
+                    Knockback.release(self.model, document.getElementById(modalId));
+                    kbValidation.unbind(self);
+                    $("#" + modalId).modal("hide");
+                };
+
+            } else {
+                onCloseFn = function() {
+                    $("#" + modalId).modal("hide");
+                }
+            }
+
+            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options.title, "btnName": "Confirm", "body": textTemplate(provisionServers),
+                "onSave"   : onSaveFn,
+                "onCancel" : onCancelFn,
+                "onClose"  : onCloseFn
             });
+
+            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+            Knockback.applyBindings(self.model, document.getElementById(modalId));
+            kbValidation.bind(self);
         },
 
         renderTagServers: function (options) {
@@ -1014,42 +1054,6 @@ define([
             },
 
         ]
-    };
-
-    var provisionServersViewConfig = {
-        elementId: prefixId,
-        view: "SectionView",
-        viewConfig: {
-            rows: [
-                {
-                    columns: [
-                        {
-                            elementId: "package_image_id",
-                            view: "FormDropdownView",
-                            viewConfig: {path: "package_image_id", dataBindValue: "package_image_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInPackages")}}}
-                        }
-                    ]
-                }
-            ]
-        }
-    };
-
-    var reimageViewConfig = {
-        elementId: prefixId,
-        view: "SectionView",
-        viewConfig: {
-            rows: [
-                {
-                    columns: [
-                        {
-                            elementId: "base_image_id",
-                            view: "FormDropdownView",
-                            viewConfig: {path: "base_image_id", dataBindValue: "base_image_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInImages")}}}
-                        }
-                    ]
-                }
-            ]
-        }
     };
 
     var assignRolesViewConfig = {

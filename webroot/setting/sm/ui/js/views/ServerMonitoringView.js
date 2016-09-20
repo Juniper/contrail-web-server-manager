@@ -170,7 +170,7 @@ define([
                             return contrail.checkIfExist(serverMonitoringInfo.disk_usage_totals) ? serverMonitoringInfo.disk_usage_totals : [];
                         }
                     },
-                    cacheConfig: {
+                    /*cacheConfig: {
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
@@ -198,7 +198,7 @@ define([
 
                             return status;
                         }
-                    }
+                    }*/
                 }
             },
             footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5, 10] } } }
@@ -239,7 +239,7 @@ define([
                             return contrail.checkIfExist(serverMonitoringInfo.file_system_view_stats) ? serverMonitoringInfo.file_system_view_stats : [];
                         }
                     },
-                    cacheConfig: {
+                    /*cacheConfig: {
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
@@ -267,7 +267,7 @@ define([
 
                             return status;
                         }
-                    }
+                    }*/
                 }
             },
             footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5, 10] } } }
@@ -305,7 +305,7 @@ define([
                             return contrail.checkIfExist(serverMonitoringInfo.sensor_stats) ? serverMonitoringInfo.sensor_stats : [];
                         }
                     },
-                    cacheConfig: {
+                    /*cacheConfig: {
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
@@ -333,7 +333,7 @@ define([
 
                             return status;
                         }
-                    }
+                    }*/
                 }
             },
             footer: {pager: {options: {pageSize: 5, pageSizeSelect: [5, 10, 20] }}}
@@ -371,7 +371,7 @@ define([
                             return contrail.checkIfExist(serverMonitoringInfo.network_info_totals) ? serverMonitoringInfo.network_info_totals : [];
                         }
                     },
-                    cacheConfig: {
+                    /*cacheConfig: {
                         setCachedData2ModelCB: function(contrailListModel) {
                             var status = {isCacheUsed: true, reload: false};
 
@@ -399,7 +399,7 @@ define([
 
                             return status;
                         }
-                    }
+                    }*/
                 }
             },
             footer: { pager: { options: { pageSize: 5, pageSizeSelect: [5, 10] } } }

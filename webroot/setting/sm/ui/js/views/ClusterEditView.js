@@ -128,37 +128,57 @@ define([
         },
 
         renderReimage: function (options) {
-            var editLayout = editTemplate({prefixId: prefixId}),
+            var textTemplate = contrail.getTemplate4Id("sm-reimage-template"),
+                reimageCluster = {"clusterId": [], "elementId": prefixId, "baseImageId" : "", "isBaseImageIdConfigured" : false},
+                checkedRows = options.checkedRows,
+                onSaveFn = false, onCancelFn = false, onCloseFn = false,
                 self = this;
 
-            cowu.createModal({"modalId": modalId, "className": "modal-700", "title": options.title, "body": editLayout, "onSave": function () {
-                self.model.reimage({
-                    init: function () {
-                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                        cowu.enableModalLoading(modalId);
-                    },
-                    success: function () {
-                        options.callback();
-                        $("#" + modalId).modal("hide");
-                    },
-                    error: function (error) {
-                        cowu.disableModalLoading(modalId, function () {
-                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
-                        });
-                    }
-                });
-                // TODO: Release binding on successful configure
-            }, "onCancel": function () {
-                Knockback.release(self.model, document.getElementById(modalId));
-                kbValidation.unbind(self);
-                $("#" + modalId).modal("hide");
-            }});
+            reimageCluster.clusterId.push(checkedRows.id);
+            reimageCluster.baseImageId = contrail.checkIfExist(checkedRows.base_image_id) ? checkedRows.base_image_id : "Not Configured";
+            reimageCluster.isBaseImageIdConfigured = (contrail.checkIfExist(checkedRows.base_image_id) && (checkedRows.base_image_id !== '')) ? true : false;
 
-            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, reimageViewConfig, smwc.KEY_CONFIGURE_VALIDATION, null, null, function() {
-                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self.model, document.getElementById(modalId));
-                kbValidation.bind(self);
+            if (reimageCluster.isBaseImageIdConfigured) {
+                onSaveFn = function () {
+                    self.model.reimage({
+                        init: function () {
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                            cowu.enableModalLoading(modalId);
+                        },
+                        success: function () {
+                            options.callback();
+                            $("#" + modalId).modal("hide");
+                        },
+                        error: function (error) {
+                            cowu.disableModalLoading(modalId, function () {
+                                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            });
+                        }
+                    });
+                };
+
+                onCancelFn = function () {
+                    Knockback.release(self.model, document.getElementById(modalId));
+                    kbValidation.unbind(self);
+                    $("#" + modalId).modal("hide");
+                };
+
+            } else {
+                onCloseFn = function() {
+                    $("#" + modalId).modal("hide");
+                }
+            }
+
+            cowu.createModal({
+                "modalId"  : modalId, "className": "modal-700", "title": options.title, "btnName": "Confirm", "body": textTemplate(reimageCluster),
+                "onSave"   : onSaveFn,
+                "onCancel" : onCancelFn,
+                "onClose"  : onCloseFn
             });
+
+            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+            Knockback.applyBindings(self.model, document.getElementById(modalId));
+            kbValidation.bind(self);
         },
 
         renderAddCluster: function (options) {
@@ -196,36 +216,60 @@ define([
         },
 
         renderProvision: function (options) {
-            var editLayout = editTemplate({prefixId: prefixId}),
+            var textTemplate = contrail.getTemplate4Id("sm-provision-template"),
+                provisionCluster = {"clusterId": [], "elementId": prefixId, "packageImageId" : "", "isPackageImageIdConfigured" : false},
+                checkedRows = options.checkedRows,
+                onSaveFn = false, onCancelFn = false, onCloseFn = false,
                 self = this;
 
-            cowu.createModal({"modalId": modalId, "className": "modal-840", "title": options.title, "body": editLayout, "onSave": function () {
-                self.model.provision({
-                    init: function () {
-                        self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                        cowu.enableModalLoading(modalId);
-                    },
-                    success: function () {
-                        options.callback();
-                        $("#" + modalId).modal("hide");
-                    },
-                    error: function (error) {
-                        cowu.disableModalLoading(modalId, function () {
-                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
-                        });
-                    }
-                }); // TODO: Release binding on successful configure
-            }, "onCancel": function () {
-                Knockback.release(self.model, document.getElementById(modalId));
-                kbValidation.unbind(self);
-                $("#" + modalId).modal("hide");
-            }});
+            provisionCluster.clusterId.push(checkedRows.id);
+            provisionCluster.packageImageId = contrail.checkIfExist(checkedRows.package_image_id) ? checkedRows.package_image_id : "Not Configured";
+            provisionCluster.isPackageImageIdConfigured = (contrail.checkIfExist(checkedRows.package_image_id) && (checkedRows.package_image_id !== '')) ? true : false;
 
-            self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionViewConfig, null, null, null, function() {
+            if (provisionCluster.isPackageImageIdConfigured) {
+                onSaveFn = function () {
+                    self.model.provision({
+                        init: function () {
+                            self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
+                            cowu.enableModalLoading(modalId);
+                        },
+                        success: function () {
+                            options.callback();
+                            $("#" + modalId).modal("hide");
+                        },
+                        error: function (error) {
+                            cowu.disableModalLoading(modalId, function () {
+                                self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, error.responseText);
+                            });
+                        }
+                    });
+                };
+
+                onCancelFn = function () {
+                    Knockback.release(self.model, document.getElementById(modalId));
+                    kbValidation.unbind(self);
+                    $("#" + modalId).modal("hide");
+                };
+
+
+            } else {
+                onCloseFn = function() {
+                    $("#" + modalId).modal("hide");
+                }
+            }
+
+            cowu.createModal({
+                "modalId"  : modalId, "className": "modal-840", "title": options.title, "btnName": "Confirm", "body": textTemplate(provisionCluster),
+                "onSave"   : onSaveFn,
+                "onCancel" : onCancelFn,
+                "onClose"  : onCloseFn
+            });
+
+            //self.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), this.model, provisionViewConfig, null, null, null, function() {
                 self.model.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
                 Knockback.applyBindings(self.model, document.getElementById(modalId));
                 kbValidation.bind(self);
-            });
+            //});
         },
 
         renderAddServers: function (options) {
@@ -1210,29 +1254,14 @@ define([
                     },
                     {
                         columns: [
-                            {elementId: "storage_admin_key", view: "FormInputView", viewConfig: {path: "parameters.provision.contrail.storage.storage_admin_key", dataBindValue: "parameters().provision.contrail.storage.storage_admin_key", class: "col-xs-6"}},
                             {
-                                elementId: "live_migration_storage_scope", view: "FormDropdownView",
+                                elementId: "storage_admin_key", view: "FormInputView",
                                 viewConfig: {
                                     help: {
                                         target: "tooltip",
-                                        content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.storage.properties.live_migration_storage_scope.description
+                                        content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_admin_key.description
                                     },
-                                    path: "parameters.provision.contrail.storage.live_migration_storage_scope", dataBindValue: "parameters().provision.contrail.storage.live_migration_storage_scope", class: "col-xs-6", elementConfig: {placeholder: smwl.TITLE_SELECT, dataTextField: "text", dataValueField: "id", data: smwc.STORAGE_SCOPE}
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        columns: [
-                            {
-                                elementId: "live_migration_ip", view: "FormInputView",
-                                viewConfig: {
-                                    help: {
-                                        target: "tooltip",
-                                        content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.storage.properties.live_migration_ip.description
-                                    },
-                                    path: "parameters.provision.contrail.storage.live_migration_ip", dataBindValue: "parameters().provision.contrail.storage.live_migration_ip", class: "col-xs-6"
+                                    path: "parameters.provision.contrail.storage.storage_admin_key", dataBindValue: "parameters().provision.contrail.storage.storage_admin_key", class: "col-xs-6"
                                 }
                             },
                             {
@@ -1394,25 +1423,6 @@ define([
             viewConfig: viewConfig
         };
     }
-
-
-    var reimageViewConfig = {
-        elementId: prefixId,
-        view: "SectionView",
-        viewConfig: {
-            rows: [
-                {
-                    columns: [
-                        {
-                            elementId: "base_image_id",
-                            view: "FormDropdownView",
-                            viewConfig: {path: "base_image_id", dataBindValue: "base_image_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_IMAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInImages")}}}
-                        }
-                    ]
-                }
-            ]
-        }
-    };
 
     function getAddServerViewConfig(clusterModel, modalHideFlag, callback) {
         var gridPrefix = "add-server",
@@ -2079,24 +2089,6 @@ define([
 
         return true;
     }
-
-    var provisionViewConfig = {
-        elementId:  cowu.formatElementId([prefixId, smwl.TITLE_PROVISIONING]),
-        view: "SectionView",
-        viewConfig: {
-            rows: [
-                {
-                    columns: [
-                        {
-                            elementId: "package_image_id",
-                            view: "FormComboboxView",
-                            viewConfig: {path: "package_image_id", class: "col-xs-6", dataBindValue: "package_image_id", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: { type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInPackages")}}}
-                        }
-                    ]
-                }
-            ]
-        }
-    };
 
     function getAddClusterViewConfig(clusterModel, callback) {
         var addClusterViewConfig = {

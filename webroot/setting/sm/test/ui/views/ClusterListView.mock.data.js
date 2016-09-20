@@ -23,7 +23,6 @@ define([], function () {
                     "keystone_password": "contrail123",
                     "router_asn": "64512",
                     "database_dir": "/var/lib/cassandra",
-                    "live_migration_storage_scope": "",
                     "analytics_syslog_port": "-1",
                     "keystone_tenant": "admin",
                     "gateway": null,

@@ -217,12 +217,6 @@
                     "live_migration_host" : {
                       "label" : "Live Migration NFS Host"
                     },
-                    "live_migration_ip" : {
-                      "label" : "Live Migration IP"
-                    },
-                    "live_migration_storage_scope" : {
-                      "label" : "Live Migration Storage Scope"
-                    },
                     "storage_admin_key" : {
                       "label" : "Storage Admin Key"
                     }
