@@ -570,7 +570,7 @@ define([
                     model = interfaces.at(i);
                     dhcp = model.attributes.dhcp();
                     interfaceType = model.attributes.type();
-                    if (dhcp == false && model.attributes.name() != "" && (interfaceType !== 'bond')) {
+                    if (dhcp != true && model.attributes.name() != "" && (interfaceType !== 'bond')) {
                         memberInterfaces.push(model.attributes.name());
                     }
                 }
@@ -604,7 +604,7 @@ define([
                     type = contrail.checkIfExist(model.attributes.type()) ? model.attributes.type() : smwc.INTERFACE_TYPE_PHYSICAL;
                     dhcp = model.attributes.dhcp();
 
-                    if (type == smwc.INTERFACE_TYPE_PHYSICAL && dhcp && model.attributes.name() !== "") {
+                    if (type == smwc.INTERFACE_TYPE_PHYSICAL && model.attributes.name() !== "") {
                         managementInterfaces.push(model.attributes.name());
                     }
                 }
