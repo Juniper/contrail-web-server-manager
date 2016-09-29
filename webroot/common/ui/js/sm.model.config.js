@@ -763,6 +763,7 @@ define([], function () {
 
         this.getJSONModel = function () {
             return {
+                "customJSON": {},
                 "json": {},
                 "schema": {}
             };

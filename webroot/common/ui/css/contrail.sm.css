@@ -17,3 +17,14 @@
     background-color:#7892dd;
 }
 /* Styles for status bubbles for Server END*/
+
+.sm-schema-text-link {
+    font-size:13px;
+    color:#3182BD;
+    cursor:pointer;
+}
+.sm-schema-text-link:before {
+    content: '\f044';
+    font-family: FontAwesome;
+    margin-right: 5px;
+}

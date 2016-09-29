@@ -7,11 +7,15 @@ define([
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/ServerModel",
     "sm-basedir/setting/sm/ui/js/views/ServerEditView",
-    "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/server.json"
-], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, schema) {
+    "json-model", "json-edit-view",
+    "text!sm-basedir/setting/sm/ui/js/schemas/server.json",
+    "text!sm-basedir/setting/sm/ui/js/schemas/server.clone.schema.json"
+], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, Schema, ServerCloneSchema) {
+
     var prefixId = smwc.SERVER_PREFIX_ID,
         gridElId = "#" + smwl.SM_SERVER_GRID_ID,
-        serverSchema = JSON.parse(schema);
+        serverSchema = JSON.parse(Schema),
+        serverCloneSchema = JSON.parse(ServerCloneSchema);
 
     var ServerGridView = ContrailView.extend({
         render: function () {
@@ -262,6 +266,71 @@ define([
                     }
                 });
             }),
+            smwgc.getCloneServerAction(function (rowIndex) {
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
+                    customJSON = [{
+                        "id": "",
+                        "ipmi_address": "",
+                        "network": {
+                            "management_interface": "eth1",
+                            "interfaces": [{
+                                "type": "physical",
+                                "name": "eth1",
+                                "default_gateway": "",
+                                "dhcp": true,
+                                "mac_address": "",
+                                "ip_address": ""
+                            }]
+                        }
+                    }];
+
+                var oAttributes = cowu.getAttributes4Schema(dataItem, serverSchema),
+                    jsonModel = new JsonModel({
+                        customJSON: customJSON,
+                        json: oAttributes,
+                        schema: serverCloneSchema
+                    }),
+                    checkedRow = [oAttributes],
+                    title = smwl.TITLE_EDIT_JSON + (contrail.checkIfExist(oAttributes.id) ? (" (" + oAttributes.id + ")") : ""),
+                    jsonEditView = new JsonEditView(),
+                    modalId = 'configure-' + prefixId;
+
+                jsonEditView.model = jsonModel;
+                jsonEditView.renderEditor({
+                    title: title,
+                    checkedRows: checkedRow,
+                    type: smwc.SERVER_PREFIX_ID,
+                    onSave: function () {
+                        var cloneServerList = [];
+                        for (var i = 0; i < jsonModel.model().attributes.length; i++ ) {
+                            var attributes = jsonModel.model().attributes[i],
+                                newInterfaces = attributes.network.interfaces;
+
+                            var newServerAttrs = $.extend(true, {}, oAttributes, attributes);
+                            newServerAttrs.network.interfaces = newInterfaces;
+                            cloneServerList.push(newServerAttrs);
+                        }
+
+                        jsonModel.configure(null, {
+                            init: function () {
+                                cowu.enableModalLoading(modalId);
+                            },
+                            success: function () {
+                                var dataView = $(gridElId).data("contrailGrid")._dataView;
+                                dataView.refreshData();
+                                $("#" + modalId).modal('hide');
+                            },
+                            error: function (error) {
+                                cowu.disableModalLoading(modalId, function () {});
+                            }
+                        }, smwc.SERVER_PREFIX_ID, cloneServerList);
+                    },
+                    callback: function () {
+                        var dataView = $(gridElId).data("contrailGrid")._dataView;
+                        dataView.refreshData();
+                    }
+                });
+            }),
             smwgc.getTagAction(function (rowIndex) {
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
                     serverModel = new ServerModel(dataItem),
@@ -396,6 +465,7 @@ define([
                     checkboxSelectable: {
                         onNothingChecked: function () {
                             $("#btnActionServers").addClass("disabled-link").removeAttr("data-toggle");
+                            $("#btnActionServers").parent().removeClass("open");
                         },
                         onSomethingChecked: function () {
                             $("#btnActionServers").removeClass("disabled-link").attr("data-toggle", "dropdown");

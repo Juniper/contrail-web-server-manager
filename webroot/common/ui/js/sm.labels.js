@@ -254,6 +254,7 @@ define([
         this.TITLE_STATUS = "Status";
         this.TITLE_EDIT_CONFIG = "Edit Config";
         this.TITLE_EDIT_JSON = "Edit JSON";
+        this.TITLE_CLONE_SERVER = "Clone Server";
         this.TITLE_CREATE_CONFIG = "Create Config";
         this.TITLE_ADD = "Add";
         this.TITLE_REIMAGE = "Reimage";
@@ -270,6 +271,7 @@ define([
         this.TITLE_CONFIGURE = "Configure";
         this.TITLE_CREATE = "Create";
         this.TITLE_REFRESH_INVENTORY = "Refresh Inventory";
+        this.TITLE_CLONE_SERVER = "Clone Server";
 
         this.TITLE_CLUSTERS = "Clusters";
         this.TITLE_CLUSTER = "Cluster";

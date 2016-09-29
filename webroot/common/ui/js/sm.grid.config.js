@@ -161,6 +161,16 @@ define([], function () {
             };
         };
 
+        this.getCloneServerAction = function (onClickFunction, divider) {
+            return {
+                title: smwl.TITLE_CLONE_SERVER,
+                iconClass: "fa fa-edit",
+                width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
+                onClick: onClickFunction
+            };
+        };
+
         this.getConfigureJSONAction = function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_EDIT_JSON,
