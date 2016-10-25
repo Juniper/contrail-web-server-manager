@@ -131,12 +131,16 @@ define([
             var textTemplate = contrail.getTemplate4Id("sm-reimage-template"),
                 reimageCluster = {"clusterId": [], "elementId": prefixId, "baseImageId" : "", "isBaseImageIdConfigured" : false},
                 checkedRows = options.checkedRows,
+                id = "", base_image_id = "",
                 onSaveFn = false, onCancelFn = false, onCloseFn = false,
                 self = this;
 
-            reimageCluster.clusterId.push(checkedRows.id);
-            reimageCluster.baseImageId = contrail.checkIfExist(checkedRows.base_image_id) ? checkedRows.base_image_id : "Not Configured";
-            reimageCluster.isBaseImageIdConfigured = (contrail.checkIfExist(checkedRows.base_image_id) && (checkedRows.base_image_id !== '')) ? true : false;
+            id = self.model.id();
+            base_image_id = self.model.base_image_id();
+
+            reimageCluster.clusterId.push(id);
+            reimageCluster.baseImageId = contrail.checkIfExist(base_image_id) ? base_image_id : "Not Configured";
+            reimageCluster.isBaseImageIdConfigured = (contrail.checkIfExist(base_image_id) && (base_image_id !== '')) ? true : false;
 
             if (reimageCluster.isBaseImageIdConfigured) {
                 onSaveFn = function () {
@@ -219,12 +223,16 @@ define([
             var textTemplate = contrail.getTemplate4Id("sm-provision-template"),
                 provisionCluster = {"clusterId": [], "elementId": prefixId, "packageImageId" : "", "isPackageImageIdConfigured" : false},
                 checkedRows = options.checkedRows,
+                id = "", package_image_id = "",
                 onSaveFn = false, onCancelFn = false, onCloseFn = false,
                 self = this;
 
-            provisionCluster.clusterId.push(checkedRows.id);
-            provisionCluster.packageImageId = contrail.checkIfExist(checkedRows.package_image_id) ? checkedRows.package_image_id : "Not Configured";
-            provisionCluster.isPackageImageIdConfigured = (contrail.checkIfExist(checkedRows.package_image_id) && (checkedRows.package_image_id !== '')) ? true : false;
+            id = self.model.id();
+            package_image_id = self.model.package_image_id();
+
+            provisionCluster.clusterId.push(id);
+            provisionCluster.packageImageId = contrail.checkIfExist(package_image_id) ? package_image_id : "Not Configured";
+            provisionCluster.isPackageImageIdConfigured = (contrail.checkIfExist(package_image_id) && (package_image_id !== '')) ? true : false;
 
             if (provisionCluster.isPackageImageIdConfigured) {
                 onSaveFn = function () {

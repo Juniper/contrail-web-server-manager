@@ -145,7 +145,7 @@ define([
         rowActionConfig = rowActionConfig.concat([
             smwgc.getReimageAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem],
+                    checkedRow = dataItem,
                     title = smwl.TITLE_REIMAGE + " ("+ dataItem.id +")";
 
                 serverEditView.model = serverModel;
@@ -155,7 +155,7 @@ define([
             }, true),
             smwgc.getProvisionAction(function (dataItem) {
                 var serverModel = new ServerModel(dataItem),
-                    checkedRow = [dataItem],
+                    checkedRow = dataItem,
                     title = smwl.TITLE_PROVISION_SERVER + " ("+ dataItem.id +")";
 
                 serverEditView.model = serverModel;
