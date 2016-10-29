@@ -33,13 +33,6 @@ define([
                                 viewConfig: {
                                     theme: "overcast",
                                     active: 0,
-                                    activate: function (e, ui) {
-                                        var selTab = $(ui.newTab.context).text();
-                                        if (selTab == smwl.TITLE_SERVERS) {
-                                            $("#" + smwl.SM_SERVER_GRID_ID).data("contrailGrid").refreshView();
-                                            $("#" + smwl.SM_SERVER_SCATTER_CHART_ID).trigger("refresh");
-                                        }
-                                    },
                                     tabs: [
                                         {
                                             elementId: smwl.SM_CLUSTER_TAB_DETAILS_ID,
@@ -62,7 +55,19 @@ define([
                                             title: smwl.TITLE_SERVERS,
                                             app: cowc.APP_CONTRAIL_SM,
                                             view: "ServerListView",
-                                            viewConfig: {serverColumnsType: smwc.CLUSTER_PREFIX_ID, showAssignRoles: true, hashParams: {"cluster_id": clusterId}}
+                                            viewConfig: {
+                                                serverColumnsType: smwc.CLUSTER_PREFIX_ID, showAssignRoles: true, hashParams: {"cluster_id": clusterId}
+                                            },
+                                            tabConfig: {
+                                                activate: function () {
+                                                    cowu.checkAndRefreshContrailGrids([
+                                                        $("#" + smwl.SM_SERVER_GRID_ID)
+                                                    ]);
+                                                    $("#" + smwl.SM_SERVER_SCATTER_CHART_ID).trigger("refresh");
+                                                },
+                                                renderOnActivate: true
+                                            }
+
                                         }
                                     ]
                                 }

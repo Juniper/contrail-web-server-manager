@@ -72,25 +72,25 @@ define([
                         }
                     ]
                 },
-                {
-                    viewId: smwl.SM_SERVER_GRID_ID,
-                    suites: [
-                        {
-                            class: GridViewTestSuite,
-                            groups: ["all"]
-                        },
-                        {
-                            class: GridListModelTestSuite,
-                            groups: ["all"],
-                            modelConfig: {
-                                dataGenerator: smtu.commonGridDataGenerator,
-                                dataParsers: {
-                                    gridDataParseFn: smtu.deleteFieldsForServerScatterChart
-                                }
-                            }
-                        }
-                    ]
-                }
+                // {
+                //     viewId: smwl.SM_SERVER_GRID_ID,
+                //     suites: [
+                //         {
+                //             class: GridViewTestSuite,
+                //             groups: ["all"]
+                //         },
+                //         {
+                //             class: GridListModelTestSuite,
+                //             groups: ["all"],
+                //             modelConfig: {
+                //                 dataGenerator: smtu.commonGridDataGenerator,
+                //                 dataParsers: {
+                //                     gridDataParseFn: smtu.deleteFieldsForServerScatterChart
+                //                 }
+                //             }
+                //         }
+                //     ]
+                // }
             ]
         };
     };
