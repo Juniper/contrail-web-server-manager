@@ -595,6 +595,7 @@ define([], function () {
                 "tag": {},
                 "network": {
                     "interfaces": [],
+                    "routes": [],
                     "management_interface": null,
                     "provisioning": "kickstart"
                 },
@@ -781,6 +782,15 @@ define([], function () {
                 "tor" : null,
                 "tor_port" : null,
                 "parent": ""
+            };
+        },
+
+        this.getRoutesModel = function () {
+            return {
+                "network": null,
+                "netmask": null,
+                "gateway": null,
+                "interface": null
             };
         };
 
