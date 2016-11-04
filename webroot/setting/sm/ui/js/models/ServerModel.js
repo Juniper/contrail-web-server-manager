@@ -9,8 +9,9 @@ define([
     "contrail-model",
     "sm-basedir/setting/sm/ui/js/models/InterfacesModel",
     "sm-basedir/setting/sm/ui/js/models/DisksModel",
-    "sm-basedir/setting/sm/ui/js/models/SwitchModel"
-], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, DiskModel, SwitchModel) {
+    "sm-basedir/setting/sm/ui/js/models/SwitchModel",
+    "sm-basedir/setting/sm/ui/js/models/RoutesModel"
+], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, DiskModel, SwitchModel, RoutesModel) {
     var ServerModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getServerModel(),
@@ -32,9 +33,16 @@ define([
                     "interfaces": []
                 };
             }
+
             if(modelConfig.top_of_rack == null || modelConfig.top_of_rack == "") {
                 modelConfig.top_of_rack = {
                     "switches": []
+                };
+            }
+
+            if(modelConfig.network == null || modelConfig.network == "") {
+                modelConfig.network = {
+                    "routes": []
                 };
             }
 
@@ -54,6 +62,24 @@ define([
             modelConfig.interfaces = interfaceCollectionModel;
             if(modelConfig.network != null) {
                 delete modelConfig.network.interfaces;
+            }
+
+            /*
+             Populating RoutesModel from network.routes
+             */
+            var routes = (modelConfig.network != null) ? (modelConfig.network.routes) : [],
+                routeModels = [], routeModel,
+                routeCollectionModel;
+
+            for(var i = 0; i < routes.length; i++) {
+                routesModel = new RoutesModel(routes[i]);
+                routeModels.push(routesModel);
+            }
+
+            routeCollectionModel = new Backbone.Collection(routeModels);
+            modelConfig.routes = routeCollectionModel;
+            if(modelConfig.network != null) {
+                delete modelConfig.network.routes;
             }
 
             /*
@@ -113,6 +139,20 @@ define([
             }
             return interfaceArray;
         },
+
+        getRoutes: function (serverAttributes) {
+            var routeCollection = serverAttributes.routes.toJSON(),
+                routeArray = [], routeAttributes;
+
+            for(var i = 0; i < routeCollection.length; i++) {
+                routeAttributes = routeCollection[i].model().attributes;
+                delete routeAttributes.errors;
+                delete routeAttributes.locks;
+                routeArray.push(routeCollection[i].model().attributes);
+            }
+            return routeArray;
+        },
+
         getSwitches: function (serverAttributes) {
             var switchCollection = serverAttributes.switches.toJSON(),
                 switchArray = [], switchAttributes;
@@ -158,6 +198,7 @@ define([
                 interfaces = this.getServerInterfaces(serverAttrs);
                 disks = this.getServerStorageDisks(serverAttrs);
                 switches = this.getSwitches(serverAttrs);
+                routes = this.getRoutes(serverAttrs);
 
                 /* Special handling to reaplace switch_id by id and add type as 'ovs' - START*/
                 for (var i = 0; i < switches.length; i++) {
@@ -173,11 +214,15 @@ define([
                 delete serverAttrs.interfaces;
                 delete serverAttrs.disks;
                 delete serverAttrs.switches;
+                delete serverAttrs.routes;
 
                 serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
 
                 serverAttrsEdited.network.interfaces = interfaces;
                 delete serverAttrsEdited.interfaces;
+
+                serverAttrsEdited.network.routes = routes;
+                delete serverAttrsEdited.routes;
 
                 serverAttrsEdited.top_of_rack = {switches : switches};
                 delete serverAttrsEdited.switches;
@@ -558,6 +603,22 @@ define([
                 swth = kbSwitch.model();
 
             switchCollection.remove(swth);
+        },
+        addRoute: function() {
+            var routes = this.model().get("routes"),
+                newRoute = new RoutesModel({
+                    "network"   : "",
+                    "netmask"   : "",
+                    "gateway"   : "",
+                    "interface" : ""
+                });
+            routes.add(newRoute);
+        },
+        deleteRoute: function(data, kbRoute) {
+            var routeCollection = data.model().collection,
+                swth = kbRoute.model();
+
+            routeCollection.remove(swth);
         },
         filterInterfaces: function(interfaceType) {
             return Knockout.computed(function () {

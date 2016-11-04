@@ -589,6 +589,53 @@ define([
                 }
             },
             {
+                elementId: cowu.formatElementId([prefixId, smwl.TITLE_ROUTES]),
+                title: smwl.TITLE_ROUTES,
+                view: "SectionView",
+                viewConfig: {
+                    rows: [
+                        {
+                            columns: [
+                                {
+                                    elementId: "routes",
+                                    view: "FormEditableGridView",
+                                    viewConfig: {
+                                        path: "routes",
+                                        class: "col-xs-12",
+                                        validation: "routesValidation",
+                                        collection: "routes",
+                                        columns: [
+                                            {
+                                                elementId: "network", name: "Network", view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 170,path: "name", dataBindValue: "network()"}
+                                            },
+                                            {
+                                                elementId: "netmask", name: "Netmask", view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 170,path: "netmask", dataBindValue: "netmask()"}
+                                            },
+                                            {
+                                                elementId: "gateway", name: "Gateway", view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 170,path: "gateway", dataBindValue: "gateway()"}
+                                            },
+                                            {
+                                                elementId: "interface", name: "Interface", view: "FormInputView", class: "",
+                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, width: 170,path: "interface", dataBindValue: "interface()"}
+                                            }
+                                        ],
+                                        rowActions: [
+                                            {onClick: "function() { $root.deleteRoute($data, this); }", iconClass: "fa fa-minus"}
+                                        ],
+                                        gridActions: [
+                                            {onClick: "function() { addRoute(); }", buttonTitle: "Add"}
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
                 elementId: cowu.formatElementId([prefixId, smwl.TITLE_BOND_INTERFACES]),
                 title: smwl.TITLE_BOND_INTERFACES,
                 view: "SectionView",
