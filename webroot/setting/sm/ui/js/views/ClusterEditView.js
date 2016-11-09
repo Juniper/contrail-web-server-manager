@@ -489,7 +489,7 @@ define([
                             },
                             {
                                 elementId: 'core_mask', view: "FormInputView",
-                                viewConfig: {path: 'parameters.provision.contrail.compute.core_mask', dataBindValue: 'parameters().provision.contrail.control.core_mask', class: "span6"}
+                                viewConfig: {path: 'parameters.provision.contrail.compute.core_mask', dataBindValue: 'parameters().provision.contrail.compute.core_mask', class: "span6"}
                             }
                         ]
                     },
