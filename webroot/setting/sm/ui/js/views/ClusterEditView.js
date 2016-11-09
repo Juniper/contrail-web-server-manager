@@ -719,7 +719,7 @@ define([
                                         target: "tooltip",
                                         content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.compute.properties.core_mask.description
                                     },
-                                    path: "parameters.provision.contrail.compute.core_mask", dataBindValue: "parameters().provision.contrail.control.core_mask", class: "col-xs-6"
+                                    path: "parameters.provision.contrail.compute.core_mask", dataBindValue: "parameters().provision.contrail.compute.core_mask", class: "col-xs-6"
                                 }
                             }
                         ]
