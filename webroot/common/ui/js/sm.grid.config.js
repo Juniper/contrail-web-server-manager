@@ -80,7 +80,23 @@ define([], function () {
             }
         ];
 
-        this.SERVER_SENSORS_COLUMNS = [
+        this.DHCP_HOST_COLUMNS = [
+            { id: "host_fqdn", field: "host_fqdn", name: "Host FQDN", width: 150, minWidth: 100},
+            { id: "host_name", field: "host_name", name: "Host Name", width: 150, minWidth: 100},
+            { id: "mac_address", field: "mac_address", name: "MAC Address", width: 120, minWidth: 80},
+            { id: "ip_address", field: "ip_address", name: " IP address", width: 120, minWidth: 80}
+        ];
+
+        this.DHCP_SUBNET_COLUMNS = [
+            { id: "subnet_domain", field: "subnet_domain", name: "Subnet Domain", width: 150, minWidth: 100},
+            { id: "subnet_address", field: "subnet_address", name: "Subnet Address", width: 150, minWidth: 100},
+            { id: "subnet_gateway", field: "subnet_gateway", name: "Subnet Gateway", width: 150, minWidth: 100},
+            { id: "subnet_mask", field: "subnet_mask", name: "Subnet Mask", width: 150, minWidth: 100},
+            { id: "max_lease_time", field: "max_lease_time", name: "MAX Lease Time", width: 150, minWidth: 100},
+            { id: "default_lease_time", field: "default_lease_time", name: "Default Lease Time", width: 150, minWidth: 100}
+        ];
+
+        SERVER_SENSORS_COLUMNS : [
             {id: "sensor", field: "sensor", name: "Name", width: 120, minWidth: 15},
             {id: "sensor_type", field: "sensor_type", name: "Type", width: 120, minWidth: 15},
             {

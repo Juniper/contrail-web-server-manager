@@ -12,6 +12,8 @@ define([], function () {
         this.BAREMETAL_PREFIX_ID = "baremetal";
         this.SM_PREFIX_ID = "sm";
         this.BM_PREFIX_ID = "bm";
+        this.DHCP_HOST_PREFIX_ID = "dhcp_host";
+        this.DHCP_SUBNET_PREFIX_ID = "dhcp_subnet";
 
 
         this.CATEGORY_IMAGE = "image";
@@ -125,6 +127,8 @@ define([], function () {
         this.URL_OBJ_SERVER_MAC_ADDRESS = "/sm/objects/server?mac_address=";
         this.URL_SERVER_REIMAGE = "/sm/server/reimage";
         this.URL_OBJ_IMAGE_ID = "/sm/objects/image?id=";
+        this.URL_OBJ_DHCP_HOST_ID = "/sm/objects/dhcp_host?host_fqdn=";
+        this.URL_OBJ_DHCP_SUBNET_ID = "/sm/objects/dhcp_subnet?subnet_address=";
         this.URL_BAREMETAL_SERVER = "/api/tenants/config/baremetal-details";
         this.URL_BAREMETAL_ADD = "/api/tenants/config/baremetal";
         this.URL_NETWORKS = "/api/admin/config/get-data?type=virtual-network";
@@ -159,6 +163,8 @@ define([], function () {
         this.TMPL_BAREMETAL_PAGE_DETAIL = "baremetal-detail-page-template";
         this.TMPL_DELETE_IMAGE = "sm-delete-image-template";
         this.TMPL_DELETE_PACKAGE = "sm-delete-package-template";
+        this.TMPL_DELETE_DHCP_HOST = "sm-delete-dhcp-host-template";
+        this.TMPL_DELETE_DHCP_SUBNET = "sm-delete-dhcp-subnet-template";
         this.TMPL_TAGS = "sm-tags-template";
 
         this.IMAGE_TYPES = ["ubuntu", "centos", "redhat", "esxi5.1", "esxi5.5", "fedora"];

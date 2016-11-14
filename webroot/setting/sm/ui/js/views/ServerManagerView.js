@@ -81,6 +81,30 @@ define([
                 viewConfig: {}
             };
             self.renderView4Config(contentContainer, null, packageListViewConfig);
+        },
+
+        renderDhcpHost: function () {
+            var self = this;
+
+            var dhcpHostListViewConfig = {
+                elementId: smwl.SM_DHCP_HOST_LIST_VIEW_ID,
+                view: "DhcpHostListView",
+                app: cowc.APP_CONTRAIL_SM,
+                viewConfig: {}
+            };
+            self.renderView4Config(contentContainer, null, dhcpHostListViewConfig);
+        },
+
+        renderDhcpSubnet: function () {
+            var self = this;
+
+            var dhcpSubnetListViewConfig = {
+                elementId: smwl.SM_DHCP_SUBNET_LIST_VIEW_ID,
+                view: "DhcpSubnetListView",
+                app: cowc.APP_CONTRAIL_SM,
+                viewConfig: {}
+            };
+            self.renderView4Config(contentContainer, null, dhcpSubnetListViewConfig);
         }
     });
 

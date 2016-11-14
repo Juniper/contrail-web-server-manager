@@ -255,6 +255,8 @@ define([
         this.TITLE_STATUS = "Status";
         this.TITLE_EDIT_CONFIG = "Edit Config";
         this.TITLE_EDIT_JSON = "Edit JSON";
+        this.TITLE_EDIT_DHCP_HOST = "Edit DHCP Host";
+        this.TITLE_EDIT_DHCP_SUBNET = "Edit DHCP Subnet";
         this.TITLE_CLONE_SERVER = "Clone Server";
         this.TITLE_CREATE_CONFIG = "Create Config";
         this.TITLE_ADD = "Add";
@@ -292,6 +294,9 @@ define([
         this.TITLE_BAREMETAL_SERVERS = "Baremetal Servers";
         this.TITLE_MONITORING = "Monitoring";
         this.TITLE_INVENTORY = "Inventory";
+        this.TITLE_DHCP = "DHCP";
+        this.TITLE_DHCP_HOST = "DHCP Host";
+        this.TITLE_DHCP_SUBNET = "DHCP Subnet";
 
         this.SENSORS_INFO = "Sensors Information";
         this.SELECT_CLUSTER = "Select Cluster";
@@ -300,7 +305,12 @@ define([
         this.SELECT_PROTOCOL = "Select Protocol";
         this.SELECT_MEMBERS = "Select Members";
         this.TITLE_ADD_CLUSTER = "Add Cluster";
+        this.TITLE_ADD_DHCP_HOST = "Add DHCP Host";
+        this.TITLE_ADD_DHCP_SUBNET = "Add DHCP Subnet";
+        this.TITLE_ADD_NEW_DHCP_HOST = "Add a New DHCP Host";
+        this.TITLE_ADD_NEW_DHCP_SUBNET = "Add a New DHCP Subnet";
         this.TITLE_DEL_CLUSTER = "Delete Cluster";
+        this.TITLE_DEL_DHCP_HOST = "Delete DHCP Host";
         this.TITLE_DEL_CLUSTERS = "Delete Clusters";
         this.TITLE_ADD_SERVER = "Add Server";
         this.TITLE_ADD_SERVERS = "Add Servers";
@@ -378,9 +388,13 @@ define([
         this.SM_CLUSTER_VIEW_ID = "cluster-view";
         this.SM_CLUSTER_LIST_SECTION_ID = "cluster-list-section";
         this.SM_CLUSTER_GRID_SECTION_ID = "cluster-grid-section";
+        this.SM_DHCP_HOST_GRID_SECTION_ID = "dhcp-host-grid-section";
+        this.SM_DHCP_SUBNET_GRID_SECTION_ID = "dhcp-subnet-grid-section";
         this.SM_CLUSTER_SCATTER_CHART_ID = "cluster-scatter-chart";
         this.SM_CLUSTER_GRID_VIEW_ID = "cluster-grid-vew";
         this.SM_CLUSTER_GRID_ID = "cluster-grid";
+        this.SM_DHCP_HOST_GRID_ID = "dhcp-host-grid";
+        this.SM_DHCP_SUBNET_GRID_ID = "dhcp-subnet-grid";
         this.SM_CLUSTER_SECTION_ID = "cluster-section";
         this.SM_CLUSTER_TAB_VIEW_ID = "cluster-tab-view";
         this.SM_CLUSTER_TAB_ID = "cluster-tab";
@@ -429,6 +443,15 @@ define([
         this.SM_PACKAGE_GRID_SECTION_ID = "package-grid-section";
         this.SM_PACKAGE_GRID_VIEW_ID = "package-grid-view";
         this.SM_PACKAGE_GRID_ID = "package-grid";
+
+        this.SM_DHCP_HOST_GRID_VIEW_ID = "dhcp-host-grid-view";
+        this.SM_DHCP_HOST_LIST_SECTION_ID = "dhcp-host-list-section";
+
+        this.SM_DHCP_HOST_LIST_VIEW_ID = "dhcp-host-list-view";
+
+        this.SM_DHCP_SUBNET_GRID_VIEW_ID = "dhcp-subnet-grid-view";
+        this.SM_DHCP_SUBNET_LIST_VIEW_ID ="dhcp-subnet-list-view";
+        this.SM_DHCP_SUBNET_LIST_SECTION_ID = "dhcp-subnet-list-section";
 
         this.LABEL_HA_PROXY_ENABLE = "HA Proxy Enable";
         this.LABEL_ZOOKEEPER_IP_PORT = "Zookeeper IP Port";

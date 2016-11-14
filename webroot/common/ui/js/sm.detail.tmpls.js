@@ -689,6 +689,100 @@ define([], function () {
             };
         };
 
+        this.getDHCPHostDetailsTemplate = function () {
+            return {
+                templateGenerator: "ColumnSectionTemplateGenerator",
+                templateGeneratorConfig: {
+                    columns: [
+                        {
+                            class: "col-xs-12",
+                            rows: [
+                                {
+                                    templateGenerator: "BlockListTemplateGenerator",
+                                    title: smwl.TITLE_OVERVIEW,
+                                    templateGeneratorConfig: [
+                                        {
+                                            key: "host_fqdn",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "ip_address",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "host_name",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "mac_address",
+                                            templateGenerator: "TextGenerator"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            };
+        };
+
+        this.getDHCPSubnetDetailsTemplate = function () {
+            return {
+                templateGenerator: "ColumnSectionTemplateGenerator",
+                templateGeneratorConfig: {
+                    columns: [
+                        {
+                            class: "col-xs-12",
+                            rows: [
+                                {
+                                    templateGenerator: "BlockListTemplateGenerator",
+                                    title: smwl.TITLE_OVERVIEW,
+                                    templateGeneratorConfig: [
+                                        {
+                                            key: "dns_server_list",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "dhcp_range",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "search_domains_list",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "subnet_address",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "subnet_domain",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "subnet_gateway",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "subnet_mask",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "max_lease_time",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
+                                            key: "default_lease_time",
+                                            templateGenerator: "TextGenerator"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            };
+        };
+
         this.getServerChassisDetailsTemplate = function (detailTheme) {
             var detailTheme = contrail.checkIfExist(detailTheme) ? detailTheme : cowc.THEME_DETAIL_DEFAULT;
             return {

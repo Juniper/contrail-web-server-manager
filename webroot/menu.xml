@@ -47,6 +47,49 @@
                         </item>
                     </items>
                 </item>
+                <item>
+                    <label>Server Manager</label>
+                    <hash>config_sm</hash>
+                    <resources>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <js>sm.main.js</js>
+                            <template>sm.tmpl</template>
+                            <class>smPageLoader</class>
+                        </resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <template>sm.tmpl</template>
+                        </resource>
+                    </resources>
+                    <access>
+                        <roles>
+                            <role>member</role>
+                        </roles>
+                        <orchModels>
+                            <model>openstack</model>
+                        </orchModels>
+                    </access>
+                    <iconClass>fa fa-cogs</iconClass>
+                    <items>
+                        <item>
+                            <hash>config_sm_dhcphost</hash>
+                            <label>DHCP Host</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderDhcpHost</function>
+                            </loader>
+                        </item>
+                        <item>
+                            <hash>config_sm_dhcpsubnet</hash>
+                            <label>DHCP Subnet</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderDhcpSubnet</function>
+                            </loader>
+                        </item>
+                    </items>
+                </item>
             </items>
         </item>
         <item>

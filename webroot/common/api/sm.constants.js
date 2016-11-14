@@ -22,13 +22,14 @@ smConstants.KEY_EMPTY_CLUSTER = "--empty--";
 smConstants.FUNC_COMPUTE_SERVER_STATES = "computeServerStates";
 smConstants.FUNC_FILTER_IN_IMAGES = "filterInImages";
 smConstants.FUNC_FILTER_IN_PACKAGES = "filterInPackages";
+smConstants.FUNC_FILTER_IN_DHCP = "filterInDhcp";
 smConstants.FUNC_FILTER_IN_CONTRAIL_CONTROLLER_PACKAGES = "filterInContrailControllerPackages";
 smConstants.FUNC_FILTER_IN_CONTRAIL_STORAGE_PACKAGES = "filterInContrailStoragePackages";
 
 smConstants.REDIS_TAG_VALUES = "tagValues";
 smConstants.REDIS_CACHE_EXPIRE = 3600;
 
-smConstants.ALLOWED_FORWARDING_PARAMS = ["id", "tag", "cluster_id", "select", "mac_address"];
+smConstants.ALLOWED_FORWARDING_PARAMS = ["id", "tag", "cluster_id", "select", "mac_address", "host_fqdn", "subnet_address"];
 smConstants.SM_API_SERVER = "sm_api_server";
 smConstants.SM_INTROSPECT_SERVER = "sm_introspect_server";
 

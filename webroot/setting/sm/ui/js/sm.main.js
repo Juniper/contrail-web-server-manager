@@ -39,6 +39,14 @@ function SMPageLoader() {
             case "renderPackages":
                 this.smView.renderPackages({hashParams: hashParams});
                 break;
+
+            case "renderDhcpHost":
+                this.smView.renderDhcpHost({hashParams: hashParams});
+                break;
+
+            case "renderDhcpSubnet":
+                this.smView.renderDhcpSubnet({hashParams: hashParams});
+                break;
         }
     };
 
@@ -55,6 +63,10 @@ function SMPageLoader() {
             renderFn = "renderImages";
         } else if (hash == "setting_sm_packages") {
             renderFn = "renderPackages";
+        } else if (hash == "config_sm_dhcphost") {
+            renderFn = "renderDhcpHost";
+        } else if (hash == "config_sm_dhcpsubnet") {
+            renderFn = "renderDhcpSubnet";
         }
 
         this.load({hashParams: currPageQueryStr, "function": renderFn});

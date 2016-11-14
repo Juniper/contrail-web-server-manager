@@ -825,6 +825,29 @@ define([], function () {
             };
         };
 
+        this.getDhcpHostModel = function () {
+            return {
+                "host_fqdn": "",
+                "host_name": "",
+                "ip_address": "",
+                "mac_address": ""
+            }
+        };
+
+        this.getDhcpSubnetModel = function () {
+            return {
+                "default_lease_time": 21600,
+                "dhcp_range": null,
+                "dns_server_list": "['127.0.0.1', '8.8.8.8']",
+                "max_lease_time": 43200,
+                "search_domains_list": "['englab.juniper.net']",
+                "subnet_address": "",
+                "subnet_domain": "",
+                "subnet_gateway": "",
+                "subnet_mask": ""
+            }
+        };
+
         this.getImageSchema = function () {
             return {
                 "$schema": "http://json-schema.org/draft-04/schema#",
