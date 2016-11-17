@@ -96,7 +96,7 @@ define([], function () {
             { id: "default_lease_time", field: "default_lease_time", name: "Default Lease Time", width: 150, minWidth: 100}
         ];
 
-        SERVER_SENSORS_COLUMNS : [
+        this.SERVER_SENSORS_COLUMNS = [
             {id: "sensor", field: "sensor", name: "Name", width: 120, minWidth: 15},
             {id: "sensor_type", field: "sensor_type", name: "Type", width: 120, minWidth: 15},
             {
