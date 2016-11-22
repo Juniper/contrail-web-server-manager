@@ -5,58 +5,58 @@
 define([
     "underscore"
 ], function (_) {
-    var Labels = function () {
-        this.get = function (key) {
+    var Labels = {
+        get : function (key) {
             var keyArray, newKey;
-            if (_.has(labelMap, key)) {
-                return labelMap[key];
+            if (_.has(this.labelMap, key)) {
+                return this.labelMap[key];
             } else {
                 keyArray = key.split(".");
                 newKey = keyArray[keyArray.length - 1];
-                if (keyArray.length > 1 && _.has(labelMap, newKey)) {
-                    return labelMap[newKey];
+                if (keyArray.length > 1 && _.has(this.labelMap, newKey)) {
+                    return this.labelMap[newKey];
                 } else {
                     newKey = cowu.replaceAll("_", " ", newKey);
                     return capitalizeSentence(newKey);
                 }
             }
-        };
+        },
 
-        this.isExistKey = function (key) {
+        isExistKey : function (key) {
             var keyArray, newKey;
-            if (_.has(labelMap, key)) {
+            if (_.has(this.labelMap, key)) {
                 return true;
             } else {
                 keyArray = key.split(".");
                 newKey = keyArray[keyArray.length - 1];
-                if (keyArray.length > 1 && _.has(labelMap, newKey)) {
+                if (keyArray.length > 1 && _.has(this.labelMap, newKey)) {
                     return true;
                 }
             }
 
             return false;
-        };
+        },
 
-        this.getInLowerCase = function (key) {
+        getInLowerCase : function (key) {
             var label = this.get(key);
             return label.toLowerCase();
-        };
+        },
 
-        this.getInUpperCase = function (key) {
+        getInUpperCase : function (key) {
             var label = this.get(key);
             return label.toUpperCase();
-        };
+        },
 
-        this.getFirstCharUpperCase = function (key) {
+        getFirstCharUpperCase : function (key) {
             var label = this.get(key);
 
             label = label.toLowerCase().replace(/\b[a-z]/g, function(letter) {
                 return letter.toUpperCase();
             });
             return label;
-        };
+        },
 
-        var labelMap = {
+        labelMap : {
             //General
             "id": "ID",
             "dhcp": "DHCP",
@@ -224,256 +224,256 @@ define([
             "mem_usage_mb": "Memory Used",
             "cpu_usage_percentage": "CPU Utilization",
             "mem_usage_percent": "Memory Usage"
-        };
+        },
 
-        this.TITLE_DETAILS = "Details";
-        this.TITLE_OVERVIEW = "Overview";
-        this.TITLE_FRU__BOARD_INFO = "Board Information";
-        this.TITLE_SERVERS_CONFIG = "Servers Defaults";
-        this.TITLE_CONTRAIL = "Contrail";
-        this.TITLE_CONTRAIL_CONTROLLER = "Contrail Controller";
-        this.TITLE_STORAGE = "Storage";
-        this.TITLE_VMWARE = "VMware";
-        this.TITLE_VIRTUAL_GATEWAY = "Virtual Gateway";
-        this.TITLE_CONTRAIL_STORAGE = "Contrail Storage";
-        this.TITLE_OPENSTACK = "Openstack";
-        this.TITLE_HA_CONFIG = "High Availability";
-        this.TITLE_ANALYTICS_CONFIG = "Analytics";
-        this.TITLE_DATABASE = "Database";
-        this.TITLE_SYSTEM_MANAGEMENT = "System Management";
-        this.TITLE_INTERFACES = "Interfaces";
-        this.TITLE_PHYSICAL_INTERFACES = "Physical Interfaces";
-        this.TITLE_ROUTES = "Routes",
-        this.TITLE_OVS_SWITCHES = "OVS Type Switches";
-        this.TITLE_BOND_INTERFACES = "Bond Interfaces";
-        this.TITLE_SUB_INTERFACES = "Sub Interfaces";
-        this.TITLE_MANAGEMENT_INTERFACES = "Management Interfaces";
-        this.TITLE_ROUTE_CONFIGRATIONS = "Route Configurations";
-        this.TITLE_TAGS = "Tags";
-        this.TITLE_CONFIGURATIONS = "Configurations";
-        this.TITLE_SERVER_STATUS = "Server Status";
-        this.TITLE_STATUS = "Status";
-        this.TITLE_EDIT_CONFIG = "Edit Config";
-        this.TITLE_EDIT_JSON = "Edit JSON";
-        this.TITLE_EDIT_DHCP_HOST = "Edit DHCP Host";
-        this.TITLE_EDIT_DHCP_SUBNET = "Edit DHCP Subnet";
-        this.TITLE_CLONE_SERVER = "Clone Server";
-        this.TITLE_CREATE_CONFIG = "Create Config";
-        this.TITLE_ADD = "Add";
-        this.TITLE_REIMAGE = "Reimage";
-        this.TITLE_FILTER = "Filter";
-        this.TITLE_SELECT = "Select";
-        this.TITLE_CONFIRM = "Confirm";
-        this.TITLE_PROVISION = "Provision";
-        this.TITLE_PROVISIONING = "Provisioning";
-        this.TITLE_TAG = "Tag";
-        this.TITLE_TAGS = "Tags";
-        this.TITLE_ROLE = "Role";
-        this.TITLE_ROLES = "Roles";
-        this.TITLE_DELETE = "Delete";
-        this.TITLE_CONFIGURE = "Configure";
-        this.TITLE_CREATE = "Create";
-        this.TITLE_REFRESH_INVENTORY = "Refresh Inventory";
-        this.TITLE_CLONE_SERVER = "Clone Server";
+        TITLE_DETAILS : "Details",
+        TITLE_OVERVIEW : "Overview",
+        TITLE_FRU__BOARD_INFO : "Board Information",
+        TITLE_SERVERS_CONFIG : "Servers Defaults",
+        TITLE_CONTRAIL : "Contrail",
+        TITLE_CONTRAIL_CONTROLLER : "Contrail Controller",
+        TITLE_STORAGE : "Storage",
+        TITLE_VMWARE : "VMware",
+        TITLE_VIRTUAL_GATEWAY : "Virtual Gateway",
+        TITLE_CONTRAIL_STORAGE : "Contrail Storage",
+        TITLE_OPENSTACK : "Openstack",
+        TITLE_HA_CONFIG : "High Availability",
+        TITLE_ANALYTICS_CONFIG : "Analytics",
+        TITLE_DATABASE : "Database",
+        TITLE_SYSTEM_MANAGEMENT : "System Management",
+        TITLE_INTERFACES : "Interfaces",
+        TITLE_PHYSICAL_INTERFACES : "Physical Interfaces",
+        TITLE_ROUTES: "Routes",
+        TITLE_OVS_SWITCHES : "OVS Type Switches",
+        TITLE_BOND_INTERFACES : "Bond Interfaces",
+        TITLE_SUB_INTERFACES : "Sub Interfaces",
+        TITLE_MANAGEMENT_INTERFACES : "Management Interfaces",
+        TITLE_ROUTE_CONFIGRATIONS : "Route Configurations",
+        TITLE_TAGS : "Tags",
+        TITLE_CONFIGURATIONS : "Configurations",
+        TITLE_SERVER_STATUS : "Server Status",
+        TITLE_STATUS : "Status",
+        TITLE_EDIT_CONFIG : "Edit Config",
+        TITLE_EDIT_JSON : "Edit JSON",
+        TITLE_EDIT_DHCP_HOST : "Edit DHCP Host",
+        TITLE_EDIT_DHCP_SUBNET : "Edit DHCP Subnet",
+        TITLE_CLONE_SERVER : "Clone Server",
+        TITLE_CREATE_CONFIG : "Create Config",
+        TITLE_ADD : "Add",
+        TITLE_REIMAGE : "Reimage",
+        TITLE_FILTER : "Filter",
+        TITLE_SELECT : "Select",
+        TITLE_CONFIRM : "Confirm",
+        TITLE_PROVISION : "Provision",
+        TITLE_PROVISIONING : "Provisioning",
+        TITLE_TAG : "Tag",
+        TITLE_TAGS : "Tags",
+        TITLE_ROLE : "Role",
+        TITLE_ROLES : "Roles",
+        TITLE_DELETE : "Delete",
+        TITLE_CONFIGURE : "Configure",
+        TITLE_CREATE : "Create",
+        TITLE_REFRESH_INVENTORY : "Refresh Inventory",
+        TITLE_CLONE_SERVER : "Clone Server",
 
-        this.TITLE_CLUSTERS = "Clusters";
-        this.TITLE_CLUSTER = "Cluster";
-        this.TITLE_SERVERS = "Servers";
-        this.TITLE_SERVER_FRU_INFO = "FRU Information";
-        this.TITLE_SERVER_INTERFACE_INFO = "Interface Information";
-        this.TITLE_SERVER_SENSORS = "Sensors";
-        this.TITLE_SERVER_MONITORING_INTERFACE = "Interface Monitoring";
-        this.TITLE_SERVER_DISK_USAGE = "Disk Usage";
-        this.TITLE_SERVER_FILE_SYSTEM = "File System";
-        this.TITLE_CPU_MEM_INFO = "CPU/Memory Information";
-        this.TITLE_SERVER = "Server";
-        this.TITLE_IMAGES = "OS Images";
-        this.TITLE_IMAGE = "OS Image";
-        this.TITLE_PACKAGES = "Packages";
-        this.TITLE_PACKAGE = "Package";
-        this.TITLE_BAREMETAL_SERVERS = "Baremetal Servers";
-        this.TITLE_MONITORING = "Monitoring";
-        this.TITLE_INVENTORY = "Inventory";
-        this.TITLE_DHCP = "DHCP";
-        this.TITLE_DHCP_HOST = "DHCP Host";
-        this.TITLE_DHCP_SUBNET = "DHCP Subnet";
+        TITLE_CLUSTERS : "Clusters",
+        TITLE_CLUSTER : "Cluster",
+        TITLE_SERVERS : "Servers",
+        TITLE_SERVER_FRU_INFO : "FRU Information",
+        TITLE_SERVER_INTERFACE_INFO : "Interface Information",
+        TITLE_SERVER_SENSORS : "Sensors",
+        TITLE_SERVER_MONITORING_INTERFACE : "Interface Monitoring",
+        TITLE_SERVER_DISK_USAGE : "Disk Usage",
+        TITLE_SERVER_FILE_SYSTEM : "File System",
+        TITLE_CPU_MEM_INFO : "CPU/Memory Information",
+        TITLE_SERVER : "Server",
+        TITLE_IMAGES : "OS Images",
+        TITLE_IMAGE : "OS Image",
+        TITLE_PACKAGES : "Packages",
+        TITLE_PACKAGE : "Package",
+        TITLE_BAREMETAL_SERVERS : "Baremetal Servers",
+        TITLE_MONITORING : "Monitoring",
+        TITLE_INVENTORY : "Inventory",
+        TITLE_DHCP : "DHCP",
+        TITLE_DHCP_HOST : "DHCP Host",
+        TITLE_DHCP_SUBNET : "DHCP Subnet",
 
-        this.SENSORS_INFO = "Sensors Information";
-        this.SELECT_CLUSTER = "Select Cluster";
-        this.SELECT_TYPE = "Select Type";
-        this.SELECT_PARENT_INTERFACE = "Select Parent";
-        this.SELECT_PROTOCOL = "Select Protocol";
-        this.SELECT_MEMBERS = "Select Members";
-        this.TITLE_ADD_CLUSTER = "Add Cluster";
-        this.TITLE_ADD_DHCP_HOST = "Add DHCP Host";
-        this.TITLE_ADD_DHCP_SUBNET = "Add DHCP Subnet";
-        this.TITLE_ADD_NEW_DHCP_HOST = "Add a New DHCP Host";
-        this.TITLE_ADD_NEW_DHCP_SUBNET = "Add a New DHCP Subnet";
-        this.TITLE_DEL_CLUSTER = "Delete Cluster";
-        this.TITLE_DEL_DHCP_HOST = "Delete DHCP Host";
-        this.TITLE_DEL_CLUSTERS = "Delete Clusters";
-        this.TITLE_ADD_SERVER = "Add Server";
-        this.TITLE_ADD_SERVERS = "Add Servers";
-        this.TITLE_REMOVE_SERVERS = "Remove Servers";
-        this.TITLE_ADD_SERVERS_TO_CLUSTER = "Add Servers to Cluster";
-        this.TITLE_ADD_TAGS = "Add Tags";
-        this.TITLE_ADD_IMAGE = "Add OS Image";
-        this.TITLE_ADD_PACKAGE = "Add Package";
-        this.TITLE_PROVISION_CLUSTER = "Provision Cluster";
-        this.TITLE_ADD_TO_CLUSTER = "Add to Cluster";
-        this.TITLE_REMOVE_FROM_CLUSTER = "Remove from Cluster";
-        this.TITLE_EDIT_CLUSTER_CONFIG = "Edit Cluster Configurations";
-        this.TITLE_REFRESH_INVENTORY = "Refresh Inventory";
+        SENSORS_INFO : "Sensors Information",
+        SELECT_CLUSTER : "Select Cluster",
+        SELECT_TYPE : "Select Type",
+        SELECT_PARENT_INTERFACE : "Select Parent",
+        SELECT_PROTOCOL : "Select Protocol",
+        SELECT_MEMBERS : "Select Members",
+        TITLE_ADD_CLUSTER : "Add Cluster",
+        TITLE_ADD_DHCP_HOST : "Add DHCP Host",
+        TITLE_ADD_DHCP_SUBNET : "Add DHCP Subnet",
+        TITLE_ADD_NEW_DHCP_HOST : "Add a New DHCP Host",
+        TITLE_ADD_NEW_DHCP_SUBNET : "Add a New DHCP Subnet",
+        TITLE_DEL_CLUSTER : "Delete Cluster",
+        TITLE_DEL_DHCP_HOST : "Delete DHCP Host",
+        TITLE_DEL_CLUSTERS : "Delete Clusters",
+        TITLE_ADD_SERVER : "Add Server",
+        TITLE_ADD_SERVERS : "Add Servers",
+        TITLE_REMOVE_SERVERS : "Remove Servers",
+        TITLE_ADD_SERVERS_TO_CLUSTER : "Add Servers to Cluster",
+        TITLE_ADD_TAGS : "Add Tags",
+        TITLE_ADD_IMAGE : "Add OS Image",
+        TITLE_ADD_PACKAGE : "Add Package",
+        TITLE_PROVISION_CLUSTER : "Provision Cluster",
+        TITLE_ADD_TO_CLUSTER : "Add to Cluster",
+        TITLE_REMOVE_FROM_CLUSTER : "Remove from Cluster",
+        TITLE_EDIT_CLUSTER_CONFIG : "Edit Cluster Configurations",
+        TITLE_REFRESH_INVENTORY : "Refresh Inventory",
 
-        this.TITLE_REGISTER = "Register";
-        this.TITLE_CONFIGURE_SERVER = "Configure Server";
-        this.TITLE_CONFIGURE_SERVERS = "Configure Servers";
-        this.TITLE_EDIT_SERVER_CONFIG = "Edit Server Configurations";
-        this.TITLE_DEL_SERVER = "Delete Server";
-        this.TITLE_EDIT_TAGS = "Edit Tags";
-        this.TITLE_ASSIGN_ROLES = "Assign Roles";
-        this.TITLE_PROVISION_SERVER = "Provision Server";
-        this.TITLE_PROVISION_SERVERS = "Provision Servers";
-        this.TITLE_SEARCH_SERVERS = "Search Servers";
-        this.TITLE_FILTER_SERVERS = "Filter Servers";
-        this.TITLE_SELECT_SERVERS = "Select Servers";
-        this.TITLE_SELECT_SERVER = "Select Server";
-        this.TITLE_SELECTED_SERVERS = "Selected Servers";
-        this.TITLE_SELECT_MANAGEMENT_INTERFACE = "Select Management Interface";
-        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = "Select Control Data Interface";
-        this.TITLE_SERVER_DETAIL = "Details";
-        this.TITLE_CONFIGURE_INTERFACES = "Configure Interfaces";
-        this.TITLE_SELECT_MANAGEMENT_INTERFACE = "Select Management Interface";
-        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = "Select Control Data Interface";
-        this.TITLE_SERVER_DETAIL = "Details";
-        this.TITLE_CONFIGURE_INTERFACES = "Configure Interfaces";
-        this.TITLE_SELECT_MANAGEMENT_INTERFACE = "Select Management Interface";
-        this.TITLE_SELECT_CONTROL_DATA_INTERFACE = "Select Control Data Interface";
-        this.TITLE_SERVER_DETAIL = "Details";
-        this.TITLE_CONFIGURE_INTERFACES = "Configure Interfaces";
+        TITLE_REGISTER : "Register",
+        TITLE_CONFIGURE_SERVER : "Configure Server",
+        TITLE_CONFIGURE_SERVERS : "Configure Servers",
+        TITLE_EDIT_SERVER_CONFIG : "Edit Server Configurations",
+        TITLE_DEL_SERVER : "Delete Server",
+        TITLE_EDIT_TAGS : "Edit Tags",
+        TITLE_ASSIGN_ROLES : "Assign Roles",
+        TITLE_PROVISION_SERVER : "Provision Server",
+        TITLE_PROVISION_SERVERS : "Provision Servers",
+        TITLE_SEARCH_SERVERS : "Search Servers",
+        TITLE_FILTER_SERVERS : "Filter Servers",
+        TITLE_SELECT_SERVERS : "Select Servers",
+        TITLE_SELECT_SERVER : "Select Server",
+        TITLE_SELECTED_SERVERS : "Selected Servers",
+        TITLE_SELECT_MANAGEMENT_INTERFACE : "Select Management Interface",
+        TITLE_SELECT_CONTROL_DATA_INTERFACE : "Select Control Data Interface",
+        TITLE_SERVER_DETAIL : "Details",
+        TITLE_CONFIGURE_INTERFACES : "Configure Interfaces",
+        TITLE_SELECT_MANAGEMENT_INTERFACE : "Select Management Interface",
+        TITLE_SELECT_CONTROL_DATA_INTERFACE : "Select Control Data Interface",
+        TITLE_SERVER_DETAIL : "Details",
+        TITLE_CONFIGURE_INTERFACES : "Configure Interfaces",
+        TITLE_SELECT_MANAGEMENT_INTERFACE : "Select Management Interface",
+        TITLE_SELECT_CONTROL_DATA_INTERFACE : "Select Control Data Interface",
+        TITLE_SERVER_DETAIL : "Details",
+        TITLE_CONFIGURE_INTERFACES : "Configure Interfaces",
 
-        this.TITLE_BAREMETAL_SERVERS = "Baremetal Servers";
-        this.TITLE_BAREMETAL_SERVER = "Baremetal Server";
-        this.TITLE_ADD_BAREMETAL_SERVER = "Add Baremetal Servers";
-        this.TITLE_EDIT_BAREMETAL_SERVER = "Edit Baremetal Server";
-        this.TITLE_EDIT_BAREMETAL_VN = "Edit VN";
-        this.TITLE_SELECT_BAREMETAL_SERVER = "Select Baremetal Server";
-        this.TITLE_SELECT_INTERFACE = "Select Interface";
-        this.TITLE_BAREMETAL_INTERFACES = "Baremetal Interfaces";
-        this.TITLE_SELECT_IMAGE = "Select OS Image";
-        this.TITLE_FILTER_BAREMETALS = "Filtered Baremetal Servers";
+        TITLE_BAREMETAL_SERVERS : "Baremetal Servers",
+        TITLE_BAREMETAL_SERVER : "Baremetal Server",
+        TITLE_ADD_BAREMETAL_SERVER : "Add Baremetal Servers",
+        TITLE_EDIT_BAREMETAL_SERVER : "Edit Baremetal Server",
+        TITLE_EDIT_BAREMETAL_VN : "Edit VN",
+        TITLE_SELECT_BAREMETAL_SERVER : "Select Baremetal Server",
+        TITLE_SELECT_INTERFACE : "Select Interface",
+        TITLE_BAREMETAL_INTERFACES : "Baremetal Interfaces",
+        TITLE_SELECT_IMAGE : "Select OS Image",
+        TITLE_FILTER_BAREMETALS : "Filtered Baremetal Servers",
 
-        this.TITLE_SAVE_NEXT = "Save &amp; Next";
-        this.TITLE_NEXT = "Next";
+        TITLE_SAVE_NEXT : "Save &amp; Next",
+        TITLE_NEXT : "Next",
 
-        this.TITLE_SERVER_CPU = "CPU";
-        this.TITLE_SERVER_MEMORY = "Memory";
-        this.TITLE_SERVER_ETH_CONTROLLER = "Interface Controller";
-        this.TITLE_SERVER_CHASSIS_STATE = "Chassis State";
+        TITLE_SERVER_CPU : "CPU",
+        TITLE_SERVER_MEMORY : "Memory",
+        TITLE_SERVER_ETH_CONTROLLER : "Interface Controller",
+        TITLE_SERVER_CHASSIS_STATE : "Chassis State",
 
-        this.SELECT_IMAGE = "Select OS Image";
-        this.TITLE_DELETE_IMAGE = "Delete OS Image";
-        this.SELECT_PACKAGE = "Select Package";
-        this.SELECT_REPO_ID = "Select Repo ID";
-        this.SELECT_CHASSIS_ID = "Select Chassis ID";
-        this.TITLE_DELETE_PACKAGE = "Delete Package";
-        this.SELECT_ROLES = "Select Roles";
-        this.SEARCH_ROLES = "Search Roles";
-        this.FILTER_TAGS = "Filter Tags";
-        this.SEARCH_TAGS = "Search Tags";
-        this.SELECT_NETWORK = "Select Network";
-        this.SELECT_INTERFACE = "Select Interface";
+        SELECT_IMAGE : "Select OS Image",
+        TITLE_DELETE_IMAGE : "Delete OS Image",
+        SELECT_PACKAGE : "Select Package",
+        SELECT_REPO_ID : "Select Repo ID",
+        SELECT_CHASSIS_ID : "Select Chassis ID",
+        TITLE_DELETE_PACKAGE : "Delete Package",
+        SELECT_ROLES : "Select Roles",
+        SEARCH_ROLES : "Search Roles",
+        FILTER_TAGS : "Filter Tags",
+        SEARCH_TAGS : "Search Tags",
+        SELECT_NETWORK : "Select Network",
+        SELECT_INTERFACE : "Select Interface",
 
-        this.SM_CLUSTER_LIST_VIEW_ID = "cluster-list-view";
-        this.SM_CLUSTER_VIEW_ID = "cluster-view";
-        this.SM_CLUSTER_LIST_SECTION_ID = "cluster-list-section";
-        this.SM_CLUSTER_GRID_SECTION_ID = "cluster-grid-section";
-        this.SM_DHCP_HOST_GRID_SECTION_ID = "dhcp-host-grid-section";
-        this.SM_DHCP_SUBNET_GRID_SECTION_ID = "dhcp-subnet-grid-section";
-        this.SM_CLUSTER_SCATTER_CHART_ID = "cluster-scatter-chart";
-        this.SM_CLUSTER_GRID_VIEW_ID = "cluster-grid-vew";
-        this.SM_CLUSTER_GRID_ID = "cluster-grid";
-        this.SM_DHCP_HOST_GRID_ID = "dhcp-host-grid";
-        this.SM_DHCP_SUBNET_GRID_ID = "dhcp-subnet-grid";
-        this.SM_CLUSTER_SECTION_ID = "cluster-section";
-        this.SM_CLUSTER_TAB_VIEW_ID = "cluster-tab-view";
-        this.SM_CLUSTER_TAB_ID = "cluster-tab";
-        this.SM_CLUSTER_TAB_DETAILS_ID = "cluster-tab-details";
-        this.SM_CLUSTER_TAB_SERVERS_ID = "cluster-tab-servers";
-        this.SM_CLUSTER_TAB_SECTION_ID = "cluster-tab-section";
+        SM_CLUSTER_LIST_VIEW_ID : "cluster-list-view",
+        SM_CLUSTER_VIEW_ID : "cluster-view",
+        SM_CLUSTER_LIST_SECTION_ID : "cluster-list-section",
+        SM_CLUSTER_GRID_SECTION_ID : "cluster-grid-section",
+        SM_DHCP_HOST_GRID_SECTION_ID : "dhcp-host-grid-section",
+        SM_DHCP_SUBNET_GRID_SECTION_ID : "dhcp-subnet-grid-section",
+        SM_CLUSTER_SCATTER_CHART_ID : "cluster-scatter-chart",
+        SM_CLUSTER_GRID_VIEW_ID : "cluster-grid-vew",
+        SM_CLUSTER_GRID_ID : "cluster-grid",
+        SM_DHCP_HOST_GRID_ID : "dhcp-host-grid",
+        SM_DHCP_SUBNET_GRID_ID : "dhcp-subnet-grid",
+        SM_CLUSTER_SECTION_ID : "cluster-section",
+        SM_CLUSTER_TAB_VIEW_ID : "cluster-tab-view",
+        SM_CLUSTER_TAB_ID : "cluster-tab",
+        SM_CLUSTER_TAB_DETAILS_ID : "cluster-tab-details",
+        SM_CLUSTER_TAB_SERVERS_ID : "cluster-tab-servers",
+        SM_CLUSTER_TAB_SECTION_ID : "cluster-tab-section",
 
-        this.SM_SERVER_LIST_VIEW_ID = "server-list-view";
-        this.SM_SERVER_VIEW_ID = "server-view";
-        this.SM_SERVER_LIST_SECTION_ID = "server-list-section";
-        this.SM_SERVER_GRID_SECTION_ID = "server-grid-section";
-        this.SM_SERVER_GRID_VIEW_ID = "server-grid-view";
-        this.SM_SERVER_GRID_ID = "server-grid";
-        this.SM_SERVER_SECTION_ID = "server-section";
-        this.SM_SERVER_TAB_VIEW_ID = "server-tab-view";
-        this.SM_SERVER_TAB_ID = "server-tab";
-        this.SM_SERVER_TAB_DETAILS_ID = "server-tab-details";
-        this.SM_SERVER_TAB_INVENTORY_ID = "server-tab-inventory";
-        this.SM_SERVER_INVENTORY_SECTION_ID = "server-inventory-section";
-        this.SM_SERVER_INVENTORY_LEFT_SECTION_ID = "server-inventory-left-section";
-        this.SM_SERVER_INVENTORY_RIGHT_SECTION_ID = "server-inventory-right-section";
-        this.SM_SERVER_INVENTORY_DETAILS_ID = "server-inventory-details";
-        this.SM_SERVER_INVENTORY_FRU_GRID_ID = "server-inventory-fru-grid";
-        this.SM_SERVER_INVENTORY_INTERFACE_GRID_ID = "server-inventory-interface-grid";
-        this.SM_SERVER_TAB_MONITORING_ID = "server-tab-monitoring";
-        this.SM_SERVER_MONITORING_SECTION_ID = "server-monitoring-section";
-        this.SM_SERVER_MONITORING_INNER_LEFT_SECTION_ID = "server-monitoring-inner-left-section";
-        this.SM_SERVER_MONITORING_INNER_RIGHT_SECTION_ID = "server-monitoring-inner-right-section";
-        this.SM_SERVER_CHASSIS_DETAILS_ID = "server-chassis-details";
-        this.SM_SERVER_MONITORING_SENSOR_GRID_ID = "server-monitoring-sensor-grid";
-        this.SM_SERVER_MONITORING_INTERFACE_GRID_ID = "server-monitoring-interface-grid";
-        this.SM_SERVER_MONITORING_DISKUSAGE_GRID_ID = "server-monitoring-diskusage-grid";
-        this.SM_SERVER_MONITORING_FILESYSTEM_GRID_ID = "server-monitoring-filesystem-grid";
-        this.SM_SERVER_MONITORING_RESOURCE_INFO_ID = "server-monitoring-resourceinfo-grid";
-        this.SM_SERVER_TAB_SECTION_ID = "server-tab-section";
-        this.SM_SERVER_SCATTER_CHART_ID = "server-scatter-chart";
+        SM_SERVER_LIST_VIEW_ID : "server-list-view",
+        SM_SERVER_VIEW_ID : "server-view",
+        SM_SERVER_LIST_SECTION_ID : "server-list-section",
+        SM_SERVER_GRID_SECTION_ID : "server-grid-section",
+        SM_SERVER_GRID_VIEW_ID : "server-grid-view",
+        SM_SERVER_GRID_ID : "server-grid",
+        SM_SERVER_SECTION_ID : "server-section",
+        SM_SERVER_TAB_VIEW_ID : "server-tab-view",
+        SM_SERVER_TAB_ID : "server-tab",
+        SM_SERVER_TAB_DETAILS_ID : "server-tab-details",
+        SM_SERVER_TAB_INVENTORY_ID : "server-tab-inventory",
+        SM_SERVER_INVENTORY_SECTION_ID : "server-inventory-section",
+        SM_SERVER_INVENTORY_LEFT_SECTION_ID : "server-inventory-left-section",
+        SM_SERVER_INVENTORY_RIGHT_SECTION_ID : "server-inventory-right-section",
+        SM_SERVER_INVENTORY_DETAILS_ID : "server-inventory-details",
+        SM_SERVER_INVENTORY_FRU_GRID_ID : "server-inventory-fru-grid",
+        SM_SERVER_INVENTORY_INTERFACE_GRID_ID : "server-inventory-interface-grid",
+        SM_SERVER_TAB_MONITORING_ID : "server-tab-monitoring",
+        SM_SERVER_MONITORING_SECTION_ID : "server-monitoring-section",
+        SM_SERVER_MONITORING_INNER_LEFT_SECTION_ID : "server-monitoring-inner-left-section",
+        SM_SERVER_MONITORING_INNER_RIGHT_SECTION_ID : "server-monitoring-inner-right-section",
+        SM_SERVER_CHASSIS_DETAILS_ID : "server-chassis-details",
+        SM_SERVER_MONITORING_SENSOR_GRID_ID : "server-monitoring-sensor-grid",
+        SM_SERVER_MONITORING_INTERFACE_GRID_ID : "server-monitoring-interface-grid",
+        SM_SERVER_MONITORING_DISKUSAGE_GRID_ID : "server-monitoring-diskusage-grid",
+        SM_SERVER_MONITORING_FILESYSTEM_GRID_ID : "server-monitoring-filesystem-grid",
+        SM_SERVER_MONITORING_RESOURCE_INFO_ID : "server-monitoring-resourceinfo-grid",
+        SM_SERVER_TAB_SECTION_ID : "server-tab-section",
+        SM_SERVER_SCATTER_CHART_ID : "server-scatter-chart",
 
-        this.SM_IMAGE_LIST_VIEW_ID = "image-list-view";
-        this.SM_IMAGE_LIST_SECTION_ID = "image-list-section";
-        this.SM_IMAGE_GRID_SECTION_ID = "image-grid-section";
-        this.SM_IMAGE_GRID_VIEW_ID = "image-grid-view";
-        this.SM_IMAGE_GRID_ID = "image-grid";
+        SM_IMAGE_LIST_VIEW_ID : "image-list-view",
+        SM_IMAGE_LIST_SECTION_ID : "image-list-section",
+        SM_IMAGE_GRID_SECTION_ID : "image-grid-section",
+        SM_IMAGE_GRID_VIEW_ID : "image-grid-view",
+        SM_IMAGE_GRID_ID : "image-grid",
 
-        this.SM_PACKAGE_LIST_VIEW_ID = "package-list-view";
-        this.SM_PACKAGE_LIST_SECTION_ID = "package-list-section";
-        this.SM_PACKAGE_GRID_SECTION_ID = "package-grid-section";
-        this.SM_PACKAGE_GRID_VIEW_ID = "package-grid-view";
-        this.SM_PACKAGE_GRID_ID = "package-grid";
+        SM_PACKAGE_LIST_VIEW_ID : "package-list-view",
+        SM_PACKAGE_LIST_SECTION_ID : "package-list-section",
+        SM_PACKAGE_GRID_SECTION_ID : "package-grid-section",
+        SM_PACKAGE_GRID_VIEW_ID : "package-grid-view",
+        SM_PACKAGE_GRID_ID : "package-grid",
 
-        this.SM_DHCP_HOST_GRID_VIEW_ID = "dhcp-host-grid-view";
-        this.SM_DHCP_HOST_LIST_SECTION_ID = "dhcp-host-list-section";
+        SM_DHCP_HOST_GRID_VIEW_ID : "dhcp-host-grid-view",
+        SM_DHCP_HOST_LIST_SECTION_ID : "dhcp-host-list-section",
 
-        this.SM_DHCP_HOST_LIST_VIEW_ID = "dhcp-host-list-view";
+        SM_DHCP_HOST_LIST_VIEW_ID : "dhcp-host-list-view",
 
-        this.SM_DHCP_SUBNET_GRID_VIEW_ID = "dhcp-subnet-grid-view";
-        this.SM_DHCP_SUBNET_LIST_VIEW_ID ="dhcp-subnet-list-view";
-        this.SM_DHCP_SUBNET_LIST_SECTION_ID = "dhcp-subnet-list-section";
+        SM_DHCP_SUBNET_GRID_VIEW_ID : "dhcp-subnet-grid-view",
+        SM_DHCP_SUBNET_LIST_VIEW_ID : "dhcp-subnet-list-view",
+        SM_DHCP_SUBNET_LIST_SECTION_ID : "dhcp-subnet-list-section",
 
-        this.LABEL_HA_PROXY_ENABLE = "HA Proxy Enable";
-        this.LABEL_ZOOKEEPER_IP_PORT = "Zookeeper IP Port";
-        this.LABEL_NEUTRON_PORT = "Neutron Port";
-        this.LABEL_AMQP_SERVER_IP = "AMQP Server IP";
-        this.LABEL_KEYSTONE_IP = "Keystone IP";
-        this.LABEL_KEYSTONE_ADMIN_TENANT = "Keystone Admin Tenant";
-        this.LABEL_KEYSTONE_SERVICE_TENANT = "Keystone Service Tenant";
-        this.LABEL_KEYSTONE_ADMIN_USER = "Keystone Admin User";
-        this.LABEL_NEUTRON_SERVICE_PROTOCOL = "Neutron Service Protocol";
-        this.LABEL_ANALYTICS_DATA_TTL = "Analytics Data TTL";
-        this.LABEL_ANALYTICS_FLOW_TTL = "Analytics Flow TTL";
-        this.LABEL_ANALYTICS_CONFIG_AUDIT_TTL = "Analytics Config Audit TTL";
-        this.LABEL_ANALYTICS_STATISTICS_TTL = "Analytics Stats TTL";
-        this.LABEL_VMWARE_IP = "VMware IP";
-        this.LABEL_VMWARE_VSWITCH = "VMware vSwitch";
-        this.LABEL_VMWARE_USERNAME = "VMware Username";
-        this.LABEL_VMWARE_PASSWORD = "VMware Password";
-        this.LABEL_VGW_PUBLIC_SUBNET= "VGW Public Interface";
-        this.LABEL_VGW_PUBLIC_VN_NAME= "VGW Public VN Name";
-        this.LABEL_VGW_INTERFACE= "VGW Interface";
-        this.LABEL_VGW_GATEWAY_ROUTES= "VGW Gateway Routes";
+        LABEL_HA_PROXY_ENABLE : "HA Proxy Enable",
+        LABEL_ZOOKEEPER_IP_PORT : "Zookeeper IP Port",
+        LABEL_NEUTRON_PORT : "Neutron Port",
+        LABEL_AMQP_SERVER_IP : "AMQP Server IP",
+        LABEL_KEYSTONE_IP : "Keystone IP",
+        LABEL_KEYSTONE_ADMIN_TENANT : "Keystone Admin Tenant",
+        LABEL_KEYSTONE_SERVICE_TENANT : "Keystone Service Tenant",
+        LABEL_KEYSTONE_ADMIN_USER : "Keystone Admin User",
+        LABEL_NEUTRON_SERVICE_PROTOCOL : "Neutron Service Protocol",
+        LABEL_ANALYTICS_DATA_TTL : "Analytics Data TTL",
+        LABEL_ANALYTICS_FLOW_TTL : "Analytics Flow TTL",
+        LABEL_ANALYTICS_CONFIG_AUDIT_TTL : "Analytics Config Audit TTL",
+        LABEL_ANALYTICS_STATISTICS_TTL : "Analytics Stats TTL",
+        LABEL_VMWARE_IP : "VMware IP",
+        LABEL_VMWARE_VSWITCH : "VMware vSwitch",
+        LABEL_VMWARE_USERNAME : "VMware Username",
+        LABEL_VMWARE_PASSWORD : "VMware Password",
+        LABEL_VGW_PUBLIC_SUBNET : "VGW Public Interface",
+        LABEL_VGW_PUBLIC_VN_NAME : "VGW Public VN Name",
+        LABEL_VGW_INTERFACE :  "VGW Interface",
+        LABEL_VGW_GATEWAY_ROUTES :  "VGW Gateway Routes",
     };
 
     function capitalizeSentence(sentence) {

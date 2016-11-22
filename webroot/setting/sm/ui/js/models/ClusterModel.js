@@ -14,8 +14,13 @@ define([
     "view-config-generator",
     "backbone",
     "knockout",
-    "sm-basedir/setting/sm/ui/js/models/DisksModel"
-], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, VCG, Backbone, Knockout, DiskModel) {
+    "sm-basedir/setting/sm/ui/js/models/DisksModel",
+    "sm-constants",
+    "sm-labels",
+    "sm-messages",
+    "sm-utils",
+    "sm-model-config"
+], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, VCG, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc) {
 
 
     var prefixId = smwc.CLUSTER_PREFIX_ID,

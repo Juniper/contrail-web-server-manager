@@ -4,8 +4,9 @@
 
 define([
     "underscore",
-    "contrail-view"
-], function (_, ContrailView) {
+    "contrail-view",
+    "sm-labels"
+], function (_, ContrailView, smwl) {
     var ServerView = ContrailView.extend({
         el: $(contentContainer),
 

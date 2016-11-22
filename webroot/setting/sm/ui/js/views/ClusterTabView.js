@@ -6,8 +6,13 @@ define([
     "underscore",
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/ClusterModel",
-    "sm-basedir/setting/sm/ui/js/views/ClusterEditView"
-], function (_, ContrailView, ClusterModel, ClusterEditView) {
+    "sm-basedir/setting/sm/ui/js/views/ClusterEditView",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, ClusterModel, ClusterEditView, smwc, smwl, smwu, smwgc, smwdt) {
     var clusterEditView = new ClusterEditView();
 
     var ClusterTabView = ContrailView.extend({

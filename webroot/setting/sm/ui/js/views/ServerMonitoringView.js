@@ -5,8 +5,12 @@
 define([
     "underscore",
     "contrail-view",
-    "contrail-view-model"
-], function (_, ContrailView, ContrailViewModel) {
+    "contrail-view-model",
+    "sm-constants",
+    "sm-labels",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, ContrailViewModel, smwc, smwl, smwgc, smwdt) {
     var ServerMonitoringView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = self.attributes.viewConfig,

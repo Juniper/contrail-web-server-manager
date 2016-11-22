@@ -4,8 +4,12 @@
 
 define([
     "underscore",
-    "contrail-model"
-], function (_, ContrailModel) {
+    "contrail-model",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-model-config"
+], function (_, ContrailModel, smwc, smwl, smwu, smwmc) {
     var ImageModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getImageModel(smwc.CATEGORY_IMAGE),

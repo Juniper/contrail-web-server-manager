@@ -6,8 +6,11 @@ define([
     "setting/sm/test/ui/views/ClusterTabView.mock.data",
     "co-grid-contrail-list-model-test-suite",
     "co-grid-view-test-suite",
-    "co-details-view-test-suite"
-], function (cotc, cotr, smtu, smtm, ClusterTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite) {
+    "co-details-view-test-suite",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils"
+], function (cotc, cotr, smtu, smtm, ClusterTabViewMockData, GridListModelTestSuite, GridViewTestSuite, DetailsViewTestSuite, smwc, smwl, smwu) {
 
     var moduleId = smtm.CLUSTER_TAB_VIEW_COMMON_TEST_MODULE;
 

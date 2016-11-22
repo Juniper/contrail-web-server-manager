@@ -6,8 +6,13 @@ define([
     "underscore",
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/ImageModel",
-    "sm-basedir/setting/sm/ui/js/views/ImageEditView"
-], function (_, ContrailView, ImageModel, ImageEditView) {
+    "sm-basedir/setting/sm/ui/js/views/ImageEditView",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, ImageModel, ImageEditView, smwc, smwl, smwu, smwgc, smwdt) {
     var prefixId = smwc.IMAGE_PREFIX_ID,
         gridElId = "#" + smwl.SM_IMAGE_GRID_ID;
 

@@ -6,8 +6,13 @@ define([
     "underscore",
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/PackageModel",
-    "sm-basedir/setting/sm/ui/js/views/PackageEditView"
-], function (_, ContrailView, PackageModel, PackageEditView) {
+    "sm-basedir/setting/sm/ui/js/views/PackageEditView",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, PackageModel, PackageEditView, smwc, smwl, smwu, smwgc, smwdt) {
     var gridElId = "#" + smwl.SM_PACKAGE_GRID_ID;
 
     var PackageGridView = ContrailView.extend({

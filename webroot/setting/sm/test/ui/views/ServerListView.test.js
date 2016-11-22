@@ -7,7 +7,10 @@ define([
     "co-grid-contrail-list-model-test-suite",
     "co-grid-view-test-suite",
     "co-chart-view-zoom-scatter-test-suite",
-], function (cotc, cotr, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite) {
+    "sm-constants",
+    "sm-labels",
+    "sm-utils"
+], function (cotc, cotr, smtu, smtm, ServerListViewMockData, GridListModelTestSuite, GridViewTestSuite, ZoomScatterChartViewTestSuite, smwc, smwl, smwu) {
 
     var moduleId = smtm.SERVER_LIST_VIEW_COMMON_TEST_MODULE;
 

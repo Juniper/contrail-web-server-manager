@@ -5,8 +5,10 @@
 define([
     "underscore",
     "contrail-view",
-    "knockback"
-], function (_, ContrailView, Knockback) {
+    "knockback",
+    "sm-constants",
+    "sm-labels"
+], function (_, ContrailView, Knockback, smwc, smwl) {
     var prefixId = smwc.DHCP_HOST_PREFIX_ID,
         modalId = "configure-" + prefixId;
 

@@ -2,8 +2,9 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 define([
-    "handlebars"
-], function (Handlebars) {
+    "handlebars",
+    "sm-labels"
+], function (Handlebars, smwl) {
     Handlebars.registerHelper("getSMLabel", function (labelKey) {
         return smwl.get(labelKey);
     });

@@ -4,8 +4,10 @@
 
 define([
     "underscore",
-    "contrail-model"
-], function (_, ContrailModel) {
+    "contrail-model",
+    "sm-constants",
+    "sm-model-config"
+], function (_, ContrailModel, smwc, smwmc) {
     var DisksModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getDiskModel(),

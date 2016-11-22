@@ -7,8 +7,14 @@ define([
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/DhcpHostModel",
     "sm-basedir/setting/sm/ui/js/views/DhcpHostEditView",
-    "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/dhcphost.json"
-], function (_, ContrailView, DhcpHostModel, DhcpHostEditView, JsonModel, JsonEditView, DhcpHostSchema) {
+    "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/dhcphost.json",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-model-config",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, DhcpHostModel, DhcpHostEditView, JsonModel, JsonEditView, DhcpHostSchema, smwc, smwl, smwu, smwmc, smwgc, smwdt) {
 
     dhcphostSchema = JSON.parse(DhcpHostSchema);
     var prefixId = smwc.DHCP_HOST_PREFIX_ID,
@@ -26,10 +32,10 @@ define([
 
     function getHeaderActionConfig(gridElId) {
         var defaultJSONData = {
-            "host_fqdn": "",
-            "host_name": "",
-            "ip_address": "",
-            "mac_address": ""
+                "host_fqdn": "",
+                "host_name": "",
+                "ip_address": "",
+                "mac_address": ""
         };
         return [
             {

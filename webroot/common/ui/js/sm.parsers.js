@@ -3,8 +3,8 @@
  */
 
 define([], function () {
-    var SMParsers = function () {
-        this.serverMonitoringDataParser = function (contrailListModel, serverModelList) {
+    var SMParsers = {
+        serverMonitoringDataParser : function (contrailListModel, serverModelList) {
             var serverMonitoringMap = getServerMonitoringMap(contrailListModel);
 
             //TODO: isRequestInProgress should be available
@@ -16,9 +16,9 @@ define([], function () {
             } else {
                 updateServerListModels(serverModelList, serverMonitoringMap);
             }
-        };
+        },
 
-        this.clusterMonitoringDataParser = function (contrailListModel, clusterModelList) {
+        clusterMonitoringDataParser : function (contrailListModel, clusterModelList) {
             var serverMonitoringMap = getServerMonitoringMap(contrailListModel),
                 clusterMonitoringMap = {};
 
@@ -54,7 +54,7 @@ define([], function () {
             } else {
                 updateClusterListModels(clusterModelList, clusterMonitoringMap);
             }
-        };
+        },
     };
 
     function updateServerListModels(serverModelList, serverMonitoringMap) {

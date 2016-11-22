@@ -5,8 +5,12 @@
 define([
     'underscore',
     'contrail-view',
-    'knockback'
-], function (_, ContrailView, Knockback) {
+    'knockback',
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-grid-config"
+], function (_, ContrailView, Knockback, smwc, smwl, smwu, smwgc) {
     var prefixId = smwc.BAREMETAL_PREFIX_ID,
         modalId = 'configure-' + prefixId,
         editTemplate = contrail.getTemplate4Id(smwc.TMPL_BM_EDIT_FORM);

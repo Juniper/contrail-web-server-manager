@@ -6,7 +6,8 @@ define([
     "setting/sm/test/ui/models/PackageModel.mock.data",
     "co-form-model-validations-test-suite",
     "package-model-custom-test-suite",
-], function (cotc, cotr, smtu, smtm, PackageModelMockData, FormValidationsTestSuite, PackageModelCustomTestSuite) {
+    "sm-constants"
+], function (cotc, cotr, smtu, smtm, PackageModelMockData, FormValidationsTestSuite, PackageModelCustomTestSuite, smwc) {
 
     var moduleId = smtm.PACKAGE_MODEL_TEST_MODULE;
 

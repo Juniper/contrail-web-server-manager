@@ -1,7 +1,11 @@
 /*
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
-define(["sm-labels"], function (SMLabels) {
+define([
+    "sm-constants",
+    "sm-labels",
+    "sm-utils"
+], function (smwc, smwl, smwu) {
     var customClusterSchema = {
         "label": "Details",
         "properties": {

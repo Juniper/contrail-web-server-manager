@@ -11,8 +11,13 @@ define([
     "sm-cluster-ui-schema",
     "sm-cluster-custom-ui-schema",
     "view-config-generator",
-    "sm-basedir/setting/sm/ui/js/views/ClusterEditView"
-], function (_, ContrailView, Knockback, UISchemaModel, defaultSchema, stSchema, customSchema, VCG, ClusterEditView) {
+    "sm-basedir/setting/sm/ui/js/views/ClusterEditView",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-model-config",
+    "sm-grid-config"
+], function (_, ContrailView, Knockback, UISchemaModel, defaultSchema, stSchema, customSchema, VCG, ClusterEditView, smwc, smwl, smwu, smwmc, smwgc) {
 
     defaultSchema = JSON.parse(defaultSchema);
     var prefixId = smwc.CLUSTER_PREFIX_ID,

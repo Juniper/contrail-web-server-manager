@@ -2,7 +2,10 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-define([], function () {
+define([
+    "sm-constants",
+    "sm-labels"
+], function (smwc, smwl) {
 
     const customImagesSchema = {
         "properties": {

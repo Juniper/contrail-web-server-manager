@@ -5,8 +5,11 @@ define([
     "sm-test-messages",
     "setting/sm/test/ui/views/ImageListView.mock.data",
     "co-grid-contrail-list-model-test-suite",
-    "co-grid-view-test-suite"
-], function (cotc, cotr, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite) {
+    "co-grid-view-test-suite",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils"
+], function (cotc, cotr, smtu, smtm, ImageListViewMockData, GridListModelTestSuite, GridViewTestSuite, smwc, smwl, smwu) {
 
     var moduleId = smtm.PACKAGE_LIST_VIEW_COMMON_TEST_MODULE;
 

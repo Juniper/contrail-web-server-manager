@@ -4,8 +4,9 @@
 define([
     "co-test-utils",
     "contrail-list-model",
-    "contrail-view-model"
-], function (cotu, ContrailListModel, ContrailViewModel) {
+    "contrail-view-model",
+    "sm-labels"
+], function (cotu, ContrailListModel, ContrailViewModel, smwl) {
 
     var getRegExForUrl = function (url) {
         var regexUrlMap = {

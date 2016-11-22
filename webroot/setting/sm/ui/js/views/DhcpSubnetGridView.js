@@ -7,8 +7,14 @@ define([
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/DhcpSubnetModel",
     "sm-basedir/setting/sm/ui/js/views/DhcpSubnetEditView",
-    "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/dhcpsubnet.json"
-], function (_, ContrailView, DhcpSubnetModel, DhcpSubnetEditView, JsonModel, JsonEditView, DhcpSubnetSchema) {
+    "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/dhcpsubnet.json",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-model-config",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, DhcpSubnetModel, DhcpSubnetEditView, JsonModel, JsonEditView, DhcpSubnetSchema, smwc, smwl, smwu, smwmc, smwgc, smwdt) {
 
     dhcpsubnetSchema = JSON.parse(DhcpSubnetSchema);
     var prefixId = smwc.DHCP_SUBNET_PREFIX_ID,

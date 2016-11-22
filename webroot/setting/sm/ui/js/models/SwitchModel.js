@@ -4,8 +4,9 @@
 
 define([
     "underscore",
-    "contrail-model"
-], function (_, ContrailModel) {
+    "contrail-model",
+    "sm-model-config"
+], function (_, ContrailModel, smwmc) {
     var SwitchesModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getSwitchModel(),

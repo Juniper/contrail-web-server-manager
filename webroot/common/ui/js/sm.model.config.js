@@ -3,9 +3,9 @@
  */
 
 define([], function () {
-    var DefaultConfig = function () {
+    var DefaultConfig  = {
 
-        this.getClusterModel = function () {
+        getClusterModel : function () {
             return {
                 "id": null,
                 "email": null,
@@ -127,9 +127,9 @@ define([], function () {
                     }
                 }
             };
-        };
+        },
 
-        this.getClusterSchema = function () {
+        getClusterSchema : function () {
             return {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -563,9 +563,9 @@ define([], function () {
                 },
                 "required": ["id", "email", "base_image_id", "package_image_id", "parameters"]
             };
-        };
+        },
 
-        this.getServerModel = function () {
+        getServerModel : function () {
             return {
                 "base_image_id": null,
                 "cluster_id": null,
@@ -606,9 +606,9 @@ define([], function () {
                     "switches": []
                 }
             };
-        };
+        },
 
-        this.getServerSchema = function () {
+        getServerSchema : function () {
             return {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -760,17 +760,17 @@ define([], function () {
                 "top_of_rack"
             ]
             };
-        };
+        },
 
-        this.getJSONModel = function () {
+        getJSONModel : function () {
             return {
                 "customJSON": {},
                 "json": {},
                 "schema": {}
             };
-        };
+        },
 
-        this.getInterfaceModel = function () {
+        getInterfaceModel : function () {
             return {
                 "name": null,
                 "type": null,
@@ -785,16 +785,16 @@ define([], function () {
             };
         },
 
-        this.getRoutesModel = function () {
+        getRoutesModel : function () {
             return {
                 "network": null,
                 "netmask": null,
                 "gateway": null,
                 "interface": null
             };
-        };
+        },
 
-        this.getSwitchModel = function () {
+        getSwitchModel : function () {
             return {
                 "switch_id"       : null,
                 "ip_address"      : null,
@@ -806,15 +806,15 @@ define([], function () {
                 "product_name"    : null,
                 "keepalive_time"  : null
             };
-        };
+        },
 
-        this.getDiskModel = function () {
+        getDiskModel : function () {
             return {
                 disk: ""
             };
-        };
+        },
 
-        this.getImageModel = function (category) {
+        getImageModel : function (category) {
             return {
                 "id": null,
                 "category": category,
@@ -823,18 +823,18 @@ define([], function () {
                 "path": null,
                 "parameters": {}
             };
-        };
+        },
 
-        this.getDhcpHostModel = function () {
+        getDhcpHostModel : function () {
             return {
                 "host_fqdn": "",
                 "host_name": "",
                 "ip_address": "",
                 "mac_address": ""
             }
-        };
+        },
 
-        this.getDhcpSubnetModel = function () {
+        getDhcpSubnetModel : function () {
             return {
                 "default_lease_time": 21600,
                 "dhcp_range": null,
@@ -846,9 +846,9 @@ define([], function () {
                 "subnet_gateway": "",
                 "subnet_mask": ""
             }
-        };
+        },
 
-        this.getImageSchema = function () {
+        getImageSchema : function () {
             return {
                 "$schema": "http://json-schema.org/draft-04/schema#",
                 "type": "object",
@@ -875,15 +875,15 @@ define([], function () {
                 },
                 "required": ["id", "category", "type", "version", "path", "parameters"]
             };
-        };
+        },
 
-        this.getBaremetalModel = function () {
+        getBaremetalModel : function () {
             return {
                 "baremetal_reimage" : null,
                 "base_image_id" : null,
                 "interfaces" : []
             };
-        };
+        },
     };
 
     return DefaultConfig;

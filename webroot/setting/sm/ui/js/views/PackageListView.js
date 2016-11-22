@@ -5,8 +5,11 @@
 define([
     "underscore",
     "contrail-view",
-    "contrail-list-model"
-], function (_, ContrailView, ContrailListModel) {
+    "contrail-list-model",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils"
+], function (_, ContrailView, ContrailListModel, smwc, smwl, smwu) {
     var PackageListView = ContrailView.extend({
         el: $(contentContainer),
 

@@ -3,8 +3,11 @@ define([
     'contrail-view',
     'contrail-list-model',
     'sm-basedir/config/physicaldevices/baremetal/ui/js/models/BaremetalModel',
-    'sm-basedir/config/physicaldevices/baremetal/ui/js/views/BaremetalEditView'
-], function (_, ContrailView, ContrailListModel, BaremetalModel, BaremetalEditView) {
+    'sm-basedir/config/physicaldevices/baremetal/ui/js/views/BaremetalEditView',
+    "sm-constants",
+    "sm-labels",
+    "sm-grid-config"
+], function (_, ContrailView, ContrailListModel, BaremetalModel, BaremetalEditView, smwc, smwl, smwgc) {
          var prefixId = smwc.BAREMETAL_PREFIX_ID,
          baremetalEditView = new BaremetalEditView(),
          gridElId = '#' + prefixId + cowc.RESULTS_SUFFIX_ID;

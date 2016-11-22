@@ -5,8 +5,13 @@
 define([
     "underscore",
     "contrail-view",
-    "contrail-list-model"
-], function (_, ContrailView, ContrailListModel) {
+    "contrail-list-model",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-grid-config",
+    "sm-parsers"
+], function (_, ContrailView, ContrailListModel, smwc, smwl, smwu, smwgc, smwp) {
     var ClusterListView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,

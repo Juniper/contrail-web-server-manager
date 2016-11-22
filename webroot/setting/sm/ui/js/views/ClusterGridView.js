@@ -11,8 +11,14 @@ define([
     "schema-model",
     "sm-cluster-ui-schema",
     "sm-cluster-custom-ui-schema",
-    "view-config-generator"
-], function (_, ContrailView, ClusterModel, ClusterEditView, JsonModel, JsonEditView, clusterSchema, UISchemaModel, stSchema, customSchema, VCG) {
+    "view-config-generator",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-model-config",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, ClusterModel, ClusterEditView, JsonModel, JsonEditView, clusterSchema, UISchemaModel, stSchema, customSchema, VCG, smwc, smwl, smwu, smwmc, smwgc, smwdt) {
 
     clusterSchema = JSON.parse(clusterSchema);
     var prefixId = smwc.CLUSTER_PREFIX_ID,

@@ -6,8 +6,11 @@ define([
     "underscore",
     "contrail-view",
     "knockback",
-    "text!sm-basedir/setting/sm/ui/js/schemas/server.json"
-], function (_, ContrailView, Knockback, defaultSchema) {
+    "text!sm-basedir/setting/sm/ui/js/schemas/server.json",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils"
+], function (_, ContrailView, Knockback, defaultSchema, smwc, smwl, smwu) {
 
     defaultSchema = JSON.parse(defaultSchema);
     var prefixId = smwc.SERVER_PREFIX_ID,

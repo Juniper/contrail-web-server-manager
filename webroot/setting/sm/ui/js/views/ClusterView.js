@@ -4,8 +4,9 @@
 
 define([
     "underscore",
-    "contrail-view"
-], function (_, ContrailView) {
+    "contrail-view",
+    "sm-labels"
+], function (_, ContrailView, smwl) {
     var ClusterView = ContrailView.extend({
         render: function () {
             var self = this, viewConfig = this.attributes.viewConfig,

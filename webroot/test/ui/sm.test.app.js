@@ -7,7 +7,7 @@ var coreBaseDir = "/base/contrail-web-core/webroot",
     pkgBaseDir = smBaseDir,
     featurePkg = "serverManager";
 
-var smwc, smwgc, smwu, smwl, smwm, smwgc, smwmc, smwru, smwdt;
+var smwgc, smwu, smwm, smwgc, smwmc, smwru, smwdt;
 
 require([
     coreBaseDir + "/test/ui/js/co.test.app.utils.js"
@@ -65,6 +65,12 @@ require([
             serverManagerTestAppPathObj ["cluster-list-view-custom-test-suite"] = smBaseDir + "/setting/sm/test/ui/views/ClusterListView.custom.test.suite";
 
             serverManagerTestAppPathObj ["package-model-custom-test-suite"] = smBaseDir + "/setting/sm/test/ui/models/PackageModel.custom.test.suite";
+
+            serverManagerTestAppPathObj ["sm-constants"] = smBaseDir + "/common/ui/js/sm.constants";
+            serverManagerTestAppPathObj ["sm-labels"] = smBaseDir + "/common/ui/js/sm.labels";
+            serverManagerTestAppPathObj ["sm-utils"] = smBaseDir + "/common/ui/js/sm.utils";
+            serverManagerTestAppPathObj ["sm-messages"] = smBaseDir + "/common/ui/js/sm.messages";
+
 
             return serverManagerTestAppPathObj;
         }

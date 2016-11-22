@@ -5,8 +5,10 @@
 define([
     "underscore",
     "contrail-view",
-    "knockback"
-], function (_, ContrailView, Knockback) {
+    "knockback",
+    "sm-constants",
+    "sm-labels"
+], function (_, ContrailView, Knockback, smwc, smwl) {
     var prefixId = smwc.PACKAGE_PREFIX_ID,
         editTemplate = contrail.getTemplate4Id(cowc.TMPL_EDIT_FORM),
         modalId = "configure-" + prefixId;

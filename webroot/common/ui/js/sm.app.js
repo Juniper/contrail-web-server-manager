@@ -2,7 +2,7 @@
  * Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
  */
 
-var smwc, smwgc, smwdt, smwl, smwm, smwmc, smwu, smwp,
+var smwm, smwmc, smwu, smwp, smwgc, smwdt,
     smInitComplete = false, smWebDir, smBuildDir;
 
 /**

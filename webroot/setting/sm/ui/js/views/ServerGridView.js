@@ -9,8 +9,13 @@ define([
     "sm-basedir/setting/sm/ui/js/views/ServerEditView",
     "json-model", "json-edit-view",
     "text!sm-basedir/setting/sm/ui/js/schemas/server.json",
-    "text!sm-basedir/setting/sm/ui/js/schemas/server.clone.schema.json"
-], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, Schema, ServerCloneSchema) {
+    "text!sm-basedir/setting/sm/ui/js/schemas/server.clone.schema.json",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, ServerModel, ServerEditView, JsonModel, JsonEditView, Schema, ServerCloneSchema, smwc, smwl, smwu, smwgc, smwdt) {
 
     var prefixId = smwc.SERVER_PREFIX_ID,
         gridElId = "#" + smwl.SM_SERVER_GRID_ID,

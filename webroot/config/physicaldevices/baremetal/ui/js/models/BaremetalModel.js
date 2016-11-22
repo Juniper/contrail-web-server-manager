@@ -8,7 +8,10 @@ define([
     'knockout',
     'contrail-model',
     'config/physicaldevices/baremetal/ui/js/models/BaremetalInterfacesModel',
-], function (_, Backbone, Knockout, ContrailModel, BaremetalInterfacesModel) {
+    "sm-constants",
+    "sm-labels",
+    "sm-model-config"
+], function (_, Backbone, Knockout, ContrailModel, BaremetalInterfacesModel, smwc, smwl, smwmc) {
 
     var BaremetalModel = ContrailModel.extend({
 

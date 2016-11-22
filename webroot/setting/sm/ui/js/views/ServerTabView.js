@@ -6,8 +6,13 @@ define([
     "underscore",
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/ServerModel",
-    "sm-basedir/setting/sm/ui/js/views/ServerEditView"
-], function (_, ContrailView, ServerModel, ServerEditView) {
+    "sm-basedir/setting/sm/ui/js/views/ServerEditView",
+    "sm-constants",
+    "sm-labels",
+    "sm-utils",
+    "sm-grid-config",
+    "sm-detail-tmpls"
+], function (_, ContrailView, ServerModel, ServerEditView, smwc, smwl, smwu, smwgc, smwdt) {
     var serverEditView = new ServerEditView();
 
     var ServerTabView = ContrailView.extend({

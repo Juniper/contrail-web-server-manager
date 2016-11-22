@@ -4,8 +4,9 @@
 
 define([
     "underscore",
-    "contrail-model"
-], function (_, ContrailModel) {
+    "contrail-model",
+    "sm-model-config"
+], function (_, ContrailModel, smwmc) {
     var RoutesModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getRoutesModel(),
