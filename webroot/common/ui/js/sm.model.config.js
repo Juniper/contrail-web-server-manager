@@ -572,6 +572,7 @@ define([], function () {
                 "domain": null,
                 "email": null,
                 "id": null,
+                "host_name": null,
                 "ipmi_address": null,
                 "ipmi_username": "ADMIN",
                 "ipmi_password": "ADMIN",

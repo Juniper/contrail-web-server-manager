@@ -303,6 +303,10 @@ define([
                                             templateGenerator: "TextGenerator"
                                         },
                                         {
+                                            key: "host_name",
+                                            templateGenerator: "TextGenerator"
+                                        },
+                                        {
                                             key: "mac_address",
                                             templateGenerator: "TextGenerator"
                                         },

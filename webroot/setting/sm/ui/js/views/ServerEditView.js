@@ -447,6 +447,20 @@ define([
                                     }
                                 },
                                 {
+                                    elementId: "host_name", view: "FormInputView",
+                                    viewConfig: {
+                                        help: {
+                                            target: "tooltip",
+                                            content: defaultSchema.properties.id.description
+                                        },
+                                        path: "host_name", dataBindValue: "host_name", class: "col-xs-6"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            columns: [
+                                {
                                     elementId: "password", view: "FormInputView",
                                     viewConfig: {
                                         help: {
@@ -455,11 +469,7 @@ define([
                                         },
                                         path: "password", type: "password", dataBindValue: "password", class: "col-xs-6"
                                     }
-                                }
-                            ]
-                        },
-                        {
-                            columns: [
+                                },
                                 {
                                     elementId: "domain", view: "FormInputView",
                                     viewConfig: {
@@ -469,7 +479,11 @@ define([
                                         },
                                         path: "domain", dataBindValue: "domain", class: "col-xs-6", view: "FormInputView"
                                     }
-                                },
+                                }
+                            ]
+                        },
+                        {
+                            columns: [
                                 {
                                     elementId: "partition", view: "FormInputView",
                                     viewConfig: {
@@ -479,11 +493,7 @@ define([
                                         },
                                         path: "parameters.partition", dataBindValue: "parameters().partition", class: "col-xs-6", view: "FormInputView"
                                     }
-                                }
-                            ]
-                        },
-                        {
-                            columns: [
+                                },
                                 {
                                     elementId: "ipmi_address", view: "FormInputView",
                                     viewConfig: {
@@ -493,7 +503,11 @@ define([
                                         },
                                         path: "ipmi_address", dataBindValue: "ipmi_address", class: "col-xs-6"
                                     }
-                                },
+                                }
+                            ]
+                        },
+                        {
+                            columns: [
                                 {
                                     elementId: "ipmi_interface",
                                     view: "FormDropdownView",
@@ -503,11 +517,7 @@ define([
                                         class: "col-xs-6",
                                         elementConfig: {defaultValueId: 0, dataTextField: "text", dataValueField: "id", data: smwc.IPMI_INTERFACE_TYPES}
                                     }
-                                }
-                            ]
-                        },
-                        {
-                            columns: [
+                                },
                                 {
                                     elementId: "ipmi_username", view: "FormInputView",
                                     viewConfig: {
@@ -517,7 +527,11 @@ define([
                                         },
                                         path: "ipmi_username", dataBindValue: "ipmi_username", class: "col-xs-6"
                                     }
-                                },
+                                }
+                            ]
+                        },
+                        {
+                            columns: [
                                 {
                                     elementId: "ipmi_password", view: "FormInputView",
                                     viewConfig: {
