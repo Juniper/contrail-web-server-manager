@@ -11,7 +11,7 @@ define([
     "text!sm-basedir/setting/sm/ui/js/schemas/cluster.json",
     "sm-cluster-ui-schema",
     "sm-cluster-custom-ui-schema",
-    "view-config-generator",
+    "json-validator",
     "backbone",
     "knockout",
     "sm-basedir/setting/sm/ui/js/models/DisksModel",
@@ -20,17 +20,17 @@ define([
     "sm-messages",
     "sm-utils",
     "sm-model-config"
-], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, VCG, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc) {
+], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, JsonValidator, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc) {
 
 
     var prefixId = smwc.CLUSTER_PREFIX_ID,
         defaultSchema = JSON.parse(schema),
         schemaModel = new UISchemaModel(defaultSchema, stSchema, customSchema).schema,
-        vcg = new VCG(prefixId, smwmc.getClusterModel());
+        jsonValidator = new JsonValidator(prefixId, smwmc.getClusterModel());
 
     var getValidationByKey = function (key) {
         var configureValidation = {};
-        vcg.addValidation(schemaModel, configureValidation);
+        jsonValidator.addValidation(schemaModel, configureValidation);
 
         if (key == "provisionValidation") {
             configureValidation.package_image_id = {
@@ -367,38 +367,6 @@ define([
                 }
                 return storageDisks;
             }, this);
-        },
-        goForward : function(rootViewPath, path, prefixId, rowIndex){
-            var self = this;
-            var modalId = "configure-" + prefixId;
-            $("#" + modalId).modal("hide");
-            var viewConfigOptions = {
-                rootViewPath : rootViewPath,
-                path : path,
-                group : "",
-                page : "",
-                element : prefixId,
-                rowIndex: rowIndex,
-                formType: "edit"
-            };
-            var viewConfig = vcg.generateViewConfig(viewConfigOptions, schemaModel, "default", "form"),
-                dataItem = $("#" + smwl.SM_CLUSTER_GRID_ID).data("contrailGrid")._dataView.getItem(rowIndex),
-                checkedRow = [dataItem],
-                title = smwl.TITLE_EDIT_CONFIG + " ("+ dataItem.id +")";
-
-            var clusterEditView = new ClusterEditView();
-            clusterEditView.model = self;
-            clusterEditView.renderConfigure({"title": title, checkedRows: checkedRow, rowIndex: rowIndex, viewConfig: viewConfig, callback: function () {
-                var dataView = $("#" + smwl.SM_CLUSTER_GRID_ID).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-
-            clusterEditView.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), self, viewConfig, smwc.KEY_CONFIGURE_VALIDATION, null, null, function() {
-                self.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self, document.getElementById(modalId));
-                kbValidation.bind(clusterEditView);
-            });
-
         }
     });
 

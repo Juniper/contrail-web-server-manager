@@ -11,21 +11,17 @@ define([
     "schema-model",
     "sm-cluster-ui-schema",
     "sm-cluster-custom-ui-schema",
-    "view-config-generator",
     "sm-constants",
     "sm-labels",
     "sm-utils",
     "sm-model-config",
     "sm-grid-config",
     "sm-detail-tmpls"
-], function (_, ContrailView, ClusterModel, ClusterEditView, JsonModel, JsonEditView, clusterSchema, UISchemaModel, stSchema, customSchema, VCG, smwc, smwl, smwu, smwmc, smwgc, smwdt) {
+], function (_, ContrailView, ClusterModel, ClusterEditView, JsonModel, JsonEditView, clusterSchema, UISchemaModel, stSchema, customSchema, smwc, smwl, smwu, smwmc, smwgc, smwdt) {
 
     clusterSchema = JSON.parse(clusterSchema);
     var prefixId = smwc.CLUSTER_PREFIX_ID,
         gridElId = "#" + smwl.SM_CLUSTER_GRID_ID;
-
-    var schemaModel = new UISchemaModel(clusterSchema, stSchema, customSchema).schema;
-    var vcg = new VCG(prefixId, smwmc.getClusterModel());
 
     var ClusterGridView = ContrailView.extend({
         render: function () {
@@ -109,30 +105,6 @@ define([
                     dataView.refreshData();
                 }});
             }),
-            /** smwgc.getConfigureAction(function (rowIndex) {
-                 var viewConfigOptions = {
-                     rootViewPath: "",
-                     path : "",
-                     group : "",
-                     page : "",
-                     element : prefixId,
-                     rowIndex: rowIndex,
-                     formType: "edit"
-                 };
-                 var viewConfig = vcg.generateViewConfig(viewConfigOptions, schemaModel, "default", "form");
-                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
-                     clusterModel = new ClusterModel(dataItem),
-                     checkedRow = [dataItem],
-                     title = smwl.TITLE_EDIT_CONFIG + " ("+ dataItem.id +")",
-                     clusterEditView = new ClusterEditView();
-
-                 clusterEditView.model = clusterModel;
-                 clusterEditView.renderConfigure({"title": title, viewConfig: viewConfig, checkedRows: checkedRow, rowIndex: rowIndex, callback: function () {
-                     var dataView = $(gridElId).data("contrailGrid")._dataView;
-                     dataView.refreshData();
-                 }});
-             }),
-             **/
             smwgc.getConfigureJSONAction(function (rowIndex) {
                 var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex);
                 var oAttributes = cowu.getAttributes4Schema(dataItem, clusterSchema),
