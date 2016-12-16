@@ -367,38 +367,6 @@ define([
                 }
                 return storageDisks;
             }, this);
-        },
-        goForward : function(rootViewPath, path, prefixId, rowIndex){
-            var self = this;
-            var modalId = "configure-" + prefixId;
-            $("#" + modalId).modal("hide");
-            var viewConfigOptions = {
-                rootViewPath : rootViewPath,
-                path : path,
-                group : "",
-                page : "",
-                element : prefixId,
-                rowIndex: rowIndex,
-                formType: "edit"
-            };
-            var viewConfig = vcg.generateViewConfig(viewConfigOptions, schemaModel, "default", "form"),
-                dataItem = $("#" + smwl.SM_CLUSTER_GRID_ID).data("contrailGrid")._dataView.getItem(rowIndex),
-                checkedRow = [dataItem],
-                title = smwl.TITLE_EDIT_CONFIG + " ("+ dataItem.id +")";
-
-            var clusterEditView = new ClusterEditView();
-            clusterEditView.model = self;
-            clusterEditView.renderConfigure({"title": title, checkedRows: checkedRow, rowIndex: rowIndex, viewConfig: viewConfig, callback: function () {
-                var dataView = $("#" + smwl.SM_CLUSTER_GRID_ID).data("contrailGrid")._dataView;
-                dataView.refreshData();
-            }});
-
-            clusterEditView.renderView4Config($("#" + modalId).find("#" + prefixId + "-form"), self, viewConfig, smwc.KEY_CONFIGURE_VALIDATION, null, null, function() {
-                self.showErrorAttr(prefixId + cowc.FORM_SUFFIX_ID, false);
-                Knockback.applyBindings(self, document.getElementById(modalId));
-                kbValidation.bind(clusterEditView);
-            });
-
         }
     });
 
