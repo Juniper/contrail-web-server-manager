@@ -19,8 +19,10 @@ define([
     "sm-labels",
     "sm-messages",
     "sm-utils",
-    "sm-model-config"
-], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, VCG, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc) {
+    "sm-model-config",
+    "sm-basedir/setting/sm/ui/js/schemas/cluster.custom.validation"
+], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema,
+             customSchema, VCG, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc, smwccv) {
 
 
     var prefixId = smwc.CLUSTER_PREFIX_ID,
@@ -37,6 +39,10 @@ define([
                 required: true,
                 msg: smwm.getRequiredMessage("package_image_id")
             };
+        }
+        var customValidator = smwccv;
+        for (var key in customValidator) {
+            configureValidation[key] = customValidator[key];
         }
         return configureValidation;
     };

@@ -90,6 +90,12 @@ define([], function(){ return {
                                     "label": "Enable",
                                     "path": "properties.parameters.properties.provision.properties.contrail.properties.enable_lbass"
                                 },
+                                "amqp_ssl": {
+                                    "viewable": true,
+                                    "editable": true,
+                                    "label": "AMQP SSL",
+                                    "path": "properties.parameters.properties.provision.properties.contrail.properties.amqp_ssl"
+                                },
                                 "ha": {
                                     "properties": {
                                         "haproxy_enable": {
@@ -273,6 +279,12 @@ define([], function(){ return {
                                             "editable": true,
                                             "label": "Health Check Interval",
                                             "path": "properties.parameters.properties.provision.properties.contrail.properties.config.properties.healthcheck_interval"
+                                        },
+                                        "amqp_use_ssl": {
+                                            "viewable": true,
+                                            "editable": true,
+                                            "label": "AMQP SSL",
+                                            "path": "properties.parameters.properties.provision.properties.contrail.properties.config.properties.amqp_use_ssl"
                                         }
                                     },
                                     "viewable": true,
@@ -477,6 +489,12 @@ define([], function(){ return {
                                             "editable": true,
                                             "label": "",
                                             "path": "properties.parameters.properties.provision.properties.openstack.properties.keystone.properties.auth_protocol"
+                                        },
+                                        "version": {
+                                            "viewable": true,
+                                            "editable": true,
+                                            "label": "",
+                                            "path": "properties.parameters.properties.provision.properties.openstack.properties.keystone.properties.version"
                                         }
                                     },
                                     "viewable": true,
@@ -509,6 +527,12 @@ define([], function(){ return {
                                             "editable": true,
                                             "label": "AMQP Server IP",
                                             "path": "properties.parameters.properties.provision.properties.openstack.properties.amqp.properties.server_ip"
+                                        },
+                                        "use_ssl": {
+                                            "viewable": true,
+                                            "editable": true,
+                                            "label": "AMQ SSL Enabled",
+                                            "path": "properties.parameters.properties.provision.properties.openstack.properties.amqp.properties.use_ssl"
                                         }
                                     },
                                     "viewable": true,
