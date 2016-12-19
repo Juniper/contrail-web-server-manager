@@ -28,6 +28,24 @@ define([
         schemaModel = new UISchemaModel(defaultSchema, stSchema, customSchema).schema,
         jsonValidator = new JsonValidator(prefixId, smwmc.getClusterModel());
 
+    var clusterCustomValidations = function() {
+        var customValidations = {
+            "parameters.provision.openstack.amqp.use_ssl": function(val, attr, computed) {
+                if ("false" === val) {
+                    return;
+                }
+                var openstackAMQP =
+                    getValueByJsonPath(computed,
+                                       "parameters;provision;openstack;openstack_manage_amqp",
+                                       null);
+                if ((false === openstackAMQP) && ("true" === val)) {
+                    return "Openstack managed amqp is not enabled";
+                }
+            }
+        };
+        return customValidations;
+    }
+
     var getValidationByKey = function (key) {
         var configureValidation = {};
         jsonValidator.addValidation(schemaModel, configureValidation);
@@ -37,6 +55,10 @@ define([
                 required: true,
                 msg: smwm.getRequiredMessage("package_image_id")
             };
+        }
+        var customValidator = clusterCustomValidations();
+        for (var key in customValidator) {
+            configureValidation[key] = customValidator[key];
         }
         return configureValidation;
     };

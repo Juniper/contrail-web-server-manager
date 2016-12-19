@@ -79,6 +79,11 @@
                   "default": false,
                   "description": "flag to indicate if lbaas feature is enabled for the cluster."
                 },
+                "amqp_ssl": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Flag to enable or disable rabbitmq server SSL support globally for openstack and contrail config"
+                },
                 "ha": {
                   "type": "object",
                   "properties": {
@@ -225,6 +230,11 @@
                       "type": "integer",
                       "default": 5,
                       "description": "Discovery health check interval"
+                    },
+                    "amqp_use_ssl": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Flag to enable or disable rabbitmq server SSL support for contrail config"
                     }
                   }
                 },
@@ -390,6 +400,11 @@
                       "type": "string",
                       "default": "http",
                       "description": "Keystone authentication protocol (http/https)"
+                    },
+                    "version": {
+                      "type": "string",
+                      "default": "v2.0",
+                      "description": "Keystone API version"
                     }
                   }
                 },
@@ -415,7 +430,13 @@
                       "type": "string",
                       "default": "",
                       "description": "AMQP Service IP to connect to"
+                    },
+                    "use_ssl": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Flag to enable or disable rabbitmq server SSL support for openstack"
                     }
+
                   }
                 },
                 "region": {

@@ -262,6 +262,9 @@
                     },
                     "auth_protocol" : {
                       "label" : ""
+                    },
+                    "version": {
+                      "label" : ""
                     }
                   }
                 },
