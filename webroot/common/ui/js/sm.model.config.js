@@ -23,6 +23,7 @@ define([], function () {
                             "kernel_upgrade": true,
                             "kernel_version": "",
                             "enable_lbass": false,
+                            "amqp_ssl": false,
                             "ha": {
                                 "haproxy_enable": false,
                                 "contrail_internal_vip": "",
@@ -56,7 +57,8 @@ define([], function () {
                             "config": {
                                 "manage_neutron": true,
                                 "zookeeper_ip_port": 2181,
-                                "healthcheck_interval": 5
+                                "healthcheck_interval": 5,
+                                "amqp_use_ssl": false
                             },
                             "webui": {
                             },
@@ -99,14 +101,16 @@ define([], function () {
                                 "admin_tenant": "admin",
                                 "service_tenant": "services",
                                 "auth_port": 35357,
-                                "auth_protocol": "http"
+                                "auth_protocol": "http",
+                                "version": "v2.0"
                             },
                             "neutron": {
                                 "service_protocol": "http",
                                 "port": 9697
                             },
                             "amqp": {
-                                "server_ip": ""
+                                "server_ip": "",
+                                "use_ssl": false
                             },
                             "region": "RegionOne",
                             "multi_tenancy": true,
@@ -192,6 +196,10 @@ define([], function () {
                                                 "default": ""
                                             },
                                             "enable_lbass": {
+                                                "type": "boolean",
+                                                "default": false
+                                            },
+                                            "amqp_ssl": {
                                                 "type": "boolean",
                                                 "default": false
                                             },
@@ -321,6 +329,10 @@ define([], function () {
                                                     "healthcheck_interval": {
                                                         "type": "integer",
                                                         "default": 5
+                                                    },
+                                                    "amqp_use_ssl": {
+                                                        "type": "boolean",
+                                                        "default": false
                                                     }
                                                 },
                                                 "required": ["manage_neutron", "zookeeper_ip_port", "healthcheck_interval"]
@@ -467,6 +479,10 @@ define([], function () {
                                                     "auth_protocol": {
                                                         "type": "string",
                                                         "default": "http"
+                                                    },
+                                                    "version": {
+                                                        "type": "string",
+                                                        "default": "v2.0"
                                                     }
                                                 },
                                                 "required": ["admin_password", "ip", "admin_user", "admin_tenant", "service_tenant", "auth_port", "auth_protocol"]
@@ -491,6 +507,10 @@ define([], function () {
                                                     "server_ip": {
                                                         "type": "string",
                                                         "default": ""
+                                                    },
+                                                    "use_ssl": {
+                                                        "type": "boolean",
+                                                        "default": false
                                                     }
                                                 },
                                                 "required": ["server_ip"]

@@ -20,13 +20,32 @@ define([
     "sm-messages",
     "sm-utils",
     "sm-model-config"
-], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, VCG, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc) {
+], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema,
+             customSchema, VCG, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc) {
 
 
     var prefixId = smwc.CLUSTER_PREFIX_ID,
         defaultSchema = JSON.parse(schema),
         schemaModel = new UISchemaModel(defaultSchema, stSchema, customSchema).schema,
         vcg = new VCG(prefixId, smwmc.getClusterModel());
+
+    var clusterCustomValidations = function() {
+        var customValidations = {
+            "parameters.provision.openstack.amqp.use_ssl": function(val, attr, computed) {
+                if ("false" === val) {
+                    return;
+                }
+                var openstackAMQP =
+                    getValueByJsonPath(computed,
+                                       "parameters;provision;openstack;openstack_manage_amqp",
+                                       null);
+                if ((false === openstackAMQP) && ("true" === val)) {
+                    return "Openstack managed amqp is not enabled";
+                }
+            }
+        };
+        return customValidations;
+    }
 
     var getValidationByKey = function (key) {
         var configureValidation = {};
@@ -37,6 +56,10 @@ define([
                 required: true,
                 msg: smwm.getRequiredMessage("package_image_id")
             };
+        }
+        var customValidator = clusterCustomValidations();
+        for (var key in customValidator) {
+            configureValidation[key] = customValidator[key];
         }
         return configureValidation;
     };

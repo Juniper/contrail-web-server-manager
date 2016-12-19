@@ -457,6 +457,7 @@ define([
         LABEL_ZOOKEEPER_IP_PORT : "Zookeeper IP Port",
         LABEL_NEUTRON_PORT : "Neutron Port",
         LABEL_AMQP_SERVER_IP : "AMQP Server IP",
+        LABEL_AMQP_SSL: "AMQP SSL",
         LABEL_KEYSTONE_IP : "Keystone IP",
         LABEL_KEYSTONE_ADMIN_TENANT : "Keystone Admin Tenant",
         LABEL_KEYSTONE_SERVICE_TENANT : "Keystone Service Tenant",

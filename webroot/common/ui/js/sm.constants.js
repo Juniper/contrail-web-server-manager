@@ -108,6 +108,11 @@ define([], function () {
             {"id": "pssl", "text": "pssl"}
         ],
 
+        KEYSTONE_VERSIONS : [
+            {"id": "v2.0", "text": "v2.0"},
+            {"id": "v3", "text": "v3"}
+        ],
+
         get : function () {
             var args = arguments;
             return cowu.getValueFromTemplate(args)
