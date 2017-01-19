@@ -50,6 +50,7 @@
                 <item>
                     <label>Server Manager</label>
                     <hash>config_sm</hash>
+                    <iconClass>menu-icon fa fa-cogs</iconClass>
                     <resources>
                         <resource>
                             <rootDir>/setting/sm/ui</rootDir>
