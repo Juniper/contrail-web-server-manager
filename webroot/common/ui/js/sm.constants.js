@@ -20,7 +20,7 @@ define([], function () {
         this.SM_API_SERVER = "sm-api-server";
         this.DFLT_SERVER_IP = "127.0.0.1";
 
-        this.ROLES_ARRAY = ["config", "openstack", "control", "compute", "collector", "webui", "database", "storage-compute", "storage-master", "toragent", "tsn"];
+        this.ROLES_ARRAY = ["config", "openstack", "control", "compute", "collector", "webui", "database", "storage-compute", "storage-master", "toragent", "tsn", "global_controller"];
         this.ROLES_OBJECTS = [
             {"id": "config", "text": "Config"},
             {"id": "openstack", "text": "Openstack"},
@@ -32,7 +32,8 @@ define([], function () {
             {"id": "storage-compute", "text": "Storage Compute"},
             {"id": "storage-master", "text": "Storage Master"},
             {"id": "toragent", "text": "TOR Agent"},
-            {"id": "tsn", "text": "TSN"}
+            {"id": "tsn", "text": "TSN"},
+            {"id": "global_controller", "text": "Global Controller"}
         ];
 
         this.INTERFACE_TYPE_PHYSICAL = "physical";
