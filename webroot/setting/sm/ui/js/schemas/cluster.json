@@ -390,6 +390,11 @@
                       "type": "string",
                       "default": "http",
                       "description": "Keystone authentication protocol (http/https)"
+                    },
+                    "mysql_service_password": {
+                      "type": "string",
+                      "default": "",
+                      "description": "The MYSQL service password that Openstack services should use when talking to an external Keystone server."
                     }
                   }
                 },
@@ -483,6 +488,13 @@
                       "type": "string",
                       "default": "c0ntrail123",
                       "description": "mysql root password value"
+                    },
+                    "allowed_hosts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "List of IP addresses that are allowed to access the MYSQL server on Openstack node of the cluster."
                     }
                   }
                 }

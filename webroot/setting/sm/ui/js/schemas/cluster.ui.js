@@ -477,7 +477,13 @@ define([], function(){ return {
                                             "editable": true,
                                             "label": "",
                                             "path": "properties.parameters.properties.provision.properties.openstack.properties.keystone.properties.auth_protocol"
-                                        }
+                                        },
+                                        "mysql_service_password": {
+                                            "viewable": true,
+                                            "editable": true,
+                                            "label": "",
+                                            "path": "properties.parameters.properties.provision.properties.openstack.properties.keystone.properties.mysql_service_password"
+                                         }
                                     },
                                     "viewable": true,
                                     "label": "",
@@ -592,7 +598,13 @@ define([], function(){ return {
                                             "editable": true,
                                             "label": "MySQL Root Password",
                                             "path": "properties.parameters.properties.provision.properties.openstack.properties.mysql.properties.root_password"
-                                        }
+                                        },
+                                        "allowed_hosts": {
+                                            "viewable": true,
+                                            "editable": true,
+                                            "label": "MySQL Allowed Hosts",
+                                            "path": "properties.parameters.properties.provision.properties.openstack.properties.mysql.properties.allowed_hosts"
+                                         }
                                     },
                                     "viewable": true,
                                     "label": "",
