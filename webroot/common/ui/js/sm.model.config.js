@@ -133,6 +133,104 @@ define([], function () {
             };
         },
 
+        getDockerClusterModel : function () {
+            return {
+                "id": null,
+                "parameters": {
+                    "domain": null,
+                    "subnet_mask": null,
+                    "gateway": null,
+                    "password": null,
+                    "provision": {
+                        "contrail_4": {
+                            "docker_registry": "",
+                            "docker_registry_insecure": true,
+                            "controller_image": "",
+                            "analytics_image": "",
+                            "lb_image": "",
+                            "analyticsdb_image": "",
+                            "agent_image": "",
+                            "ssl_certs_src_dir": "/etc/contrail_smgr/puppet/ssl",
+                            "global_config": {
+                                "log_level": "SYS_INFO",
+                                "cloud_orchestrator": "openstack",
+                                "external_lb": false,
+                                "external_rabbitmq_servers": "",
+                                "external_zookeeper_servers": "",
+                                "external_cassandra_servers": "",
+                                "external_configdb_servers": "",
+                                "xmpp_auth_enable": false,
+                                "xmpp_dns_auth_enable": false,
+                                "sandesh_ssl_enable": false,
+                                "introspect_ssl_enable": false
+                            },
+                            "controller_config": {
+                                "encap_priority": "MPLSoUDP,MPLSoGRE,VXLAN",
+                                "external_routers_list": {},
+                                "bgp_asn": "64512"
+                            },
+                            "control_config": {
+                                "log_file": "/var/log/contrail/contrail-control.log",
+                                "log_level": "SYS_NOTICE"
+                            },
+                            "dns_config": {
+                                "log_level": "SYS_NOTICE"
+                            },
+                            "cassandra_config": {
+                                "commitlog_dir": "/var/lib/cassandra/commitlog",
+                                "saved_caches_dir": "/var/lib/cassandra/saved_caches",
+                                "data_dirs": ["/var/lib/cassandra/data"],
+                                "java_max_heap_size": "512M",
+                                "java_max_heap_newsize": "100M"
+                            },
+                            "api_config": {
+                                "log_level": "SYS_NOTICE"
+                            },
+                            "schema_config": {
+                                "log": "/var/log/contrail/contrail-schema.log",
+                                "log_level": "SYS_NOTICE"
+                            },
+                            "device_manager_config": {
+                                "log": "/var/log/contrail/contrail-device-manager.log",
+                                "log_level": "SYS_NOTICE"
+                            },
+                            "svc_monitor_config": {
+                                "log": "/var/log/contrail/contrail-svc-monitor.log",
+                                "log_level": "SYS_NOTICE"
+                            },
+                            "alarm_gen_config": {
+                                "log": "/var/log/contrail/contrail-alarm-gen.log",
+                                "log_level": "SYS_NOTICE"
+                            },
+                            "analytics_api_config": {
+                                "log_level": "SYS_NOTICE",
+                                "log": "/var/log/contrail/contrail-analytics-api.log",
+                                "aaa_mode": "cloud-admin"
+                            },
+                            "analytics_collector_config": {
+                                "log_level": "SYS_CONFIG",
+                                "log": "/var/log/contrail/contrail-collector.log",
+                            },
+                            "query_engine_config": {
+                                "log": "/var/log/contrail/contrail-query-engine.log",
+                                "log_level": "SYS_NOTICE",
+                            },
+                            "snmp_collector_config": {
+                                "log": "/var/log/contrail/contrail-snmp-collector.log",
+                                "log_level": "SYS_NOTICE",
+                                "introspect_port": "5920",
+                                "scan_frequencey": "600",
+                                "fast_scan_frequency": "60"
+                            },
+                            "topology_config": {
+                                "log": "/var/log/contrail/contrail-topology.log",
+                                "log_level": "SYS_NOTICE"
+                            }
+                        }
+                    }
+                }
+            };
+        },
         getClusterSchema : function () {
             return {
                 "$schema": "http://json-schema.org/draft-04/schema#",
