@@ -181,6 +181,16 @@ define([
             };
         },
 
+        getDockerConfigureAction : function (onClickFunction, divider) {
+            return {
+                title: smwl.TITLE_CONTAINER_EDIT_CONFIG,
+                iconClass: "fa fa-edit",
+                width: 80,
+                divider: contrail.checkIfExist(divider) ? divider : false,
+                onClick: onClickFunction
+            };
+        },
+
         getCloneServerAction : function (onClickFunction, divider) {
             return {
                 title: smwl.TITLE_CLONE_SERVER,

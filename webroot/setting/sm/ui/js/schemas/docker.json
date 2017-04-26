@@ -1,0 +1,517 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "type": "object",
+        "provision": {
+          "properties": {
+            "contrail_4": {
+              "properties": {
+                "agent_image": {
+                  "type": "string"
+                },
+                "alarm_gen_config": {
+                  "properties": {
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "introspect_port",
+                    "log_level"
+                  ],
+                  "type": "object"
+                },
+                "analytics_api_config": {
+                  "properties": {
+                    "aaa_mode": {
+                      "type": "string"
+                    },
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "listen_address": {
+                      "type": "string"
+                    },
+                    "listen_port": {
+                      "type": "integer"
+                    },
+                    "log": {
+                      "type": "string"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "log_level",
+                    "log",
+                    "listen_port",
+                    "introspect_port",
+                    "listen_address",
+                    "aaa_mode"
+                  ],
+                  "type": "object"
+                },
+                "analytics_collector_config": {
+                  "properties": {
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "listen_address": {
+                      "type": "string"
+                    },
+                    "listen_port": {
+                      "type": "integer"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "introspect_port",
+                    "log_level",
+                    "listen_address",
+                    "listen_port"
+                  ],
+                  "type": "object"
+                },
+                "analytics_image": {
+                  "type": "string"
+                },
+                "analyticsdb_image": {
+                  "type": "string"
+                },
+                "ansible_become": {
+                  "type": "boolean"
+                },
+                "ansible_connection": {
+                  "type": "string"
+                },
+                "ansible_ssh_private_key_file": {
+                  "type": "string"
+                },
+                "ansible_user": {
+                  "type": "string"
+                },
+                "api_config": {
+                  "properties": {
+                    "listen_address": {
+                      "type": "string"
+                    },
+                    "listen_port": {
+                      "type": "integer"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "listen_address",
+                    "log_level",
+                    "listen_port"
+                  ],
+                  "type": "object"
+                },
+                "cassandra_config": {
+                  "properties": {
+                    "commitlog_dir": {
+                      "type": "string"
+                    },
+                    "data_dirs": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "java_max_heap_newsize": {
+                      "type": "string"
+                    },
+                    "java_max_heap_size": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "java_max_heap_size",
+                    "data_dirs",
+                    "commitlog_dir",
+                    "java_max_heap_newsize"
+                  ],
+                  "type": "object"
+                },
+                "contrail_compute_mode": {
+                  "type": "string"
+                },
+                "control_config": {
+                  "properties": {
+                    "asn": {
+                      "type": "integer"
+                    },
+                    "bgp_port": {
+                      "type": "integer"
+                    },
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    },
+                    "xmpp_server_port": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "introspect_port",
+                    "log_level",
+                    "asn",
+                    "xmpp_server_port",
+                    "bgp_port"
+                  ],
+                  "type": "object"
+                },
+                "controller_image": {
+                  "type": "string"
+                },
+                "device_manager_config": {
+                  "properties": {
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "log_level"
+                  ],
+                  "type": "object"
+                },
+                "dns_config": {
+                  "properties": {
+                    "dns_server_port": {
+                      "type": "integer"
+                    },
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "introspect_port",
+                    "log_level",
+                    "dns_server_port"
+                  ],
+                  "type": "object"
+                },
+                "docker_install_method": {
+                  "type": "string"
+                },
+                "docker_network_bridge": {
+                  "type": "boolean"
+                },
+                "docker_package_name": {
+                  "type": "string"
+                },
+                "docker_registry": {
+                  "type": "string"
+                },
+                "docker_registry_insecure": {
+                  "type": "boolean"
+                },
+                "global_config": {
+                  "properties": {
+                    "analytics_ip": {
+                      "type": "string"
+                    },
+                    "analytics_list": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "analyticsdb_seed_list": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "cloud_orchestrator": {
+                      "type": "string"
+                    },
+                    "config_ip": {
+                      "type": "string"
+                    },
+                    "config_seed_list": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "config_server_list": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "controller_ip": {
+                      "type": "string"
+                    },
+                    "controller_list": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "external_cassandra_servers": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "external_configdb_servers": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "external_lb": {
+                      "type": "boolean"
+                    },
+                    "external_rabbitmq_servers": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "external_zookeeper_servers": {
+                      "items": {},
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "log_level": {
+                      "type": "string"
+                    },
+                    "multi_tenancy": {
+                      "type": "boolean"
+                    },
+                    "uve_partition_count": {
+                      "type": "string"
+                    },
+                    "xmpp_auth_enable": {
+                      "type": "boolean"
+                    },
+                    "xmpp_dns_auth_enable": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "log_level",
+                    "xmpp_dns_auth_enable",
+                    "config_server_list",
+                    "analyticsdb_seed_list",
+                    "config_seed_list",
+                    "external_configdb_servers",
+                    "xmpp_auth_enable",
+                    "external_rabbitmq_servers",
+                    "analytics_ip",
+                    "uve_partition_count",
+                    "multi_tenancy",
+                    "controller_list",
+                    "external_lb",
+                    "external_zookeeper_servers",
+                    "config_ip",
+                    "cloud_orchestrator",
+                    "controller_ip",
+                    "external_cassandra_servers",
+                    "analytics_list"
+                  ],
+                  "type": "object"
+                },
+                "keystone_config": {
+                  "properties": {
+                    "admin_password": {
+                      "type": "string"
+                    },
+                    "admin_port": {
+                      "type": "string"
+                    },
+                    "admin_tenant": {
+                      "type": "string"
+                    },
+                    "admin_user": {
+                      "type": "string"
+                    },
+                    "auth_protocol": {
+                      "type": "string"
+                    },
+                    "ip": {
+                      "type": "string"
+                    },
+                    "public_port": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "admin_user",
+                    "ip",
+                    "admin_port",
+                    "public_port",
+                    "auth_protocol",
+                    "admin_password",
+                    "admin_tenant"
+                  ],
+                  "type": "object"
+                },
+                "lb_image": {
+                  "type": "string"
+                },
+                "query_engine_config": {
+                  "properties": {
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "log": {
+                      "type": "string"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "introspect_port",
+                    "log_level",
+                    "log"
+                  ],
+                  "type": "object"
+                },
+                "schema_config": {
+                  "properties": {
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "log_level"
+                  ],
+                  "type": "object"
+                },
+                "snmp_collector_config": {
+                  "properties": {
+                    "fast_scan_frequency": {
+                      "type": "integer"
+                    },
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "log": {
+                      "type": "string"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    },
+                    "scan_frequencey": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "introspect_port",
+                    "fast_scan_frequency",
+                    "log_level",
+                    "log",
+                    "scan_frequencey"
+                  ],
+                  "type": "object"
+                },
+                "svc_monitor_config": {
+                  "properties": {
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "log_level"
+                  ],
+                  "type": "object"
+                },
+                "topology_config": {
+                  "properties": {
+                    "introspect_port": {
+                      "type": "integer"
+                    },
+                    "log": {
+                      "type": "string"
+                    },
+                    "log_level": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "introspect_port",
+                    "log_level",
+                    "log"
+                  ],
+                  "type": "object"
+                },
+                "vrouter_physical_interface": {
+                  "type": "string"
+                },
+                "webui_config": {
+                  "properties": {
+                    "http_listen_port": {
+                      "type": "integer"
+                    },
+                    "https_listen_port": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "https_listen_port",
+                    "http_listen_port"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "schema_config",
+                "device_manager_config",
+                "ansible_user",
+                "analytics_image",
+                "ansible_connection",
+                "control_config",
+                "cassandra_config",
+                "docker_network_bridge",
+                "ansible_ssh_private_key_file",
+                "topology_config",
+                "contrail_compute_mode",
+                "keystone_config",
+                "global_config",
+                "dns_config",
+                "svc_monitor_config",
+                "docker_registry",
+                "lb_image",
+                "agent_image",
+                "alarm_gen_config",
+                "analytics_api_config",
+                "snmp_collector_config",
+                "query_engine_config",
+                "ansible_become",
+                "controller_image",
+                "docker_package_name",
+                "analyticsdb_image",
+                "docker_registry_insecure",
+                "docker_install_method",
+                "vrouter_physical_interface",
+                "analytics_collector_config",
+                "webui_config",
+                "api_config"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "contrail_4"
+          ],
+          "type": "object"
+        }
+      }
+    }
+  }
+}

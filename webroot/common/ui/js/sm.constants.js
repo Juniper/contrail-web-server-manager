@@ -85,6 +85,11 @@ define([], function () {
             {"id": true, "text": "True"}
         ],
 
+        COMPUTE_NODES_VALUES : [
+            {"id": "bare_metal", "text": "Baremetal"},
+            {"id": "container", "text": "Container"}
+        ],
+
         FLAGS_RADIO : [
             {"label": "False", "value": "False"},
             {"label": "True", "value": "True"}
@@ -160,6 +165,7 @@ define([], function () {
         URL_HASH_SM_SERVERS : "setting_sm_servers",
         URL_HASH_BM_SERVERS : "config_pd_baremetal",
 
+        KEY_DOCKER_CONFIGURE_VALIDATION : "dockerConfigureValidation",
         KEY_CONFIGURE_VALIDATION : "configureValidation",
         KEY_EDIT_TAGS_VALIDATION : "editTagsValidation",
         KEY_ADD_VALIDATION : "addValidation",
