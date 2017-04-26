@@ -114,6 +114,12 @@ define([], function () {
             {"id": "v3", "text": "v3"}
         ],
 
+        AAA_MODES : [
+            {"id": "no-auth", "text": "no-auth"},
+            {"id": "cloud-admin", "text": "cloud-admin"}
+            {"id": "rbac", "text": "rbac"}
+        ],
+
         get : function () {
             var args = arguments;
             return cowu.getValueFromTemplate(args)
@@ -160,6 +166,7 @@ define([], function () {
         URL_HASH_SM_SERVERS : "setting_sm_servers",
         URL_HASH_BM_SERVERS : "config_pd_baremetal",
 
+        KEY_DOCKER_CONFIGURE_VALIDATION : "dockerConfigureValidation",
         KEY_CONFIGURE_VALIDATION : "configureValidation",
         KEY_EDIT_TAGS_VALIDATION : "editTagsValidation",
         KEY_ADD_VALIDATION : "addValidation",

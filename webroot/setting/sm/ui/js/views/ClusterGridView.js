@@ -6,7 +6,9 @@ define([
     "underscore",
     "contrail-view",
     "sm-basedir/setting/sm/ui/js/models/ClusterModel",
+    "sm-basedir/setting/sm/ui/js/models/DockerClusterModel",
     "sm-basedir/setting/sm/ui/js/views/ClusterEditView",
+    "sm-basedir/setting/sm/ui/js/views/DockerClusterEditView",
     "json-model", "json-edit-view", "text!sm-basedir/setting/sm/ui/js/schemas/cluster.json",
     "schema-model",
     "sm-cluster-ui-schema",
@@ -17,7 +19,7 @@ define([
     "sm-model-config",
     "sm-grid-config",
     "sm-detail-tmpls"
-], function (_, ContrailView, ClusterModel, ClusterEditView, JsonModel, JsonEditView, clusterSchema, UISchemaModel, stSchema, customSchema, smwc, smwl, smwu, smwmc, smwgc, smwdt) {
+], function (_, ContrailView, ClusterModel, DockerClusterModel, ClusterEditView, DockerClusterEditView, JsonModel, JsonEditView, clusterSchema, UISchemaModel, stSchema, customSchema, smwc, smwl, smwu, smwmc, smwgc, smwdt) {
 
     clusterSchema = JSON.parse(clusterSchema);
     var prefixId = smwc.CLUSTER_PREFIX_ID,
@@ -101,6 +103,19 @@ define([
 
                 clusterEditView.model = clusterModel;
                 clusterEditView.renderConfigure({"title": title, checkedRows: checkedRow, callback: function () {
+                    var dataView = $(gridElId).data("contrailGrid")._dataView;
+                    dataView.refreshData();
+                }});
+            }),
+            smwgc.getDockerConfigureAction(function (rowIndex) {
+                var dataItem = $(gridElId).data("contrailGrid")._dataView.getItem(rowIndex),
+                    dockerClusterModel = new DockerClusterModel(dataItem),
+                    checkedRow = [dataItem],
+                    title = smwl.TITLE_CONTAINER_EDIT_CONFIG + " ("+ dataItem.id +")",
+                    dockerClusterEditView = new DockerClusterEditView();
+
+                dockerClusterEditView.model = dockerClusterModel;
+                dockerClusterEditView.renderDockerConfigure({"title": title, checkedRows: checkedRow, callback: function () {
                     var dataView = $(gridElId).data("contrailGrid")._dataView;
                     dataView.refreshData();
                 }});
