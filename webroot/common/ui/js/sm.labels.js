@@ -271,6 +271,7 @@ define([
         TITLE_QUERY_ENGINE_CONFIG : "Query Engine Config",
         TITLE_SNMP_COLLECTOR_CONFIG : "SNMP Collector Config",
         TITLE_TOPO_CONFIG : "Topology Config",
+        TITLE_STORAGE_CEPH_CONFIG : "Storage Ceph Config",
         TITLE_WEBUI_CONFIG : "WebUI Config",
         TITLE_EDIT_JSON : "Edit JSON",
         TITLE_EDIT_DHCP_HOST : "Edit DHCP Host",
@@ -504,7 +505,9 @@ define([
         LABEL_ENABLE_XMPP_DNS_AUTH: "Enable XMPP DNS Auth",
         LABEL_LOG_FILE: "Log File",
         LABEL_JAVA_MAX_HEAP_SIZE_MB: "Java Max Heap Size (MB)",
-        LABEL_JAVA_MAX_HEAP_NEW_SIZE_MB: "Java Max Heap New Size (MB)"
+        LABEL_JAVA_MAX_HEAP_NEW_SIZE_MB: "Java Max Heap New Size (MB)",
+        LABEL_STORAGE_OSD_DISKS: "Storage OSD Disks",
+        LABEL_STORAGE_OSD_SSD_DISKS: "Storage OSD SSD Disks"
     };
 
     function capitalizeSentence(sentence) {

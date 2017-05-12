@@ -14,13 +14,12 @@ define([
     "json-validator",
     "backbone",
     "knockout",
-    "sm-basedir/setting/sm/ui/js/models/DisksModel",
     "sm-constants",
     "sm-labels",
     "sm-messages",
     "sm-utils",
     "sm-model-config"
-], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, JsonValidator, Backbone, Knockout, DiskModel, smwc, smwl, smwm, smwu, smwmc) {
+], function (_, ContrailModel, ClusterEditView, Knockback, UISchemaModel, schema, stSchema, customSchema, JsonValidator, Backbone, Knockout, smwc, smwl, smwm, smwu, smwmc) {
 
 
     var prefixId = smwc.CLUSTER_PREFIX_ID,
@@ -67,22 +66,6 @@ define([
 
         defaultConfig: smwmc.getClusterModel(),
         formatModelConfig : function(modelConfig){
-            // Populate DiskModel from network.interfaces
-            var disks = (contrail.checkIfExist(modelConfig.parameters.provision.contrail.storage.storage_osd_disks)) ? (modelConfig.parameters.provision.contrail.storage.storage_osd_disks) : [],
-                diskModels = [], diskModel,
-                diskCollectionModel;
-
-            $.each(disks, function(diskKey, diskValue) {
-                diskModel = new DiskModel({disk: diskValue});
-                diskModels.push(diskModel);
-            });
-
-            diskCollectionModel = new Backbone.Collection(diskModels);
-            modelConfig.disks = diskCollectionModel;
-            if(contrail.checkIfExist(modelConfig.parameters.disks)) {
-                delete modelConfig.parameters.provision.contrail.storage.storage_osd_disks;
-            }
-
             return modelConfig;
         },
         configure: function (callbackObj, ajaxMethod, validation) {
@@ -365,30 +348,6 @@ define([
                 }
             },
             configureValidation: getValidationByKey("configureValidation")
-        },
-        addDisk: function() {
-            var disks = this.model().attributes.disks,
-                newDisk = new DiskModel({disk: ""});
-
-            disks.add([newDisk]);
-        },
-        deleteDisk: function(data, kbDisk) {
-            var diskCollection = data.model().collection,
-                intf = kbDisk.model();
-
-            diskCollection.remove(intf);
-        },
-        getStorageDisks: function() {
-            return Knockout.computed(function () {
-                var kbDisks = this.disks(),
-                    disks = this.model().attributes.disks,
-                    storageDisks = [];
-
-                for (var i = 0; i < disks.length; i++) {
-                    storageDisks.push(kbDisks[i]);
-                }
-                return storageDisks;
-            }, this);
         }
     });
 
