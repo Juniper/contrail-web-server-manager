@@ -819,6 +819,16 @@ define([
                                             }
                                         }
                                     }
+                                },
+                                {
+                                    elementId: "live_partition",
+                                    view: "FormDropdownView",
+                                    viewConfig: {
+                                        path: "parameters.provision.contrail_4.live_partition",
+                                        dataBindValue: "parameters().provision.contrail_4.live_partition",
+                                        class: "col-xs-6",
+                                        elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}
+                                    }
                                 }
                             ]
                         }

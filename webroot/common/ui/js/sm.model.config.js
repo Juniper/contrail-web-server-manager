@@ -711,7 +711,8 @@ define([], function () {
                                 "storage_osd_ssd_disks": [],
                                 "storage_osd_disks": [],
                                 "storage_chassis_id": ""
-                            }
+                            },
+                            "live_partition": true
                         },
                         "contrail": {}
                     }
