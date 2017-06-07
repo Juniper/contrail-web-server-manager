@@ -221,7 +221,7 @@ define([
                             {
                                 elementId: "log_file", view: "FormInputView",
                                 viewConfig: {
-                                    path: "parameters.provision.contrail_4.control_config.log_file", dataBindValue: "parameters().provision.contrail_4.control_config.log_file", class: "col-xs-6"
+                                    path: "parameters.provision.contrail_4.control_config.log", dataBindValue: "parameters().provision.contrail_4.control_config.log", class: "col-xs-6"
                                 }
                             }
                         ]

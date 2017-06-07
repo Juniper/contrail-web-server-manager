@@ -170,7 +170,7 @@ define([], function () {
                                 "bgp_asn": "64512"
                             },
                             "control_config": {
-                                "log_file": "/var/log/contrail/contrail-control.log",
+                                "log": "/var/log/contrail/contrail-control.log",
                                 "log_level": "SYS_NOTICE"
                             },
                             "dns_config": {
