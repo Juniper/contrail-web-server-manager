@@ -225,6 +225,11 @@ define([], function () {
                             "topology_config": {
                                 "log": "/var/log/contrail/contrail-topology.log",
                                 "log_level": "SYS_NOTICE"
+                            },
+                            "storage_ceph_config": {
+                                "replica_size": 2,
+                                "ceph_object_storage": true,
+                                "object_store_pool": "volumes"
                             }
                         }
                     }
@@ -701,14 +706,15 @@ define([], function () {
                 "parameters": {
                     "partition": null,
                     "provision": {
-                        "contrail": {
+                        "contrail_4": {
                             "storage": {
-                                "storage_repo_id": "",
+                                "storage_osd_ssd_disks": [],
                                 "storage_osd_disks": [],
-                                "storage_chassis_id": "",
-                                "storage_chassis_id_input": ""
-                            }
-                        }
+                                "storage_chassis_id": ""
+                            },
+                            "live_partition": true
+                        },
+                        "contrail": {}
                     }
                 },
                 "tag": {},

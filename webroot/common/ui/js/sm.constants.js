@@ -22,20 +22,16 @@ define([], function () {
         SM_API_SERVER : "sm-api-server",
         DFLT_SERVER_IP : "127.0.0.1",
 
-        ROLES_ARRAY : ["config", "openstack", "control", "compute", "collector", "webui", "database", "storage-compute", "storage-master", "toragent", "tsn", "global_controller"],
+        ROLES_ARRAY : ["openstack", "contrail-controller", "contrail-analytics", "contrail-analyticsdb", "contrail-compute", "contrail-agent", "contrail-ceph-controller", "contrail-ceph-compute"],
         ROLES_OBJECTS : [
-            {"id": "config", "text": "Config"},
             {"id": "openstack", "text": "Openstack"},
-            {"id": "control", "text": "Control"},
-            {"id": "compute", "text": "Compute"},
-            {"id": "collector", "text": "Collector"},
-            {"id": "webui", "text": "Webui"},
-            {"id": "database", "text": "Database"},
-            {"id": "storage-compute", "text": "Storage Compute"},
-            {"id": "storage-master", "text": "Storage Master"},
-            {"id": "toragent", "text": "TOR Agent"},
-            {"id": "tsn", "text": "TSN"},
-            {"id": "global_controller", "text": "Global Controller"}
+            {"id": "contrail-controller", "text": "Contrail Controller"},
+            {"id": "contrail-analytics", "text": "Contrail Analytics"},
+            {"id": "contrail-analyticsdb", "text": "Contrail Analyticsdb"},
+            {"id": "contrail-compute", "text": "Contrail Compute"},
+            {"id": "contrail-agent", "text": "Contrail Agent"},
+            {"id": "contrail-ceph-controller", "text": "Contrail Ceph Controller"},
+            {"id": "contrail-ceph-compute", "text": "Contrail Ceph Compute"}
         ],
 
         INTERFACE_TYPE_PHYSICAL : "physical",

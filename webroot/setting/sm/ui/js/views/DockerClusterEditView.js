@@ -590,6 +590,41 @@ define([
                     }
                 ]
             }
+        },
+        {
+            elementId: cowu.formatElementId([prefixId, smwl.TITLE_STORAGE_CEPH_CONFIG]),
+            title: smwl.TITLE_STORAGE_CEPH_CONFIG,
+            view: "SectionView",
+            viewConfig: {
+                rows: [
+                    {
+                        columns: [
+                            {
+                                elementId: "replica_size", view: "FormInputView",
+                                viewConfig: {
+                                    path: "parameters.provision.contrail_4.storage_ceph_config.replica_size", dataBindValue: "parameters().provision.contrail_4.storage_ceph_config.replica_size", class: "col-xs-6"
+                                }
+                            },
+                            {
+                                elementId: "ceph_object_storage", view: "FormDropdownView",
+                                viewConfig: {
+                                    path: "parameters.provision.contrail_4.storage_ceph_config.ceph_object_storage", dataBindValue: "parameters().provision.contrail_4.storage_ceph_config.ceph_object_storage", class: "col-xs-6", elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        columns: [
+                            {
+                                elementId: "object_store_pool", view: "FormInputView",
+                                viewConfig: {
+                                    path: "parameters.provision.contrail_4.storage_ceph_config.object_store_pool", dataBindValue: "parameters().provision.contrail_4.storage_ceph_config.object_store_pool", class: "col-xs-6"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
         }];
 
         return {

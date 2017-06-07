@@ -8,13 +8,12 @@ define([
     "knockout",
     "contrail-model",
     "sm-basedir/setting/sm/ui/js/models/InterfacesModel",
-    "sm-basedir/setting/sm/ui/js/models/DisksModel",
     "sm-basedir/setting/sm/ui/js/models/SwitchModel",
     "sm-basedir/setting/sm/ui/js/models/RoutesModel",
     "sm-constants",
     "sm-utils",
     "sm-model-config"
-], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, DiskModel, SwitchModel, RoutesModel, smwc, smwu, smwmc) {
+], function (_, Backbone, Knockout, ContrailModel, InterfaceModel, SwitchModel, RoutesModel, smwc, smwu, smwmc) {
     var ServerModel = ContrailModel.extend({
 
         defaultConfig: smwmc.getServerModel(),
@@ -109,24 +108,6 @@ define([
                 delete modelConfig.top_of_rack.switches;
             }
 
-            /*
-             Populating DiskModel from network.interfaces
-             */
-            var disks = (contrail.checkIfExist(modelConfig.parameters.provision.contrail.storage.storage_osd_disks)) ? (modelConfig.parameters.provision.contrail.storage.storage_osd_disks) : [],
-                diskModels = [], diskModel,
-                diskCollectionModel;
-
-            $.each(disks, function(diskKey, diskValue) {
-                diskModel = new DiskModel({disk: diskValue});
-                diskModels.push(diskModel);
-            });
-
-            diskCollectionModel = new Backbone.Collection(diskModels);
-            modelConfig.disks = diskCollectionModel;
-            if(contrail.checkIfExist(modelConfig.parameters.disks)) {
-                delete modelConfig.parameters.provision.contrail.storage.storage_osd_disks;
-            }
-
             return modelConfig;
         },
 
@@ -196,10 +177,9 @@ define([
                     serverSchema = smwmc.getServerSchema(),
                     originalAttrs = this.model()._originalAttributes,
                     locks = this.model().attributes.locks.attributes,
-                    interfaces, disks, switches;
+                    interfaces, switches;
 
                 interfaces = this.getServerInterfaces(serverAttrs);
-                disks = this.getServerStorageDisks(serverAttrs);
                 switches = this.getSwitches(serverAttrs);
                 routes = this.getRoutes(serverAttrs);
 
@@ -215,7 +195,6 @@ define([
 
                 // need to delete these as they are collections
                 delete serverAttrs.interfaces;
-                delete serverAttrs.disks;
                 delete serverAttrs.switches;
                 delete serverAttrs.routes;
 
@@ -230,14 +209,24 @@ define([
                 serverAttrsEdited.top_of_rack = {switches : switches};
                 delete serverAttrsEdited.switches;
 
-                serverAttrsEdited.parameters.provision.contrail.storage.storage_osd_disks = disks;
-                delete serverAttrsEdited.disks;
+                var storage_osd_disks = serverAttrsEdited.parameters.provision.contrail_4.storage.storage_osd_disks,
+                    storageOsdDisksArr = [],
+                    storage_osd_ssd_disks = serverAttrsEdited.parameters.provision.contrail_4.storage.storage_osd_ssd_disks,
+                    storageOsdSsdDisksArr = [];
 
-                for (var k = 0; k < checkedRows.length; k++) {
-                    /* START handling for storage chassis id */
-                    serverAttrsEdited.parameters = smwu.handleChassisId(serverAttrsEdited.parameters);
-                    /* END handling for storage chassis id */
-                    serversEdited.push(serverAttrsEdited);
+                if (!Array.isArray(storage_osd_disks)) {
+                    storageOsdDisksArr = storage_osd_disks.split(",");
+                    for (var i=0; i< storageOsdDisksArr.length; i++) {
+                        storageOsdDisksArr[i] = storageOsdDisksArr[i].trim();
+                    }
+                    serverAttrsEdited.parameters.provision.contrail_4.storage.storage_osd_disks = storageOsdDisksArr;
+                }
+                if (!Array.isArray(storage_osd_ssd_disks)) {
+                    storageOsdSsdDisksArr = storage_osd_ssd_disks.split(",");
+                    for (var i=0; i< storageOsdSsdDisksArr.length; i++) {
+                        storageOsdSsdDisksArr[i] = storageOsdSsdDisksArr[i].trim();
+                    }
+                    serverAttrsEdited.parameters.provision.contrail_4.storage.storage_osd_ssd_disks = storageOsdSsdDisksArr;
                 }
 
                 putData[smwc.SERVER_PREFIX_ID] = serversEdited;
@@ -278,14 +267,6 @@ define([
 
             serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
             $.each(checkedRows, function (checkedRowsKey, checkedRowsValue) {
-
-                /* START handling for storage chassis id */
-                if(_.has(serverAttrsEdited, "parameters")){
-                    if(_.has(serverAttrsEdited.parameters, "storage_chassis_id") || _.has(serverAttrsEdited.parameters, "storage_chassis_id_input")){
-                        serverAttrsEdited.parameters = smwu.handleChassisId(serverAttrsEdited.parameters);
-                    }
-                }
-                /* END handling for storage chassis id */
                 serversEdited.push($.extend(true, {}, serverAttrsEdited, {id: checkedRowsValue.id}));
             });
 
@@ -324,11 +305,10 @@ define([
                     serverAttrs = this.model().attributes,
                     serverSchema = smwmc.getServerSchema(),
                     locks = this.model().attributes.locks.attributes,
-                    interfaces, disks, switches;
+                    interfaces, switches;
 
                 interfaces = this.getServerInterfaces(serverAttrs);
                 switches = this.getSwitches(serverAttrs);
-                disks = this.getServerStorageDisks(serverAttrs);
 
                 /* Special handling to reaplace switch_id by id and add type as 'ovs' - START*/
                 for (var i = 0; i < switches.length; i++) {
@@ -342,15 +322,12 @@ define([
 
                 // need to delete these as they are collections
                 delete serverAttrs.interfaces;
-                delete serverAttrs.disks;
                 delete serverAttrs.switches;
 
                 serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
 
                 serverAttrsEdited.network.interfaces = interfaces;
                 delete serverAttrsEdited.interfaces;
-                serverAttrsEdited.parameters.disks = disks;
-                delete serverAttrsEdited.disks;
 
                 serverAttrsEdited.top_of_rack = {switches : switches};
                 delete serverAttrsEdited.switches;
@@ -441,7 +418,6 @@ define([
 
                     // need to delete these as they are collections
                     delete serverAttrs.interfaces;
-                    delete serverAttrs.disks;
                     delete serverAttrs.switches;
 
                     serverAttrsEdited = cowu.getEditConfigObj(serverAttrs, locks, serverSchema, "");
@@ -702,31 +678,6 @@ define([
                 }
 
                 return controlDataInterfaces;
-            }, this);
-        },
-        addDisk: function() {
-            var disks = this.model().attributes.disks,
-                newDisk = new DiskModel({disk: ""});
-
-            disks.add([newDisk]);
-        },
-        deleteDisk: function(data, kbDisk) {
-            var diskCollection = data.model().collection,
-                intf = kbDisk.model();
-
-            diskCollection.remove(intf);
-        },
-        getStorageDisks: function() {
-            return Knockout.computed(function () {
-                this.disks();
-                var kbDisks = this.disks(),
-                    disks = this.model().attributes.disks,
-                    storageDisks = [];
-
-                for (var i = 0; i < disks.length; i++) {
-                    storageDisks.push(kbDisks[i]);
-                }
-                return storageDisks;
             }, this);
         },
         runInventory: function (checkedRow, callbackObj) {

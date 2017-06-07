@@ -271,6 +271,7 @@ define([
         TITLE_QUERY_ENGINE_CONFIG : "Query Engine Config",
         TITLE_SNMP_COLLECTOR_CONFIG : "SNMP Collector Config",
         TITLE_TOPO_CONFIG : "Topology Config",
+        TITLE_STORAGE_CEPH_CONFIG : "Storage Ceph Config",
         TITLE_WEBUI_CONFIG : "WebUI Config",
         TITLE_EDIT_JSON : "Edit JSON",
         TITLE_EDIT_DHCP_HOST : "Edit DHCP Host",

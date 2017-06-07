@@ -784,60 +784,50 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: "storage_repo_id",
-                                    view: "FormDropdownView",
+                                    elementId: "storage_osd_disks", view: "FormInputView",
                                     viewConfig: {
-                                        help: {
-                                            target: "tooltip",
-                                            content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_repo_id.description
-                                        },
-                                        path: "parameters.provision.contrail.storage.storage_repo_id", dataBindValue: "parameters().provision.contrail.storage.storage_repo_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_REPO_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInContrailStoragePackages")}}
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            columns: [
-                                {
-                                    elementId: "storage_chassis_id",
-                                    view: "FormDropdownView",
-                                    viewConfig: {
-                                        help: {
-                                            target: "tooltip",
-                                            content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_chassis_id.description
-                                        },
-                                        path: "parameters.provision.contrail.storage.storage_chassis_id", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id", class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwc.URL_CHASSIS_ID}}
+                                        label: smwl.LABEL_STORAGE_OSD_DISKS,
+                                        path: "parameters.provision.contrail_4.storage.storage_osd_disks", dataBindValue: "parameters().provision.contrail_4.storage.storage_osd_disks", class: "col-xs-6"
                                     }
                                 },
                                 {
-                                    elementId: "storage_chassis_id_input",
-                                    view: "FormInputView",
-                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_chassis_id_input", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id_input", class: "col-xs-6"}
+                                    elementId: "storage_osd_ssd_disks", view: "FormInputView",
+                                    viewConfig: {
+                                        label: smwl.LABEL_STORAGE_OSD_SSD_DISKS,
+                                        path: "parameters.provision.contrail_4.storage.storage_osd_ssd_disks", dataBindValue: "parameters().provision.contrail_4.storage.storage_osd_ssd_disks", class: "col-xs-6"
+                                    }
                                 }
                             ]
                         },
                         {
                             columns: [
                                 {
-                                    elementId: "storage_osd_disks",
-                                    view: "FormEditableGridView",
+                                    elementId: 'storage_chassis_id',
+                                    view: "FormComboboxView",
                                     viewConfig: {
-                                        path: "parameters.provision.contrail.storage.storage_osd_disks",
-                                        class: "col-xs-12",
-                                        validation: "",
-                                        collection: "getStorageDisks()",
-                                        columns: [
-                                            {
-                                                elementId: "disk", name: "Storage Disks", view: "FormInputView", class: "", width: 800,
-                                                viewConfig: {templateId: cowc.TMPL_EDITABLE_GRID_INPUT_VIEW, path: "disk", dataBindValue: "disk()"}
+                                        label: 'Storage Chassis ID',
+                                        path: "parameters.provision.contrail_4.storage.storage_chassis_id",
+                                        class: 'col-xs-6',
+                                        dataBindValue: "parameters().provision.contrail_4.storage.storage_chassis_id",
+                                        elementConfig: {
+                                            placeholder: 'Select a Chassis ID or Enter a new one',
+                                            dataTextField: "text",
+                                            dataValueField: "id",
+                                            dataSource: {
+                                                type: 'remote',
+                                                url: smwc.URL_CHASSIS_ID
                                             }
-                                        ],
-                                        rowActions: [
-                                            {onClick: "function() { $root.deleteDisk($data, this); }", iconClass: "fa fa-minus"}
-                                        ],
-                                        gridActions: [
-                                            {onClick: "function() { addDisk(); }", buttonTitle: "Add"}
-                                        ]
+                                        }
+                                    }
+                                },
+                                {
+                                    elementId: "live_partition",
+                                    view: "FormDropdownView",
+                                    viewConfig: {
+                                        path: "parameters.provision.contrail_4.live_partition",
+                                        dataBindValue: "parameters().provision.contrail_4.live_partition",
+                                        class: "col-xs-6",
+                                        elementConfig: {dataTextField: "text", dataValueField: "id", data: smwc.FLAGS_TRUE_FALSE_BOOLEAN_TYPE}
                                     }
                                 }
                             ]
@@ -1037,14 +1027,17 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: "storage_repo_id",
-                                    view: "FormDropdownView",
+                                    elementId: "storage_osd_disks", view: "FormInputView",
                                     viewConfig: {
-                                        help: {
-                                            target: "tooltip",
-                                            content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_repo_id.description
-                                        },
-                                        path: "parameters.provision.contrail.storage.storage_repo_id", dataBindValue: "parameters().provision.contrail.storage.storage_repo_id", class: "col-xs-6", elementConfig: {placeholder: smwl.SELECT_PACKAGE, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwu.getObjectDetailUrl(smwc.IMAGE_PREFIX_ID, "filterInContrailStoragePackages")}}
+                                        label: smwl.LABEL_STORAGE_OSD_DISKS,
+                                        path: "parameters.provision.contrail_4.storage.storage_osd_disks", dataBindValue: "parameters().provision.contrail_4.storage.storage_osd_disks", class: "col-xs-6"
+                                    }
+                                },
+                                {
+                                    elementId: "storage_osd_ssd_disks", view: "FormInputView",
+                                    viewConfig: {
+                                        label: smwl.LABEL_STORAGE_OSD_SSD_DISKS,
+                                        path: "parameters.provision.contrail_4.storage.storage_osd_ssd_disks", dataBindValue: "parameters().provision.contrail_4.storage.storage_osd_ssd_disks", class: "col-xs-6"
                                     }
                                 }
                             ]
@@ -1052,20 +1045,23 @@ define([
                         {
                             columns: [
                                 {
-                                    elementId: "storage_chassis_id",
-                                    view: "FormDropdownView",
+                                    elementId: 'storage_chassis_id',
+                                    view: "FormComboboxView",
                                     viewConfig: {
-                                        help: {
-                                            target: "tooltip",
-                                            content: defaultSchema.properties.parameters.properties.provision.properties.contrail.properties.storage.properties.storage_chassis_id.description
-                                        },
-                                        path: "parameters.provision.contrail.storage.storage_chassis_id", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id", class: "col-xs-6", elementConfig: {allowClear: true, placeholder: smwl.SELECT_CHASSIS_ID, dataTextField: "id", dataValueField: "id", dataSource: {type: "remote", url: smwc.URL_CHASSIS_ID}}
+                                        label: 'Storage Chassis ID',
+                                        path: "parameters.provision.contrail_4.storage.storage_chassis_id",
+                                        class: 'col-xs-6',
+                                        dataBindValue: "parameters().provision.contrail_4.storage.storage_chassis_id",
+                                        elementConfig: {
+                                            placeholder: 'Select a Chassis ID or Enter a new one',
+                                            dataTextField: "text",
+                                            dataValueField: "id",
+                                            dataSource: {
+                                                type: 'remote',
+                                                url: smwc.URL_CHASSIS_ID
+                                            }
+                                        }
                                     }
-                                },
-                                {
-                                    elementId: "storage_chassis_id_input",
-                                    view: "FormInputView",
-                                    viewConfig: {path: "parameters.provision.contrail.storage.storage_chassis_id_input", dataBindValue: "parameters().provision.contrail.storage.storage_chassis_id_input", class: "col-xs-6"}
                                 }
                             ]
                         }
