@@ -22,7 +22,7 @@ define([], function () {
         SM_API_SERVER : "sm-api-server",
         DFLT_SERVER_IP : "127.0.0.1",
 
-        ROLES_ARRAY : ["openstack", "contrail-controller", "contrail-analytics", "contrail-analyticsdb", "contrail-compute", "contrail-agent", "contrail-ceph-controller", "contrail-ceph-compute"],
+        ROLES_ARRAY : ["openstack", "contrail-controller", "contrail-analytics", "contrail-analyticsdb", "contrail-compute", "contrail-agent", "contrail-ceph-controller", "contrail-ceph-compute", "contrail-lb"],
         ROLES_OBJECTS : [
             {"id": "openstack", "text": "Openstack"},
             {"id": "contrail-controller", "text": "Contrail Controller"},
@@ -31,7 +31,8 @@ define([], function () {
             {"id": "contrail-compute", "text": "Contrail Compute"},
             {"id": "contrail-agent", "text": "Contrail Agent"},
             {"id": "contrail-ceph-controller", "text": "Contrail Ceph Controller"},
-            {"id": "contrail-ceph-compute", "text": "Contrail Ceph Compute"}
+            {"id": "contrail-ceph-compute", "text": "Contrail Ceph Compute"},
+            {"id": "contrail-lb", "text": "Contrail LB"}
         ],
 
         INTERFACE_TYPE_PHYSICAL : "physical",

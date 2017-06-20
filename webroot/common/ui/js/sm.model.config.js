@@ -55,7 +55,7 @@ define([], function () {
                                 "external_bgp": ""
                             },
                             "config": {
-                                "manage_neutron": true,
+                                "manage_neutron": false,
                                 "zookeeper_ip_port": 2181,
                                 "healthcheck_interval": 5,
                                 "amqp_use_ssl": false
@@ -423,7 +423,7 @@ define([], function () {
                                                 "properties": {
                                                     "manage_neutron": {
                                                         "type": "boolean",
-                                                        "default": true
+                                                        "default": false
                                                     },
                                                     "zookeeper_ip_port": {
                                                         "type": "integer",
