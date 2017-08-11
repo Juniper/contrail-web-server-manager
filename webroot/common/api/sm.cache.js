@@ -4,7 +4,8 @@
 
 var logutils = require(process.mainModule.exports.corePath + "/src/serverroot/utils/log.utils"),
     commonUtils = require(process.mainModule.exports.corePath + "/src/serverroot/utils/common.utils"),
-    coreConfig = require(process.mainModule.exports.corePath + "/config/config.global.js"),
+    configUtils = require(process.mainModule.exports.corePath +
+                          "/src/serverroot/common/config.utils"),
     coreConstants = require(process.mainModule.exports.corePath + "/src/serverroot/common/global");
 
 var smConstants = require("../../common/api/sm.constants"),
@@ -12,6 +13,7 @@ var smConstants = require("../../common/api/sm.constants"),
     sm = require("../../common/api/sm"),
     redis = require("redis");
 
+var coreConfig = configUtils.getConfig();
 var redisServerPort = (coreConfig.redis_server_port) ? coreConfig.redis_server_port : coreConstants.DFLT_REDIS_SERVER_PORT,
     redisServerIP = (coreConfig.redis_server_ip) ? coreConfig.redis_server_ip : coreConstants.DFLT_REDIS_SERVER_IP,
     redisClient = redis.createClient(redisServerPort, redisServerIP),
