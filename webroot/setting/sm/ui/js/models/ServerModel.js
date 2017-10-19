@@ -228,6 +228,7 @@ define([
                     }
                     serverAttrsEdited.parameters.provision.contrail_4.storage.storage_osd_ssd_disks = storageOsdSsdDisksArr;
                 }
+		serversEdited.push(serverAttrsEdited);
 
                 putData[smwc.SERVER_PREFIX_ID] = serversEdited;
                 if(originalAttrs.cluster_id != serverAttrsEdited.cluster_id) {
